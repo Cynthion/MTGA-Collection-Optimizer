@@ -21,10 +21,15 @@ namespace MtgaDeckBuilder.Importer
 
                 var container = SetupIoC();
                 var configuration = container.GetInstance<IConfiguration>();
+                var outputLogParser = container.GetInstance<IOutputLogParser>();
 
                 Logger.Log(LogLevel.Info, "Setup completed.");
 
-                // TODO Implement Polling
+                var collection = outputLogParser.ParseCollection(configuration);
+                var decks = outputLogParser.ParseDecks(configuration);
+
+                // TODO write collection and decks to json
+
 
                 Console.ReadLine();
             }
@@ -47,7 +52,11 @@ namespace MtgaDeckBuilder.Importer
                 c.For<IConfiguration>().Use(_ =>
                     new Configuration
                     {
+                        PlayerCardsCommand = "PlayerInventory.GetPlayerCardsV3",
+                        PlayerDecksCommand = "Deck.GetDeckLists"
                     });
+
+                c.For<IOutputLogParser>().Use<OutputLogParser>();
             });
         }
     }

@@ -1,1 +1,1 @@
-"# MTGA-Deck-Builder"
+# MTGA-Deck-Builder

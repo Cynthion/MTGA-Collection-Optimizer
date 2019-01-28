@@ -4,4 +4,5 @@
 bin
 obj
 packages
+riot-api-key.json
 .log

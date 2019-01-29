@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MtgaDeckBuilder.Importer.Model;
+using Newtonsoft.Json;
 using NLog;
 
 namespace MtgaDeckBuilder.Importer
@@ -41,9 +42,27 @@ namespace MtgaDeckBuilder.Importer
             return playerCollection;
         }
 
-        public IEnumerable<PlayerCollection> ParseDecks()
+        public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
-            throw new NotImplementedException();
+            var playerDecks = new List<PlayerDeck>();
+
+            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(_configuration.PlayerDecksCommand))
+                    {
+                        Logger.Info($"Found {nameof(_configuration.PlayerDecksCommand)} on position {streamReader.BaseStream.Position}.");
+
+                        playerDecks = ParsePlayerDeckOccurrence(streamReader).ToList();
+                    }
+                } while (!streamReader.EndOfStream);
+            }
+
+            return playerDecks;
         }
 
         private static PlayerCollection ParseCollectionOccurrence(TextReader streamReader)
@@ -79,6 +98,37 @@ namespace MtgaDeckBuilder.Importer
             {
                 Cards = new Dictionary<long, short>(cards)
             };
+        }
+
+        private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader streamReader)
+        {
+            string outputLine;
+            var json = string.Empty;
+            var deckOccurrenceLines = new List<string>();
+
+            do
+            {
+                outputLine = streamReader.ReadLine();
+                json += outputLine;
+                deckOccurrenceLines.Add(outputLine);
+            } while (outputLine != null && !outputLine.Equals("]"));
+
+            var logDecks = JsonConvert.DeserializeObject<IEnumerable<LogDeck>>(json);
+
+            var playerDecks = logDecks.Select(d =>
+            {
+                var cards = d.MainDeck.Select(c => new KeyValuePair<long, short>(long.Parse(c.Id), c.Quantity));
+                var deckCards = new Dictionary<long, short>(cards);
+
+                return new PlayerDeck
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Cards = deckCards
+                };
+            });
+
+            return playerDecks;
         }
     }
 }

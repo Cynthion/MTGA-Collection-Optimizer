@@ -7,6 +7,6 @@ namespace MtgaDeckBuilder.Importer
     {
         PlayerCollection ParsePlayerCollection();
 
-        IEnumerable<PlayerCollection> ParseDecks();
+        IEnumerable<PlayerDeck> ParsePlayerDecks();
     }
 }

@@ -11,9 +11,6 @@ namespace MtgaDeckBuilder.Importer
 
         private static void Main(string[] args)
         {
-            LogManager.ThrowConfigExceptions = true;
-            LogManager.ThrowExceptions = true;
-
             var cts = new CancellationTokenSource();
 
             try
@@ -29,7 +26,7 @@ namespace MtgaDeckBuilder.Importer
 
                 // TODO make async
                 var playerCollection = outputLogParser.ParsePlayerCollection();
-                //var decks = outputLogParser.ParseDecks();
+                var decks = outputLogParser.ParsePlayerDecks();
 
                 // TODO write collection and decks to json
                 storage.StorePlayerCollection(playerCollection);
@@ -57,7 +54,7 @@ namespace MtgaDeckBuilder.Importer
                     {
                         OutputLogPath = @"C:\Users\chlu\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt",
                         PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
-                        PlayerDecksCommand = "Deck.GetDeckLists"
+                        PlayerDecksCommand = "<== Deck.GetDeckLists"
                     });
 
                 c.For<IOutputLogParser>().Use<OutputLogParser>();

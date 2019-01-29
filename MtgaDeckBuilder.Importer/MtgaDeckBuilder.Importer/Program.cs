@@ -11,32 +11,34 @@ namespace MtgaDeckBuilder.Importer
 
         private static void Main(string[] args)
         {
+            LogManager.ThrowConfigExceptions = true;
+            LogManager.ThrowExceptions = true;
+
             var cts = new CancellationTokenSource();
 
             try
             {
-                Logger.Log(LogLevel.Info, "Setting up...");
-
-                //RavenDb.CreateDatabaseIfNotExists();
-
+                Logger.Info("Setting up...");
+                
                 var container = SetupIoC();
                 var configuration = container.GetInstance<IConfiguration>();
                 var outputLogParser = container.GetInstance<IOutputLogParser>();
+                var storage = container.GetInstance<IStorage>();
 
-                Logger.Log(LogLevel.Info, "Setup completed.");
+                Logger.Info("Setup completed.");
 
                 // TODO make async
-                var collection = outputLogParser.ParseCollection();
-                var decks = outputLogParser.ParseDecks();
+                var playerCollection = outputLogParser.ParsePlayerCollection();
+                //var decks = outputLogParser.ParseDecks();
 
                 // TODO write collection and decks to json
-
+                storage.StorePlayerCollection(playerCollection);
 
                 Console.ReadLine();
             }
             catch (Exception e)
             {
-                Logger.Log(LogLevel.Error, e.Message, "Unexpected termination due to an error;");
+                Logger.Error(e.Message, "Unexpected termination due to an error;");
 
                 Console.ReadLine();
             }
@@ -59,6 +61,7 @@ namespace MtgaDeckBuilder.Importer
                     });
 
                 c.For<IOutputLogParser>().Use<OutputLogParser>();
+                c.For<IStorage>().Use<FileStorage>();
             });
         }
     }

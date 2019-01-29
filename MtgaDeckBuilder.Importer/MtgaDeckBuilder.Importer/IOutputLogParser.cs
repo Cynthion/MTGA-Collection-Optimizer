@@ -3,9 +3,9 @@ using MtgaDeckBuilder.Importer.Model;
 
 namespace MtgaDeckBuilder.Importer
 {
-    public interface IOutputLogParser
+    internal interface IOutputLogParser
     {
-        PlayerCollection ParseCollection();
+        PlayerCollection ParsePlayerCollection();
 
         IEnumerable<PlayerCollection> ParseDecks();
     }

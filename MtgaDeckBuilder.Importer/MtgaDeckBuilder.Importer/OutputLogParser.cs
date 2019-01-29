@@ -7,7 +7,7 @@ using NLog;
 
 namespace MtgaDeckBuilder.Importer
 {
-    public class OutputLogParser : IOutputLogParser
+    internal class OutputLogParser : IOutputLogParser
     {
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(OutputLogParser));
 
@@ -18,30 +18,23 @@ namespace MtgaDeckBuilder.Importer
             _configuration = configuration;
         }
 
-        public PlayerCollection ParseCollection()
+        public PlayerCollection ParsePlayerCollection()
         {
             var playerCollection = new PlayerCollection();
 
             using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
             using (var streamReader = new StreamReader(fileStream))
             {
-                var outputLine = string.Empty;
-                var outputLineIdx = 0;
-
                 do
                 {
-                    playerCollection.Cards.Clear();
+                    var outputLine = streamReader.ReadLine();
 
-                    do
+                    if (outputLine != null && outputLine.Contains(_configuration.PlayerCardsCommand))
                     {
-                        outputLine = streamReader.ReadLine();
-                        outputLineIdx++;
-                    } while (!outputLine.Contains(_configuration.PlayerCardsCommand) && !streamReader.EndOfStream);
+                        Logger.Info($"Found {nameof(_configuration.PlayerCardsCommand)} on position {streamReader.BaseStream.Position}.");
 
-                    Logger.Info($"Found {nameof(_configuration.PlayerCardsCommand)} on line {outputLineIdx}.");
-
-                    playerCollection = ParseCollectionOccurrence(streamReader);
-
+                        playerCollection = ParseCollectionOccurrence(streamReader);
+                    }
                 } while (!streamReader.EndOfStream);
             }
 
@@ -65,9 +58,9 @@ namespace MtgaDeckBuilder.Importer
             } while (outputLine != null && !outputLine.Equals("}"));
 
             var cards = collectionOccurrenceLines.Where(
-                l => !l.Equals("{")
-                     && !l.Equals("}")
-                     && !l.Equals(string.Empty))
+                    l => !l.Equals("{")
+                         && !l.Equals("}")
+                         && !l.Equals(string.Empty))
                 .Select(l =>
                 {
                     var formatted = l.Trim()
@@ -85,7 +78,7 @@ namespace MtgaDeckBuilder.Importer
             return new PlayerCollection
             {
                 Cards = new Dictionary<long, short>(cards)
-            }; ;
+            };
         }
     }
 }

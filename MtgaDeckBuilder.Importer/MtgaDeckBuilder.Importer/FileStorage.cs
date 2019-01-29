@@ -9,9 +9,9 @@ namespace MtgaDeckBuilder.Importer
     {
         private const string docName = @"MTGA Deck Builder - Storage File.json";
 
-        public void StorePlayerCollection(PlayerCollection playerCollection)
+        public void StorePlayerLibrary(PlayerLibrary playerLibrary)
         {
-            var json = JsonConvert.SerializeObject(playerCollection);
+            var json = JsonConvert.SerializeObject(playerLibrary);
 
             var filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 

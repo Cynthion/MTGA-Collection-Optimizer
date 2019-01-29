@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Lamar;
+using MtgaDeckBuilder.Importer.Model;
 using NLog;
 
 namespace MtgaDeckBuilder.Importer
@@ -26,10 +28,15 @@ namespace MtgaDeckBuilder.Importer
 
                 // TODO make async
                 var playerCollection = outputLogParser.ParsePlayerCollection();
-                var decks = outputLogParser.ParsePlayerDecks();
+                var playerDecks = outputLogParser.ParsePlayerDecks().ToArray();
 
-                // TODO write collection and decks to json
-                storage.StorePlayerCollection(playerCollection);
+                var playerLibrary = new PlayerLibrary
+                {
+                    PlayerCollection = playerCollection,
+                    PlayerDecks = playerDecks
+                };
+
+                storage.StorePlayerLibrary(playerLibrary);
 
                 Console.ReadLine();
             }

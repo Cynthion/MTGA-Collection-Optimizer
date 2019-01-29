@@ -4,6 +4,6 @@ namespace MtgaDeckBuilder.Importer
 {
     internal interface IStorage
     {
-        void StorePlayerCollection(PlayerCollection playerCollection);
+        void StorePlayerLibrary(PlayerLibrary playerLibrary);
     }
 }

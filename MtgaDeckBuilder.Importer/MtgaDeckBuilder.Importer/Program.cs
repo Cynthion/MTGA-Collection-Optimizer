@@ -25,8 +25,9 @@ namespace MtgaDeckBuilder.Importer
 
                 Logger.Log(LogLevel.Info, "Setup completed.");
 
-                var collection = outputLogParser.ParseCollection(configuration);
-                var decks = outputLogParser.ParseDecks(configuration);
+                // TODO make async
+                var collection = outputLogParser.ParseCollection();
+                var decks = outputLogParser.ParseDecks();
 
                 // TODO write collection and decks to json
 
@@ -52,7 +53,8 @@ namespace MtgaDeckBuilder.Importer
                 c.For<IConfiguration>().Use(_ =>
                     new Configuration
                     {
-                        PlayerCardsCommand = "PlayerInventory.GetPlayerCardsV3",
+                        OutputLogPath = @"C:\Users\chlu\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt",
+                        PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                         PlayerDecksCommand = "Deck.GetDeckLists"
                     });
 

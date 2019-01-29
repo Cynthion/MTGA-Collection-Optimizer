@@ -5,8 +5,8 @@ namespace MtgaDeckBuilder.Importer
 {
     public interface IOutputLogParser
     {
-        IEnumerable<Card> ParseCollection(IConfiguration config);
+        PlayerCollection ParseCollection();
 
-        IEnumerable<Deck> ParseDecks(IConfiguration config);
+        IEnumerable<PlayerCollection> ParseDecks();
     }
 }

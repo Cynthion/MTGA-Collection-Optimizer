@@ -6,3 +6,11 @@
 /src/app/dist
 
 .log
+
+*.suo
+*.user
+/.vs
+bin
+obj
+packages
+.log

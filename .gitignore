@@ -6,10 +6,10 @@
 /src/app/dist
 
 .log
+.vs
 
 *.suo
 *.user
-/.vs
 bin
 obj
 packages

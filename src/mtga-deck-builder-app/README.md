@@ -2,9 +2,19 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
 
+## References
+
+### How to create Angular Desktop Apps
+https://medium.com/@PhilippKief/angular-desktop-apps-a9ce9e3574e8
+
+### Combining Electron (Frontend) & .NET Core (Backend, API)
+https://scotch.io/@rui/how-to-build-a-cross-platform-desktop-application-with-electron-and-net-core
+
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run ng serve for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+
+*Run npm start to run the app in an Electron dev environment with auto-reload.*
 
 ## Code scaffolding
 

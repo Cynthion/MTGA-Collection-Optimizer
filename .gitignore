@@ -1,8 +1,6 @@
 node_modules/
 
-/typings
-
-/src/app/dist
+typings/
 
 .log
 .vs

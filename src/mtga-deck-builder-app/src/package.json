@@ -1,0 +1,8 @@
+{
+    "name": "mtga-deck-builder-app",
+    "productName": "MTGA Deck Builder",
+    "version": "1.0.0",
+    "description": "MTGA Deck Builder",
+    "main": "electron.main.prod.js",
+    "license": "MIT"
+}

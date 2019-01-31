@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "electron ./src/electron.main.dev"
+    "electron": "electron ./src/electron.main.dev",
+    "package:win": "npm run build && cross-var electron-packager dist $npm_package_name-$npm_package_version --out=packages --platform=win32 --arch=all --overwrite "
   },
   "private": true,
   "dependencies": {
@@ -36,7 +37,9 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
     "concurrently": "^4.1.0",
+    "cross-var": "^1.1.0",
     "electron": "^4.0.3",
+    "electron-packager": "^13.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.1.1",

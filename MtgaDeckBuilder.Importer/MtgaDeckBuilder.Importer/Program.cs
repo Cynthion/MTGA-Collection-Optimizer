@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Lamar;
@@ -18,9 +19,9 @@ namespace MtgaDeckBuilder.Importer
             try
             {
                 Logger.Info("Setting up...");
-                
+
+                // TODO maybe remove dependency injection
                 var container = SetupIoC();
-                var configuration = container.GetInstance<IConfiguration>();
                 var outputLogParser = container.GetInstance<IOutputLogParser>();
                 var storage = container.GetInstance<IStorage>();
 
@@ -60,6 +61,8 @@ namespace MtgaDeckBuilder.Importer
                     new Configuration
                     {
                         OutputLogPath = @"C:\Users\chlu\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt",
+                        // TODO move to executable directory
+                        MtgSetJsonDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sets"),
                         PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                         PlayerDecksCommand = "<== Deck.GetDeckLists"
                     });

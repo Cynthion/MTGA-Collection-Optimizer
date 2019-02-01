@@ -5,6 +5,7 @@ import { MissingCardsPageDto } from './missing-cards.state';
 export enum MissingCardsActionTypes {
   Load = '[Missing Cards] Load',
   Initialized = '[Missing Cards] Initialized',
+  LoadError = '[Missing Cards] Load Error',
 }
 
 export class LoadMissingCardsPageAction implements Action {
@@ -19,7 +20,12 @@ export class InitializedMissingCardsPageAction implements Action {
   ) { }
 }
 
+export class LoadMissingCardsPageErrorAction implements Action {
+  readonly type = MissingCardsActionTypes.LoadError;
+}
+
 export type MissingCardsActions =
   | LoadMissingCardsPageAction
   | InitializedMissingCardsPageAction
+  | LoadMissingCardsPageErrorAction
   ;

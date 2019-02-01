@@ -2,3 +2,7 @@
 export interface RootState {
   // missingCards: MissingCardsState,
 }
+
+export interface ApplicationDataDto {
+  version: string;
+}

@@ -1,16 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { AppGuard } from './app.guard';
-import { routes } from './app.routing';
-import { AppRoutingModule } from './app-routing.module';
+import { appReducer } from './app.reducer';
 import { AppComponent } from './app.component';
 import { AppEffects } from './app.effects';
-import { metaReducers, reducers } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -18,15 +15,13 @@ import { metaReducers, reducers } from './app.reducer';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    RouterModule.forRoot(routes, { useHash: true }),
+    StoreModule.forRoot({
+      app: appReducer,
+    }),
     EffectsModule.forRoot([AppEffects]),
   ],
-  providers: [
-    AppGuard,
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

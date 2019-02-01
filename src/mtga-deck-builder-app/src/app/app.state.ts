@@ -1,8 +1,7 @@
-// tslint:disable-next-line:no-empty-interface
-export interface RootState {
-  // missingCards: MissingCardsState,
-}
-
-export interface ApplicationDataDto {
+export interface AppState {
   version: string;
 }
+
+export const initialAppState: AppState = {
+  version: '',
+};

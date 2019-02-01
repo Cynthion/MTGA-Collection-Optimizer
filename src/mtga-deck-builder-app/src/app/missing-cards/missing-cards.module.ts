@@ -7,6 +7,7 @@ import { missingCardsRoutes } from './missing-cards.routing';
 
 import {
   MISSING_CARDS_PAGE_STATE_FEATURE_NAME,
+  MissingCardsPageInitializationGuard,
   MissingCardsPageComponent,
   MissingCardsPageEffects,
   missingCardsPageReducer,
@@ -23,6 +24,6 @@ import {
     ]),
     StoreModule.forFeature(MISSING_CARDS_PAGE_STATE_FEATURE_NAME, missingCardsPageReducer),
   ],
-  providers: [],
+  providers: [MissingCardsPageInitializationGuard],
 })
 export class MissingCardsModule { }

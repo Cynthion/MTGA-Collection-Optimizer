@@ -5,3 +5,7 @@ export interface AppState {
 export const initialAppState: AppState = {
   version: '',
 };
+
+export interface RootState {
+  app: AppState;
+}

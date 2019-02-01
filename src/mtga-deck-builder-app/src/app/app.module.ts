@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { appReducer } from './app.reducer';
 import { AppComponent } from './app.component';
 import { AppEffects } from './app.effects';
+import { appRoutes } from './app.routing';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AppEffects } from './app.effects';
   imports: [
     BrowserModule,
     HttpClientModule,
+    RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({
       app: appReducer,
     }),

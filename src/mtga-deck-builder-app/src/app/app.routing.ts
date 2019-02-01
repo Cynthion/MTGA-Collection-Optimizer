@@ -8,7 +8,7 @@ export const appRoutes: Routes = [
     children: [
       {
         path: MISSING_CARDS_PATH,
-        // loadChildren: 'app/missing-cards/missing-cards.module#MissingCardsModule',
+        loadChildren: './missing-cards/missing-cards.module#MissingCardsModule',
       },
       {
         path: '**',

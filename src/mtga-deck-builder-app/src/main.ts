@@ -8,5 +8,9 @@ if (environment.production) {
   enableProdMode();
 }
 
+const { allCards } = require('mtga');
+const card = allCards.findCard(67134);
+console.log(card.get('prettyName'));
+
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

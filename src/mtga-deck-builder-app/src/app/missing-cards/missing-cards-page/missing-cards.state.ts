@@ -19,12 +19,12 @@ export interface PlayerDeckState extends PlayerDeckDto {
 export interface CardDto {
   multiverseId: number;
   quantity: number;
-  name: string;
-  rarity: string;
 }
 
 export interface CardState extends CardDto {
-
+  name: string;
+  rarity: string;
+  setCode: string;
 }
 
 export interface MissingCardsPageDto {

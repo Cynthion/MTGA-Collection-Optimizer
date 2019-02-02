@@ -19,29 +19,6 @@ namespace MtgaDeckBuilder.Api.LogImport
             _configuration = configuration;
         }
 
-        public PlayerCollection ParsePlayerCollection()
-        {
-            var playerCollection = new PlayerCollection();
-
-            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
-            using (var streamReader = new StreamReader(fileStream))
-            {
-                do
-                {
-                    var outputLine = streamReader.ReadLine();
-
-                    if (outputLine != null && outputLine.Contains(_configuration.PlayerCardsCommand))
-                    {
-                        Logger.Info($"Found {nameof(_configuration.PlayerCardsCommand)} on position {streamReader.BaseStream.Position}.");
-
-                        playerCollection = ParseCollectionOccurrence(streamReader);
-                    }
-                } while (!streamReader.EndOfStream);
-            }
-
-            return playerCollection;
-        }
-
         public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
             var playerDecks = new List<PlayerDeck>();
@@ -65,39 +42,27 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerDecks;
         }
 
-        private static PlayerCollection ParseCollectionOccurrence(TextReader streamReader)
+        public IDictionary<long, short> ParsePlayerCards()
         {
-            string outputLine;
-            var collectionOccurrenceLines = new List<string>();
+            var playerCards = new Dictionary<long, short>();
 
-            do
+            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
+            using (var streamReader = new StreamReader(fileStream))
             {
-                outputLine = streamReader.ReadLine();
-                collectionOccurrenceLines.Add(outputLine);
-            } while (outputLine != null && !outputLine.Equals("}"));
-
-            var cards = collectionOccurrenceLines.Where(
-                    l => !l.Equals("{")
-                         && !l.Equals("}")
-                         && !l.Equals(string.Empty))
-                .Select(l =>
+                do
                 {
-                    var formatted = l.Trim()
-                        .Replace("\"", string.Empty)
-                        .Replace(" ", string.Empty)
-                        .Replace(",", string.Empty);
+                    var outputLine = streamReader.ReadLine();
 
-                    var parts = formatted.Split(':');
-                    var multiverseId = long.Parse(parts[0]);
-                    var quantity = short.Parse(parts[1]);
+                    if (outputLine != null && outputLine.Contains(_configuration.PlayerCardsCommand))
+                    {
+                        Logger.Info($"Found {nameof(_configuration.PlayerCardsCommand)} on position {streamReader.BaseStream.Position}.");
 
-                    return new KeyValuePair<long, short>(multiverseId, quantity);
-                });
+                        playerCards = new Dictionary<long, short>(ParsePlayerCardsOccurrence(streamReader));
+                    }
+                } while (!streamReader.EndOfStream);
+            }
 
-            return new PlayerCollection
-            {
-                Cards = new Dictionary<long, short>(cards)
-            };
+            return playerCards;
         }
 
         private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader streamReader)
@@ -129,6 +94,38 @@ namespace MtgaDeckBuilder.Api.LogImport
             });
 
             return playerDecks;
+        }
+
+        private static IDictionary<long, short> ParsePlayerCardsOccurrence(TextReader streamReader)
+        {
+            string outputLine;
+            var collectionOccurrenceLines = new List<string>();
+
+            do
+            {
+                outputLine = streamReader.ReadLine();
+                collectionOccurrenceLines.Add(outputLine);
+            } while (outputLine != null && !outputLine.Equals("}"));
+
+            var cards = collectionOccurrenceLines.Where(
+                    l => !l.Equals("{")
+                         && !l.Equals("}")
+                         && !l.Equals(string.Empty))
+                .Select(l =>
+                {
+                    var formatted = l.Trim()
+                        .Replace("\"", string.Empty)
+                        .Replace(" ", string.Empty)
+                        .Replace(",", string.Empty);
+
+                    var parts = formatted.Split(':');
+                    var multiverseId = long.Parse(parts[0]);
+                    var quantity = short.Parse(parts[1]);
+
+                    return new KeyValuePair<long, short>(multiverseId, quantity);
+                });
+
+            return new Dictionary<long, short>(cards);
         }
     }
 }

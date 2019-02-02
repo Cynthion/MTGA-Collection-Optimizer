@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using MtgaDeckBuilder.Api.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.SetImport.Model;
 using Newtonsoft.Json;
 using NLog;
@@ -21,7 +21,7 @@ namespace MtgaDeckBuilder.Api.SetImport
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<CardInfo>> LoadAllSetsAsync()
+        public async Task<IDictionary<long, CardInfo>> LoadAllSetsAsync()
         {
             var setFolderPath = Path.Combine(_configuration.MtgaDeckBuilderDropFolderPath, "Sets");
             Directory.CreateDirectory(setFolderPath);
@@ -30,7 +30,7 @@ namespace MtgaDeckBuilder.Api.SetImport
             var setJsonFilePaths = filePaths
                 .Where(p => p.EndsWith(".json"));
 
-            var allCardInfos = new List<CardInfo>();
+            var cardInfoDictionary = new Dictionary<long, CardInfo>();
 
             foreach (var jsonFilePath in setJsonFilePaths)
             {
@@ -46,10 +46,9 @@ namespace MtgaDeckBuilder.Api.SetImport
                     Logger.Error(e, $"Could not read {jsonFilePath}");
                     break;
                 }
-    
+
                 try
                 {
-                    // TODO figure out if only certain properties can be read
                     var set = JsonConvert.DeserializeObject<Set>(setJson);
                     var setCards = set.Cards;
                     var setCardInfos = setCards.Select(c => new CardInfo
@@ -58,10 +57,13 @@ namespace MtgaDeckBuilder.Api.SetImport
                         Name = c.Name,
                         Number = c.Number,
                         Rarity = c.Rarity,
-                        Uuid = c.Uuid,
+                        Uuid = c.Uuid
                     });
 
-                    allCardInfos.AddRange(setCardInfos);
+                    foreach (var cardInfo in setCardInfos)
+                    {
+                        cardInfoDictionary.Add(cardInfo.MultiverseId, cardInfo);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -70,9 +72,9 @@ namespace MtgaDeckBuilder.Api.SetImport
                 }
             }
 
-            Logger.Info($"Found { allCardInfos.Count } set cards.");
+            Logger.Info($"Found {cardInfoDictionary.Count} set cards.");
 
-            return allCardInfos;
+            return cardInfoDictionary;
         }
     }
 }

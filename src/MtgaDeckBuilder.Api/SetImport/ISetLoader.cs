@@ -5,6 +5,6 @@ namespace MtgaDeckBuilder.Api.SetImport
 {
     public interface ISetLoader
     {
-        Task<IEnumerable<CardInfo>> LoadAllSetsAsync();
+        Task<IDictionary<long, CardInfo>> LoadAllSetsAsync();
     }
 }

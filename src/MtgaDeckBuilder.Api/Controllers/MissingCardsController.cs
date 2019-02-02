@@ -31,39 +31,33 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetMissingCards()
         {
-            // TODO move these to another place
-            StartLogImport();
-            await _setLoader.LoadAllSetsAsync();
+            var playerDecks = _logParser.ParsePlayerDecks();
+            var playerCards = _logParser.ParsePlayerCards();
+
+            var cardInfos = await _setLoader.LoadAllSetsAsync();
 
             var dto = new MissingCardsPageDto
             {
-                MissingCards = new List<MissingCardDto>
+                PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
                 {
-                    new MissingCardDto
+                    Id = d.Id,
+                    Name = d.Name,
+                    Cards = d.Cards.Select(c => new CardDto
                     {
-                        Id = "123456",
-                        MissingQuantity = 2,
-                        Rarity = "Rare"
-                    }
-                }
+                        MultiverseId = c.Key,
+                        Quantity = c.Value,
+                    }).ToArray(),
+                }).ToArray(),
+                PlayerCards = playerCards.Select(c => new CardDto
+                {
+                    MultiverseId = c.Key,
+                    Quantity = c.Value,
+                    Name = cardInfos[c.Key].Name,
+                    Rarity = cardInfos[c.Key].Rarity,
+                }).ToArray(),
             };
 
             return Ok(dto);
-        }
-
-        private void StartLogImport()
-        {
-            // TODO make async
-            var playerCollection = _logParser.ParsePlayerCollection();
-            var playerDecks = _logParser.ParsePlayerDecks().ToArray();
-
-            var playerLibrary = new PlayerLibrary
-            {
-                PlayerCollection = playerCollection,
-                PlayerDecks = playerDecks
-            };
-
-            _storage.StorePlayerLibrary(playerLibrary);
         }
     }
 }

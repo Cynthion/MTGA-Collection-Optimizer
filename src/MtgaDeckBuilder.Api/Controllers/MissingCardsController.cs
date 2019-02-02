@@ -23,6 +23,8 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public IActionResult GetMissingCards()
         {
+            StartLogImport();
+
             var dto = new MissingCardsPageDto
             {
                 MissingCards = new List<MissingCardDto>
@@ -39,11 +41,7 @@ namespace MtgaDeckBuilder.Api.Controllers
             return Ok(dto);
         }
 
-        // TODO provide configs like paths from UI
-        // GET api/playerlibrary/log-import
-        [HttpGet]
-        [Route("log-import")]
-        public IActionResult StartLogImport()
+        private void StartLogImport()
         {
             // TODO make async
             var playerCollection = _logParser.ParsePlayerCollection();
@@ -56,8 +54,6 @@ namespace MtgaDeckBuilder.Api.Controllers
             };
 
             _storage.StorePlayerLibrary(playerLibrary);
-
-            return Ok();
         }
     }
 }

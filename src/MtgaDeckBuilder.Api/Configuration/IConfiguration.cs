@@ -4,7 +4,7 @@
     {
         string OutputLogPath { get; set; }
 
-        string MtgSetJsonDirectoryPath { get; set; }
+        string MtgaDeckBuilderDropFolderPath { get; set; }
 
         string PlayerCardsCommand { get; set; }
 

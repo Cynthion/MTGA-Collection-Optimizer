@@ -20,7 +20,7 @@ namespace MtgaDeckBuilder.Api.SetImport
             // TODO load all sets
             //using (var streamReader = new StreamReader())
 
-            //    File.ReadAllText(Path.Combine(_configuration.MtgSetJsonDirectoryPath, "RNA.json"))
+            //    File.ReadAllText(Path.Combine(_configuration.MtgaDeckBuilderDropFolderPath, "RNA.json"))
         }
     }
 }

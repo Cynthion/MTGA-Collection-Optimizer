@@ -32,7 +32,7 @@ namespace MtgaDeckBuilder.Api
             {
                 OutputLogPath = $@"C:\Users\{Environment.UserName}\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt",
                 // TODO move to executable directory
-                MtgSetJsonDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sets"),
+                MtgaDeckBuilderDropFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MTGA Deck Builder"),
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckLists"
             });

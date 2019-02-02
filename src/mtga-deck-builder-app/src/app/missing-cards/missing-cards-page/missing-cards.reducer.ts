@@ -3,10 +3,15 @@ import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.ac
 
 export function missingCardsPageReducer(state = initialMissingCardsPageState, action: MissingCardsActions): MissingCardsPageState {
   switch (action.type) {
-    case MissingCardsActionTypes.Initialized:
-      return state;
+    case MissingCardsActionTypes.Initialized: {
+      return {
+        ...state,
+        ...action.dto,
+      };
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }

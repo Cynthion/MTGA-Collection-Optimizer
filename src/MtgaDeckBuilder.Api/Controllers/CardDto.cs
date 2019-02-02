@@ -5,11 +5,5 @@
         public long MultiverseId { get; set; }
 
         public short Quantity { get; set; }
-
-        public string Name { get; set; }
-
-        public string Rarity { get; set; }
-
-        public string SetCode { get; set; }
     }
 }

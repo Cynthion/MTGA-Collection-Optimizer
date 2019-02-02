@@ -29,12 +29,12 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         // GET api/missingcards
         [HttpGet]
-        public async Task<ActionResult> GetMissingCards()
+        public ActionResult GetMissingCards()
         {
             var playerDecks = _logParser.ParsePlayerDecks();
             var playerCards = _logParser.ParsePlayerCards();
 
-            var cardInfos = await _setLoader.LoadAllSetsAsync();
+            //var cardInfos = await _setLoader.LoadAllSetsAsync();
 
             var dto = new MissingCardsPageDto
             {
@@ -48,14 +48,10 @@ namespace MtgaDeckBuilder.Api.Controllers
                         Quantity = c.Value,
                     }).ToArray(),
                 }).ToArray(),
-                PlayerCards = playerCards.Select(pc => new CardDto
+                PlayerCards = playerCards.Select(c => new CardDto
                 {
-                    MultiverseId = pc.Key,
-                    Quantity = pc.Value,
-                    // TODO id conversion
-                    //Name = cardInfos[c.Key].Name,
-                    //Rarity = cardInfos[c.Key].Rarity,
-                    //SetCode = cardInfos[c.Key].SetCode,
+                    MultiverseId = c.Key,
+                    Quantity = c.Value
                 }).ToArray(),
             };
 

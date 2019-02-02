@@ -21,6 +21,7 @@ namespace MtgaDeckBuilder.Api.SetImport
             _configuration = configuration;
         }
 
+        // TODO cache
         public async Task<IDictionary<long, CardInfo>> LoadAllSetsAsync()
         {
             var setFolderPath = Path.Combine(_configuration.MtgaDeckBuilderDropFolderPath, "Sets");
@@ -54,7 +55,7 @@ namespace MtgaDeckBuilder.Api.SetImport
                     var setCardInfos = setCards.Select(c => new CardInfo
                     {
                         MultiverseId = c.MultiverseId,
-                        Name = c.Name,
+                        Name = c.Names != null ? string.Join("//", c.Names) : c.Name,
                         Number = c.Number,
                         Rarity = c.Rarity,
                         Uuid = c.Uuid
@@ -62,12 +63,16 @@ namespace MtgaDeckBuilder.Api.SetImport
 
                     foreach (var cardInfo in setCardInfos)
                     {
-                        cardInfoDictionary.Add(cardInfo.MultiverseId, cardInfo);
+                        // handle double-faced cards that have same MultiverseId
+                        if (!cardInfoDictionary.ContainsKey(cardInfo.MultiverseId))
+                        {
+                            cardInfoDictionary.Add(cardInfo.MultiverseId, cardInfo);
+                        }
                     }
                 }
                 catch (Exception e)
                 {
-                    Logger.Warn($"{jsonFilePath} could not be loaded as it doesn't fit the importing model.");
+                    Logger.Warn($"{jsonFilePath} could not be loaded.");
                     Logger.Error(e);
                 }
             }

@@ -6,20 +6,38 @@ export interface RootState extends AppRootState {
   missingCardsPage: MissingCardsPageState;
 }
 
-export interface MissingCardDto {
+export interface PlayerDeckDto {
   id: string;
-  missingQuantity: number;
+  name: string;
+  cards: CardDto[];
+}
+
+export interface PlayerDeckState extends PlayerDeckDto {
+  cards: CardState[];
+}
+
+export interface CardDto {
+  multiverseId: number;
+  quantity: number;
+  name: string;
   rarity: string;
 }
 
+export interface CardState extends CardDto {
+
+}
+
 export interface MissingCardsPageDto {
-  missingCards: MissingCardDto[];
+  playerDecks: PlayerDeckDto[];
+  playerCards: CardDto[];
 }
 
 export interface MissingCardsPageState extends MissingCardsPageDto {
-
+  playerDecks: PlayerDeckState[];
+  playerCards: CardState[];
 }
 
 export const initialMissingCardsPageState: MissingCardsPageState = {
-  missingCards: [],
+  playerDecks: [],
+  playerCards: [],
 };

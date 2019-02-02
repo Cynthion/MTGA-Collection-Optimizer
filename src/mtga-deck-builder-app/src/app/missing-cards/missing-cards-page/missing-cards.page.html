@@ -1,7 +1,7 @@
 <h1>Missing Cards Page</h1>
 
-<td *ngFor="let missingCard of (state$ | async).missingCards; trackBy: trackByCardId">
-  {{ missingCard.id }}
-  {{ missingCard.missingQuantity }}
-  {{ missingCard.rarity }}
+<td *ngFor="let card of (state$ | async).playerCards; trackBy: trackByCardId">
+  {{ card.multiverseId }}
+  {{ card.quantity }}
+  {{ card.rarity }}
 </td>

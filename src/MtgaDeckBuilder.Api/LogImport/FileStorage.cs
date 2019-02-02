@@ -27,6 +27,9 @@ namespace MtgaDeckBuilder.Api.LogImport
             {
                 streamWriter.Write(json);
             }
+
+            // TODO cut only necessary information
+            // TODO cache, key: included json paths
         }
     }
 }

@@ -25,10 +25,7 @@ function httpGet<TResponse = null>(
 ): Observable<Action> {
   const obs = (() => {
     console.log('httpGet', url);
-    return http.get<TResponse>(url, {
-      observe: 'body',
-      withCredentials: true,
-    });
+    return http.get<TResponse>(url);
   })();
 
   return handleResponse(obs, project);

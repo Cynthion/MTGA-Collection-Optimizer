@@ -18,6 +18,9 @@ namespace MtgaDeckBuilder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // first, add CORS
+            services.AddCors();
+
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
             {
@@ -40,6 +43,9 @@ namespace MtgaDeckBuilder.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+            // first, add CORS middleware
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+
             app.UseMvc();
         }
     }

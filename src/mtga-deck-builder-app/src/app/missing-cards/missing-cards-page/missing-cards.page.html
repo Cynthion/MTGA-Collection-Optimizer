@@ -3,6 +3,7 @@
 <div *ngFor="let card of (state$ | async).playerCards; trackBy: trackByCardId">
   {{ card.multiverseId }}
   {{ card.name }}
+  {{ card.setCode }}
   {{ card.rarity }}
   {{ card.quantity }}
 </div>

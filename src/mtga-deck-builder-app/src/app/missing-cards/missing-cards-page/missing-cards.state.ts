@@ -6,6 +6,13 @@ export interface RootState extends AppRootState {
   missingCardsPage: MissingCardsPageState;
 }
 
+export const rarityDictionary: { [rarity: string]: number } = {
+  Common: 0,
+  Uncommon: 1,
+  Rare: 2,
+  'Mythic Rare': 3,
+};
+
 export interface PlayerDeckDto {
   id: string;
   name: string;
@@ -23,7 +30,7 @@ export interface CardDto {
 
 export interface CardState extends CardDto {
   name: string;
-  rarity: string;
+  rarity: number;
   setCode: string;
 }
 

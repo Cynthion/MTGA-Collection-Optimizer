@@ -58,7 +58,8 @@ namespace MtgaDeckBuilder.Api.SetImport
                         Name = c.Names != null ? string.Join("//", c.Names) : c.Name,
                         Number = c.Number,
                         Rarity = c.Rarity,
-                        Uuid = c.Uuid
+                        Uuid = c.Uuid,
+                        SetCode = set.Code,
                     });
 
                     foreach (var cardInfo in setCardInfos)

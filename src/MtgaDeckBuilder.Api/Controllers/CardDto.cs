@@ -9,5 +9,7 @@
         public string Name { get; set; }
 
         public string Rarity { get; set; }
+
+        public string SetCode { get; set; }
     }
 }

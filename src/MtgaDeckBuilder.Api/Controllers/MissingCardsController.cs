@@ -48,12 +48,14 @@ namespace MtgaDeckBuilder.Api.Controllers
                         Quantity = c.Value,
                     }).ToArray(),
                 }).ToArray(),
-                PlayerCards = playerCards.Select(c => new CardDto
+                PlayerCards = playerCards.Select(pc => new CardDto
                 {
-                    MultiverseId = c.Key,
-                    Quantity = c.Value,
-                    Name = cardInfos[c.Key].Name,
-                    Rarity = cardInfos[c.Key].Rarity,
+                    MultiverseId = pc.Key,
+                    Quantity = pc.Value,
+                    // TODO id conversion
+                    //Name = cardInfos[c.Key].Name,
+                    //Rarity = cardInfos[c.Key].Rarity,
+                    //SetCode = cardInfos[c.Key].SetCode,
                 }).ToArray(),
             };
 

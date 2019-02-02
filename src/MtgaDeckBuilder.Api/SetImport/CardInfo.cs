@@ -11,5 +11,7 @@
         public string Rarity { get; set; }
 
         public string Uuid { get; set; }
+
+        public string SetCode { get; set; }
     }
 }

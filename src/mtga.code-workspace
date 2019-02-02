@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "mtga-deck-builder-app"
+		},
+		{
+			"path": "MtgaDeckBuilder.Api"
+		}
+	],
+	"settings": {}
+}

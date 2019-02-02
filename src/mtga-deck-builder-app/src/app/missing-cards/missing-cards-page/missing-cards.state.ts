@@ -1,21 +1,25 @@
 import { RootState as AppRootState } from '../../app.state';
 
-export const MISSING_CARDS_PAGE_STATE_FEATURE_NAME: keyof RootState = 'missingCards';
+export const MISSING_CARDS_PAGE_STATE_FEATURE_NAME: keyof RootState = 'missingCardsPage';
 
 export interface RootState extends AppRootState {
-  missingCards: MissingCardsPageState;
+  missingCardsPage: MissingCardsPageState;
 }
 
-// tslint:disable-next-line:no-empty-interface
+export interface MissingCardDto {
+  id: string;
+  missingQuantity: number;
+  rarity: string;
+}
+
 export interface MissingCardsPageDto {
-
+  missingCards: MissingCardDto[];
 }
 
-// tslint:disable-next-line:no-empty-interface
 export interface MissingCardsPageState extends MissingCardsPageDto {
 
 }
 
 export const initialMissingCardsPageState: MissingCardsPageState = {
-
+  missingCards: [],
 };

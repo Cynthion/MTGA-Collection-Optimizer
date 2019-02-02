@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { MissingCardsPageState, RootState } from './missing-cards.state';
+import { MissingCardsPageState, RootState, MissingCardDto } from './missing-cards.state';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -18,6 +18,11 @@ export class MissingCardsPageComponent {
       private store: Store<RootState>,
       private actionsSubject: ActionsSubject,
     ) {
-    this.state$ = store.select(s => s.missingCards);
+    this.state$ = store.select(s => s.missingCardsPage);
+  }
+
+  trackByCardId(_: number, card: MissingCardDto) {
+    console.log(card.id);
+    return card.id;
   }
 }

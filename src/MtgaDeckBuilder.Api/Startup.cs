@@ -22,7 +22,7 @@ namespace MtgaDeckBuilder.Api
             services.AddMvc().AddJsonOptions(options =>
             {
                 //return json format with Camel Case
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
             services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration

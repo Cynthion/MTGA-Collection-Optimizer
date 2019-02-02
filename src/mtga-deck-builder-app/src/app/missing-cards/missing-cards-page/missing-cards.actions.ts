@@ -9,7 +9,7 @@ export enum MissingCardsActionTypes {
 }
 
 export class LoadMissingCardsPageAction implements Action {
-  readonly type = MissingCardsActionTypes.Initialized;
+  readonly type = MissingCardsActionTypes.Load;
 }
 
 export class InitializedMissingCardsPageAction implements Action {

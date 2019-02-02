@@ -1,1 +1,7 @@
 <h1>Missing Cards Page</h1>
+
+<td *ngFor="let missingCard of (state$ | async).missingCards; trackBy: trackByCardId">
+  {{ missingCard.id }}
+  {{ missingCard.missingQuantity }}
+  {{ missingCard.rarity }}
+</td>

@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 
 import { MissingCardsActionTypes, InitializedMissingCardsPageAction, LoadMissingCardsPageErrorAction } from './missing-cards.actions';
-import { mergeMap, catchError, flatMap } from 'rxjs/operators';
+import { mergeMap, catchError, flatMap, tap } from 'rxjs/operators';
 import { MissingCardsPageDto } from './missing-cards.state';
 import { internalApiGet } from 'src/app/util/http';
 
@@ -14,12 +14,12 @@ export class MissingCardsPageEffects {
 
   @Effect()
   loadPageData$: Observable<Action> = this.actions$
-    .pipe(
+  .pipe(
       ofType(MissingCardsActionTypes.Load),
       flatMap(a =>
         internalApiGet<MissingCardsPageDto>(
           this.http,
-          'missing-cards',
+          'missingcards',
           dto => [new InitializedMissingCardsPageAction(dto)]
         )
       ),

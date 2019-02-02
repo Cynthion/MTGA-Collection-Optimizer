@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.Model;
+using MtgaDeckBuilder.Api.SetImport;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
@@ -11,11 +12,17 @@ namespace MtgaDeckBuilder.Api.Controllers
     public class MissingCardsController : Controller
     {
         private readonly ILogParser _logParser;
+        private readonly ISetLoader _setLoader;
         private readonly IStorage _storage;
 
-        public MissingCardsController(ILogParser logParser, IStorage storage)
+        public MissingCardsController(
+            ILogParser logParser,
+            ISetLoader setLoader,
+            IStorage storage
+        )
         {
             _logParser = logParser;
+            _setLoader = setLoader;
             _storage = storage;
         }
 
@@ -23,7 +30,9 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public IActionResult GetMissingCards()
         {
+            // TODO move these to another place
             StartLogImport();
+            _setLoader.LoadAllSets();
 
             var dto = new MissingCardsPageDto
             {
@@ -33,7 +42,7 @@ namespace MtgaDeckBuilder.Api.Controllers
                     {
                         Id = "123456",
                         MissingQuantity = 2,
-                        Rarity = "Rare",
+                        Rarity = "Rare"
                     }
                 }
             };

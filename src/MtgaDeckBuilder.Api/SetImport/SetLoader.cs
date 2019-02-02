@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MtgaDeckBuilder.Api.SetImport
 {
-    public class SetLoader
+    public class SetLoader : ISetLoader
     {
         private readonly IConfiguration _configuration;
 
@@ -15,12 +15,9 @@ namespace MtgaDeckBuilder.Api.SetImport
             _configuration = configuration;
         }
 
-        public void LoadAllSideLoadedSets()
+        public void LoadAllSets()
         {
-            // TODO load all sets
-            //using (var streamReader = new StreamReader())
-
-            //    File.ReadAllText(Path.Combine(_configuration.MtgaDeckBuilderDropFolderPath, "RNA.json"))
+            Directory.CreateDirectory(Path.Combine(_configuration.MtgaDeckBuilderDropFolderPath, "Sets"));
         }
     }
 }

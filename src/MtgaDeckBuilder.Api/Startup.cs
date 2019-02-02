@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.LogImport;
+using MtgaDeckBuilder.Api.SetImport;
 using Newtonsoft.Json.Serialization;
 
 namespace MtgaDeckBuilder.Api
@@ -37,6 +38,7 @@ namespace MtgaDeckBuilder.Api
                 PlayerDecksCommand = "<== Deck.GetDeckLists"
             });
             services.AddSingleton<ILogParser, LogParser>();
+            services.AddSingleton<ISetLoader, SetLoader>();
             services.AddSingleton<IStorage, FileStorage>();
         }
 

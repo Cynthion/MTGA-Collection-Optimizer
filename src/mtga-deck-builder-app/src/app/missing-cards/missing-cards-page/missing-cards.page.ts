@@ -10,9 +10,10 @@ import { MissingCardsPageState, RootState, CardDto } from './missing-cards.state
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MissingCardsPageComponent {
-  @HostBinding('class.page') page = true;
-
   state$: Observable<MissingCardsPageState>;
+
+  displayedColumns: string[] = ['multiverseId', 'name', 'rarity', 'setCode', 'quantity'];
+  columnsToDisplay: string[] = this.displayedColumns.slice();
 
   constructor(
       private store: Store<RootState>,

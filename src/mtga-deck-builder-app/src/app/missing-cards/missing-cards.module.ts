@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import {MatTableModule} from '@angular/material/table';
+
 import { missingCardsRoutes } from './missing-cards.routing';
 
 import {
@@ -13,6 +15,10 @@ import {
   MissingCardsPageEffects,
   missingCardsPageReducer,
 } from './missing-cards-page';
+
+const matModules = [
+  MatTableModule,
+];
 
 @NgModule({
   declarations: [
@@ -25,6 +31,7 @@ import {
       MissingCardsPageEffects,
     ]),
     StoreModule.forFeature(MISSING_CARDS_PAGE_STATE_FEATURE_NAME, missingCardsPageReducer),
+    ...matModules,
   ],
   providers: [MissingCardsPageInitializationGuard],
 })

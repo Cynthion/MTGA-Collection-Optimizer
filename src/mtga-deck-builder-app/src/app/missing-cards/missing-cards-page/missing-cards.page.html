@@ -1,9 +1,19 @@
 <h1>Missing Cards Page</h1>
 
-<div *ngFor="let card of (state$ | async).playerCards; trackBy: trackByCardId">
+<!-- <div *ngFor="let card of (state$ | async).playerCards; trackBy: trackByCardId">
   {{ card.multiverseId }}
   {{ card.name }}
   {{ card.setCode }}
   {{ card.rarity }}
   {{ card.quantity }}
-</div>
+</div> -->
+
+<table mat-table [dataSource]="(state$ | async).playerCards" class="mat-elevation-z8">
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+</table>

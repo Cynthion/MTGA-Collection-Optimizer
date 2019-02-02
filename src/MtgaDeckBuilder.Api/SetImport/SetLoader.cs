@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MtgaDeckBuilder.Api.Configuration;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MtgaDeckBuilder.Api.SetImport.Model;
 using Newtonsoft.Json;
 using NLog;
@@ -20,7 +21,7 @@ namespace MtgaDeckBuilder.Api.SetImport
             _configuration = configuration;
         }
 
-        public void LoadAllSets()
+        public async Task<IEnumerable<CardInfo>> LoadAllSetsAsync()
         {
             var setFolderPath = Path.Combine(_configuration.MtgaDeckBuilderDropFolderPath, "Sets");
             Directory.CreateDirectory(setFolderPath);
@@ -38,8 +39,7 @@ namespace MtgaDeckBuilder.Api.SetImport
 
                 try
                 {
-                    // TODO make async
-                    setJson = File.ReadAllText(jsonFilePath);
+                    setJson = await File.ReadAllTextAsync(jsonFilePath);
                 }
                 catch (Exception e)
                 {
@@ -49,8 +49,6 @@ namespace MtgaDeckBuilder.Api.SetImport
     
                 try
                 {
-                    File.ReadAllText(jsonFilePath);
-
                     // TODO figure out if only certain properties can be read
                     var set = JsonConvert.DeserializeObject<Set>(setJson);
                     var setCards = set.Cards;
@@ -73,6 +71,8 @@ namespace MtgaDeckBuilder.Api.SetImport
             }
 
             Logger.Info($"Found { allCardInfos.Count } set cards.");
+
+            return allCardInfos;
         }
     }
 }

@@ -22,7 +22,6 @@ export class MissingCardsPageComponent {
   }
 
   trackByCardId(_: number, card: MissingCardDto) {
-    console.log(card.id);
     return card.id;
   }
 }

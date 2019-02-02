@@ -10,7 +10,6 @@ export class MissingCardsPageInitializationGuard implements CanActivate {
   constructor(private actionsSubject: ActionsSubject) { }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    console.log('guard');
     this.actionsSubject.next(new LoadMissingCardsPageAction());
     return this.actionsSubject.pipe(
       first(a => a.type === MissingCardsActionTypes.Initialized),

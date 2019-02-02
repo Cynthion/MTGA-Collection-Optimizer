@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;
@@ -28,11 +29,11 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         // GET api/missingcards
         [HttpGet]
-        public IActionResult GetMissingCards()
+        public async Task<ActionResult> GetMissingCards()
         {
             // TODO move these to another place
             StartLogImport();
-            _setLoader.LoadAllSets();
+            await _setLoader.LoadAllSetsAsync();
 
             var dto = new MissingCardsPageDto
             {

@@ -10,6 +10,7 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatCardModule,
 } from '@angular/material';
 
 import { missingCardsRoutes } from './missing-cards.routing';
@@ -28,6 +29,7 @@ const matModules = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatCardModule,
 ];
 
 @NgModule({

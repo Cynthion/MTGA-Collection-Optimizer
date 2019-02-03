@@ -18,7 +18,7 @@ export class MissingCardsPageComponent implements OnInit {
 
   // deckColums: string[] = ['Aristocrates'];
   stickyColumns: string[] = ['name'];
-  flexColumns: string[] = ['rarity', 'setCode', 'quantity'];
+  flexColumns: string[] = ['setCode', 'quantity'];
   columnsToDisplay: string[] = this.stickyColumns.slice().concat(this.flexColumns.slice());
   dataSource: MatTableDataSource<CardState>;
 
@@ -41,6 +41,17 @@ export class MissingCardsPageComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  getRarityClass(columnName: string, card: CardState): string {
+    if (columnName === 'name') {
+      switch (card.rarity) {
+        case 3: return 'mythic';
+        case 2: return 'rare';
+        case 1: return 'uncommon';
+        case 0: return 'common';
+      }
     }
   }
 }

@@ -5,8 +5,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import {
+  MatAutocompleteModule,
   MatInputModule,
   MatPaginatorModule,
+  MatSortModule,
   MatTableModule,
 } from '@angular/material';
 
@@ -21,8 +23,10 @@ import {
 } from './missing-cards-page';
 
 const matModules = [
+  MatAutocompleteModule,
   MatInputModule,
   MatPaginatorModule,
+  MatSortModule,
   MatTableModule,
 ];
 

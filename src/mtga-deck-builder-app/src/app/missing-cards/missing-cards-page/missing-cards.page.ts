@@ -18,8 +18,8 @@ export class MissingCardsPageComponent implements OnInit {
 
   stickyColumns: string[] = ['name'];
   flexColumns: string[] = ['setCode', 'quantity'];
-  deckColums: string[] = ['Aristocrates'];
-  columnsToDisplay: string[] = this.stickyColumns.concat(this.flexColumns);
+  deckColumns: string[] = [];
+  columnsToDisplay: string[];
   dataSource: MatTableDataSource<CardState>;
 
   constructor(
@@ -28,8 +28,13 @@ export class MissingCardsPageComponent implements OnInit {
     ) {
     this.state$ = store.select(s => s.missingCardsPage);
 
-    this.state$.subscribe(s => this.dataSource = new MatTableDataSource(s.playerCards));
-    // this.state$.subscribe(s => this.stickyColumns)
+    this.state$.subscribe(s => {
+      this.dataSource = new MatTableDataSource(s.allCards);
+      console.log(s.playerDecks);
+      this.deckColumns = s.playerDecks.map(d => d.name);
+      console.log(this.deckColumns);
+      this.columnsToDisplay = this.stickyColumns.concat(this.flexColumns).concat(this.deckColumns);
+    });
   }
 
   ngOnInit() {
@@ -47,19 +52,20 @@ export class MissingCardsPageComponent implements OnInit {
 
   getColumnName(columnName: string): string {
     switch (columnName) {
-      case 'name': return 'Card Name';
+      case 'name': return 'Card Name (Owned & Missing)';
       case 'setCode': return 'Set';
-      case 'quantity': return 'Quantity';
+      case 'quantity': return 'Quantity Owned';
     }
   }
 
   getRarityClass(columnName: string, card: CardState): string {
     if (columnName === 'name') {
       switch (card.rarity) {
-        case 3: return 'mythic';
-        case 2: return 'rare';
-        case 1: return 'uncommon';
-        case 0: return 'common';
+        case 4: return 'mythic';
+        case 3: return 'rare';
+        case 2: return 'uncommon';
+        case 1: return 'common';
+        case 0: return 'basic';
       }
     }
   }

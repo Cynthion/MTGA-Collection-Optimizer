@@ -7,10 +7,12 @@ export interface RootState extends AppRootState {
 }
 
 export const rarityDictionary: { [rarity: string]: number } = {
-  Common: 0,
-  Uncommon: 1,
-  Rare: 2,
-  'Mythic Rare': 3,
+  'Basic Land': 0,
+  Basic: 0,
+  Common: 1,
+  Uncommon: 2,
+  Rare: 3,
+  'Mythic Rare': 4,
 };
 
 export interface PlayerDeckDto {
@@ -42,9 +44,11 @@ export interface MissingCardsPageDto {
 export interface MissingCardsPageState extends MissingCardsPageDto {
   playerDecks: PlayerDeckState[];
   playerCards: CardState[];
+  allCards: CardState[];
 }
 
 export const initialMissingCardsPageState: MissingCardsPageState = {
   playerDecks: [],
   playerCards: [],
+  allCards: [],
 };

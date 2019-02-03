@@ -1,4 +1,4 @@
-import { MissingCardsPageState, initialMissingCardsPageState, CardState, rarityDictionary } from './missing-cards.state';
+import { MissingCardsPageState, initialMissingCardsPageState, CardState, rarityDictionary, CardDto } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
 import { allCards as mtgCardDb } from 'mtga';
@@ -8,28 +8,42 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
   switch (action.type) {
 
     case MissingCardsActionTypes.Initialized: {
+      let allCardsStates: CardState[] = [];
 
-      let cardStates: CardState[] = action.dto.playerCards.map(c => {
-        const mtgCard = mtgCardDb.findCard(c.multiverseId);
-        return ({
-          multiverseId: c.multiverseId,
-          quantity: c.quantity,
-          name: mtgCard.get('prettyName'),
-          rarity: rarityDictionary[mtgCard.get('rarity')],
-          setCode: mtgCard.get('set'),
-        });
-      });
+      const playerCardStates: CardState[] = action.dto.playerCards.map(enrichCardInfo);
+      allCardsStates = allCardsStates.concat(playerCardStates);
 
-      cardStates = _.orderBy(cardStates, ['rarity', 'name'], ['desc', 'asc']);
+      for (const playerDeck of action.dto.playerDecks) {
+        const deckCardStates: CardState[] = playerDeck.cards.map(enrichCardInfo);
+        allCardsStates = allCardsStates.concat(deckCardStates);
+      }
 
-      return {
+      allCardsStates = _.uniqBy(allCardsStates, c => c.multiverseId);
+      allCardsStates = _.orderBy(allCardsStates, ['rarity', 'name'], ['desc', 'asc']);
+
+      const newState: MissingCardsPageState = {
         ...state,
-        playerCards: cardStates,
+        playerCards: playerCardStates,
+        allCards: allCardsStates,
       };
+      console.log(newState);
+      return newState;
     }
 
     default: {
       return state;
     }
   }
+}
+
+// TODO do this via a nested reducer
+function enrichCardInfo(cardDto: CardDto): CardState {
+  const mtgCard = mtgCardDb.findCard(cardDto.multiverseId);
+  return ({
+    multiverseId: cardDto.multiverseId,
+    quantity: cardDto.quantity,
+    name: mtgCard.get('prettyName'),
+    rarity: rarityDictionary[mtgCard.get('rarity')],
+    setCode: mtgCard.get('set'),
+  });
 }

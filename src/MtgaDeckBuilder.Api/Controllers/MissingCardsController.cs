@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;
-using MtgaDeckBuilder.Api.Model;
 using MtgaDeckBuilder.Api.SetImport;
 
 namespace MtgaDeckBuilder.Api.Controllers
@@ -39,20 +36,22 @@ namespace MtgaDeckBuilder.Api.Controllers
             var dto = new MissingCardsPageDto
             {
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
-                {
-                    Id = d.Id,
-                    Name = d.Name,
-                    Cards = d.Cards.Select(c => new CardDto
                     {
-                        MultiverseId = c.Key,
-                        Quantity = c.Value,
-                    }).ToArray(),
-                }).ToArray(),
+                        Id = d.Id,
+                        Name = d.Name,
+                        Cards = d.Cards.Select(c => new CardDto
+                        {
+                            MultiverseId = c.Key,
+                            Quantity = c.Value
+                        }).ToArray()
+                    })
+                    .Where(d => !d.Name.Contains("?=?"))
+                    .ToArray(),
                 PlayerCards = playerCards.Select(c => new CardDto
                 {
                     MultiverseId = c.Key,
                     Quantity = c.Value
-                }).ToArray(),
+                }).ToArray()
             };
 
             return Ok(dto);

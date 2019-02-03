@@ -1,6 +1,12 @@
 ::ng-deep .mat-card-header-text {
   margin: 0px !important; 
 }
+::ng-deep .mat-sort-header-arrow {
+  color: orange !important;
+}
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+}
 
 .mat-form-field {
   font-size: 14px;
@@ -9,20 +15,11 @@
 
 .table-container {
   height: 700px;
-  // width: 100%;
   overflow: auto; // overflow only works for blocks with specified height
 }
 
-// .mat-table {
-//   width: 100%;
-// }
-
 .mat-row:hover {
   background-color: #6d6d6d;
-}
-
-.mat-sort-header-container {
-  justify-content: center !important;
 }
 
 .mat-header-cell,
@@ -30,10 +27,6 @@
   text-align: center;
   min-width: 50px;
 }
-
-// .mat-column-Aristocrates {
-//   width: 10px !important;
-// }
 
 .mat-table-sticky:first-child {
   border-right: 1px solid #e0e0e0;

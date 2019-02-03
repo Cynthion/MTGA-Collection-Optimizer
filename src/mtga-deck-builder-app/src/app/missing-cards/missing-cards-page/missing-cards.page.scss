@@ -15,6 +15,14 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
+// th.mat-column-position, td.mat-column-position {
+//   padding-left: 100px;
+// }
+
+.mat-table-sticky:first-child {
+  border-right: 1px solid #e0e0e0;
+}
+
 .mythic {
   color: #cf5b25;
 }

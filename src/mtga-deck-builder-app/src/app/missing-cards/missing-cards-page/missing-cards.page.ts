@@ -17,7 +17,7 @@ export class MissingCardsPageComponent implements OnInit {
 
   state$: Observable<MissingCardsPageState>;
 
-  stickyColumns: string[] = ['name'];
+  stickyColum = 'name';
   flexColumns: string[] = ['setCode', 'quantity'];
   deckColumns: string[] = [];
   columnsToDisplay: string[];
@@ -36,7 +36,7 @@ export class MissingCardsPageComponent implements OnInit {
 
       console.log(s.playerDecks);
       this.deckColumns = s.playerDecks.map(d => d.name);
-      this.columnsToDisplay = this.stickyColumns.concat(this.flexColumns).concat(this.deckColumns);
+      this.columnsToDisplay = [this.stickyColum].concat(this.flexColumns).concat(this.deckColumns);
     });
   }
 

@@ -15,17 +15,17 @@
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
       
-        <ng-container [matColumnDef]="column" *ngFor="let column of stickyColumns" sticky>
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(column)}} </th>
+        <ng-container [matColumnDef]="stickyColum" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(stickyColum)}} </th>
           <td mat-cell *matCellDef="let element" 
-          [ngClass]="getRarityClass(column, element)"> {{element[column]}} </td>
+          [ngClass]="getRarityClass(stickyColum, element)"> {{element[stickyColum]}} </td>
         </ng-container>
-      
+
         <ng-container [matColumnDef]="column" *ngFor="let column of flexColumns">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(column)}} </th>
           <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
         </ng-container>
-
+      
         <ng-container [matColumnDef]="deck.name" *ngFor="let deck of playerDecks">
           <th mat-header-cell *matHeaderCellDef> {{ deck.name }} </th>
           <td mat-cell *matCellDef="let i = index"> {{ getDeckCardCount(deck, dataSource.filteredData[i].multiverseId) }} </td>

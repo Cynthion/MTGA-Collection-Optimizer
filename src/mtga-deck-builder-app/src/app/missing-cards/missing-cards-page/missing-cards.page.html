@@ -12,7 +12,7 @@
         placeholder="Card Filter">
     </mat-form-field>
 
-    <div class="mat-elevation-z8">
+    <div class="mat-elevation-z8 table-container">
       <table mat-table [dataSource]="dataSource" matSort>
       
         <ng-container [matColumnDef]="stickyColum" sticky>
@@ -27,7 +27,8 @@
         </ng-container>
       
         <ng-container [matColumnDef]="deck.name" *ngFor="let deck of playerDecks">
-          <th mat-header-cell *matHeaderCellDef> {{ deck.name }} </th>
+          <th mat-header-cell *matHeaderCellDef>{{ deck.name }}
+          </th>
           <td mat-cell *matCellDef="let i = index"> {{ getDeckCardCount(deck, dataSource.filteredData[i].multiverseId) }} </td>
         </ng-container>
       

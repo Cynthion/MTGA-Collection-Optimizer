@@ -17,6 +17,7 @@ export class MissingCardsPageComponent implements OnInit {
 
   state$: Observable<MissingCardsPageState>;
 
+
   stickyColum = 'name';
   flexColumns: string[] = ['setCode', 'quantity'];
   deckColumns: string[] = [];

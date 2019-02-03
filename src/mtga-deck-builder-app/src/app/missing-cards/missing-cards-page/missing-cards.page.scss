@@ -7,7 +7,12 @@
   width: 100%;
 }
 
-table {
+.table-container {
+  height: 700px;
+  overflow: auto; // overflow only works for blocks with specified height
+}
+
+.mat-table {
   width: 100%;
 }
 

@@ -13,8 +13,15 @@
   overflow: auto; // overflow only works for blocks with specified height
 }
 
-// .mat-table {
-//   // width: 800px;
+.mat-table {
+  width: 100%;
+}
+
+.mat-row:hover {
+  background-color: #6d6d6d;
+}
+// tr.hoverable-row :active {
+//   background-color: orange;
 // }
 
 // .mat-row,

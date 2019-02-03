@@ -16,10 +16,10 @@ export class MissingCardsPageComponent implements OnInit {
 
   state$: Observable<MissingCardsPageState>;
 
-  // deckColums: string[] = ['Aristocrates'];
   stickyColumns: string[] = ['name'];
   flexColumns: string[] = ['setCode', 'quantity'];
-  columnsToDisplay: string[] = this.stickyColumns.slice().concat(this.flexColumns.slice());
+  deckColums: string[] = ['Aristocrates'];
+  columnsToDisplay: string[] = this.stickyColumns.concat(this.flexColumns);
   dataSource: MatTableDataSource<CardState>;
 
   constructor(
@@ -29,6 +29,7 @@ export class MissingCardsPageComponent implements OnInit {
     this.state$ = store.select(s => s.missingCardsPage);
 
     this.state$.subscribe(s => this.dataSource = new MatTableDataSource(s.playerCards));
+    // this.state$.subscribe(s => this.stickyColumns)
   }
 
   ngOnInit() {
@@ -41,6 +42,14 @@ export class MissingCardsPageComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  getColumnName(columnName: string): string {
+    switch (columnName) {
+      case 'name': return 'Card Name';
+      case 'setCode': return 'Set';
+      case 'quantity': return 'Quantity';
     }
   }
 

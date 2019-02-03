@@ -1,4 +1,4 @@
-import { MissingCardsPageState, initialMissingCardsPageState, CardState, rarityDictionary, CardDto } from './missing-cards.state';
+import { MissingCardsPageState, initialMissingCardsPageState, CardState, rarityDictionary, CardDto, PlayerDeckState } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
 import { allCards as mtgCardDb } from 'mtga';
@@ -11,18 +11,25 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       let allCardsStates: CardState[] = [];
 
       const playerCardStates: CardState[] = action.dto.playerCards.map(enrichCardInfo);
-      allCardsStates = allCardsStates.concat(playerCardStates);
+      allCardsStates.push(...playerCardStates);
 
-      for (const playerDeck of action.dto.playerDecks) {
-        const deckCardStates: CardState[] = playerDeck.cards.map(enrichCardInfo);
-        allCardsStates = allCardsStates.concat(deckCardStates);
+      const playerDecksState: PlayerDeckState[] = [];
+      for (const playerDeckDto of action.dto.playerDecks) {
+        const deckCardStates: CardState[] = playerDeckDto.cards.map(enrichCardInfo);
+        playerDecksState.push({
+          ...playerDeckDto,
+          cards: deckCardStates,
+        });
+        allCardsStates.push(...deckCardStates);
       }
 
       allCardsStates = _.uniqBy(allCardsStates, c => c.multiverseId);
       allCardsStates = _.orderBy(allCardsStates, ['rarity', 'name'], ['desc', 'asc']);
 
+      // TODO inverse to ...dto, ...state?
       const newState: MissingCardsPageState = {
-        ...state,
+        ...action.dto,
+        playerDecks: playerDecksState,
         playerCards: playerCardStates,
         allCards: allCardsStates,
       };

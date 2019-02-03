@@ -1,8 +1,15 @@
-import { MissingCardsPageState, initialMissingCardsPageState, CardState, rarityDictionary, CardDto, PlayerDeckState } from './missing-cards.state';
-import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
-
 import { allCards as mtgCardDb } from 'mtga';
 import * as _ from 'lodash';
+
+import {
+  MissingCardsPageState,
+  initialMissingCardsPageState,
+  CardDto,
+  CardState,
+  PlayerDeckState,
+  rarityDictionary,
+} from './missing-cards.state';
+import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
 export function missingCardsPageReducer(state = initialMissingCardsPageState, action: MissingCardsActions): MissingCardsPageState {
   switch (action.type) {

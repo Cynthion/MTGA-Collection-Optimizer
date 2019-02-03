@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 
-import { MissingCardsPageState, RootState, CardState } from './missing-cards.state';
+import { MissingCardsPageState, RootState, CardState, PlayerDeckState } from './missing-cards.state';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -21,6 +22,7 @@ export class MissingCardsPageComponent implements OnInit {
   deckColumns: string[] = [];
   columnsToDisplay: string[];
   dataSource: MatTableDataSource<CardState>;
+  playerDecks: PlayerDeckState[];
 
   constructor(
       private store: Store<RootState>,
@@ -30,6 +32,8 @@ export class MissingCardsPageComponent implements OnInit {
 
     this.state$.subscribe(s => {
       this.dataSource = new MatTableDataSource(s.allCards);
+      this.playerDecks = s.playerDecks;
+
       console.log(s.playerDecks);
       this.deckColumns = s.playerDecks.map(d => d.name);
       this.columnsToDisplay = this.stickyColumns.concat(this.flexColumns).concat(this.deckColumns);
@@ -67,5 +71,11 @@ export class MissingCardsPageComponent implements OnInit {
         case 0: return 'basic';
       }
     }
+  }
+
+  getDeckCardCount(deck: PlayerDeckState, cardMultiverseId: number) {
+    return _.includes(deck.cards.map(c => c.multiverseId), cardMultiverseId)
+      ? deck.cards.filter(c => c.multiverseId === cardMultiverseId)[0].quantity
+      : '';
   }
 }

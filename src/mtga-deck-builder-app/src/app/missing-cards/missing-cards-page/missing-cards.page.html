@@ -26,9 +26,9 @@
           <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
         </ng-container>
 
-        <ng-container [matColumnDef]="column" *ngFor="let column of deckColumns">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
-          <td mat-cell *matCellDef="let element"> - </td>
+        <ng-container [matColumnDef]="deck.name" *ngFor="let deck of playerDecks">
+          <th mat-header-cell *matHeaderCellDef> {{ deck.name }} </th>
+          <td mat-cell *matCellDef="let i = index"> {{ getDeckCardCount(deck, dataSource.filteredData[i].multiverseId) }} </td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>

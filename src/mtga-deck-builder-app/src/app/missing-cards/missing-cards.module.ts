@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 
 import { missingCardsRoutes } from './missing-cards.routing';
@@ -17,6 +18,7 @@ import {
 } from './missing-cards-page';
 
 const matModules = [
+  MatInputModule,
   MatTableModule,
 ];
 

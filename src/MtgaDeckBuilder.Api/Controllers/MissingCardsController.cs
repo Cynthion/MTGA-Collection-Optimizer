@@ -46,6 +46,8 @@ namespace MtgaDeckBuilder.Api.Controllers
                         }).ToArray()
                     })
                     .Where(d => !d.Name.Contains("?=?"))
+                    .OrderBy(d => d.Name)
+                    .Take(3) // TODO remove
                     .ToArray(),
                 PlayerCards = playerCards.Select(c => new CardDto
                 {

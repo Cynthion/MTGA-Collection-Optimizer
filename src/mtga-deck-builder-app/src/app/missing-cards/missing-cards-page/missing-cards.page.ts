@@ -34,7 +34,6 @@ export class MissingCardsPageComponent implements OnInit {
       this.dataSource = new MatTableDataSource(s.allCards);
       this.playerDecks = s.playerDecks;
 
-      console.log(s.playerDecks);
       this.deckColumns = s.playerDecks.map(d => d.name);
       this.columnsToDisplay = [this.stickyColum].concat(this.flexColumns).concat(this.deckColumns);
     });

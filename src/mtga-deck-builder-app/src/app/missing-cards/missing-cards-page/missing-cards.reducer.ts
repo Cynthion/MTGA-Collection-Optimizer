@@ -33,14 +33,13 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       allCardsStates = _.uniqBy(allCardsStates, c => c.multiverseId);
       allCardsStates = _.orderBy(allCardsStates, ['rarity', 'name'], ['desc', 'asc']);
 
-      // TODO inverse to ...dto, ...state?
       const newState: MissingCardsPageState = {
         ...action.dto,
         playerDecks: playerDecksState,
         playerCards: playerCardStates,
         allCards: allCardsStates,
       };
-      console.log(newState);
+
       return newState;
     }
 

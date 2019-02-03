@@ -13,6 +13,10 @@
     </mat-form-field>
 
     <div class="mat-elevation-z8 table-container">
+        <div class="scrollbar" id="scrollbar-style">
+          <div class="force-overflow"></div>
+        </div>
+
       <table mat-table [dataSource]="dataSource" matSort>
       
         <ng-container [matColumnDef]="stickyColum" sticky>
@@ -41,4 +45,3 @@
 
   </mat-card-content>
 </mat-card>
-

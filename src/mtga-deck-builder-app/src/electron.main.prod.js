@@ -10,8 +10,8 @@ let mainWindow
 const createWindow = () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800, 
-        height: 600,
+      width: 1250, 
+      height: 600,
         icon: './src/favicon.ico',
     })
 
@@ -25,7 +25,7 @@ const createWindow = () => {
     );
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools({ mode: 'bottom' });
+    // mainWindow.webContents.openDevTools({ mode: 'bottom' });
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {

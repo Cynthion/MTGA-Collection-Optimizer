@@ -13,9 +13,12 @@ const createWindow = () => {
   setTimeout(() => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-      width: 800, 
+      width: 1250, 
       height: 600,
       icon: './src/favicon.ico',
+      webPreferences: {
+        nodeIntegration: false,
+      }
     })
 
     // and load the index.html of the app.

@@ -27,8 +27,7 @@
         </ng-container>
       
         <ng-container [matColumnDef]="deck.name" *ngFor="let deck of playerDecks">
-          <th mat-header-cell *matHeaderCellDef>{{ deck.name }}
-          </th>
+          <th mat-header-cell *matHeaderCellDef>{{ deck.name }} </th>
           <td mat-cell *matCellDef="let i = index"> {{ getDeckCardCount(deck, dataSource.filteredData[i].multiverseId) }} </td>
         </ng-container>
       

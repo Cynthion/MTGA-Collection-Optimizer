@@ -13,30 +13,28 @@
   overflow: auto; // overflow only works for blocks with specified height
 }
 
-.mat-table {
-  width: 100%;
-}
+// .mat-table {
+//   width: 100%;
+// }
 
 .mat-row:hover {
   background-color: #6d6d6d;
 }
-// tr.hoverable-row :active {
-//   background-color: orange;
-// }
 
-// .mat-row,
-// .mat-header-row {
-//     display: table-row;
-//     min-width: 200px;
-// }
+.mat-header-cell,
+.mat-cell {
+  text-align: center;
+  min-width: 200px;
+}
 
-// .mat-header-cell
-// .mat-cell {
-//   min-width: 200px;
+// .mat-column-Aristocrates {
+//   width: 10px !important;
 // }
 
 .mat-table-sticky:first-child {
   border-right: 1px solid #e0e0e0;
+  text-align: left;
+  min-width: 200px;
 }
 
 .mythic {

@@ -1,25 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { MissingCardsPageState, RootState, CardDto, CardState } from './missing-cards.state';
-
-const CARD_DATA: CardState[] = [
-  {rarity: 1, name: 'Card 1', multiverseId: 1, setCode: 'GRN', quantity: 1},
-  {rarity: 1, name: 'Card 2', multiverseId: 2, setCode: 'DOR', quantity: 2},
-  {rarity: 2, name: 'Card 3', multiverseId: 3, setCode: 'M19', quantity: 3},
-  {rarity: 3, name: 'Card 4', multiverseId: 4, setCode: 'RNA', quantity: 4},
-  {rarity: 0, name: 'Card 5', multiverseId: 5, setCode: 'GRN', quantity: 1},
-
-];
+import { MissingCardsPageState, RootState, CardState } from './missing-cards.state';
 
 @Component({
   templateUrl: './missing-cards.page.html',
   styleUrls: ['./missing-cards.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MissingCardsPageComponent {
+export class MissingCardsPageComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   state$: Observable<MissingCardsPageState>;
 
   // deckColums: string[] = ['Aristocrates'];
@@ -37,7 +31,16 @@ export class MissingCardsPageComponent {
     this.state$.subscribe(s => this.dataSource = new MatTableDataSource(s.playerCards));
   }
 
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

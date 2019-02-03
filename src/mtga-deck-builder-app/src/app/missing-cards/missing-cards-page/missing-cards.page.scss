@@ -25,12 +25,12 @@
 .mat-header-cell,
 .mat-cell {
   text-align: center;
-  min-width: 50px;
+  min-width: 60px;
 }
 
 .mat-table-sticky:first-child {
   border-right: 1px solid #e0e0e0;
-  text-align: left;
+  text-align: left !important;
   min-width: 200px;
 }
 

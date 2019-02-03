@@ -22,8 +22,10 @@ const CARD_DATA: CardState[] = [
 export class MissingCardsPageComponent {
   state$: Observable<MissingCardsPageState>;
 
-  displayedColumns: string[] = ['multiverseId', 'name', 'rarity', 'setCode', 'quantity'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
+  // deckColums: string[] = ['Aristocrates'];
+  stickyColumns: string[] = ['name'];
+  flexColumns: string[] = ['rarity', 'setCode', 'quantity'];
+  columnsToDisplay: string[] = this.stickyColumns.slice().concat(this.flexColumns.slice());
   dataSource: MatTableDataSource<CardState>;
 
   constructor(

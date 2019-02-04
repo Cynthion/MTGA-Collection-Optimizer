@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "MtgaDeckBuilder.Api"
+		},
+		{
+			"path": "C:\\DEV\\MTGA-Deck-Builder"
 		}
 	],
 	"settings": {}

@@ -22,6 +22,9 @@ import {
   MissingCardsPageEffects,
   missingCardsPageReducer,
 } from './missing-cards-page';
+import {
+  InventoryComponent
+} from './missing-cards-page/inventory';
 
 const matModules = [
   MatAutocompleteModule,
@@ -32,9 +35,14 @@ const matModules = [
   MatCardModule,
 ];
 
+const components = [
+  MissingCardsPageComponent,
+  InventoryComponent,
+];
+
 @NgModule({
   declarations: [
-    MissingCardsPageComponent,
+    ...components,
   ],
   imports: [
     CommonModule,

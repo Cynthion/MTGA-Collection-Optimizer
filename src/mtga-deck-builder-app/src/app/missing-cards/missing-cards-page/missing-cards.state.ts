@@ -1,9 +1,11 @@
-import { RootState as AppRootState } from '../../app.state';
+import { RootState as AppRootState } from 'src/app/app.state';
+import { InventoryState } from './inventory';
 
 export const MISSING_CARDS_PAGE_STATE_FEATURE_NAME: keyof RootState = 'missingCardsPage';
 
 export interface RootState extends AppRootState {
   missingCardsPage: MissingCardsPageState;
+  inventory: InventoryState;
 }
 
 export const rarityDictionary: { [rarity: string]: number } = {

@@ -8,6 +8,19 @@
   justify-content: center !important;
 }
 
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: stretch;
+
+  .card-header, 
+  .inventory {
+    flex: 0 1 auto;
+  }
+}
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;

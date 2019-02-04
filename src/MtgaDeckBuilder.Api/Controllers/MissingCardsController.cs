@@ -32,10 +32,7 @@ namespace MtgaDeckBuilder.Api.Controllers
             // TODO optimize parsing: start from end of file
             var playerDecks = _logParser.ParsePlayerDecks();
             var playerCards = _logParser.ParsePlayerCards();
-
-            // TODO move to separate action method
-            var playerInventory = _logParser.ParsePlayerInventory();
-
+            
             //var cardInfos = await _setLoader.LoadAllSetsAsync();
 
             var dto = new MissingCardsPageDto
@@ -58,6 +55,27 @@ namespace MtgaDeckBuilder.Api.Controllers
                     MultiverseId = c.Key,
                     Quantity = c.Value
                 }).ToArray()
+            };
+
+            return Ok(dto);
+        }
+
+        [HttpGet]
+        [Route("inventory")]
+        public ActionResult GetPlayerInventory()
+        {
+            // TODO ensure there is no lock with the other parsing
+            var playerInventory = _logParser.ParsePlayerInventory();
+
+            var dto = new InventoryDto
+            {
+                WildcardCommon = playerInventory.WcCommon,
+                WildcardUncommon = playerInventory.WcUncommon,
+                WildcardRare = playerInventory.WcRare,
+                WildcardMythic = playerInventory.WcMythic,
+                Gold = playerInventory.Gold,
+                Gems = playerInventory.Gems,
+                VaultProgress = playerInventory.VaultProgress,
             };
 
             return Ok(dto);

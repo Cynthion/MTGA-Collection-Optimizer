@@ -4,23 +4,23 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 
-import { MissingCardsActionTypes, InitializedMissingCardsPageAction, LoadMissingCardsPageErrorAction } from './missing-cards.actions';
 import { flatMap } from 'rxjs/operators';
-import { MissingCardsPageDto } from './missing-cards.state';
 import { internalApiGet } from 'src/app/util/http';
+import { InventoryActionTypes, InitializedInventoryAction } from './inventory.actions';
+import { InventoryDto } from './inventory.state';
 
 @Injectable()
-export class MissingCardsPageEffects {
+export class InventoryEffects {
 
   @Effect()
-  loadPageData$: Observable<Action> = this.actions$
+  loadData$: Observable<Action> = this.actions$
   .pipe(
-      ofType(MissingCardsActionTypes.Load),
+      ofType(InventoryActionTypes.Load),
       flatMap(_ =>
-        internalApiGet<MissingCardsPageDto>(
+        internalApiGet<InventoryDto>(
           this.http,
-          'missingcards',
-          dto => [new InitializedMissingCardsPageAction(dto)]
+          'inventory',
+          dto => [new InitializedInventoryAction(dto)]
         )
       ),
     );

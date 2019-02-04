@@ -1,10 +1,14 @@
-import { RootState as AppRootState } from 'src/app/app.state';
+import { AppState } from 'src/app/app.state';
 import { InventoryState } from './inventory';
 
-export const MISSING_CARDS_PAGE_STATE_FEATURE_NAME: keyof RootState = 'missingCardsPage';
+export const MISSING_CARDS_FEATURE_NAME: keyof MissingCardsFeatureState = 'missingCardsPage';
+export const INVENTORY_FEATURE_NAME: keyof InventoryFeatureState = 'inventory';
 
-export interface RootState extends AppRootState {
+export interface MissingCardsFeatureState extends AppState {
   missingCardsPage: MissingCardsPageState;
+}
+
+export interface InventoryFeatureState extends AppState {
   inventory: InventoryState;
 }
 

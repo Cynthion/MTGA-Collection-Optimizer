@@ -5,7 +5,8 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
   switch (action.type) {
     case AppActionTypes.Initialized:
       return state;
-
+    case AppActionTypes.ApiError:
+      return state;
     default:
       return state;
   }

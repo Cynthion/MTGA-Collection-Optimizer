@@ -16,14 +16,15 @@ import {
 import { missingCardsRoutes } from './missing-cards.routing';
 
 import {
-  MISSING_CARDS_PAGE_STATE_FEATURE_NAME,
+  MISSING_CARDS_FEATURE_NAME,
   MissingCardsPageInitializationGuard,
   MissingCardsPageComponent,
   MissingCardsPageEffects,
   missingCardsPageReducer,
+  INVENTORY_FEATURE_NAME,
 } from './missing-cards-page';
 import {
-  InventoryComponent
+  InventoryComponent, InventoryEffects, inventoryReducer
 } from './missing-cards-page/inventory';
 
 const matModules = [
@@ -40,6 +41,11 @@ const components = [
   InventoryComponent,
 ];
 
+const effects = [
+  MissingCardsPageEffects,
+  InventoryEffects,
+];
+
 @NgModule({
   declarations: [
     ...components,
@@ -47,10 +53,9 @@ const components = [
   imports: [
     CommonModule,
     RouterModule.forChild(missingCardsRoutes),
-    EffectsModule.forFeature([
-      MissingCardsPageEffects,
-    ]),
-    StoreModule.forFeature(MISSING_CARDS_PAGE_STATE_FEATURE_NAME, missingCardsPageReducer),
+    StoreModule.forFeature(MISSING_CARDS_FEATURE_NAME, missingCardsPageReducer),
+    StoreModule.forFeature(INVENTORY_FEATURE_NAME, inventoryReducer),
+    EffectsModule.forFeature(effects),
     ...matModules,
   ],
   providers: [MissingCardsPageInitializationGuard],

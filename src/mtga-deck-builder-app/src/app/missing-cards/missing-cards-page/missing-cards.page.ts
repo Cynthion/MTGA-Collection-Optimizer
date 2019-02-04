@@ -4,7 +4,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { MissingCardsPageState, RootState, CardState, PlayerDeckState } from './missing-cards.state';
+import { MissingCardsPageState, CardState, PlayerDeckState, MissingCardsFeatureState } from './missing-cards.state';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -17,7 +17,6 @@ export class MissingCardsPageComponent implements OnInit {
 
   state$: Observable<MissingCardsPageState>;
 
-
   stickyColum = 'name';
   flexColumns: string[] = ['setCode', 'quantity'];
   deckColumns: string[] = [];
@@ -26,7 +25,7 @@ export class MissingCardsPageComponent implements OnInit {
   playerDecks: PlayerDeckState[];
 
   constructor(
-      private store: Store<RootState>,
+      private store: Store<MissingCardsFeatureState>,
       private actionsSubject: ActionsSubject,
     ) {
     this.state$ = store.select(s => s.missingCardsPage);

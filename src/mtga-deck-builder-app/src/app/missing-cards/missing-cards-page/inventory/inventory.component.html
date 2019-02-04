@@ -1,23 +1,18 @@
-<mat-card>
-  <mat-card-content>
-    <div class="flex-container">
-      <div class="wc-container">
-        <img src="assets/img/wcMythic.png">
-        {{ (state$ | async).wildcardMythic }}
-      </div>
-      <div class="wc-container">
-        <img src="assets/img/wcRare.png">
-        {{ (state$ | async).wildcardRare }}
-      </div>
-      <div class="wc-container">
-        <img src="assets/img/wcUncommon.png">
-        {{ (state$ | async).wildcardUncommon }}
-      </div>
-      <div class="wc-container">
-        <img src="assets/img/wcCommon.png">
-        {{ (state$ | async).wildcardCommon }}
-      </div>
-    </div>
-
-  </mat-card-content>
-</mat-card>
+<div class="flex-container">
+  <div class="wc-container">
+    <img src="assets/img/wcMythic.png">
+    <div class="count">{{ (state$ | async).wildcardMythic }}</div>
+  </div>
+  <div class="wc-container">
+    <img src="assets/img/wcRare.png">
+    <div class="count">{{ (state$ | async).wildcardRare }}</div>
+  </div>
+  <div class="wc-container">
+    <img src="assets/img/wcUncommon.png">
+    <div class="count">{{ (state$ | async).wildcardUncommon }}</div>
+  </div>
+  <div class="wc-container">
+    <img src="assets/img/wcCommon.png">
+    <div class="count">{{ (state$ | async).wildcardCommon }}</div>
+  </div>
+</div>

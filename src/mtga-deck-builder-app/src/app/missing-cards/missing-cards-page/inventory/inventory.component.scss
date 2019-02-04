@@ -2,6 +2,20 @@
   display: flex;
 
   .wc-container {
-    // flex: 0 1 auto;
+    display: flex;
+    padding-left: 20px;
+
+    img {
+      height: 60px;
+    }
+
+    .count {
+      align-self: flex-end;
+      margin-left: -10px;
+      margin-bottom: -10px;
+      font-size: 25px;
+      color: whitesmoke;
+      width: 30px;
+    }
   }
 }

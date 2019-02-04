@@ -8,6 +8,7 @@ import { MissingCardsActionTypes, InitializedMissingCardsPageAction, LoadMissing
 import { flatMap } from 'rxjs/operators';
 import { MissingCardsPageDto } from './missing-cards.state';
 import { internalApiGet } from 'src/app/util/http';
+import { LoadInventoryAction } from './inventory';
 
 @Injectable()
 export class MissingCardsPageEffects {
@@ -20,7 +21,10 @@ export class MissingCardsPageEffects {
         internalApiGet<MissingCardsPageDto>(
           this.http,
           'missingcards',
-          dto => [new InitializedMissingCardsPageAction(dto)]
+          dto => [
+            new LoadInventoryAction(),
+            new InitializedMissingCardsPageAction(dto),
+          ]
         )
       ),
     );

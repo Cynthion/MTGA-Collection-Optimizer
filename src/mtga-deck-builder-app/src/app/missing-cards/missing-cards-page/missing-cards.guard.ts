@@ -4,6 +4,7 @@ import { ActionsSubject } from '@ngrx/store';
 import { first, map } from 'rxjs/operators';
 
 import { LoadMissingCardsPageAction, MissingCardsActionTypes } from './missing-cards.actions';
+import { LoadInventoryAction, InventoryActionTypes } from './inventory';
 
 @Injectable()
 export class MissingCardsPageInitializationGuard implements CanActivate {

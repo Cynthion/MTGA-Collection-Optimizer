@@ -1,5 +1,23 @@
 <mat-card>
   <mat-card-content>
-    {{ state$ | async | json }}
+    <div class="flex-container">
+      <div class="wc-container">
+        <img src="assets/img/wcMythic.png">
+        {{ (state$ | async).wildcardMythic }}
+      </div>
+      <div class="wc-container">
+        <img src="assets/img/wcRare.png">
+        {{ (state$ | async).wildcardRare }}
+      </div>
+      <div class="wc-container">
+        <img src="assets/img/wcUncommon.png">
+        {{ (state$ | async).wildcardUncommon }}
+      </div>
+      <div class="wc-container">
+        <img src="assets/img/wcCommon.png">
+        {{ (state$ | async).wildcardCommon }}
+      </div>
+    </div>
+
   </mat-card-content>
 </mat-card>

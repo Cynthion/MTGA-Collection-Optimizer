@@ -35,7 +35,8 @@ namespace MtgaDeckBuilder.Api
                 // TODO move to executable directory
                 MtgaDeckBuilderDropFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MTGA Deck Builder"),
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
-                PlayerDecksCommand = "<== Deck.GetDeckLists"
+                PlayerDecksCommand = "<== Deck.GetDeckLists",
+                PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
             });
             services.AddSingleton<ILogParser, LogParser>();
             services.AddSingleton<ISetLoader, SetLoader>();

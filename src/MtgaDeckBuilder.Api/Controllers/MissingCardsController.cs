@@ -28,8 +28,13 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public ActionResult GetMissingCards()
         {
+            // TODO parse log async
+            // TODO optimize parsing: start from end of file
             var playerDecks = _logParser.ParsePlayerDecks();
             var playerCards = _logParser.ParsePlayerCards();
+
+            // TODO move to separate action method
+            var playerInventory = _logParser.ParsePlayerInventory();
 
             //var cardInfos = await _setLoader.LoadAllSetsAsync();
 

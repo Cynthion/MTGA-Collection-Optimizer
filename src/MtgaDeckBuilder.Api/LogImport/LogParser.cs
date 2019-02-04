@@ -65,7 +65,29 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerCards;
         }
 
-        private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader streamReader)
+        public LogPlayerInventory ParsePlayerInventory()
+        {
+            var logPlayerInventory = new LogPlayerInventory();
+            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(_configuration.PlayerInventoryCommand))
+                    {
+                        Logger.Info($"Found {nameof(_configuration.PlayerInventoryCommand)} on position {streamReader.BaseStream.Position}.");
+
+                        logPlayerInventory = ParsePlayerInventoryOccurrence(streamReader);
+                    }
+                } while (!streamReader.EndOfStream);
+            }
+
+            return logPlayerInventory;
+        }
+
+        private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader reader)
         {
             string outputLine;
             var json = string.Empty;
@@ -73,7 +95,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
             do
             {
-                outputLine = streamReader.ReadLine();
+                outputLine = reader.ReadLine();
                 json += outputLine;
                 deckOccurrenceLines.Add(outputLine);
             } while (outputLine != null && !outputLine.Equals("]"));
@@ -96,14 +118,14 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerDecks;
         }
 
-        private static IDictionary<long, short> ParsePlayerCardsOccurrence(TextReader streamReader)
+        private static IDictionary<long, short> ParsePlayerCardsOccurrence(TextReader reader)
         {
             string outputLine;
             var collectionOccurrenceLines = new List<string>();
 
             do
             {
-                outputLine = streamReader.ReadLine();
+                outputLine = reader.ReadLine();
                 collectionOccurrenceLines.Add(outputLine);
             } while (outputLine != null && !outputLine.Equals("}"));
 
@@ -126,6 +148,24 @@ namespace MtgaDeckBuilder.Api.LogImport
                 });
 
             return new Dictionary<long, short>(cards);
+        }
+
+        private static LogPlayerInventory ParsePlayerInventoryOccurrence(TextReader reader)
+        {
+            string outputLine;
+            var json = string.Empty;
+            var inventoryOccurrenceLines = new List<string>();
+
+            do
+            {
+                outputLine = reader.ReadLine();
+                json += outputLine;
+                inventoryOccurrenceLines.Add(outputLine);
+            } while (outputLine != null && !outputLine.Equals("}"));
+
+            var logPlayerInventory = JsonConvert.DeserializeObject<LogPlayerInventory>(json);
+
+            return logPlayerInventory;
         }
     }
 }

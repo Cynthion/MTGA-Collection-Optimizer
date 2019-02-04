@@ -9,5 +9,7 @@
         string PlayerCardsCommand { get; set; }
 
         string PlayerDecksCommand { get; set; }
+
+        string PlayerInventoryCommand { get; set; }
     }
 }

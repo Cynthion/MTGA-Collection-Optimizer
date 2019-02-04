@@ -1,15 +1,9 @@
 import { AppState } from 'src/app/app.state';
-import { InventoryState } from './inventory';
 
 export const MISSING_CARDS_FEATURE_NAME: keyof MissingCardsFeatureState = 'missingCardsPage';
-export const INVENTORY_FEATURE_NAME: keyof InventoryFeatureState = 'inventory';
 
 export interface MissingCardsFeatureState extends AppState {
   missingCardsPage: MissingCardsPageState;
-}
-
-export interface InventoryFeatureState extends AppState {
-  inventory: InventoryState;
 }
 
 export const rarityDictionary: { [rarity: string]: number } = {

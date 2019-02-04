@@ -1,3 +1,11 @@
+import { AppState } from 'src/app/app.state';
+
+export const INVENTORY_FEATURE_NAME: keyof InventoryFeatureState = 'inventory';
+
+export interface InventoryFeatureState extends AppState {
+  inventory: InventoryState;
+}
+
 export interface InventoryDto {
   wildcardCommon: number;
   wildcardUncommon: number;

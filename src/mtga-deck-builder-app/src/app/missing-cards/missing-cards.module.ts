@@ -16,15 +16,17 @@ import {
 import { missingCardsRoutes } from './missing-cards.routing';
 
 import {
-  MISSING_CARDS_FEATURE_NAME,
   MissingCardsPageInitializationGuard,
+  MISSING_CARDS_FEATURE_NAME,
   MissingCardsPageComponent,
   MissingCardsPageEffects,
   missingCardsPageReducer,
-  INVENTORY_FEATURE_NAME,
 } from './missing-cards-page';
 import {
-  InventoryComponent, InventoryEffects, inventoryReducer
+  INVENTORY_FEATURE_NAME,
+  InventoryComponent,
+  InventoryEffects,
+  inventoryReducer,
 } from './missing-cards-page/inventory';
 
 const matModules = [

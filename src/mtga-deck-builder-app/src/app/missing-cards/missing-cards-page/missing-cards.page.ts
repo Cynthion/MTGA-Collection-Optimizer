@@ -17,6 +17,7 @@ export class MissingCardsPageComponent implements OnInit {
 
   state$: Observable<MissingCardsPageState>;
 
+  // TODO make type to use keyof for type safety
   stickyColum = 'name';
   flexColumns: string[] = ['setCode', 'quantity'];
   deckColumns: string[] = [];
@@ -72,9 +73,9 @@ export class MissingCardsPageComponent implements OnInit {
     }
   }
 
-  getDeckCardCount(deck: PlayerDeckState, cardMultiverseId: number) {
-    return _.includes(deck.cards.map(c => c.multiverseId), cardMultiverseId)
-      ? deck.cards.filter(c => c.multiverseId === cardMultiverseId)[0].quantity
+  getRequiredCount(deck: PlayerDeckState, multiverseId: number) {
+    return _.includes(deck.cards.map(c => c.multiverseId), multiverseId)
+      ? deck.cards.filter(c => c.multiverseId === multiverseId)[0].requiredCount
       : '';
   }
 }

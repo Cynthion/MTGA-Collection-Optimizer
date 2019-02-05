@@ -17,9 +17,6 @@ export class InventoryComponent {
       private store: Store<InventoryFeatureState>,
       private actionsSubject: ActionsSubject,
     ) {
-    this.state$ = store.select(s => {
-      console.log(s.inventory);
-      return s.inventory;
-    });
+    this.state$ = store.select(s =>  s.inventory);
   }
 }

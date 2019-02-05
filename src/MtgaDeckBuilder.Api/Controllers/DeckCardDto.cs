@@ -2,7 +2,7 @@
 {
     public class DeckCardDto
     {
-        public long CardMultiverseId { get; set; }
+        public long MultiverseId { get; set; }
 
         public short RequiredCount { get; set; }
     }

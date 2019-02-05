@@ -8,6 +8,10 @@ import {
   CardState,
   PlayerDeckState,
   rarityDictionary,
+  CollectionCardState,
+  CollectionCardDto,
+  DeckCardDto,
+  DeckCardState,
 } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
@@ -17,12 +21,13 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
     case MissingCardsActionTypes.Initialized: {
       let allCardsStates: CardState[] = [];
 
-      const playerCardStates: CardState[] = action.dto.playerCards.map(enrichCardInfo);
-      allCardsStates.push(...playerCardStates);
+      const collectionCardStates: CollectionCardState[] = action.dto.playerCards.map(enrichToCollectionCardState);
+
+      allCardsStates.push(...collectionCardStates);
 
       const playerDecksState: PlayerDeckState[] = [];
       for (const playerDeckDto of action.dto.playerDecks) {
-        const deckCardStates: CardState[] = playerDeckDto.cards.map(enrichCardInfo);
+        const deckCardStates: DeckCardState[] = playerDeckDto.cards.map(enrichToDeckCardState);
         playerDecksState.push({
           ...playerDeckDto,
           cards: deckCardStates,
@@ -35,8 +40,9 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
 
       const newState: MissingCardsPageState = {
         ...action.dto,
+        ...state,
         playerDecks: playerDecksState,
-        playerCards: playerCardStates,
+        playerCards: collectionCardStates,
         allCards: allCardsStates,
       };
 
@@ -49,12 +55,20 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
   }
 }
 
-// TODO do this via a nested reducer
-function enrichCardInfo(cardDto: CardDto): CardState {
+function enrichToCollectionCardState(cardDto: CollectionCardDto): CollectionCardState {
   const mtgCard = mtgCardDb.findCard(cardDto.multiverseId);
   return ({
-    multiverseId: cardDto.multiverseId,
-    quantity: cardDto.quantity,
+    ...cardDto,
+    name: mtgCard.get('prettyName'),
+    rarity: rarityDictionary[mtgCard.get('rarity')],
+    setCode: mtgCard.get('set'),
+  });
+}
+
+function enrichToDeckCardState(cardDto: DeckCardDto): DeckCardState {
+  const mtgCard = mtgCardDb.findCard(cardDto.multiverseId);
+  return ({
+    ...cardDto,
     name: mtgCard.get('prettyName'),
     rarity: rarityDictionary[mtgCard.get('rarity')],
     setCode: mtgCard.get('set'),

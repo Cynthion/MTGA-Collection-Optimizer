@@ -15,19 +15,8 @@ export const rarityDictionary: { [rarity: string]: number } = {
   'Mythic Rare': 4,
 };
 
-export interface PlayerDeckDto {
-  id: string;
-  name: string;
-  cards: CardDto[];
-}
-
-export interface PlayerDeckState extends PlayerDeckDto {
-  cards: CardState[];
-}
-
 export interface CardDto {
   multiverseId: number;
-  quantity: number;
 }
 
 export interface CardState extends CardDto {
@@ -36,14 +25,40 @@ export interface CardState extends CardDto {
   setCode: string;
 }
 
+export interface CollectionCardDto extends CardDto {
+  ownedCount: number;
+}
+
+export interface CollectionCardState extends CollectionCardDto, CardState {
+
+}
+
+export interface DeckCardDto extends CardDto {
+  requiredCount: number;
+}
+
+export interface DeckCardState extends DeckCardDto, CardState {
+
+}
+
+export interface PlayerDeckDto {
+  id: string;
+  name: string;
+  cards: DeckCardDto[];
+}
+
+export interface PlayerDeckState extends PlayerDeckDto {
+  cards: DeckCardState[];
+}
+
 export interface MissingCardsPageDto {
   playerDecks: PlayerDeckDto[];
-  playerCards: CardDto[];
+  playerCards: CollectionCardDto[];
 }
 
 export interface MissingCardsPageState extends MissingCardsPageDto {
   playerDecks: PlayerDeckState[];
-  playerCards: CardState[];
+  playerCards: CollectionCardState[];
   allCards: CardState[];
 }
 

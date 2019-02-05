@@ -2,7 +2,7 @@
 {
     public class CollectionCardDto
     {
-        public long CardMultiverseId { get; set; }
+        public long MultiverseId { get; set; }
 
         public short OwnedCount { get; set; }
     }

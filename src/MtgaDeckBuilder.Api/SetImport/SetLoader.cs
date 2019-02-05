@@ -64,7 +64,7 @@ namespace MtgaDeckBuilder.Api.SetImport
 
                     foreach (var cardInfo in setCardInfos)
                     {
-                        // handle double-faced cards that have same CardMultiverseId
+                        // handle double-faced cards that have same MultiverseId
                         if (!cardInfoDictionary.ContainsKey(cardInfo.MultiverseId))
                         {
                             cardInfoDictionary.Add(cardInfo.MultiverseId, cardInfo);

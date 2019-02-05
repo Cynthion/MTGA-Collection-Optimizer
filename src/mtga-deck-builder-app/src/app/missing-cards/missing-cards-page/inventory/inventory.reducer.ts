@@ -5,14 +5,10 @@ export function inventoryReducer(state = initialInventoryState, action: Inventor
   switch (action.type) {
 
     case InventoryActionTypes.Initialized: {
-      const newState = {
+      return {
         ...state,
         ...action.dto,
       };
-
-      console.log(newState);
-
-      return newState;
     }
 
     default: {

@@ -2,6 +2,8 @@
 {
     public class InventoryDto
     {
+        public string PlayerName { get; set; }
+
         public int WildcardCommon { get; set; }
 
         public int WildcardUncommon { get; set; }

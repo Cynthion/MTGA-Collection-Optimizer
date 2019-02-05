@@ -37,6 +37,7 @@ namespace MtgaDeckBuilder.Api
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckLists",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
+                PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });
             services.AddSingleton<ILogParser, LogParser>();
             services.AddSingleton<ISetLoader, SetLoader>();

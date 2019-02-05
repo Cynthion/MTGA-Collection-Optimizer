@@ -32,7 +32,8 @@ namespace MtgaDeckBuilder.Api.LogImport
 
                     if (outputLine != null && outputLine.Contains(_configuration.PlayerDecksCommand))
                     {
-                        Logger.Info($"Found {nameof(_configuration.PlayerDecksCommand)} on position {streamReader.BaseStream.Position}.");
+                        Logger.Info(
+                            $"Found {nameof(_configuration.PlayerDecksCommand)} on position {streamReader.BaseStream.Position}.");
 
                         playerDecks = ParsePlayerDeckOccurrence(streamReader).ToList();
                     }
@@ -55,7 +56,8 @@ namespace MtgaDeckBuilder.Api.LogImport
 
                     if (outputLine != null && outputLine.Contains(_configuration.PlayerCardsCommand))
                     {
-                        Logger.Info($"Found {nameof(_configuration.PlayerCardsCommand)} on position {streamReader.BaseStream.Position}.");
+                        Logger.Info(
+                            $"Found {nameof(_configuration.PlayerCardsCommand)} on position {streamReader.BaseStream.Position}.");
 
                         playerCards = new Dictionary<long, short>(ParsePlayerCardsOccurrence(streamReader));
                     }
@@ -77,7 +79,8 @@ namespace MtgaDeckBuilder.Api.LogImport
 
                     if (outputLine != null && outputLine.Contains(_configuration.PlayerInventoryCommand))
                     {
-                        Logger.Info($"Found {nameof(_configuration.PlayerInventoryCommand)} on position {streamReader.BaseStream.Position}.");
+                        Logger.Info(
+                            $"Found {nameof(_configuration.PlayerInventoryCommand)} on position {streamReader.BaseStream.Position}.");
 
                         logPlayerInventory = ParsePlayerInventoryOccurrence(streamReader);
                     }
@@ -87,17 +90,42 @@ namespace MtgaDeckBuilder.Api.LogImport
             return logPlayerInventory;
         }
 
+        public string ParsePlayerName()
+        {
+            var playerName = "Unknown Player";
+            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(_configuration.PlayerNameCommand))
+                    {
+                        Logger.Info(
+                            $"Found {nameof(_configuration.PlayerNameCommand)} on position {streamReader.BaseStream.Position}.");
+
+                        var routeIdx = outputLine.IndexOf('#');
+                        var nameCmdLength = _configuration.PlayerNameCommand.Length;
+
+                        playerName = outputLine.Substring(nameCmdLength, routeIdx - nameCmdLength);
+                        break;
+                    }
+                } while (!streamReader.EndOfStream);
+            }
+
+            return playerName;
+        }
+
         private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader reader)
         {
             string outputLine;
             var json = string.Empty;
-            var deckOccurrenceLines = new List<string>();
 
             do
             {
                 outputLine = reader.ReadLine();
                 json += outputLine;
-                deckOccurrenceLines.Add(outputLine);
             } while (outputLine != null && !outputLine.Equals("]"));
 
             var logDecks = JsonConvert.DeserializeObject<IEnumerable<LogDeck>>(json);
@@ -154,13 +182,11 @@ namespace MtgaDeckBuilder.Api.LogImport
         {
             string outputLine;
             var json = string.Empty;
-            var inventoryOccurrenceLines = new List<string>();
 
             do
             {
                 outputLine = reader.ReadLine();
                 json += outputLine;
-                inventoryOccurrenceLines.Add(outputLine);
             } while (outputLine != null && !outputLine.Equals("}"));
 
             var logPlayerInventory = JsonConvert.DeserializeObject<LogPlayerInventory>(json);

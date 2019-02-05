@@ -1,21 +1,33 @@
 .flex-container {
+  width: 100%;
   display: flex;
+  justify-content: space-between;
 
-  .wc-container {
-    display: flex;
-    padding-left: 20px;
-
-    img {
-      height: 60px;
+  .name-container {
+    .name {
+      font-size: 30px;
     }
+  }
 
-    .count {
-      align-self: flex-end;
-      margin-left: -10px;
-      margin-bottom: -10px;
-      font-size: 25px;
-      color: whitesmoke;
-      width: 30px;
+  .wcs-container {
+    display: flex;
+    
+    .wc-container {
+      padding-left: 20px;
+      display: flex;
+  
+      img {
+        height: 60px;
+      }
+  
+      .count {
+        align-self: flex-end;
+        margin-left: -10px;
+        margin-bottom: -10px;
+        font-size: 25px;
+        color: whitesmoke;
+        width: 30px;
+      }
     }
   }
 }

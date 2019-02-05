@@ -11,5 +11,7 @@
         public string PlayerDecksCommand { get; set; }
 
         public string PlayerInventoryCommand { get; set; }
+
+        public string PlayerNameCommand { get; set; }
     }
 }

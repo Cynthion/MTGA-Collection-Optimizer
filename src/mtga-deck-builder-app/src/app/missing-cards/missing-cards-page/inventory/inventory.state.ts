@@ -7,6 +7,7 @@ export interface InventoryFeatureState extends AppState {
 }
 
 export interface InventoryDto {
+  playerName: string;
   wildcardCommon: number;
   wildcardUncommon: number;
   wildcardRare: number;
@@ -21,6 +22,7 @@ export interface InventoryState extends InventoryDto {
 }
 
 export const initialInventoryState: InventoryState = {
+  playerName: '',
   wildcardCommon: 0,
   wildcardUncommon: 0,
   wildcardRare: 0,

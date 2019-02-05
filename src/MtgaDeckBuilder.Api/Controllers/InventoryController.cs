@@ -17,11 +17,12 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public ActionResult GetInventory()
         {
-            // TODO ensure there is no lock with the other parsing
+            var playerName = _logParser.ParsePlayerName();
             var playerInventory = _logParser.ParsePlayerInventory();
 
             var dto = new InventoryDto
             {
+                PlayerName = playerName,
                 WildcardCommon = playerInventory.WcCommon,
                 WildcardUncommon = playerInventory.WcUncommon,
                 WildcardRare = playerInventory.WcRare,

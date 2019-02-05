@@ -5,10 +5,10 @@ namespace MtgaDeckBuilder.Api.LogImport
 {
     public interface ILogParser
     {
-        IEnumerable<PlayerDeck> ParsePlayerDecks();
-
         IDictionary<long, short> ParsePlayerCards();
 
+        IEnumerable<PlayerDeck> ParsePlayerDecks();
+        
         LogPlayerInventory ParsePlayerInventory();
 
         string ParsePlayerName();

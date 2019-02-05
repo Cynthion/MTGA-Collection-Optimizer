@@ -30,31 +30,31 @@ namespace MtgaDeckBuilder.Api.Controllers
         {
             // TODO parse log async
             // TODO optimize parsing: start from end of file
-            var playerDecks = _logParser.ParsePlayerDecks();
             var playerCards = _logParser.ParsePlayerCards();
+            var playerDecks = _logParser.ParsePlayerDecks();
             
             //var cardInfos = await _setLoader.LoadAllSetsAsync();
 
             var dto = new MissingCardsPageDto
             {
+                PlayerCards = playerCards.Select(c => new CollectionCardDto
+                {
+                    CardMultiverseId = c.Key,
+                    OwnedCount = c.Value
+                }).ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
                     {
                         Id = d.Id,
                         Name = d.Name,
-                        Cards = d.Cards.Select(c => new CardDto
+                        Cards = d.Cards.Select(c => new DeckCardDto
                         {
-                            MultiverseId = c.Key,
-                            Quantity = c.Value
+                            CardMultiverseId = c.Key,
+                            RequiredCount = c.Value
                         }).ToArray()
                     })
                     .Where(d => !d.Name.Contains("?=?"))
                     .OrderBy(d => d.Name)
-                    .ToArray(),
-                PlayerCards = playerCards.Select(c => new CardDto
-                {
-                    MultiverseId = c.Key,
-                    Quantity = c.Value
-                }).ToArray()
+                    .ToArray()
             };
 
             return Ok(dto);

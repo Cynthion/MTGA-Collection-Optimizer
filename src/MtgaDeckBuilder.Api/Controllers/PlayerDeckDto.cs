@@ -8,6 +8,6 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         public string Name { get; set; }
 
-        public IList<CardDto> Cards { get; set; }
+        public IList<DeckCardDto> Cards { get; set; }
     }
 }

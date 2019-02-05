@@ -19,30 +19,6 @@ namespace MtgaDeckBuilder.Api.LogImport
             _configuration = configuration;
         }
 
-        public IEnumerable<PlayerDeck> ParsePlayerDecks()
-        {
-            var playerDecks = new List<PlayerDeck>();
-
-            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
-            using (var streamReader = new StreamReader(fileStream))
-            {
-                do
-                {
-                    var outputLine = streamReader.ReadLine();
-
-                    if (outputLine != null && outputLine.Contains(_configuration.PlayerDecksCommand))
-                    {
-                        Logger.Info(
-                            $"Found {nameof(_configuration.PlayerDecksCommand)} on position {streamReader.BaseStream.Position}.");
-
-                        playerDecks = ParsePlayerDeckOccurrence(streamReader).ToList();
-                    }
-                } while (!streamReader.EndOfStream);
-            }
-
-            return playerDecks;
-        }
-
         public IDictionary<long, short> ParsePlayerCards()
         {
             var playerCards = new Dictionary<long, short>();
@@ -65,6 +41,30 @@ namespace MtgaDeckBuilder.Api.LogImport
             }
 
             return playerCards;
+        }
+
+        public IEnumerable<PlayerDeck> ParsePlayerDecks()
+        {
+            var playerDecks = new List<PlayerDeck>();
+
+            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(_configuration.PlayerDecksCommand))
+                    {
+                        Logger.Info(
+                            $"Found {nameof(_configuration.PlayerDecksCommand)} on position {streamReader.BaseStream.Position}.");
+
+                        playerDecks = ParsePlayerDeckOccurrence(streamReader).ToList();
+                    }
+                } while (!streamReader.EndOfStream);
+            }
+
+            return playerDecks;
         }
 
         public LogPlayerInventory ParsePlayerInventory()
@@ -117,35 +117,6 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerName;
         }
 
-        private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader reader)
-        {
-            string outputLine;
-            var json = string.Empty;
-
-            do
-            {
-                outputLine = reader.ReadLine();
-                json += outputLine;
-            } while (outputLine != null && !outputLine.Equals("]"));
-
-            var logDecks = JsonConvert.DeserializeObject<IEnumerable<LogDeck>>(json);
-
-            var playerDecks = logDecks.Select(d =>
-            {
-                var cards = d.MainDeck.Select(c => new KeyValuePair<long, short>(long.Parse(c.Id), c.Quantity));
-                var deckCards = new Dictionary<long, short>(cards);
-
-                return new PlayerDeck
-                {
-                    Id = d.Id,
-                    Name = d.Name,
-                    Cards = deckCards
-                };
-            });
-
-            return playerDecks;
-        }
-
         private static IDictionary<long, short> ParsePlayerCardsOccurrence(TextReader reader)
         {
             string outputLine;
@@ -176,6 +147,35 @@ namespace MtgaDeckBuilder.Api.LogImport
                 });
 
             return new Dictionary<long, short>(cards);
+        }
+
+        private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader reader)
+        {
+            string outputLine;
+            var json = string.Empty;
+
+            do
+            {
+                outputLine = reader.ReadLine();
+                json += outputLine;
+            } while (outputLine != null && !outputLine.Equals("]"));
+
+            var logDecks = JsonConvert.DeserializeObject<IEnumerable<LogDeck>>(json);
+
+            var playerDecks = logDecks.Select(d =>
+            {
+                var cards = d.MainDeck.Select(c => new KeyValuePair<long, short>(long.Parse(c.Id), c.Quantity));
+                var deckCards = new Dictionary<long, short>(cards);
+
+                return new PlayerDeck
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Cards = deckCards
+                };
+            });
+
+            return playerDecks;
         }
 
         private static LogPlayerInventory ParsePlayerInventoryOccurrence(TextReader reader)

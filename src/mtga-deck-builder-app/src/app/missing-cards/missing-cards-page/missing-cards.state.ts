@@ -25,12 +25,17 @@ export interface CardState extends CardDto {
   setCode: string;
 }
 
-export interface CollectionCardDto extends CardDto {
+
+export interface PlayerCardDto extends CardDto {
   ownedCount: number;
 }
 
-export interface CollectionCardState extends CollectionCardDto, CardState {
+export interface PlayerCardState extends PlayerCardDto, CardState {
 
+}
+
+export interface CollectionCardState extends PlayerCardState {
+  missingCount: number;
 }
 
 export interface DeckCardDto extends CardDto {
@@ -53,17 +58,17 @@ export interface PlayerDeckState extends PlayerDeckDto {
 
 export interface MissingCardsPageDto {
   playerDecks: PlayerDeckDto[];
-  playerCards: CollectionCardDto[];
+  playerCards: PlayerCardDto[];
 }
 
 export interface MissingCardsPageState extends MissingCardsPageDto {
   playerDecks: PlayerDeckState[];
-  playerCards: CollectionCardState[];
-  allCards: CardState[];
+  playerCards: PlayerCardState[];
+  collectionCards: CollectionCardState[];
 }
 
 export const initialMissingCardsPageState: MissingCardsPageState = {
   playerDecks: [],
   playerCards: [],
-  allCards: [],
+  collectionCards: [],
 };

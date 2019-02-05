@@ -8,10 +8,11 @@ import {
   CardState,
   PlayerDeckState,
   rarityDictionary,
-  CollectionCardState,
-  CollectionCardDto,
+  PlayerCardState,
+  PlayerCardDto,
   DeckCardDto,
   DeckCardState,
+  CollectionCardState,
 } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
@@ -19,31 +20,60 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
   switch (action.type) {
 
     case MissingCardsActionTypes.Initialized: {
-      let allCardsStates: CardState[] = [];
+      let collectionCardStates: CollectionCardState[] = [];
 
-      const collectionCardStates: CollectionCardState[] = action.dto.playerCards.map(enrichToCollectionCardState);
+      // enrich player cards, then convert to collection cards
+      const playerCardStates: PlayerCardState[] = action.dto.playerCards.map(enrichToCollectionCardState);
+      const collectionPlayerCardStates: CollectionCardState[] = playerCardStates.map(playerCardState => {
+        return {
+          ...playerCardState,
+          missingCount: 0,
+        } as CollectionCardState;
+      });
+      collectionCardStates.push(...collectionPlayerCardStates);
 
-      allCardsStates.push(...collectionCardStates);
-
+      // enrich deck cards, then convert to collection cards
       const playerDecksState: PlayerDeckState[] = [];
+      const allDeckCardStates: DeckCardState[] = [];
       for (const playerDeckDto of action.dto.playerDecks) {
         const deckCardStates: DeckCardState[] = playerDeckDto.cards.map(enrichToDeckCardState);
         playerDecksState.push({
           ...playerDeckDto,
           cards: deckCardStates,
         });
-        allCardsStates.push(...deckCardStates);
+        allDeckCardStates.push(...deckCardStates);
       }
+      const collectionDeckCardState: CollectionCardState[] = allDeckCardStates.map(deckCardState => {
+        // if player has card, then take its owned count
+        const playerCard = playerCardStates.find(c => c.multiverseId === deckCardState.multiverseId);
+        const ownedCount = playerCard && playerCard.ownedCount || 0;
 
-      allCardsStates = _.uniqBy(allCardsStates, c => c.multiverseId);
-      allCardsStates = _.orderBy(allCardsStates, ['rarity', 'name'], ['desc', 'asc']);
+        // find max required count in all decks
+        const maxRequiredCount = _.max(allDeckCardStates
+          .filter(c => c.multiverseId === deckCardState.multiverseId).map(c => c.requiredCount));
+        const missingCount = maxRequiredCount - ownedCount;
+
+        return {
+          ...deckCardState,
+          ownedCount,
+          missingCount,
+        } as CollectionCardState;
+      });
+      collectionCardStates.push(...collectionDeckCardState);
+
+      // TODO ensure correct duplicate is filtered
+      // filter duplicates, take the card with bigger missing count since player cards are initialized to 0
+      collectionCardStates = _.orderBy(collectionCardStates, ['multiverseId', 'missingCount'], ['asc', 'desc']);
+      collectionCardStates = _.uniqBy(collectionCardStates, c => c.multiverseId);
+
+      collectionCardStates = _.orderBy(collectionCardStates, ['rarity', 'name'], ['desc', 'asc']);
 
       const newState: MissingCardsPageState = {
         ...action.dto,
         ...state,
         playerDecks: playerDecksState,
-        playerCards: collectionCardStates,
-        allCards: allCardsStates,
+        playerCards: playerCardStates,
+        collectionCards: collectionCardStates,
       };
 
       return newState;
@@ -55,20 +85,20 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
   }
 }
 
-function enrichToCollectionCardState(cardDto: CollectionCardDto): CollectionCardState {
-  const mtgCard = mtgCardDb.findCard(cardDto.multiverseId);
+function enrichToCollectionCardState(playerCardDto: PlayerCardDto): PlayerCardState {
+  const mtgCard = mtgCardDb.findCard(playerCardDto.multiverseId);
   return ({
-    ...cardDto,
+    ...playerCardDto,
     name: mtgCard.get('prettyName'),
     rarity: rarityDictionary[mtgCard.get('rarity')],
     setCode: mtgCard.get('set'),
   });
 }
 
-function enrichToDeckCardState(cardDto: DeckCardDto): DeckCardState {
-  const mtgCard = mtgCardDb.findCard(cardDto.multiverseId);
+function enrichToDeckCardState(deckCardDto: DeckCardDto): DeckCardState {
+  const mtgCard = mtgCardDb.findCard(deckCardDto.multiverseId);
   return ({
-    ...cardDto,
+    ...deckCardDto,
     name: mtgCard.get('prettyName'),
     rarity: rarityDictionary[mtgCard.get('rarity')],
     setCode: mtgCard.get('set'),

@@ -37,7 +37,7 @@ namespace MtgaDeckBuilder.Api.Controllers
 
             var dto = new MissingCardsPageDto
             {
-                PlayerCards = playerCards.Select(c => new CollectionCardDto
+                PlayerCards = playerCards.Select(c => new PlayerCardDto
                 {
                     MultiverseId = c.Key,
                     OwnedCount = c.Value

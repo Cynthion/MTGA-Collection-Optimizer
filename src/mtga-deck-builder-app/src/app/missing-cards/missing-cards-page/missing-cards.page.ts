@@ -4,7 +4,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { MissingCardsPageState, CardState, PlayerDeckState, MissingCardsFeatureState } from './missing-cards.state';
+import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -17,12 +17,12 @@ export class MissingCardsPageComponent implements OnInit {
 
   state$: Observable<MissingCardsPageState>;
 
-  // TODO make type to use keyof for type safety
-  stickyColum = 'name';
-  flexColumns: string[] = ['setCode', 'quantity'];
+  stickyColum: keyof CollectionCardState = 'name';
+  flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
   deckColumns: string[] = [];
   columnsToDisplay: string[];
-  dataSource: MatTableDataSource<CardState>;
+
+  dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
 
   constructor(
@@ -32,11 +32,11 @@ export class MissingCardsPageComponent implements OnInit {
     this.state$ = store.select(s => s.missingCardsPage);
 
     this.state$.subscribe(s => {
-      this.dataSource = new MatTableDataSource(s.allCards);
+      this.dataSource = new MatTableDataSource(s.collectionCards);
       this.playerDecks = s.playerDecks;
 
       this.deckColumns = s.playerDecks.map(d => d.name);
-      this.columnsToDisplay = [this.stickyColum].concat(this.flexColumns).concat(this.deckColumns);
+      this.columnsToDisplay = [this.stickyColum.toString()].concat(this.flexColumns).concat(this.deckColumns);
     });
   }
 
@@ -53,15 +53,16 @@ export class MissingCardsPageComponent implements OnInit {
     }
   }
 
-  getColumnName(columnName: string): string {
+  getColumnName(columnName: keyof CollectionCardState): string {
     switch (columnName) {
       case 'name': return 'Card Name (Owned & Missing)';
       case 'setCode': return 'Set';
-      case 'quantity': return 'Quantity Owned';
+      case 'ownedCount': return 'Owned';
+      case 'missingCount': return 'Missing';
     }
   }
 
-  getRarityClass(columnName: string, card: CardState): string {
+  getRarityClass(columnName: keyof CollectionCardState, card: CollectionCardState): string {
     if (columnName === 'name') {
       switch (card.rarity) {
         case 4: return 'mythic';

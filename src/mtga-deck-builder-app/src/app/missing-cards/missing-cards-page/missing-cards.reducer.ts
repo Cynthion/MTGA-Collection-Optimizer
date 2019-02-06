@@ -43,6 +43,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
         });
         allDeckCardStates.push(...deckCardStates);
       }
+      // TODO maybe already filter for duplicates in deck cards here
       const collectionDeckCardState: CollectionCardState[] = allDeckCardStates.map(deckCardState => {
         // if player has card, then take its owned count
         const playerCard = playerCardStates.find(c => c.multiverseId === deckCardState.multiverseId);
@@ -62,9 +63,10 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       collectionCardStates.push(...collectionDeckCardState);
 
       // TODO ensure correct duplicate is filtered
+      // check Connive // Concoct, Blood Crypt, Camaraderie
       // filter duplicates, take the card with bigger missing count since player cards are initialized to 0
-      collectionCardStates = _.orderBy(collectionCardStates, ['multiverseId', 'missingCount'], ['asc', 'desc']);
-      collectionCardStates = _.uniqBy(collectionCardStates, c => c.multiverseId);
+      // collectionCardStates = _.orderBy(collectionCardStates, ['multiverseId', 'missingCount'], ['asc', 'desc']);
+      // collectionCardStates = _.uniqBy(collectionCardStates, c => c.multiverseId);
 
       collectionCardStates = _.orderBy(collectionCardStates, ['rarity', 'name'], ['desc', 'asc']);
 

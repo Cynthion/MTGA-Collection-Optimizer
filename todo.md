@@ -1,6 +1,6 @@
 # Features
-- [ ] enable CORS for electro
-- [ ] avoid log file lock by MTGA
+- [ ] enable CORS for electron
+- [X] avoid log file lock by MTGA
 - [ ] parse log files async
 - [ ] parse log files from end of file
 - [ ] add loading bar
@@ -12,4 +12,4 @@
 - [ ] filter by class (vampire, etc.)
 
 # Bugs
-- [ ] check 'Blood Crypt' quantity
+- [X] check 'Blood Crypt' quantity

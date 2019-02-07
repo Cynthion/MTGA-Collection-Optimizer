@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MtgaDeckBuilder.Api.Configuration;
@@ -21,100 +22,27 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public IDictionary<long, short> ParsePlayerCards()
         {
-            var playerCards = new Dictionary<long, short>();
-
-            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
-            using (var streamReader = new StreamReader(fileStream))
-            {
-                do
-                {
-                    var outputLine = streamReader.ReadLine();
-
-                    if (outputLine != null && outputLine.Contains(_configuration.PlayerCardsCommand))
-                    {
-                        Logger.Info(
-                            $"Found {nameof(_configuration.PlayerCardsCommand)} on position {streamReader.BaseStream.Position}.");
-
-                        playerCards = new Dictionary<long, short>(ParsePlayerCardsOccurrence(streamReader));
-                    }
-                } while (!streamReader.EndOfStream);
-            }
-
-            return playerCards;
+            return ParseLog(_configuration.PlayerCardsCommand, ParsePlayerCardsOccurrence);
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
-            var playerDecks = new List<PlayerDeck>();
-
-            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
-            using (var streamReader = new StreamReader(fileStream))
-            {
-                do
-                {
-                    var outputLine = streamReader.ReadLine();
-
-                    if (outputLine != null && outputLine.Contains(_configuration.PlayerDecksCommand))
-                    {
-                        Logger.Info(
-                            $"Found {nameof(_configuration.PlayerDecksCommand)} on position {streamReader.BaseStream.Position}.");
-
-                        playerDecks = ParsePlayerDeckOccurrence(streamReader).ToList();
-                    }
-                } while (!streamReader.EndOfStream);
-            }
-
-            return playerDecks;
+            return ParseLog(_configuration.PlayerDecksCommand, ParsePlayerDeckOccurrence);
         }
 
         public LogPlayerInventory ParsePlayerInventory()
         {
-            var logPlayerInventory = new LogPlayerInventory();
-            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
-            using (var streamReader = new StreamReader(fileStream))
-            {
-                do
-                {
-                    var outputLine = streamReader.ReadLine();
-
-                    if (outputLine != null && outputLine.Contains(_configuration.PlayerInventoryCommand))
-                    {
-                        Logger.Info(
-                            $"Found {nameof(_configuration.PlayerInventoryCommand)} on position {streamReader.BaseStream.Position}.");
-
-                        logPlayerInventory = ParsePlayerInventoryOccurrence(streamReader);
-                    }
-                } while (!streamReader.EndOfStream);
-            }
-
-            return logPlayerInventory;
+            return ParseLog(_configuration.PlayerInventoryCommand, ParsePlayerInventoryOccurrence);
         }
 
         public string ParsePlayerName()
         {
-            var playerName = "Unknown Player";
-            using (var fileStream = File.OpenRead(_configuration.OutputLogPath))
-            using (var streamReader = new StreamReader(fileStream))
-            {
-                do
-                {
-                    var outputLine = streamReader.ReadLine();
+            var nameLine = FindLineContainingCommand(_configuration.PlayerNameCommand);
 
-                    if (outputLine != null && outputLine.Contains(_configuration.PlayerNameCommand))
-                    {
-                        Logger.Info(
-                            $"Found {nameof(_configuration.PlayerNameCommand)} on position {streamReader.BaseStream.Position}.");
+            var routeIdx = nameLine.IndexOf('#');
+            var nameCmdLength = _configuration.PlayerNameCommand.Length;
 
-                        var routeIdx = outputLine.IndexOf('#');
-                        var nameCmdLength = _configuration.PlayerNameCommand.Length;
-
-                        playerName = outputLine.Substring(nameCmdLength, routeIdx - nameCmdLength);
-                        break;
-                    }
-                } while (!streamReader.EndOfStream);
-            }
-
-            return playerName;
+            return nameLine.Substring(nameCmdLength, routeIdx - nameCmdLength);
         }
 
         private static IDictionary<long, short> ParsePlayerCardsOccurrence(TextReader reader)
@@ -192,6 +120,50 @@ namespace MtgaDeckBuilder.Api.LogImport
             var logPlayerInventory = JsonConvert.DeserializeObject<LogPlayerInventory>(json);
 
             return logPlayerInventory;
+        }
+
+        private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
+        {
+            using (var fileStream = new FileStream(_configuration.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                var result = default(TResult);
+
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                    {
+                        Logger.Info($"Found {nameof(occurrenceCommand)} occurrence on position {streamReader.BaseStream.Position}.");
+
+                        result = occurrenceAction(streamReader);
+                    }
+                } while (!streamReader.EndOfStream);
+
+                return result;
+            }
+        }
+
+        private string FindLineContainingCommand(string occurrenceCommand)
+        {
+            using (var fileStream = new FileStream(_configuration.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                    {
+                        Logger.Info($"Found {nameof(occurrenceCommand)} occurrence on position {streamReader.BaseStream.Position}.");
+
+                        return outputLine;
+                    }
+                } while (!streamReader.EndOfStream);
+
+                return string.Empty;
+            }
         }
     }
 }

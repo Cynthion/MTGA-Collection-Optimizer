@@ -13,7 +13,6 @@ import {
   CollectionCardState,
 } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
-import { parseCookieValue } from '@angular/common/src/cookie';
 
 export function missingCardsPageReducer(state = initialMissingCardsPageState, action: MissingCardsActions): MissingCardsPageState {
   switch (action.type) {

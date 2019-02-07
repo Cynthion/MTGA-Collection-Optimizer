@@ -16,7 +16,7 @@ export const rarityDictionary: { [rarity: string]: number } = {
 };
 
 export interface CardDto {
-  multiverseId: number;
+  mtgaId: number;
 }
 
 export interface CardState extends CardDto {
@@ -24,7 +24,6 @@ export interface CardState extends CardDto {
   rarity: number;
   setCode: string;
 }
-
 
 export interface PlayerCardDto extends CardDto {
   ownedCount: number;

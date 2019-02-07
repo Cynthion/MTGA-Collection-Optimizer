@@ -1,8 +1,8 @@
 ﻿namespace MtgaDeckBuilder.Api.Controllers
 {
-    public class PlayerCardDto
+    public class PlayerCardDto : IMtgaCard
     {
-        public long MultiverseId { get; set; }
+        public long MtgaId { get; set; }
 
         public short OwnedCount { get; set; }
     }

@@ -39,7 +39,7 @@ namespace MtgaDeckBuilder.Api.Controllers
             {
                 PlayerCards = playerCards.Select(c => new PlayerCardDto
                 {
-                    MultiverseId = c.Key,
+                    MtgaId = c.Key,
                     OwnedCount = c.Value
                 }).ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
@@ -48,7 +48,7 @@ namespace MtgaDeckBuilder.Api.Controllers
                         Name = d.Name,
                         Cards = d.Cards.Select(c => new DeckCardDto
                         {
-                            MultiverseId = c.Key,
+                            MtgaId = c.Key,
                             RequiredCount = c.Value
                         }).ToArray()
                     })

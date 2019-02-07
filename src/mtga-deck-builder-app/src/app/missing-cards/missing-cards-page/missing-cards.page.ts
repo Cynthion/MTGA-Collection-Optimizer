@@ -74,9 +74,9 @@ export class MissingCardsPageComponent implements OnInit {
     }
   }
 
-  getRequiredCount(deck: PlayerDeckState, multiverseId: number) {
-    return _.includes(deck.cards.map(c => c.multiverseId), multiverseId)
-      ? deck.cards.find(c => c.multiverseId === multiverseId).requiredCount
+  getRequiredCount(deck: PlayerDeckState, mtgaId: number) {
+    return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
+      ? deck.cards.find(c => c.mtgaId === mtgaId).requiredCount
       : '';
   }
 }

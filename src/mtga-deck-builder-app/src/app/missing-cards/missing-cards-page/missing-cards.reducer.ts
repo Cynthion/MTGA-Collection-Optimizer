@@ -4,8 +4,6 @@ import * as _ from 'lodash';
 import {
   MissingCardsPageState,
   initialMissingCardsPageState,
-  CardDto,
-  CardState,
   PlayerDeckState,
   rarityDictionary,
   PlayerCardState,
@@ -23,7 +21,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
     case MissingCardsActionTypes.Initialized: {
       let collectionCardStates: CollectionCardState[] = [];
 
-      // enrich player cards, then convert to collection cards
+      // enrich player cards, then add to collection cards
       const playerCardStates: PlayerCardState[] = action.dto.playerCards.map(enrichToCollectionCardState);
       const collectionPlayerCardStates: CollectionCardState[] = playerCardStates.map(playerCardState => {
         return {
@@ -33,59 +31,36 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       });
       collectionCardStates.push(...collectionPlayerCardStates);
 
-      // enrich deck cards, then convert to collection cards
+      // enrich deck cards, then add to collection cards
       const playerDecksState: PlayerDeckState[] = [];
       for (const playerDeckDto of action.dto.playerDecks) {
-        const deckCardStates: DeckCardState[] = playerDeckDto.cards.map(dc => {
+        const deckCardStates: DeckCardState[] = playerDeckDto.cards.map(dcDto => {
           // if player has card, then take its owned count
-          const playerCard = playerCardStates.find(pc => pc.multiverseId === dc.multiverseId);
-          const ownedCount = playerCard && playerCard.ownedCount || 0;
+          const playerCardState = playerCardStates.find(pcState => pcState.mtgaId === dcDto.mtgaId);
+          const ownedCount = playerCardState && playerCardState.ownedCount || 0;
 
-          const deckCardState = this.enrichToDeckCardState(dc);
-          const collectionCardDuplicate = collectionCardStates.find(c => c.multiverseId === dc.multiverseId);
+          const dcState = enrichToDeckCardState(dcDto);
+          const collectionCardDuplicate = collectionCardStates.find(ccState => ccState.mtgaId === dcState.mtgaId);
           if (collectionCardDuplicate) {
-            collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, dc.requiredCount - ownedCount]);
+            // if collection already contains card, update missing count to max
+            collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, dcState.requiredCount - ownedCount]);
           } else {
+            // else add the new card to the collection
             collectionCardStates.push({
-              ...deckCardState,
-              missingCount: 0, // TODO
-              ownedCount: 0, // TODO
+              ...dcState,
+              missingCount: dcState.requiredCount - ownedCount,
+              ownedCount,
             });
           }
 
-          return deckCardState;
+          return dcState;
         });
+
         playerDecksState.push({
           ...playerDeckDto,
           cards: deckCardStates,
         });
-
-
       }
-      // TODO maybe already filter for duplicates in deck cards here
-      // const collectionDeckCardState: CollectionCardState[] = allDeckCardStates.map(deckCardState => {
-      //   // if player has card, then take its owned count
-      //   const playerCard = playerCardStates.find(c => c.multiverseId === deckCardState.multiverseId);
-      //   const ownedCount = playerCard && playerCard.ownedCount || 0;
-
-      //   // find max required count in all decks
-      //   const maxRequiredCount = _.max(allDeckCardStates
-      //     .filter(c => c.multiverseId === deckCardState.multiverseId).map(c => c.requiredCount));
-      //   const missingCount = maxRequiredCount - ownedCount;
-
-      //   return {
-      //     ...deckCardState,
-      //     ownedCount,
-      //     missingCount,
-      //   } as CollectionCardState;
-      // });
-      // collectionCardStates.push(...collectionDeckCardState);
-
-      // TODO ensure correct duplicate is filtered
-      // check Connive // Concoct, Blood Crypt, Camaraderie
-      // filter duplicates, take the card with bigger missing count since player cards are initialized to 0
-      // collectionCardStates = _.orderBy(collectionCardStates, ['multiverseId', 'missingCount'], ['asc', 'desc']);
-      // collectionCardStates = _.uniqBy(collectionCardStates, c => c.multiverseId);
 
       collectionCardStates = _.orderBy(collectionCardStates, ['rarity', 'name'], ['desc', 'asc']);
 
@@ -107,7 +82,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
 }
 
 function enrichToCollectionCardState(playerCardDto: PlayerCardDto): PlayerCardState {
-  const mtgCard = mtgCardDb.findCard(playerCardDto.multiverseId);
+  const mtgCard = mtgCardDb.findCard(playerCardDto.mtgaId);
   return ({
     ...playerCardDto,
     name: mtgCard.get('prettyName'),
@@ -117,7 +92,7 @@ function enrichToCollectionCardState(playerCardDto: PlayerCardDto): PlayerCardSt
 }
 
 function enrichToDeckCardState(deckCardDto: DeckCardDto): DeckCardState {
-  const mtgCard = mtgCardDb.findCard(deckCardDto.multiverseId);
+  const mtgCard = mtgCardDb.findCard(deckCardDto.mtgaId);
   return ({
     ...deckCardDto,
     name: mtgCard.get('prettyName'),

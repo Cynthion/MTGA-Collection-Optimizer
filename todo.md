@@ -7,7 +7,7 @@
 - [X] integrate player inventory to UI
 
 - [ ] drop location for new Card Set json file -> automatic installation
-- [ ] add filter clear button
+- [X] add filter clear button
 - [ ] filter by type (creature, enchantment, etc.)
 - [ ] filter by class (vampire, etc.)
 

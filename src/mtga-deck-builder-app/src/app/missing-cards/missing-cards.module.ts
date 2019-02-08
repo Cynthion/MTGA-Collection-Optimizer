@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import {
   MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
   MatInputModule,
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
-  MatCardModule,
 } from '@angular/material';
 
 import { missingCardsRoutes } from './missing-cards.routing';
@@ -31,11 +33,12 @@ import {
 
 const matModules = [
   MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
   MatInputModule,
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
-  MatCardModule,
 ];
 
 const components = [
@@ -54,6 +57,7 @@ const effects = [
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(missingCardsRoutes),
     StoreModule.forFeature(MISSING_CARDS_FEATURE_NAME, missingCardsPageReducer),
     StoreModule.forFeature(INVENTORY_FEATURE_NAME, inventoryReducer),

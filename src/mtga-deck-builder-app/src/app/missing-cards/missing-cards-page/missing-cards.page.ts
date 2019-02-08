@@ -16,6 +16,7 @@ export class MissingCardsPageComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   state$: Observable<MissingCardsPageState>;
+  filterValue: string;
 
   stickyColum: keyof CollectionCardState = 'name';
   flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
@@ -45,12 +46,17 @@ export class MissingCardsPageComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    this.dataSource.filter = this.filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  clearFilter() {
+    this.filterValue = '';
+    this.dataSource.filter = '';
   }
 
   getColumnName(columnName: keyof CollectionCardState): string {

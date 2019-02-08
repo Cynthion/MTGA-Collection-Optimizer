@@ -6,11 +6,18 @@
   </mat-card-header>
   <mat-card-content>
     
-    <mat-form-field>
+    <mat-form-field class="filter">
       <input 
         matInput
-        (keyup)="applyFilter($event.target.value)"
+        [(ngModel)]="filterValue"
+        (keyup)="applyFilter()"
         placeholder="Card Filter">
+      <button 
+        matSuffix mat-button color="primary"
+        *ngIf="filterValue"
+        (click)="clearFilter()">
+        Clear
+      </button>
     </mat-form-field>
 
     <div class="mat-elevation-z8 table-container">

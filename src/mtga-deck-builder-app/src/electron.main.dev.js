@@ -18,6 +18,8 @@ const createWindow = () => {
       icon: './src/favicon.ico',
       webPreferences: {
         nodeIntegration: false,
+        contextIsolation: true,
+        preload: './preload.js',
       }
     })
 

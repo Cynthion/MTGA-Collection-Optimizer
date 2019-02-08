@@ -5,6 +5,8 @@
 - [ ] parse log files from end of file
 - [ ] add loading bar
 - [X] integrate player inventory to UI
+- [ ] detect changes and push from backend
+- [ ] sound bleep upon required card is added to collection
 
 - [ ] drop location for new Card Set json file -> automatic installation
 - [X] add filter clear button

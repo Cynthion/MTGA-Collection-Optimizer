@@ -1,5 +1,6 @@
 # Features
 - [ ] enable CORS for electron
+- [ ] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [ ] parse log files async
 - [ ] parse log files from end of file

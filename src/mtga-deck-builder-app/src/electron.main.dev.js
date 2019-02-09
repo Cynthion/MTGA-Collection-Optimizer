@@ -64,8 +64,8 @@ app.on('ready', () => {
   });
 
   // attack backend .exe
-  // startApi();
-  createWindow();
+  startApi();
+  // createWindow();
 })
 
 // Quit when all windows are closed.
@@ -90,30 +90,34 @@ app.on('activate', function () {
 
 // .NET Core backend process
 // https://nodejs.org/api/child_process.html
-// function startApi() {
-//   var proc = require('child_process').spawn;
-//   //  run server
-//   var apipath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\dist\\win\\MtgaDeckBuilder.Api.exe')
-// //   if (os.platform() === 'darwin') {
-// //     apipath = path.join(__dirname, '..//api//bin//dist//osx//Api')
-// //   }
-//   apiProcess = proc(apipath)
-//   apiProcess.quit
+function startApi() {
+  const childProcess = require('child_process').spawn;
+  //  run server
+  // TODO for production, take .exe from .NET project /dist folder
+  // var backendExecutablePath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\dist\\win\\MtgaDeckBuilder.Api.exe')
+  var backendExecutablePath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\Debug\\netcoreapp2.2\\win10-x64\\MtgaDeckBuilder.Api.exe')
 
-//   apiProcess.stdout.on('data', (data) => {
-//     writeLog(`stdout: ${data}`);
-//     if (mainWindow == null) {
-//       createWindow();
-//     }
-//   });
-// }
+  const exeProcess = childProcess(backendExecutablePath)
 
-//Kill process when electron exits
-process.on('exit', function () {
-  writeLog('exit');
-  // apiProcess.kill();
-});
+  exeProcess.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
 
-function writeLog(msg){
-  console.log(msg);
+    // create window after successful backend spawn
+    if (mainWindow == null) {
+      createWindow();
+    }
+  });
+
+  exeProcess.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+  
+  exeProcess.on('close', (code) => {
+    console.log(`API backend process exited with code ${code}.`);
+  });
+
+  // Kill process when electron exits
+  process.on('exit', function () {
+    exeProcess.kill();
+  });
 }

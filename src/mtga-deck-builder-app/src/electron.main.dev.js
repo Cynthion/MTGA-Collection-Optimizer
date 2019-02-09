@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, session} = require('electron')
+const { app, BrowserWindow, session } = require('electron')
 const path = require("path");
 const url = require("url");
 
@@ -73,6 +73,7 @@ app.on('window-all-closed', function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    console.log(`All app windows closed, thus quitting app.`);
     app.quit()
   }
 })
@@ -90,6 +91,8 @@ app.on('activate', function () {
 
 // .NET Core backend process
 // https://nodejs.org/api/child_process.html
+var backendProcess = null;
+
 function startApi() {
   const childProcess = require('child_process').spawn;
   //  run server
@@ -97,9 +100,9 @@ function startApi() {
   // var backendExecutablePath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\dist\\win\\MtgaDeckBuilder.Api.exe')
   var backendExecutablePath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\Debug\\netcoreapp2.2\\win10-x64\\MtgaDeckBuilder.Api.exe')
 
-  const exeProcess = childProcess(backendExecutablePath)
+  backendProcess = childProcess(backendExecutablePath)
 
-  exeProcess.stdout.on('data', (data) => {
+  backendProcess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
 
     // create window after successful backend spawn
@@ -108,16 +111,16 @@ function startApi() {
     }
   });
 
-  exeProcess.stderr.on('data', (data) => {
+  backendProcess.stderr.on('data', (data) => {
     console.log(`stderr: ${data}`);
   });
   
-  exeProcess.on('close', (code) => {
+  backendProcess.on('close', (code) => {
     console.log(`API backend process exited with code ${code}.`);
-  });
-
-  // Kill process when electron exits
-  process.on('exit', function () {
-    exeProcess.kill();
+    // if backend process closes, also close frontend (should not happen this way round)
+    if (mainWindow != null) {
+      console.log(`Thus, also closing frontend window.`);
+      mainWindow.close();
+    }
   });
 }

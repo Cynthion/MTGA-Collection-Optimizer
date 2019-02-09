@@ -1,11 +1,11 @@
 # Features
 
 ## MVP
-- [ ] enable CORS for electron
+- [X] enable CORS for electron
 - [ ] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
-- [ ] add loading bar
+- [ ] add loading bar, don't load via guard/lazy-loading
 - [X] integrate player inventory to UI
 - [ ] detect changes and push from backend
 - [ ] sound bleep upon required card is added to collection
@@ -22,8 +22,9 @@
 
 # Bugs
 - [X] check 'Blood Crypt' quantity
-- [ ] quit Electron and process correctly
+- [X] quit Electron and process correctly
 
 # Optimization
 - [ ] parse log file async
 - [ ] parse log file from end of file
+- [ ] npm command to restore, build and copy backend .exe to Angular dist folder

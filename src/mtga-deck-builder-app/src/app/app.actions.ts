@@ -3,7 +3,9 @@ import { Action } from '@ngrx/store';
 
 export enum AppActionTypes {
   Initialized = '[App] Initialized',
-  ApiError = '[App] API Error'
+  ApiError = '[App] API Error',
+  LoadingIncrement = '[App] Loading Increment',
+  LoadingDecrement = '[App] Loading Decrement',
 }
 
 export class AppInitializedAction implements Action {
@@ -18,7 +20,17 @@ export class ApiErrorAction implements Action {
   ) { }
 }
 
+export class IncrementAppLoadingSemaphoreAction implements Action {
+  readonly type = AppActionTypes.LoadingIncrement;
+}
+
+export class DecrementAppLoadingSemaphoreAction implements Action {
+  readonly type = AppActionTypes.LoadingDecrement;
+}
+
 export type AppActions =
   | AppInitializedAction
   | ApiErrorAction
+  | IncrementAppLoadingSemaphoreAction
+  | DecrementAppLoadingSemaphoreAction
   ;

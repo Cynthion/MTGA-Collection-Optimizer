@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, session} = require('electron')
 const path = require("path");
 const url = require("url");
 
@@ -17,6 +17,7 @@ const createWindow = () => {
       height: 720,
       icon: './src/favicon.ico',
       webPreferences: {
+        webSecurity: true,
         nodeIntegration: false,
         contextIsolation: true,
         preload: './preload.js',
@@ -25,14 +26,6 @@ const createWindow = () => {
 
     // and load the index.html of the app.
     mainWindow.loadURL(
-      // when using: "electron": "ng build --base-href ./ && electron .",
-      // url.format({
-      //   pathname: path.join(__dirname, `/dist/index.html`),
-      //   protocol: "file:",
-      //   slashes: true
-      // })
-      // when using: "start": "concurrently \"ng serve\" \"npm run electron\"" 
-      // and "electron": "electron ./src/electron.main"
       url.format({
         pathname: 'localhost:4200',
         protocol: 'http:',
@@ -56,7 +49,21 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', startApi)
+app.on('ready', () => {
+  // Content Security Policy
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+        'Content-Security-Policy': ['default-src \'self\' https://localhost:5001 \'unsafe-inline\' \'unsafe-eval\' ws:']
+      }
+    })
+  });
+
+  // attack backend .exe
+  startApi();
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -78,6 +85,7 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+// .NET Core backend process
 function startApi() {
   var proc = require('child_process').spawn;
   //  run server

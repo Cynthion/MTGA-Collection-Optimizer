@@ -19,7 +19,7 @@ const createWindow = () => {
     mainWindow.loadURL(
         url.format({
           pathname: path.join(__dirname, `/index.html`),
-          protocol: "file:",
+          protocol: "file:", // TODO: this protocol maybe need another CSP strategy: https://electronjs.org/docs/tutorial/security#csp-meta-tag
           slashes: true
         })
     );

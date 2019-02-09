@@ -111,7 +111,7 @@ app.on('activate', function () {
 //Kill process when electron exits
 process.on('exit', function () {
   writeLog('exit');
-  apiProcess.kill();
+  // apiProcess.kill();
 });
 
 function writeLog(msg){

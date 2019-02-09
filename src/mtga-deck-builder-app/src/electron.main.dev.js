@@ -19,6 +19,8 @@ const createWindow = () => {
       webPreferences: {
         webSecurity: true,
         nodeIntegration: false,
+        allowRunningInsecureContent: false,
+        experimentalFeatures: false,
         contextIsolation: true,
         preload: './preload.js',
       }
@@ -62,7 +64,8 @@ app.on('ready', () => {
   });
 
   // attack backend .exe
-  startApi();
+  // startApi();
+  createWindow();
 })
 
 // Quit when all windows are closed.
@@ -86,22 +89,24 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 // .NET Core backend process
-function startApi() {
-  var proc = require('child_process').spawn;
-  //  run server
-  var apipath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\dist\\win\\MtgaDeckBuilder.Api.exe')
-//   if (os.platform() === 'darwin') {
-//     apipath = path.join(__dirname, '..//api//bin//dist//osx//Api')
-//   }
-  apiProcess = proc(apipath)
+// https://nodejs.org/api/child_process.html
+// function startApi() {
+//   var proc = require('child_process').spawn;
+//   //  run server
+//   var apipath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\dist\\win\\MtgaDeckBuilder.Api.exe')
+// //   if (os.platform() === 'darwin') {
+// //     apipath = path.join(__dirname, '..//api//bin//dist//osx//Api')
+// //   }
+//   apiProcess = proc(apipath)
+//   apiProcess.quit
 
-  apiProcess.stdout.on('data', (data) => {
-    writeLog(`stdout: ${data}`);
-    if (mainWindow == null) {
-      createWindow();
-    }
-  });
-}
+//   apiProcess.stdout.on('data', (data) => {
+//     writeLog(`stdout: ${data}`);
+//     if (mainWindow == null) {
+//       createWindow();
+//     }
+//   });
+// }
 
 //Kill process when electron exits
 process.on('exit', function () {

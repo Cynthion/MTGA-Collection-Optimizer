@@ -22,6 +22,7 @@
 
 # Bugs
 - [X] check 'Blood Crypt' quantity
+- [ ] quit Electron and process correctly
 
 # Optimization
 - [ ] parse log file async

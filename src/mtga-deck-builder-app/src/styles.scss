@@ -14,3 +14,8 @@
 @include angular-material-theme($mtga-deck-builder-theme);
 
 // Include theme styles for your custom components.
+
+.full-window {
+  height: 100%;
+  margin: 0;
+}

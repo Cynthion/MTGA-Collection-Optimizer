@@ -1,5 +1,5 @@
 <div class="progress-bar">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar mode="query" *ngIf="(state$ | async).isLoading"></mat-progress-bar>
 </div>
 
 <div class="missing-cards-page">

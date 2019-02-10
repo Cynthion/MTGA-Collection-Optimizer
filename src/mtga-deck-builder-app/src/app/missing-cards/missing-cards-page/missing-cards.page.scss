@@ -1,9 +1,9 @@
 @import 'src/constants.scss';
 
 .progress-bar {
+  padding-top: 2px;
   >mat-progress-bar {
-    height: 3px;
-    padding-top: 2px;
+    height: 2px;
   }
 }
 
@@ -67,7 +67,6 @@
   }
 }
 
-
 // Scrollbar Style Override
 /* width */
 ::-webkit-scrollbar {
@@ -100,4 +99,8 @@
 }
 ::ng-deep .mat-sort-header-container {
   justify-content: center !important;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: $theme-background-color;
 }

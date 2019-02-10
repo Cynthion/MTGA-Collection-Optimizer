@@ -8,8 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
-// import { appReducer } from './app.reducer';
-// import { AppEffects } from './app.effects';
+import { appReducer } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,7 @@ import { appRoutes } from './app.routing';
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([]),
   ],
   providers: [],

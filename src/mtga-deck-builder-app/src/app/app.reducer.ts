@@ -1,7 +1,8 @@
 import { AppState, initialAppState } from './app.state';
-import { AppActions, AppActionTypes, IncrementAppLoadingSemaphoreAction } from './app.actions';
+import { AppActions, AppActionTypes } from './app.actions';
 
 export function appReducer(state = initialAppState, action: AppActions): AppState {
+  console.log('App reducer');
   switch (action.type) {
     case AppActionTypes.Initialized:
       return state;
@@ -12,6 +13,7 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
       return {
         ...state,
         loadingSemaphore: state.loadingSemaphore++,
+        isLoading: state.loadingSemaphore > 0,
       };
     }
 
@@ -19,6 +21,7 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
       return {
         ...state,
         loadingSemaphore: state.loadingSemaphore--,
+        isLoading: state.loadingSemaphore > 0,
       };
     }
 

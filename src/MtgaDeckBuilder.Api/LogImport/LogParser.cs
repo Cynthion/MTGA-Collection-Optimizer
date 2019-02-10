@@ -135,7 +135,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
                     if (outputLine != null && outputLine.Contains(occurrenceCommand))
                     {
-                        Logger.Info($"Found {nameof(occurrenceCommand)} occurrence on position {streamReader.BaseStream.Position}.");
+                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
 
                         result = occurrenceAction(streamReader);
                     }
@@ -156,7 +156,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
                     if (outputLine != null && outputLine.Contains(occurrenceCommand))
                     {
-                        Logger.Info($"Found {nameof(occurrenceCommand)} occurrence on position {streamReader.BaseStream.Position}.");
+                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
 
                         return outputLine;
                     }

@@ -2,12 +2,14 @@
 
 ## MVP
 - [X] enable CORS for electron
+- [ ] settings via REST call
+- [ ] SQLite store for settings
 - [ ] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
 - [ ] add loading bar, don't load via guard/lazy-loading
 - [X] integrate player inventory to UI
-- [ ] detect changes and push from backend
+- [ ] detect changes and push from backend with Server Sent Events (SSE)
 - [ ] sound bleep upon required card is added to collection
 - [ ] show set completeness
 - [ ] show where to spend available wildcards

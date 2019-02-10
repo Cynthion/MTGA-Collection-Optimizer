@@ -1,8 +1,12 @@
+@import 'src/theme.scss';
+
+$primary: map-get($mtga-deck-builder-theme, primary);
+
 ::ng-deep .mat-card-header-text {
   margin: 0px !important; 
 }
 ::ng-deep .mat-sort-header-arrow {
-  color: orange !important;
+  color: mat-color($primary);
 }
 ::ng-deep .mat-sort-header-container {
   justify-content: center !important;
@@ -73,11 +77,11 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #f57c00; 
+  background: mat-color($primary); 
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background:#ffad42; 
+  background: mat-color($primary); 
 }

@@ -106,7 +106,7 @@ function startApi() {
     console.log(`stdout: ${data}`);
 
     // create window after successful backend spawn
-    if (mainWindow == null) {
+    if (mainWindow === null) {
       createWindow();
     }
   });
@@ -118,7 +118,7 @@ function startApi() {
   backendProcess.on('close', (code) => {
     console.log(`API backend process exited with code ${code}.`);
     // if backend process closes, also close frontend (should not happen this way round)
-    if (mainWindow != null) {
+    if (mainWindow !== null) {
       console.log(`Thus, also closing frontend window.`);
       mainWindow.close();
     }

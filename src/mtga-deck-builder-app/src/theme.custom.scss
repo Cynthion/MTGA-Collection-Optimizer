@@ -1,7 +1,0 @@
-@import '~@angular/material/theming';
-
-@import 'src/app/missing-cards/missing-cards-page/missing-cards.theme.scss';
-
-@mixin custom-themes($theme) {
-  @include missing-cards-theme($theme);
-}

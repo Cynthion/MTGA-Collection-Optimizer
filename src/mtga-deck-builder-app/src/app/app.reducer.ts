@@ -1,5 +1,6 @@
-import { AppState, initialAppState } from './app.state';
+import { AppState, initialAppState, RootState } from './app.state';
 import { AppActions, AppActionTypes } from './app.actions';
+import { ActionReducerMap } from '@ngrx/store';
 
 export function appReducer(state = initialAppState, action: AppActions): AppState {
   console.log('App reducer');
@@ -29,3 +30,7 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
       return state;
   }
 }
+
+export const rootReducers: ActionReducerMap<RootState, any> = {
+  app: appReducer,
+};

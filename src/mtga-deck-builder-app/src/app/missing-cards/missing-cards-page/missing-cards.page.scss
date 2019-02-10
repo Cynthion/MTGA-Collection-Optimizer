@@ -12,6 +12,8 @@
 
   .inventory {
     color: $theme-accent-color-a100;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
   }
   
   .filter {

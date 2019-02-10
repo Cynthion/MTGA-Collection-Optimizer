@@ -13,6 +13,7 @@ const createWindow = () => {
   setTimeout(() => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
+      frame: false,
       width: 1280, 
       height: 720,
       icon: './src/favicon.ico',
@@ -78,13 +79,13 @@ app.on('window-all-closed', function () {
   }
 })
 
-app.on('activate', function () {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
+// app.on('activate', function () {
+//   // On macOS it's common to re-create a window in the app when the
+//   // dock icon is clicked and there are no other windows open.
+//   if (mainWindow == null) {
+//     createWindow()
+//   }
+// })
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
@@ -105,8 +106,8 @@ function startApi() {
   backendProcess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
 
-    // create window after successful backend spawn
-    if (mainWindow === null) {
+    if (mainWindow == undefined) {
+      // create window after successful backend spawn
       createWindow();
     }
   });

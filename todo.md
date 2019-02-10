@@ -2,6 +2,8 @@
 
 ## MVP
 - [X] enable CORS for electron
+- [ ] fix electron window height
+- [ ] repeatedly call backend
 - [ ] settings via REST call
 - [ ] SQLite store for settings
 - [ ] make window borderless and draggable

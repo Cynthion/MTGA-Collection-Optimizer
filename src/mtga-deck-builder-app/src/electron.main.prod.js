@@ -9,6 +9,7 @@ let mainWindow
 
 const createWindow = () => {
     // Create the browser window.
+    // TODO upon production, copy all the window options from .dev
     mainWindow = new BrowserWindow({
       width: 1280, 
       height: 720,

@@ -3,12 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { rootReducers } from './app.reducer';
+
+const matModules = [
+  MatIconModule,
+];
 
 @NgModule({
   declarations: [
@@ -21,6 +26,7 @@ import { rootReducers } from './app.reducer';
     StoreModule.forRoot(rootReducers),
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([]),
+    ...matModules,
   ],
   providers: [],
   bootstrap: [AppComponent]

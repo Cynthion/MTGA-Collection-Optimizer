@@ -5,12 +5,10 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 
-
-
 // define 3 theme color
 // mat-palette accepts $palette-name, main, lighter and darker variants
 $mtga-deck-builder-theme-primary: mat-palette($mat-orange, 700, 300, 900);
-$mtga-deck-builder-theme-accent: mat-palette($mat-orange);
+$mtga-deck-builder-theme-accent: mat-palette($mat-grey);
 $mtga-deck-builder-theme-warn: mat-palette($mat-red);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)

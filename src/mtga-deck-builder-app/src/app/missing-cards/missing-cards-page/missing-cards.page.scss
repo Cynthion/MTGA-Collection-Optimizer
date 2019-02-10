@@ -1,66 +1,72 @@
-@import 'src/theme.scss';
+@import 'src/constants.scss';
 
-$primary: map-get($mtga-deck-builder-theme, primary);
-
-::ng-deep .mat-card-header-text {
-  margin: 0px !important; 
-}
-::ng-deep .mat-sort-header-arrow {
-  color: mat-color($primary);
-}
-::ng-deep .mat-sort-header-container {
-  justify-content: center !important;
+.progress-bar {
+  >mat-progress-bar {
+    height: 3px;
+    padding-top: 2px;
+  }
 }
 
-.inventory {
-  width: 100%;
+.missing-cards-page {
+  padding: $default-padding;
+
+  .inventory {
+    color: $theme-accent-color-a100;
+  }
+  
+  .filter {
+    color: $theme-accent-color-a100;
+    >mat-form-field {
+      width: 50%;
+    }
+  }
+  
+  .table-container {
+    height: 700px;
+    overflow: auto; // overflow only works for blocks with specified height
+    
+    .mat-row:hover {
+      background-color: $theme-accent-color-a700;
+    }
+    
+    .mat-header-cell,
+    .mat-cell {
+      text-align: center;
+      min-width: 60px;
+    }
+    
+    .mat-table-sticky:first-child {
+      border-right: 1px solid $theme-accent-color;
+      text-align: left !important;
+      min-width: 200px;
+    }
+    
+    .mythic {
+      color: #cf5b25;
+    }
+    
+    .rare {
+      color: #a36b00;
+    }
+    
+    .uncommon {
+      color: #447484;
+    }
+    
+    .common {
+      color: #888888;
+    }
+    
+    .basic {
+      color: #ffffff;
+    }
+  }
+
+  .paginator {
+    padding-top: $default-padding;
+  }
 }
 
-.filter {
-  font-size: 14px;
-  width: 50%;
-}
-
-.table-container {
-  height: 700px;
-  overflow: auto; // overflow only works for blocks with specified height
-}
-
-.mat-row:hover {
-  background-color: #6d6d6d;
-}
-
-.mat-header-cell,
-.mat-cell {
-  text-align: center;
-  min-width: 60px;
-}
-
-.mat-table-sticky:first-child {
-  border-right: 1px solid #e0e0e0;
-  text-align: left !important;
-  min-width: 200px;
-}
-
-.mythic {
-  color: #cf5b25;
-}
-
-.rare {
-  color: #a36b00;
-}
-
-.uncommon {
-  color: #447484;
-}
-
-.common {
-  color: #888888;
-}
-
-.basic {
-  color: #ffffff;
-}
 
 // Scrollbar Style Override
 /* width */
@@ -71,17 +77,27 @@ $primary: map-get($mtga-deck-builder-theme, primary);
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px $theme-accent-color; 
   border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: mat-color($primary); 
+  background: $theme-primary-color; 
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: mat-color($primary); 
+  background: $theme-primary-color; 
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0px !important; 
+}
+::ng-deep .mat-sort-header-arrow {
+  color: mat-color($primary);
+}
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
 }

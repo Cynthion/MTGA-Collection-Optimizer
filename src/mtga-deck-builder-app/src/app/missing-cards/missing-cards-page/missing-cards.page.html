@@ -1,5 +1,8 @@
-<div class="missing-cards">
+<div class="progress-bar">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div class="missing-cards-page">
 
   <div class="inventory">
     <app-inventory></app-inventory>
@@ -50,6 +53,8 @@
     </table>
   </div>
 
-  <mat-paginator [pageSizeOptions]="[50, 10, 25, 100]"></mat-paginator>
+  <div class="paginator">
+    <mat-paginator [pageSizeOptions]="[50, 10, 25, 100]"></mat-paginator>
+  </div>
 
 </div>

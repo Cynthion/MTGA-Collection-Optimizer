@@ -1,12 +1,14 @@
 # Features
 
 ## MVP
+- [ ] rename application to 'Collection Optimizer'
+- [ ] show application name
 - [X] enable CORS for electron
 - [ ] fix electron window height
 - [ ] repeatedly call backend
 - [ ] settings via REST call
 - [ ] SQLite store for settings
-- [ ] make window borderless and draggable
+- [X] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
 - [X] add loading bar
@@ -16,6 +18,7 @@
 - [ ] show set completeness
 - [ ] show where to spend available wildcards
 - [X] improve theming
+- change ports for production
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

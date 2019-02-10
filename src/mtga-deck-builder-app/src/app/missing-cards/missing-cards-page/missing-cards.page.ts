@@ -15,9 +15,10 @@ export class MissingCardsPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  state$: Observable<MissingCardsFeatureState>;
-  filterValue: string;
+  featureState$: Observable<MissingCardsFeatureState>;
+  pageState$: Observable<MissingCardsPageState>;
 
+  filterValue: string;
   stickyColum: keyof CollectionCardState = 'name';
   flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
   deckColumns: string[] = [];
@@ -30,14 +31,13 @@ export class MissingCardsPageComponent implements OnInit {
       private store: Store<MissingCardsFeatureState>,
       private actionsSubject: ActionsSubject,
     ) {
-    this.state$ = store.select(s => s);
+    this.featureState$ = store.select(s => s);
+    this.pageState$ = store.select(s => s.missingCardsPage);
 
-    this.state$.subscribe(s => {
-      const missingCardsPageState = s.missingCardsPage;
-
-      this.dataSource = new MatTableDataSource(missingCardsPageState.collectionCards);
-      this.playerDecks = missingCardsPageState.playerDecks;
-      this.deckColumns = missingCardsPageState.playerDecks.map(d => d.name);
+    this.pageState$.subscribe(s => {
+      this.dataSource = new MatTableDataSource(s.collectionCards);
+      this.playerDecks = s.playerDecks;
+      this.deckColumns = s.playerDecks.map(d => d.name);
       this.columnsToDisplay = [this.stickyColum.toString()].concat(this.flexColumns).concat(this.deckColumns);
     });
   }

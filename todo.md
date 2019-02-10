@@ -7,12 +7,13 @@
 - [ ] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
-- [ ] add loading bar, don't load via guard/lazy-loading
+- [X] add loading bar
 - [X] integrate player inventory to UI
 - [ ] detect changes and push from backend with Server Sent Events (SSE)
 - [ ] sound bleep upon required card is added to collection
 - [ ] show set completeness
 - [ ] show where to spend available wildcards
+- [X] improve theming
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

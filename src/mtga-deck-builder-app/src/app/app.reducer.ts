@@ -3,7 +3,6 @@ import { AppActions, AppActionTypes } from './app.actions';
 import { ActionReducerMap } from '@ngrx/store';
 
 export function appReducer(state = initialAppState, action: AppActions): AppState {
-  console.log('App reducer');
   switch (action.type) {
     case AppActionTypes.Initialized:
       return state;
@@ -11,18 +10,20 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
       return state;
 
     case AppActionTypes.LoadingIncrement: {
+      const semaphore = state.loadingSemaphore + 1;
       return {
         ...state,
-        loadingSemaphore: state.loadingSemaphore++,
-        isLoading: state.loadingSemaphore > 0,
+        loadingSemaphore: semaphore,
+        isLoading: semaphore > 0,
       };
     }
 
     case AppActionTypes.LoadingDecrement: {
+      const semaphore = state.loadingSemaphore - 1;
       return {
         ...state,
-        loadingSemaphore: state.loadingSemaphore--,
-        isLoading: state.loadingSemaphore > 0,
+        loadingSemaphore: semaphore,
+        isLoading: semaphore > 0,
       };
     }
 

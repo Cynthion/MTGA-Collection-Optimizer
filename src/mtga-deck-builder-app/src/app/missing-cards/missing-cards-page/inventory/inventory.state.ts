@@ -1,8 +1,8 @@
-import { AppState } from 'src/app/app.state';
+import { RootState } from 'src/app/app.state';
 
 export const INVENTORY_FEATURE_NAME: keyof InventoryFeatureState = 'inventory';
 
-export interface InventoryFeatureState extends AppState {
+export interface InventoryFeatureState extends RootState {
   inventory: InventoryState;
 }
 

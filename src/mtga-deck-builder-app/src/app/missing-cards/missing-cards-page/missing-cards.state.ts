@@ -1,8 +1,8 @@
-import { AppState } from 'src/app/app.state';
+import { RootState } from 'src/app/app.state';
 
 export const MISSING_CARDS_FEATURE_NAME: keyof MissingCardsFeatureState = 'missingCardsPage';
 
-export interface MissingCardsFeatureState extends AppState {
+export interface MissingCardsFeatureState extends RootState {
   missingCardsPage: MissingCardsPageState;
 }
 

@@ -1,20 +1,20 @@
 @import 'src/constants.scss';
 
-// .app-bar {
-//   height: 20px;
-//   background: $theme-accent-color-a700;
-//   -webkit-app-region: drag;
-//   >img {
-//     height: 20px;
-//   }
-// }
+.app-bar {
+  height: 20px;
+  background: $theme-accent-color-a700;
+  -webkit-app-region: drag;
+  >img {
+    height: 20px;
+  }
+}
 
 .app-container {
   height: 100%;
   padding: $default-padding;
   background: $theme-background-color;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  border-left: solid 1px $theme-accent-color-a700;
-  border-right: solid 1px $theme-accent-color-a700;
-  border-bottom: solid 1px $theme-accent-color-a700;
+  border-left: solid $default-border $theme-accent-color-a700;
+  border-right: solid $default-border $theme-accent-color-a700;
+  border-bottom: solid $default-border $theme-accent-color-a700;
 }

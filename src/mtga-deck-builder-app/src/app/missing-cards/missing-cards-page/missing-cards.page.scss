@@ -1,27 +1,26 @@
 @import 'src/constants.scss';
 
-.progress-bar {
-  padding-top: 2px;
-  >mat-progress-bar {
-    height: 2px;
-  }
-}
-
 .missing-cards-page {
-  padding: $default-padding;
   height: 100%;
   display: flex;
   flex-direction: column;
+  
+  .progress-bar {
+    padding-top: 2px;
+    >mat-progress-bar {
+      height: 2px;
+    }
+  }
 
   .inventory {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     color: $theme-accent-color-a100;
     -webkit-app-region: drag;
     -webkit-user-select: none;
   }
   
   .filter {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     font-size: 14px;
     color: $theme-accent-color-a100;
     >mat-form-field {
@@ -73,7 +72,7 @@
   }
 
   .paginator {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     padding-top: $default-padding;
     -webkit-user-select: none;
   }

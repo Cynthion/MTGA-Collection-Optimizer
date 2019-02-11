@@ -11,6 +11,7 @@
 
 .app-container {
   height: 100%;
+  padding: $default-padding;
   background: $theme-background-color;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   border-left: solid 1px $theme-accent-color-a700;

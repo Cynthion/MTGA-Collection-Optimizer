@@ -14,11 +14,12 @@
 - [ ] repeatedly call backend
 - [ ] show set completeness
 - [ ] settings via REST call
-- [ ] SQLite store for settings
+- [ ] SQLite/Electron Store (https://github.com/sindresorhus/electron-store) store for settings
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] detect changes and push from backend with Server Sent Events (SSE)
 - [ ] change ports for production
+- [ ] add License info (https://company.wizards.com/fancontentpolicy)
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

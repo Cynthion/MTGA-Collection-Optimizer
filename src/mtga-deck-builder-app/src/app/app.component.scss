@@ -15,13 +15,14 @@
     background: $theme-accent-color-a700;
     -webkit-app-region: drag;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 
     >img {
       height: $height;
     }
 
     .title {
+      padding-left: $default-padding;
       color: $theme-accent-color-a100;
     }
 

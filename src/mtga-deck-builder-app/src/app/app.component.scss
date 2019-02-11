@@ -4,14 +4,31 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-
+  background: $theme-background-color;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  
   .app-bar {
+    $height: 25px;
+
     flex: 0 0 auto;
-    height: 25px;
+    height: $height;
     background: $theme-accent-color-a700;
     -webkit-app-region: drag;
+    display: flex;
+    align-items: center;
+
     >img {
-      height: 25px;
+      height: $height;
+    }
+
+    .title {
+      color: $theme-accent-color-a100;
+    }
+
+    .close {
+      height: $height;
+      width: $height;
+      background: red;
     }
   }
   
@@ -19,8 +36,6 @@
     height: 0px; // overridden by flex, makes it take the rest of the space
     flex: 1 1 auto;
     padding: $default-padding;
-    background: $theme-background-color;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
     border-left: solid $default-border $theme-accent-color-a700;
     border-right: solid $default-border $theme-accent-color-a700;
     border-bottom: solid $default-border $theme-accent-color-a700;

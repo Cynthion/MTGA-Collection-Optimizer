@@ -1,20 +1,28 @@
 @import 'src/constants.scss';
 
-.app-bar {
-  height: 20px;
-  background: $theme-accent-color-a700;
-  -webkit-app-region: drag;
-  >img {
-    height: 20px;
-  }
-}
-
-.app-container {
+.window-container {
   height: 100%;
-  padding: $default-padding;
-  background: $theme-background-color;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  border-left: solid $default-border $theme-accent-color-a700;
-  border-right: solid $default-border $theme-accent-color-a700;
-  border-bottom: solid $default-border $theme-accent-color-a700;
+  display: flex;
+  flex-direction: column;
+
+  .app-bar {
+    flex: 0 0 auto;
+    height: 20px;
+    background: $theme-accent-color-a700;
+    -webkit-app-region: drag;
+    >img {
+      height: 20px;
+    }
+  }
+  
+  .app-container {
+    height: 0px; // overridden by flex, makes it take the rest of the space
+    flex: 1 1 auto;
+    padding: $default-padding;
+    background: $theme-background-color;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    border-left: solid $default-border $theme-accent-color-a700;
+    border-right: solid $default-border $theme-accent-color-a700;
+    border-bottom: solid $default-border $theme-accent-color-a700;
+  }
 }

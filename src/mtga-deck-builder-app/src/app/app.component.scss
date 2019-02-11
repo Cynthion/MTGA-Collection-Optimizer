@@ -1,21 +1,13 @@
 @import 'src/constants.scss';
 
-// :host {
-//   position: absolute;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   top: 0;
+// .app-bar {
+//   height: 20px;
+//   background: $theme-accent-color-a700;
+//   -webkit-app-region: drag;
+//   >img {
+//     height: 20px;
+//   }
 // }
-
-.app-bar {
-  height: 20px;
-  background: $theme-accent-color-a700;
-  -webkit-app-region: drag;
-  >img {
-    height: 20px;
-  }
-}
 
 .app-container {
   height: 100%;
@@ -25,4 +17,3 @@
   border-right: solid 1px $theme-accent-color-a700;
   border-bottom: solid 1px $theme-accent-color-a700;
 }
-  

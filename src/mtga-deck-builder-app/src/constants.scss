@@ -1,7 +1,7 @@
 @import 'src/theme.scss';
 
 $default-padding: 10px;
-$default-border: 0px;
+$default-border: 1px;
 
 // extracted theme palettes
 $primary: map-get($mtga-deck-builder-theme, primary);

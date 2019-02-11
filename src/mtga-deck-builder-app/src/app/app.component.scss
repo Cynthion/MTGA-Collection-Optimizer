@@ -7,11 +7,11 @@
 
   .app-bar {
     flex: 0 0 auto;
-    height: 20px;
+    height: 25px;
     background: $theme-accent-color-a700;
     -webkit-app-region: drag;
     >img {
-      height: 20px;
+      height: 25px;
     }
   }
   

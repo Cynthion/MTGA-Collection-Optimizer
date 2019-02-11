@@ -1,24 +1,24 @@
-# Features
+# Features / Backlog
 
 ## MVP
-- [ ] rename application to 'Collection Optimizer'
-- [ ] show application name
 - [X] enable CORS for electron
-- [ ] fix electron window height
-- [ ] repeatedly call backend
-- [ ] settings via REST call
-- [ ] SQLite store for settings
+- [X] fix electron window height
 - [X] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
 - [X] add loading bar
 - [X] integrate player inventory to UI
-- [ ] detect changes and push from backend with Server Sent Events (SSE)
-- [ ] sound bleep upon required card is added to collection
-- [ ] show set completeness
-- [ ] show where to spend available wildcards
 - [X] improve theming
-- change ports for production
+- [ ] show application name
+- [ ] rename application to 'Collection Optimizer'
+- [ ] repeatedly call backend
+- [ ] show set completeness
+- [ ] settings via REST call
+- [ ] SQLite store for settings
+- [ ] show where to spend available wildcards
+- [ ] sound bleep upon required card is added to collection
+- [ ] detect changes and push from backend with Server Sent Events (SSE)
+- [ ] change ports for production
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

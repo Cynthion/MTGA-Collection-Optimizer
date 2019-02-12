@@ -8,28 +8,42 @@
   font-family: Roboto, "Helvetica Neue", sans-serif;
   
   .app-bar {
-    $height: 25px;
+    $height: 24px;
 
     flex: 0 0 auto;
     height: $height;
     background: $theme-accent-color-a700;
     -webkit-app-region: drag;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 
     >img {
       height: $height;
     }
 
     .title {
-      padding-left: $default-padding;
       color: $theme-accent-color-a100;
     }
 
-    .close {
-      height: $height;
-      width: $height;
-      background: red;
+    .window-menu {
+      margin-left: auto;
+      display: flex;
+      flex-direction: row;
+
+      .menu-item {
+        margin-left: 1px;
+        height: $height;
+        width: $height;
+      }
+
+      .minimize:hover,
+      .maximize:hover {
+        background: $theme-accent-color;
+      }
+
+      .close:hover {
+        background: $theme-warn-color;
+      }
     }
   }
   

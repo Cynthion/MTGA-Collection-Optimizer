@@ -6,11 +6,13 @@ $default-border: 1px;
 // extracted theme palettes
 $primary: map-get($mtga-deck-builder-theme, primary);
 $accent: map-get($mtga-deck-builder-theme, accent);
+$warn: map-get($mtga-deck-builder-theme, warn);
 $background: map-get($mtga-deck-builder-theme, background);
 
 // extracted theme colors
 $theme-primary-color: mat-color($primary);
 $theme-accent-color: mat-color($accent);
+$theme-warn-color: mat-color($warn);
 $theme-background-color: mat-color($background, background);
 
 // extracted theme colors - light

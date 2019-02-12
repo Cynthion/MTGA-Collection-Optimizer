@@ -3,13 +3,13 @@
   <div class="app-bar">
     <div class="title">MTGA Collection Optimizer</div>
     <div class="window-menu">
-      <div class="menu-item minimize">
+      <div class="menu-item minimize" (click)="minimizeWindow()">
         <img src="assets/img/window-minimize.png">
       </div>
-      <div class="menu-item maximize">
+      <div class="menu-item maximize" (click)="maximizeWindow()">
           <img src="assets/img/window-maximize.png">
       </div>
-      <div class="menu-item close">
+      <div class="menu-item close" (click)="closeWindow()">
         <img src="assets/img/window-close.png">
       </div>
     </div>

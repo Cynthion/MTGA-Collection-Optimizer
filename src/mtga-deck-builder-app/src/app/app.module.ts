@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { WindowRef } from './windowRef';
+
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { rootReducers } from './app.reducer';
@@ -28,7 +30,7 @@ const matModules = [
     EffectsModule.forRoot([]),
     ...matModules,
   ],
-  providers: [],
+  providers: [WindowRef],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

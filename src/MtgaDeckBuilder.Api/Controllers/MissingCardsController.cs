@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;
@@ -56,6 +57,9 @@ namespace MtgaDeckBuilder.Api.Controllers
                     .OrderBy(d => d.Name)
                     .ToArray()
             };
+
+            //// TODO remove
+            //Task.Delay(2000).Wait();
 
             return Ok(dto);
         }

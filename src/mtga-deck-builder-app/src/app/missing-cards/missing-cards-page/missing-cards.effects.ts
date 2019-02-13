@@ -5,11 +5,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 
 import { MissingCardsActionTypes, InitializedMissingCardsPageAction, LoadMissingCardsPageErrorAction } from './missing-cards.actions';
-import { flatMap, startWith } from 'rxjs/operators';
+import { flatMap, tap } from 'rxjs/operators';
 import { MissingCardsPageDto } from './missing-cards.state';
 import { internalApiGet } from 'src/app/util/http';
 import { LoadInventoryAction } from './inventory';
-import { IncrementAppLoadingSemaphoreAction, DecrementAppLoadingSemaphoreAction } from 'src/app/app.actions';
 
 @Injectable()
 export class MissingCardsPageEffects {
@@ -18,6 +17,7 @@ export class MissingCardsPageEffects {
   loadPageData$: Observable<Action> = this.actions$
   .pipe(
       ofType(MissingCardsActionTypes.Load),
+      tap(a => console.log(a)),
       flatMap(_ =>
         internalApiGet<MissingCardsPageDto>(
           this.http,
@@ -25,11 +25,11 @@ export class MissingCardsPageEffects {
           dto => [
             new LoadInventoryAction(),
             new InitializedMissingCardsPageAction(dto),
-            new DecrementAppLoadingSemaphoreAction(),
+            // new DecrementAppLoadingSemaphoreAction(),
           ]
         )
       ),
-      startWith(new IncrementAppLoadingSemaphoreAction()),
+      // startWith(new IncrementAppLoadingSemaphoreAction()),
     );
 
   constructor(

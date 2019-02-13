@@ -6,12 +6,12 @@
 - [X] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
-- [X] add loading bar
+- [ ] add loading bar
 - [X] integrate player inventory to UI
 - [X] improve theming
-- [ ] show application name
+- [X] show application name
 - [ ] rename application to 'Collection Optimizer'
-- [ ] repeatedly call backend
+- [X] repeatedly call backend / polling
 - [ ] show set completeness
 - [ ] settings via REST call
 - [ ] SQLite/Electron Store (https://github.com/sindresorhus/electron-store) store for settings
@@ -20,6 +20,7 @@
 - [ ] detect changes and push from backend with Server Sent Events (SSE)
 - [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
+- [ ] fix window menu for electron
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

@@ -8,7 +8,6 @@ import { flatMap, startWith } from 'rxjs/operators';
 import { internalApiGet } from 'src/app/util/http';
 import { InventoryActionTypes, InitializedInventoryAction } from './inventory.actions';
 import { InventoryDto } from './inventory.state';
-import { DecrementAppLoadingSemaphoreAction, IncrementAppLoadingSemaphoreAction } from 'src/app/app.actions';
 
 @Injectable()
 export class InventoryEffects {
@@ -23,11 +22,9 @@ export class InventoryEffects {
           'inventory',
           dto => [
             new InitializedInventoryAction(dto),
-            new DecrementAppLoadingSemaphoreAction(),
           ]
         )
       ),
-      startWith(new IncrementAppLoadingSemaphoreAction()),
     );
 
   constructor(

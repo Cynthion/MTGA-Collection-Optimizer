@@ -11,20 +11,25 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
 
     case AppActionTypes.LoadingIncrement: {
       const semaphore = state.loadingSemaphore + 1;
-      return {
+      console.log('incremented', semaphore);
+      const newState = {
         ...state,
         loadingSemaphore: semaphore,
         isLoading: semaphore > 0,
       };
+      console.log(newState);
+      return newState;
     }
-
+    
     case AppActionTypes.LoadingDecrement: {
       const semaphore = state.loadingSemaphore - 1;
-      return {
+      console.log('decremented', semaphore);
+      const newState = {
         ...state,
         loadingSemaphore: semaphore,
         isLoading: semaphore > 0,
       };
+      return newState;
     }
 
     default:

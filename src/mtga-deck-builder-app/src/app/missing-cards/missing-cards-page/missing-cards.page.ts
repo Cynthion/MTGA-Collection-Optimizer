@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as _ from 'lodash';
 
 import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
+import { LoadMissingCardsPageAction } from './missing-cards.actions';
+import { delay, repeat, mergeMap, tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -39,20 +41,46 @@ export class MissingCardsPageComponent implements OnInit {
       this.playerDecks = s.playerDecks;
       this.deckColumns = s.playerDecks.map(d => d.name);
       this.columnsToDisplay = [this.stickyColum.toString()].concat(this.flexColumns).concat(this.deckColumns);
+
+      this.initializePage();
     });
   }
 
   ngOnInit() {
+    this.initializePage();
+    this.startPollInterval();    
+  }
+  
+  initializePage() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.applyFilter();
+  }
+  
+  applyFilter() {
+    if (!!this.filterValue) {
+      this.dataSource.filter = this.filterValue.trim().toLowerCase();
+  
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    }
   }
 
-  applyFilter() {
-    this.dataSource.filter = this.filterValue.trim().toLowerCase();
+  startPollInterval() {
+    // TODO make interval configurable
+    const delayInMs = 20000;
+    const fakeDelayedRequest = () => of({}).pipe(
+      tap(_ => this.actionsSubject.next(new LoadMissingCardsPageAction()))
+    );
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    const poll = of({}).pipe(
+      mergeMap(_ => fakeDelayedRequest()),
+      delay(delayInMs),
+      repeat(),
+    );
+
+    poll.subscribe();
   }
 
   clearFilter() {

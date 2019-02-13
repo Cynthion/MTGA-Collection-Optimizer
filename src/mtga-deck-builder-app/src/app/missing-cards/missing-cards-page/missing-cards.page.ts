@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
@@ -13,7 +13,7 @@ import { delay, repeat, mergeMap, tap } from 'rxjs/operators';
   styleUrls: ['./missing-cards.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MissingCardsPageComponent implements OnInit {
+export class MissingCardsPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -28,6 +28,8 @@ export class MissingCardsPageComponent implements OnInit {
 
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
+
+  pollSubscription: Subscription;
 
   constructor(
       private store: Store<MissingCardsFeatureState>,
@@ -51,6 +53,10 @@ export class MissingCardsPageComponent implements OnInit {
     this.startPollInterval();    
   }
   
+  ngOnDestroy() {
+    this.pollSubscription.unsubscribe();
+  }
+
   initializePage() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -70,17 +76,17 @@ export class MissingCardsPageComponent implements OnInit {
   startPollInterval() {
     // TODO make interval configurable
     const delayInMs = 20000;
-    const fakeDelayedRequest = () => of({}).pipe(
+    const apiCall = () => of({}).pipe(
       tap(_ => this.actionsSubject.next(new LoadMissingCardsPageAction()))
     );
 
     const poll = of({}).pipe(
-      mergeMap(_ => fakeDelayedRequest()),
+      mergeMap(_ => apiCall()),
       delay(delayInMs),
       repeat(),
     );
 
-    poll.subscribe();
+    this.pollSubscription = poll.subscribe();
   }
 
   clearFilter() {

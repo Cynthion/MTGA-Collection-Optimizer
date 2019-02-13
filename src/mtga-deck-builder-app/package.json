@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron ./src/electron.main.dev",
+    "electron-prod": "electron ./src/electron.main.prod",
     "package:win": "npm run build && cross-var electron-packager dist $npm_package_name-$npm_package_version --out=packages --platform=win32 --arch=all --overwrite "
   },
   "private": true,

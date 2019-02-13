@@ -14,11 +14,11 @@ export class AppComponent {
   }
 
   maximizeWindow() {
-
+    // TODO implement
   }
 
   closeWindow() {
-
+    // TODO implement
   }
 
   constructor(private winRef: WindowRef) {

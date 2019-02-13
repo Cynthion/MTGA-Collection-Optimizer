@@ -26,6 +26,8 @@
     }
 
     .window-menu {
+      -webkit-app-region: none;
+      -webkit-user-select: none;
       margin-left: auto;
       display: flex;
       flex-direction: row;

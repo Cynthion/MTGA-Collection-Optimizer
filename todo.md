@@ -20,7 +20,8 @@
 - [ ] detect changes and push from backend with Server Sent Events (SSE)
 - [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
-- [ ] fix window menu for electron
+- [ ] fix window menu (WinRef) for electron
+- [ ] make deck columns sortable
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

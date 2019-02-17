@@ -29,17 +29,13 @@ namespace MtgaDeckBuilder.Api
             services.AddCors();
 
             // add server-sent events
-            // Register default ServerSentEventsService.
             services.AddServerSentEvents();
-            // Registers custom ServerSentEventsService which will be used by second middleware, otherwise they would end up sharing connected users.
-            services.AddServerSentEvents<INotificationsServerSentEventsService, NotificationsServerSentEventsService>();
-
             services.AddSingleton<IHostedService, HeartbeatService>();
 
-            services.AddResponseCompression(options =>
-            {
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "text/event-stream" });
-            });
+            //services.AddResponseCompression(options =>
+            //{
+            //    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "text/event-stream" });
+            //});
 
             // Add framework services
             services.AddMvc().AddJsonOptions(options =>
@@ -83,9 +79,8 @@ namespace MtgaDeckBuilder.Api
             // first, add CORS middleware
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
 
-            app.UseResponseCompression();
+            //app.UseResponseCompression();
             app.MapServerSentEvents("/api/sse-heartbeat");
-            app.MapServerSentEvents<NotificationsServerSentEventsService>("/sse-notifications");
 
             app.UseMvc();
         }

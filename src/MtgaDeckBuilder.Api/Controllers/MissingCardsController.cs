@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;

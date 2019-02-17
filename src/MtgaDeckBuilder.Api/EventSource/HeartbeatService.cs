@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Lib.AspNetCore.ServerSentEvents;
 using Microsoft.Extensions.Hosting;
+using MtgaDeckBuilder.Api.Controllers;
+using Newtonsoft.Json;
 using NLog;
 
 namespace MtgaDeckBuilder.Api.EventSource
@@ -21,7 +23,13 @@ namespace MtgaDeckBuilder.Api.EventSource
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var testData = "heartbeat";
+            var playerCardDto = new PlayerCardDto
+            {
+                MtgaId = 123456789,
+                OwnedCount = 4,
+            };
+
+            var json = JsonConvert.SerializeObject(playerCardDto);
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -29,7 +37,7 @@ namespace MtgaDeckBuilder.Api.EventSource
 
                 await _serverSentEventsService.SendEventAsync(new ServerSentEvent
                 {
-                    Data = new List<string>(testData.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
+                    Data = new List<string>(json.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
                 });
 
                 await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);

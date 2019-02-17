@@ -4,36 +4,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using Lib.AspNetCore.ServerSentEvents;
 using Microsoft.Extensions.Hosting;
-using MtgaDeckBuilder.Api.Controllers;
+using MtgaDeckBuilder.Api.MissingCards;
 using Newtonsoft.Json;
 using NLog;
 
 namespace MtgaDeckBuilder.Api.EventSource
 {
-    internal class HeartbeatService : BackgroundService
+    internal class CollectionWatchService : BackgroundService
     {
-        private static readonly ILogger Logger = LogManager.GetLogger(nameof(HeartbeatService));
+        private static readonly ILogger Logger = LogManager.GetLogger(nameof(CollectionWatchService));
 
         private readonly IServerSentEventsService _serverSentEventsService;
+        private readonly IMissingCardsService _missingCardsService;
 
-        public HeartbeatService(IServerSentEventsService serverSentEventsService)
+        public CollectionWatchService(
+            IServerSentEventsService serverSentEventsService,
+            IMissingCardsService missingCardsService
+        )
         {
             _serverSentEventsService = serverSentEventsService;
+            _missingCardsService = missingCardsService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var playerCardDto = new PlayerCardDto
-            {
-                MtgaId = 123456789,
-                OwnedCount = 4,
-            };
-
-            var json = JsonConvert.SerializeObject(playerCardDto);
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                Logger.Info("heartbeat");
+                Logger.Info("Executing collection watch...");
+
+                var dto = _missingCardsService.GetMissingCardsPageDto();
+                var json = JsonConvert.SerializeObject(dto);
 
                 await _serverSentEventsService.SendEventAsync(new ServerSentEvent
                 {

@@ -31,7 +31,7 @@ namespace MtgaDeckBuilder.Api
 
             // add server-sent events
             services.AddServerSentEvents();
-            services.AddSingleton<IHostedService, HeartbeatService>();
+            services.AddSingleton<IHostedService, CollectionWatchService>();
 
             //services.AddResponseCompression(options =>
             //{

@@ -1,14 +1,11 @@
 using System;
 using System.IO;
-using System.Linq;
 using Lib.AspNetCore.ServerSentEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
-using MtgaDeckBuilder.Api.EventSource;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.MissingCards;
 using MtgaDeckBuilder.Api.SetImport;
@@ -31,18 +28,11 @@ namespace MtgaDeckBuilder.Api
 
             // add server-sent events
             services.AddServerSentEvents();
-            //services.AddSingleton<IHostedService, CollectionWatchService>();
-            services.AddSingleton<IHostedService, LogWatcher>();
-
-            //services.AddResponseCompression(options =>
-            //{
-            //    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "text/event-stream" });
-            //});
 
             // Add framework services
             services.AddMvc().AddJsonOptions(options =>
             {
-                //return json format with Camel Case
+                // return json format with Camel Case
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
@@ -60,6 +50,8 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<ILogParser, LogParser>();
             services.AddSingleton<ISetLoader, SetLoader>();
             services.AddSingleton<IStorage, FileStorage>();
+
+            services.AddSingleton<IHostedService, LogWatcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,7 +74,7 @@ namespace MtgaDeckBuilder.Api
             // first, add CORS middleware
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
 
-            //app.UseResponseCompression();
+            // add SSE middleware
             app.MapServerSentEvents("/api/sse-missingcards");
 
             app.UseMvc();

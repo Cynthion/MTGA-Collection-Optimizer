@@ -15,13 +15,13 @@
 - [ ] show set completeness
 - [ ] settings via REST call
 - [ ] SQLite/Electron Store (https://github.com/sindresorhus/electron-store) store for settings
+- [ ] remove file storage and set loader
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
-- [ ] detect changes and push from backend with Server Sent Events (SSE)
+- [X] detect changes and push from backend with Server Sent Events (SSE)
 - [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
 - [ ] fix window menu (WinRef) for electron
-- [ ] make deck columns sortable
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation

@@ -1,19 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
 import { makeInternalApiUrl } from 'src/app/util/http';
+import { LoadMissingCardsPageAction } from './missing-cards.actions';
+import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
 
 @Component({
   templateUrl: './missing-cards.page.html',
   styleUrls: ['./missing-cards.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MissingCardsPageComponent implements OnInit {
+export class MissingCardsPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -29,8 +30,8 @@ export class MissingCardsPageComponent implements OnInit {
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
 
-  protected _eventSource: EventSource;
-  protected _subscribed: boolean = false;
+  protected eventSource: EventSource;
+  protected isSseSubscribed: boolean = false;
 
   constructor(
       private store: Store<MissingCardsFeatureState>,
@@ -55,22 +56,31 @@ export class MissingCardsPageComponent implements OnInit {
     this.subscribeToServerSentEvents();
   }
   
+  ngOnDestroy() {
+    this.unsubscribeFromServerSentEvents();
+  }
+
   initializePage() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.applyFilter();
   }
   
-  public subscribeToServerSentEvents(): void
-  {
-    if (!this._subscribed)
-    {
-      this._eventSource = new EventSource(makeInternalApiUrl('sse-missingcards'));
-      this._eventSource.onopen = (evt) => this.onEventSourceOpen(evt);
-      this._eventSource.onmessage = (data) => this.onEventSourceMessage(data);
-      this._eventSource.onerror = (evt) => this.onEventSourceError(evt);
+  subscribeToServerSentEvents() {
+    if (!this.isSseSubscribed) {
+      this.eventSource = new EventSource(makeInternalApiUrl('sse-missingcards'));
+      this.eventSource.onopen = (evt) => this.onEventSourceOpen(evt);
+      this.eventSource.onmessage = (data) => this.onEventSourceMessage(data);
+      this.eventSource.onerror = (evt) => this.onEventSourceError(evt);
 
-      this._subscribed = true;
+      this.isSseSubscribed = true;
+    }
+  }
+
+  unsubscribeFromServerSentEvents() {
+    if (this.isSseSubscribed) {
+      this.eventSource.close();
+      this.isSseSubscribed = false;
     }
   }
 
@@ -117,20 +127,22 @@ export class MissingCardsPageComponent implements OnInit {
   }
 
   protected onEventSourceOpen(message: MessageEvent) {
-    console.log('CONNECTION ESTABLISHED!');
+    console.log('SSE connection established.');
   }
 
   protected onEventSourceMessage(message: MessageEvent): void
   {
-    console.log('on message, ', message);
+    console.log('SSE connection message:', message.data);
+
+    this.actionsSubject.next(new LoadMissingCardsPageAction());
   }
   
   protected onEventSourceError(message: MessageEvent): void
   {
-    console.log( "SSE Event failure: ", message);
-    if (event.eventPhase == this._eventSource.CLOSED) {
-      this._eventSource.close();
-      console.log( "CONNECTION CLOSED!");
+    console.log( "SSE connection error:", message);
+    if (event.eventPhase == this.eventSource.CLOSED) {
+      this.eventSource.close();
+      console.log('SSE connection closed.');
     }
   }
 }

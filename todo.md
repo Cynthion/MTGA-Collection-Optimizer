@@ -1,24 +1,27 @@
 # Features / Backlog
 
 ## MVP
+- [ ] settings via REST call
+- [ ] add loading bar
+- [ ] rename application to 'Collection Optimizer'
+- [ ] show set completeness
+- [ ] SQLite/Electron Store (https://github.com/sindresorhus/electron-store) store for settings
+- [ ] remove file storage and set loader
+- [ ] show where to spend available wildcards
+- [ ] sound bleep upon required card is added to collection
 - [X] enable CORS for electron
 - [X] fix electron window height
 - [X] make window borderless and draggable
 - [X] avoid log file lock by MTGA
 - [X] add filter clear button
-- [ ] add loading bar
 - [X] integrate player inventory to UI
 - [X] improve theming
 - [X] show application name
-- [ ] rename application to 'Collection Optimizer'
 - [X] repeatedly call backend / polling
-- [ ] show set completeness
-- [ ] settings via REST call
-- [ ] SQLite/Electron Store (https://github.com/sindresorhus/electron-store) store for settings
-- [ ] remove file storage and set loader
-- [ ] show where to spend available wildcards
-- [ ] sound bleep upon required card is added to collection
 - [X] detect changes and push from backend with Server Sent Events (SSE)
+
+## Production
+- [ ] use Angular enableProdMode()
 - [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
 - [ ] fix window menu (WinRef) for electron

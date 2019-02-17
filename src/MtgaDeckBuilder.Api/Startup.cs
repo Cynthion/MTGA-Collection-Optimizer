@@ -1,12 +1,18 @@
 using System;
 using System.IO;
+using System.Linq;
+using Lib.AspNetCore.ServerSentEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
+using MtgaDeckBuilder.Api.EventSource;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.SetImport;
 using Newtonsoft.Json.Serialization;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MtgaDeckBuilder.Api
 {
@@ -22,7 +28,20 @@ namespace MtgaDeckBuilder.Api
             // first, add CORS
             services.AddCors();
 
-            // Add framework services.
+            // add server-sent events
+            // Register default ServerSentEventsService.
+            services.AddServerSentEvents();
+            // Registers custom ServerSentEventsService which will be used by second middleware, otherwise they would end up sharing connected users.
+            services.AddServerSentEvents<INotificationsServerSentEventsService, NotificationsServerSentEventsService>();
+
+            services.AddSingleton<IHostedService, HeartbeatService>();
+
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "text/event-stream" });
+            });
+
+            // Add framework services
             services.AddMvc().AddJsonOptions(options =>
             {
                 //return json format with Camel Case
@@ -63,6 +82,10 @@ namespace MtgaDeckBuilder.Api
    
             // first, add CORS middleware
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+
+            app.UseResponseCompression();
+            app.MapServerSentEvents("/api/sse-heartbeat");
+            app.MapServerSentEvents<NotificationsServerSentEventsService>("/sse-notifications");
 
             app.UseMvc();
         }

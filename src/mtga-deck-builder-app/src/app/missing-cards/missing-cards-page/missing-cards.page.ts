@@ -57,11 +57,11 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     this.initializePage();
     // this.startPollInterval();
 
-    // this.onSubscribe()
+    this.onSubscribe()
 
-    this._httpClient
-      .get<PlayerCardDto>(makeInternalApiUrl('sse')) // subscribe
-      .subscribe(res => this.__onDataLoaded(res));
+    // this._httpClient
+    //   .get<PlayerCardDto>(makeInternalApiUrl('sse')) // get data
+    //   .subscribe(res => this.__onDataLoaded(res));
   }
   
   public onSubscribe(): void
@@ -69,7 +69,8 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     // handle clicking the subscribe to updates button
     if (!this._subscribed)
     {
-      this._eventSource           = new EventSource('/api/sse');
+      this._eventSource           = new EventSource(makeInternalApiUrl('sse-heartbeat')); // subscribe
+      this._eventSource.onopen    = (evt) => this.__onOpen(evt);
       this._eventSource.onmessage = (data) => this.__onMessage(data);
       this._eventSource.onerror   = (evt) => this.__onSseError(evt);
 
@@ -143,6 +144,10 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
       ? deck.cards.find(c => c.mtgaId === mtgaId).requiredCount
       : '';
+  }
+
+  protected __onOpen(evt: MessageEvent) {
+    console.log('on open, CONNECTION ESTABLISHED!');
   }
 
   protected __onDataLoaded(data: any): void

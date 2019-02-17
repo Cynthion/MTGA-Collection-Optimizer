@@ -31,7 +31,8 @@ namespace MtgaDeckBuilder.Api
 
             // add server-sent events
             services.AddServerSentEvents();
-            services.AddSingleton<IHostedService, CollectionWatchService>();
+            //services.AddSingleton<IHostedService, CollectionWatchService>();
+            services.AddSingleton<IHostedService, LogWatcher>();
 
             //services.AddResponseCompression(options =>
             //{
@@ -82,7 +83,7 @@ namespace MtgaDeckBuilder.Api
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
 
             //app.UseResponseCompression();
-            app.MapServerSentEvents("/api/sse-heartbeat");
+            app.MapServerSentEvents("/api/sse-missingcards");
 
             app.UseMvc();
         }

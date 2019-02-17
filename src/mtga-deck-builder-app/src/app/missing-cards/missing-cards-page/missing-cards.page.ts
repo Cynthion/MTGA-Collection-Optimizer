@@ -65,7 +65,7 @@ export class MissingCardsPageComponent implements OnInit {
   {
     if (!this._subscribed)
     {
-      this._eventSource = new EventSource(makeInternalApiUrl('sse-heartbeat')); // subscribe
+      this._eventSource = new EventSource(makeInternalApiUrl('sse-missingcards'));
       this._eventSource.onopen = (evt) => this.onEventSourceOpen(evt);
       this._eventSource.onmessage = (data) => this.onEventSourceMessage(data);
       this._eventSource.onerror = (evt) => this.onEventSourceError(evt);

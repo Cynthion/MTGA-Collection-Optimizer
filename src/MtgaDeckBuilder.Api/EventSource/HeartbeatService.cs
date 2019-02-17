@@ -21,7 +21,7 @@ namespace MtgaDeckBuilder.Api.EventSource
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var testData = "testData";
+            var testData = "heartbeat";
 
             while (!stoppingToken.IsCancellationRequested)
             {

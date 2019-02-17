@@ -72,7 +72,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       this._eventSource           = new EventSource(makeInternalApiUrl('sse-heartbeat')); // subscribe
       this._eventSource.onopen    = (evt) => this.__onOpen(evt);
       this._eventSource.onmessage = (data) => this.__onMessage(data);
-      this._eventSource.onerror   = (evt) => this.__onSseError(evt);
+      this._eventSource.onerror   = (evt) => this.__onError(evt);
 
       this._subscribed = true;
     }
@@ -188,9 +188,13 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     // }
   }
   
-  protected __onSseError(e: any): void
+  protected __onError(msgEvent: MessageEvent): void
   {
     // modify event handling as you see fit
-    console.log( "SSE Event failure: ", e );
+    console.log( "SSE Event failure: ", msgEvent);
+    if (event.eventPhase == this._eventSource.CLOSED) {
+      this._eventSource.close();
+      console.log( "CONNECTION CLOSED!");
+    }
   }
 }

@@ -1,64 +1,23 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using MtgaDeckBuilder.Api.InternalApi.MissingCards;
-using MtgaDeckBuilder.Api.LogImport;
-using MtgaDeckBuilder.Api.SetImport;
+﻿using Microsoft.AspNetCore.Mvc;
+using MtgaDeckBuilder.Api.MissingCards;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
     [Route("api/[controller]")]
     public class MissingCardsController : Controller
     {
-        private readonly ILogParser _logParser;
-        private readonly ISetLoader _setLoader;
-        private readonly IStorage _storage;
+        private readonly IMissingCardsService _missingCardsService;
 
-        public MissingCardsController(
-            ILogParser logParser,
-            ISetLoader setLoader,
-            IStorage storage
-        )
+        public MissingCardsController(IMissingCardsService missingCardsService)
         {
-            _logParser = logParser;
-            _setLoader = setLoader;
-            _storage = storage;
+            _missingCardsService = missingCardsService;
         }
 
         // GET api/missingcards
         [HttpGet]
         public ActionResult GetMissingCards()
         {
-            // TODO parse log async
-            // TODO optimize parsing: start from end of file
-            var playerCards = _logParser.ParsePlayerCards();
-            var playerDecks = _logParser.ParsePlayerDecks();
-            
-            //var cardInfos = await _setLoader.LoadAllSetsAsync();
-
-            var dto = new MissingCardsPageDto
-            {
-                PlayerCards = playerCards.Select(c => new PlayerCardDto
-                {
-                    MtgaId = c.Key,
-                    OwnedCount = c.Value
-                }).ToArray(),
-                PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
-                    {
-                        Id = d.Id,
-                        Name = d.Name,
-                        Cards = d.Cards.Select(c => new DeckCardDto
-                        {
-                            MtgaId = c.Key,
-                            RequiredCount = c.Value
-                        }).ToArray()
-                    })
-                    .Where(d => !d.Name.Contains("?=?"))
-                    .OrderBy(d => d.Name)
-                    .ToArray()
-            };
-
-            //// TODO remove
-            //Task.Delay(2000).Wait();
+            var dto = _missingCardsService.GetMissingCardsPageDto();
 
             return Ok(dto);
         }

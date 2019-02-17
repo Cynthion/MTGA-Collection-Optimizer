@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.EventSource;
 using MtgaDeckBuilder.Api.LogImport;
+using MtgaDeckBuilder.Api.MissingCards;
 using MtgaDeckBuilder.Api.SetImport;
 using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
@@ -54,6 +55,7 @@ namespace MtgaDeckBuilder.Api
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
                 PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });
+            services.AddSingleton<IMissingCardsService, MissingCardsService>();
             services.AddSingleton<ILogParser, LogParser>();
             services.AddSingleton<ISetLoader, SetLoader>();
             services.AddSingleton<IStorage, FileStorage>();

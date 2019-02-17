@@ -52,14 +52,16 @@ export class MissingCardsPageComponent implements OnInit {
 
   ngOnInit() {
     this.initializePage();
-    this.onSubscribe()
-
-    // this._httpClient
-    //   .get<PlayerCardDto>(makeInternalApiUrl('sse')) // get data
-    //   .subscribe(res => this.__onDataLoaded(res));
+    this.subscribeToServerSentEvents();
   }
   
-  public onSubscribe(): void
+  initializePage() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.applyFilter();
+  }
+  
+  public subscribeToServerSentEvents(): void
   {
     if (!this._subscribed)
     {
@@ -72,12 +74,6 @@ export class MissingCardsPageComponent implements OnInit {
     }
   }
 
-  initializePage() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.applyFilter();
-  }
-  
   applyFilter() {
     if (!!this.filterValue) {
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
@@ -121,7 +117,7 @@ export class MissingCardsPageComponent implements OnInit {
   }
 
   protected onEventSourceOpen(message: MessageEvent) {
-    console.log('on open, CONNECTION ESTABLISHED!');
+    console.log('CONNECTION ESTABLISHED!');
   }
 
   protected onEventSourceMessage(message: MessageEvent): void
@@ -131,7 +127,6 @@ export class MissingCardsPageComponent implements OnInit {
   
   protected onEventSourceError(message: MessageEvent): void
   {
-    // modify event handling as you see fit
     console.log( "SSE Event failure: ", message);
     if (event.eventPhase == this._eventSource.CLOSED) {
       this._eventSource.close();

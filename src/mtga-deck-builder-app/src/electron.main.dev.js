@@ -3,6 +3,9 @@ const { app, BrowserWindow, session } = require('electron')
 const path = require("path");
 const url = require("url");
 
+const storage = require('./storage');
+const windowStateStorageKey = "windowState";
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -11,11 +14,24 @@ const createWindow = () => {
   // set timeout to render the window not until the Angular 
   // compiler is ready to show the project
   setTimeout(() => {
+    // load settings
+    var lastWindowState = storage.get(windowStateStorageKey);
+
+    if (lastWindowState === null) {
+      lastWindowState = {
+        width: 1280,
+        height: 720,
+        maximized: false 
+      }
+    }
+  
     // Create the browser window.
     mainWindow = new BrowserWindow({
       frame: false,
-      width: 1280, 
-      height: 720,
+      x: lastWindowState.x,
+      y: lastWindowState.y,
+      width: lastWindowState.width, 
+      height: lastWindowState.height,
       icon: './src/favicon.ico',
       webPreferences: {
         webSecurity: true,
@@ -26,6 +42,10 @@ const createWindow = () => {
         preload: './preload.js',
       }
     })
+
+    if (lastWindowState.maximized) {
+      mainWindow.maximize();
+    }
 
     // and load the index.html of the app.
     mainWindow.loadURL(
@@ -38,6 +58,19 @@ const createWindow = () => {
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools({ mode: 'bottom' });
+
+    // persist window settings
+    mainWindow.on('close', function () {
+      var bounds = mainWindow.getBounds();
+
+      storage.set(windowStateStorageKey, {
+        x: bounds.x,
+        y: bounds.y,
+        width: bounds.width,
+        height: bounds.height,
+        maximized: mainWindow.isMaximized()
+      });
+    });
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {

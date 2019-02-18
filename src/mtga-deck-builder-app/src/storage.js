@@ -1,47 +1,46 @@
-import { getPath } from 'app';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-var data = null;
+var app = require('electron').app;
+var fs = require('fs');
+var path = require('path');
 
-var dataFilePath = join(getPath('userData'), 'mtga-collection-optimizer-settings.json'); 
+var data = null;
+var dataFilePath = path.join(app.getPath('userData'), 'data.json'); 
 
 function load() {
   if (data !== null) {
     return;
-  }
+  } 
   
-  if (!existsSync(dataFilePath)) {
+  if (!fs.existsSync(dataFilePath)) {
     data = {};
     return;
   }
   
-  data = JSON.parse(readFileSync(dataFilePath, 'utf-8'));
+  data = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8')); 
 }
 
 function save() {
-  writeFileSync(dataFilePath, JSON.stringify(data));
+  fs.writeFileSync(dataFilePath, JSON.stringify(data));
+  console.log('Saved to', dataFilePath);
 }
 
-export function set (key, value) {
+exports.set = function (key, value) {
   load();
-
-  data[key] = value;
-
+  data[key] = value; 
   save();
 }
 
-export function get (key) { 
+exports.get = function (key) { 
   load();
-  
   var value = null;
+  
   if (key in data) {
     value = data[key];
-  }
+  } 
   
   return value;
 }
 
-export function unset (key) {
+exports.unset = function (key) { 
   load();
   
   if (key in data) {

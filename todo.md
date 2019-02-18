@@ -9,6 +9,7 @@
 - [ ] remove file storage and set loader
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
+- [X] persist window state
 - [X] enable CORS for electron
 - [X] fix electron window height
 - [X] make window borderless and draggable

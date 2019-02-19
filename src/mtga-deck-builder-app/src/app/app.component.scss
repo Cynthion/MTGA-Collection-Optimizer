@@ -17,34 +17,47 @@
     display: flex;
     align-items: center;
 
-    >img {
-      height: $height;
-    }
-
+    
     .title {
       color: $theme-accent-color-a100;
     }
-
-    .window-menu {
+    
+    .menu-item {
       -webkit-app-region: none;
       -webkit-user-select: none;
+      margin-left: 1px;
+      height: $height;
+      width: $height;
+
+      >img {
+        height: $height;
+      }
+    }
+
+    .menues {
       margin-left: auto;
       display: flex;
-      flex-direction: row;
 
-      .menu-item {
-        margin-left: 1px;
-        height: $height;
-        width: $height;
+      .app-menu {
+        display: flex;
+
+        .settings:hover {
+          background: $theme-accent-color;
+        }
       }
+  
+      .window-menu {
+        display: flex;
+        margin-left: 50px;
 
-      .minimize:hover,
-      .maximize:hover {
-        background: $theme-accent-color;
-      }
-
-      .close:hover {
-        background: $theme-warn-color;
+        .minimize:hover,
+        .maximize:hover {
+          background: $theme-accent-color;
+        }
+  
+        .close:hover {
+          background: $theme-warn-color;
+        }
       }
     }
   }

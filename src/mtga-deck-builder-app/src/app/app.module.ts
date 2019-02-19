@@ -17,8 +17,7 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { AppGuard } from './app.guard';
 import { rootReducers } from './app.reducer';
-import { 
-  SettingsComponent,
+import {
   SettingsDialogComponent,
   SettingsDialogEffects,
 } from './settings';
@@ -30,7 +29,6 @@ const matModules = [
 ];
 
 const components = [
-  SettingsComponent,
   SettingsDialogComponent,
 ]
 

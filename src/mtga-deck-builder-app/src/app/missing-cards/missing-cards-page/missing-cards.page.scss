@@ -34,6 +34,10 @@
     overflow: auto; // overflow only works for blocks with specified height
     -webkit-user-select: none;
 
+    >table {
+      width: 100% !important;
+    }
+
     .mat-row:hover {
       background-color: $theme-accent-color-a700;
     }

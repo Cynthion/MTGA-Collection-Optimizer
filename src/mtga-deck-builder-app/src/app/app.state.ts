@@ -8,11 +8,11 @@ export interface RootState {
 export interface AppState {
   loadingSemaphore: number;
   isLoading: boolean;
-  settings: SettingsDialogState;
+  settingsDialog: SettingsDialogState;
 }
 
 export const initialAppState: AppState = {
   loadingSemaphore: 0,
   isLoading: false,
-  settings: initialSettingsDialogState,
+  settingsDialog: initialSettingsDialogState,
  };

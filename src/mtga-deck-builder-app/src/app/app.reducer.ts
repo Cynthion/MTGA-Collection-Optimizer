@@ -7,7 +7,7 @@ import { settingsReducer } from './settings';
 export function appReducer(state = initialAppState, action: AppActions): AppState {
 
   state = callNestedReducers(state, action, {
-    settings: settingsReducer
+    settingsDialog: settingsReducer
   });
 
   switch (action.type) {

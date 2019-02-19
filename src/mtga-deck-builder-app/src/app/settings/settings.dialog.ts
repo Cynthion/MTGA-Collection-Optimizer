@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Store, ActionsSubject } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-// TODO make dialog smart, inject store
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+import { RootState } from 'src/app/app.state';
+import { SettingsDialogState } from './settings.state';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -14,14 +13,19 @@ export interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsDialogComponent {
-
+  state$: Observable<SettingsDialogState>;
+  
   constructor(
     public dialogRef: MatDialogRef<SettingsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    
+    private store: Store<RootState>,
+    private actionsSubject: ActionsSubject,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.state$ = store.select(s =>  {
+        return s.app.settingsDialog;
+      });
   }
 
-  onNoClick(): void {
+  closeDialog(): void {
     this.dialogRef.close();
   }
 }

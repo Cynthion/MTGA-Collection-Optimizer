@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { AppGuard } from './app.guard';
 
 const MISSING_CARDS_PATH = 'missing-cards';
 
 export const appRoutes: Routes = [
   {
     path: '',
+    canActivate: [AppGuard],
     children: [
       {
         path: MISSING_CARDS_PATH,

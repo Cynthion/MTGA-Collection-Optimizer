@@ -1,4 +1,4 @@
-﻿namespace MtgaDeckBuilder.Api.Controllers
+﻿namespace MtgaDeckBuilder.Api.Controllers.Dtos
 {
     public class DeckCardDto : IMtgaCard
     {

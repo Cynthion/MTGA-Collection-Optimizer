@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MtgaDeckBuilder.Api.Controllers;
+using MtgaDeckBuilder.Api.Controllers.Dtos;
 using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;
 

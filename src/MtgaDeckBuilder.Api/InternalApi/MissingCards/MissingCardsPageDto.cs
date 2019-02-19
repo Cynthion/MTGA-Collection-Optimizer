@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MtgaDeckBuilder.Api.Controllers;
+using MtgaDeckBuilder.Api.Controllers.Dtos;
 
 namespace MtgaDeckBuilder.Api.InternalApi.MissingCards
 {

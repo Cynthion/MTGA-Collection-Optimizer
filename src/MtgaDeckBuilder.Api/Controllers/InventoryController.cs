@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MtgaDeckBuilder.Api.Controllers.Dtos;
 using MtgaDeckBuilder.Api.LogImport;
 
 namespace MtgaDeckBuilder.Api.Controllers

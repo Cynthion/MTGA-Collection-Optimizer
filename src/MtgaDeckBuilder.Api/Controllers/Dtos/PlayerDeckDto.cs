@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MtgaDeckBuilder.Api.Controllers
+namespace MtgaDeckBuilder.Api.Controllers.Dtos
 {
     public class PlayerDeckDto
     {

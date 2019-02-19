@@ -3,12 +3,10 @@
 ## MVP
 - [ ] settings via REST call
 - [ ] add loading bar
-- [ ] rename application to 'Collection Optimizer'
 - [ ] show set completeness
-- [ ] SQLite/Electron Store (https://github.com/sindresorhus/electron-store) store for settings
-- [ ] remove file storage and set loader
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
+- [X] settings menu
 - [X] persist window state
 - [X] enable CORS for electron
 - [X] fix electron window height
@@ -22,10 +20,12 @@
 - [X] detect changes and push from backend with Server Sent Events (SSE)
 
 ## Production
+- [ ] fix window menu (WinRef) for electron
+- [ ] rename application to 'Collection Optimizer'
 - [ ] use Angular enableProdMode()
 - [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
-- [ ] fix window menu (WinRef) for electron
+- [X] custom favicon
 
 ## Future Releases
 - [ ] drop location for new Card Set json file -> automatic installation
@@ -35,11 +35,8 @@
 - [ ] more beautiful owned/missing indicator
 - [ ] make deck columns sortable/moveable
 
-# Bugs
-- [X] check 'Blood Crypt' quantity
-- [X] quit Electron and process correctly
-
-# Optimization
+# Optimization / Refactoring
+- [ ] remove file storage and set loader
 - [ ] parse log file async
 - [ ] parse log file from end of file
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder

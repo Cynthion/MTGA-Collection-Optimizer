@@ -106,6 +106,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       case 'ownedCount': return 'Owned';
       case 'missingCount': return 'Missing';
     }
+    return 'n/a';
   }
 
   getRarityClass(columnName: keyof CollectionCardState, card: CollectionCardState): string {
@@ -118,11 +119,12 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
         case 0: return 'basic';
       }
     }
+    return 'n/a';
   }
 
   getRequiredCount(deck: PlayerDeckState, mtgaId: number) {
     return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
-      ? deck.cards.find(c => c.mtgaId === mtgaId).requiredCount
+      ? deck.cards.find(c => c!.mtgaId === mtgaId).requiredCount
       : '';
   }
 
@@ -140,7 +142,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   protected onEventSourceError(message: MessageEvent): void
   {
     console.log( "SSE connection error:", message);
-    if (event.eventPhase == this.eventSource.CLOSED) {
+    if (message.eventPhase == this.eventSource.CLOSED) {
       this.eventSource.close();
       console.log('SSE connection closed.');
     }

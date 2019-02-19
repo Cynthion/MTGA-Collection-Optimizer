@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 
-import { SettingsActionTypes, InitializedSettingsDialogAction, LoadSettingsDialogAction } from './settings.actions';
+import { SettingsActionTypes, InitializedSettingsDialogAction } from './settings.actions';
 import { SettingsDialogDto } from './settings.state';
 import { internalApiGet } from 'src/app/util/http';
 

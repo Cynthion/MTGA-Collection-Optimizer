@@ -17,11 +17,6 @@
     "lib": [
       "es2018",
       "dom"
-    ],
-    "strict": true,
-    "strictPropertyInitialization": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    "skipLibCheck": true,
+    ]
   }
 }

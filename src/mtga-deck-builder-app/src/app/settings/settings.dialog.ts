@@ -14,7 +14,9 @@ import { SettingsDialogState } from './settings.state';
 })
 export class SettingsDialogComponent {
   state$: Observable<SettingsDialogState>;
-  
+
+  outputLogPath: string;
+
   constructor(
     public dialogRef: MatDialogRef<SettingsDialogComponent>,
     private store: Store<RootState>,
@@ -26,6 +28,9 @@ export class SettingsDialogComponent {
   }
 
   closeDialog(): void {
+    // TODO write settings to storage
+    // TODO provide settings to backend
+    console.log('Configured path:', this.outputLogPath);
     this.dialogRef.close();
   }
 }

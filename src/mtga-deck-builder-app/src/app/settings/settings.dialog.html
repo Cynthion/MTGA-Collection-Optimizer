@@ -1,5 +1,14 @@
 <h1 mat-dialog-title>Settings</h1>
-  <p>{{ (state$ | async).outputLogPath }}</p>
-<div mat-dialog-actions>
+<div class="output-log-path-setting">
+  <mat-form-field hintLabel="Path to the MTGA output_log.txt file on your machine.">
+    <input 
+      matInput
+      #input
+      [(ngModel)]="outputLogPath"
+      floatLabel="never"
+      placeholder="Output Log Path">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
   <button mat-button cdkFocusInitial (click)="closeDialog()">Ok</button>
 </div>

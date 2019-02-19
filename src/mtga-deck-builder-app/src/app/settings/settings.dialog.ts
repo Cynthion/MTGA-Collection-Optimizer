@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { RootState } from 'src/app/app.state';
 import { SettingsDialogState } from './settings.state';
 
+// const storage = require('../../storage');
+const outputLogPathStorageKey = "outputLogPath";
+
 @Component({
   selector: 'app-settings-dialog',
   templateUrl: './settings.dialog.html',
@@ -28,7 +31,10 @@ export class SettingsDialogComponent {
   }
 
   closeDialog(): void {
+    // TODO check whether run in Electron
     // TODO write settings to storage
+    // storage.set(outputLogPathStorageKey, this.outputLogPath);
+
     // TODO provide settings to backend
     console.log('Configured path:', this.outputLogPath);
     this.dialogRef.close();

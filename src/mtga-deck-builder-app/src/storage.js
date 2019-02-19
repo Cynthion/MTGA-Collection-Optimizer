@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 
 var data = null;
-var dataFilePath = path.join(app.getPath('userData'), 'data.json'); 
+var dataFilePath = path.join(app.getPath('userData'), 'MTGA Collection Optimizer Storage.json'); 
 
 function load() {
   if (data !== null) {

@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material';
 
 import { WindowRef } from 'src/app/windowRef';
 import { SettingsDialogComponent } from './settings';
-
-declare function isElectron(): any;
+import { PlatformServiceProvider, WindowService } from './util/platform-service-provider';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +12,13 @@ declare function isElectron(): any;
 })
 export class AppComponent {
 
-  constructor(
-    private injector: Injector,
-    private dialog: MatDialog,
-    private winRef: WindowRef) {
+  private windowService: WindowService;
 
-    console.log('isElectron', isElectron())
+  constructor(
+    private platformServiceProvider: PlatformServiceProvider,
+    private dialog: MatDialog,) {
+
+    this.windowService = platformServiceProvider.getWindowService();
   }
 
   openSettingsDialog(): void {
@@ -32,14 +32,14 @@ export class AppComponent {
   }
 
   minimizeWindow() {
-    // TODO implement
+    this.windowService.minimizeWindow();
   }
-
+  
   maximizeWindow() {
-    // TODO implement
+    this.windowService.maximizeWindow();
   }
-
+  
   closeWindow() {
-    // TODO implement
+    this.windowService.closeWindow();
   }
 }

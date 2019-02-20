@@ -62,29 +62,38 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-function startApi() {
-  var proc = require('child_process').spawn;
-  //  run server
-  var apipath = path.join(__dirname, 'MtgaDeckBuilder.Api.exe') // must be copied manually from .NET bin folder
-//   if (os.platform() === 'darwin') {
-//     apipath = path.join(__dirname, '..//api//bin//dist//osx//Api')
-//   }
-  apiProcess = proc(apipath)
+// .NET Core backend process
+// https://nodejs.org/api/child_process.html
+var backendProcess = null;
 
-  apiProcess.stdout.on('data', (data) => {
-    writeLog(`stdout: ${data}`);
-    if (mainWindow == null) {
+function startApi() {
+  const childProcess = require('child_process').spawn;
+  //  run server
+  // TODO for production, take .exe from .NET project /dist folder
+  // var backendExecutablePath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\dist\\win\\MtgaDeckBuilder.Api.exe')
+  var backendExecutablePath = path.join(__dirname, '..\\..\\MtgaDeckBuilder.Api\\bin\\Debug\\netcoreapp2.2\\win10-x64\\MtgaDeckBuilder.Api.exe')
+
+  backendProcess = childProcess(backendExecutablePath)
+
+  backendProcess.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+
+    if (mainWindow == undefined) {
+      // create window after successful backend spawn
       createWindow();
     }
   });
-}
 
-//Kill process when electron exits
-process.on('exit', function () {
-  writeLog('exit');
-  apiProcess.kill();
-});
-
-function writeLog(msg){
-  console.log(msg);
+  backendProcess.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+  
+  backendProcess.on('close', (code) => {
+    console.log(`API backend process exited with code ${code}.`);
+    // if backend process closes, also close frontend (should not happen this way round)
+    if (mainWindow !== null) {
+      console.log(`Thus, also closing frontend window.`);
+      mainWindow.close();
+    }
+  });
 }

@@ -1,19 +1,22 @@
 import { WindowService } from './platform-service-provider';
 
-import { remote } from 'electron';
-// const {BrowserWindow} = require('electron').remote;
+// this part requires browserify
+const remote = require('electron').remote;
+const BrowserWindow = remote.BrowserWindow;
 
 // TODO don't work with typing, just call function. should work if it^s there
 
 export class ElectronWindowService implements WindowService {
   minimizeWindow(): void {
-    console.log(remote);
+    // BrowserWindow.minimizeWindow();
     console.log('Electron: Window minimized.');
   }
   maximizeWindow(): void {
+    // BrowserWindow.maximizeWindow();
     console.log('Electron: Window maximized.');
   }
   closeWindow(): void {
+    // BrowserWindow.closeWindow();
     console.log('Electron: Window closed.');
   }
 }

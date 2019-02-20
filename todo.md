@@ -40,3 +40,4 @@
 - [ ] parse log file async
 - [ ] parse log file from end of file
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder
+- [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/

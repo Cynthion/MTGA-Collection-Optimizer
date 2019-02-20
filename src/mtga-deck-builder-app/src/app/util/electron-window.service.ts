@@ -1,12 +1,11 @@
 import { WindowService } from './platform-service-provider';
-
-// this part requires browserify
-// const remote = require('electron').remote;
-// const BrowserWindow = remote.BrowserWindow;
-
-// TODO don't work with typing, just call function. should work if it^s there
+import { ElectronService } from 'ngx-electron';
 
 export class ElectronWindowService implements WindowService {
+
+  constructor(private electronService: ElectronService) { 
+  }
+
   minimizeWindow(): void {
     // BrowserWindow.minimizeWindow();
     console.log('Electron: Window minimized.');

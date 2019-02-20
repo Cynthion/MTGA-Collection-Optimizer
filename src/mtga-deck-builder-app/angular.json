@@ -31,10 +31,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "src/electron.js",
-              "src/electron.service.js"
-            ],
+            "scripts": [],
             "es5BrowserSupport": true
           },
           "configurations": {

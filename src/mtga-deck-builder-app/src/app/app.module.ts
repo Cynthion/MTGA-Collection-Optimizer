@@ -13,6 +13,7 @@ import {
 } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgxElectronModule } from 'ngx-electron';
 
 import { PlatformServiceProvider } from './util/platform-service-provider';
 
@@ -50,6 +51,7 @@ const components = [
     StoreModule.forRoot(rootReducers),
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([SettingsDialogEffects]),
+    NgxElectronModule,
     ...matModules,
   ],
   providers: [AppGuard, PlatformServiceProvider],

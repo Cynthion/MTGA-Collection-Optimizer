@@ -7,15 +7,18 @@ export class ElectronWindowService implements WindowService {
   }
 
   minimizeWindow(): void {
-    // BrowserWindow.minimizeWindow();
+    const browserWindow = this.electronService.remote.BrowserWindow;
+    (browserWindow as any).minimize();
     console.log('Electron: Window minimized.');
   }
   maximizeWindow(): void {
-    // BrowserWindow.maximizeWindow();
+    const browserWindow = this.electronService.remote.BrowserWindow;
+    (browserWindow as any).maximize();
     console.log('Electron: Window maximized.');
   }
   closeWindow(): void {
-    // BrowserWindow.closeWindow();
+    const browserWindow = this.electronService.remote.BrowserWindow;
+    (browserWindow as any).close();
     console.log('Electron: Window closed.');
   }
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
+import { isElectron } from '../app/util/isElectron';
 import { WindowRef } from 'src/app/windowRef';
 import { SettingsDialogComponent } from './settings';
 
@@ -12,11 +13,14 @@ import { SettingsDialogComponent } from './settings';
 export class AppComponent {
 
   constructor(
-    public dialog: MatDialog,
+    private injector: Injector,
+    private dialog: MatDialog,
     private winRef: WindowRef) {
     // const remote = require('electron').remote;
     // const BrowserWindow = remote.BrowserWindow;
     // console.log(winRef && winRef.nativeWindow.process && winRef.nativeWindow.process.type);
+
+    console.log('isElectron', isElectron())
   }
 
   openSettingsDialog(): void {

@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 
-import { flatMap, startWith } from 'rxjs/operators';
+import { flatMap, tap } from 'rxjs/operators';
 import { internalApiGet } from 'src/app/util/http';
 import { InventoryActionTypes, InitializedInventoryAction } from './inventory.actions';
 import { InventoryDto } from './inventory.state';
@@ -16,6 +16,7 @@ export class InventoryEffects {
   loadData$: Observable<Action> = this.actions$
   .pipe(
       ofType(InventoryActionTypes.Load),
+      tap(a => console.log(a)),
       flatMap(_ =>
         internalApiGet<InventoryDto>(
           this.http,

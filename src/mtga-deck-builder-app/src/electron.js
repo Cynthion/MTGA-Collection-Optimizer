@@ -1,12 +1,12 @@
 // https://github.com/electron/electron/issues/2288
-export function isElectron() {
+function isElectron() {
     // Renderer process
-    if (typeof window !== 'undefined' && typeof (window as any).process === 'object' && (window as any).process!.type === 'renderer') {
+    if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
         return true;
     }
 
     // Main process
-    if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!(process.versions as any).electron) {
+    if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
         return true;
     }
 

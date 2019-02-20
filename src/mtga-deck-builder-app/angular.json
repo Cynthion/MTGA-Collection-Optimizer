@@ -32,7 +32,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/electron.js"
+              "src/electron.js",
+              "src/electron.service.js"
             ],
             "es5BrowserSupport": true
           },

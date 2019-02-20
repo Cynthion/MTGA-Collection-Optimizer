@@ -1,8 +1,8 @@
 import { WindowService } from './platform-service-provider';
 
 // this part requires browserify
-const remote = require('electron').remote;
-const BrowserWindow = remote.BrowserWindow;
+// const remote = require('electron').remote;
+// const BrowserWindow = remote.BrowserWindow;
 
 // TODO don't work with typing, just call function. should work if it^s there
 

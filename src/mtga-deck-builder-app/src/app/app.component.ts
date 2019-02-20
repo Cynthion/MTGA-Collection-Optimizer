@@ -1,7 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { WindowRef } from 'src/app/windowRef';
 import { SettingsDialogComponent } from './settings';
 import { PlatformServiceProvider, WindowService } from './util/platform-service-provider';
 

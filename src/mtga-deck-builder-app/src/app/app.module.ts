@@ -14,7 +14,6 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { WindowRef } from './windowRef';
 import { PlatformServiceProvider } from './util/platform-service-provider';
 
 import { AppComponent } from './app.component';
@@ -53,7 +52,7 @@ const components = [
     EffectsModule.forRoot([SettingsDialogEffects]),
     ...matModules,
   ],
-  providers: [AppGuard, PlatformServiceProvider, WindowRef],
+  providers: [AppGuard, PlatformServiceProvider],
   bootstrap: [AppComponent],
   entryComponents: [SettingsDialogComponent],
 })

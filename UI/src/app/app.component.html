@@ -1,1 +1,33 @@
-<router-outlet></router-outlet>
+<div class="window-container">
+
+  <div class="app-bar">
+    <div class="title">MTGA Collection Optimizer</div>
+
+    <div class="menues">
+      <div class="app-menu">
+        <div class="menu-item settings" (click)="openSettingsDialog()">
+          <img src="assets/img/settings.png">
+        </div>
+      </div>
+  
+      <div class="window-menu">
+        <div class="menu-item minimize" (click)="minimizeWindow()">
+          <img src="assets/img/window-minimize.png">
+        </div>
+        <div class="menu-item maximize" (click)="maximizeWindow()">
+            <img src="assets/img/window-maximize.png">
+        </div>
+        <div class="menu-item close" (click)="closeWindow()">
+          <img src="assets/img/window-close.png">
+        </div>
+      </div>
+    </div>
+    </div>
+
+  <div class="app-container">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- TODO add policy info here -->
+</div>
+

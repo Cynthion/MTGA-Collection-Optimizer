@@ -1,0 +1,23 @@
+<div class="flex-container">
+  <div class="name-container">
+      <div class="name">{{ (state$ | async).playerName }}</div>
+  </div>
+  <div class="wcs-container">
+    <div class="wc-container">
+      <img src="assets/img/wcMythic.png">
+      <div class="count">{{ (state$ | async).wildcardMythic }}</div>
+    </div>
+    <div class="wc-container">
+      <img src="assets/img/wcRare.png">
+      <div class="count">{{ (state$ | async).wildcardRare }}</div>
+    </div>
+    <div class="wc-container">
+      <img src="assets/img/wcUncommon.png">
+      <div class="count">{{ (state$ | async).wildcardUncommon }}</div>
+    </div>
+    <div class="wc-container">
+      <img src="assets/img/wcCommon.png">
+      <div class="count">{{ (state$ | async).wildcardCommon }}</div>
+    </div>
+  </div>
+</div>

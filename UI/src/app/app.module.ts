@@ -1,49 +1,81 @@
 import 'reflect-metadata';
 import '../polyfills';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-
-import { AppRoutingModule } from './app-routing.module';
-
-// NG Translate
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { RouterModule } from '@angular/router';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+} from '@angular/material';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { ElectronService } from './providers/electron.service';
-
-import { WebviewDirective } from './directives/webview.directive';
+import { PlatformServiceProvider } from './providers/platform-service-provider';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { appRoutes } from './app.routing';
+import { AppGuard } from './app.guard';
+import { rootReducers } from './app.reducer';
+import {
+  SettingsDialogComponent,
+  SettingsDialogEffects,
+} from './settings';
 
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+const matModules = [
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+];
+
+const components = [
+  SettingsDialogComponent,
+];
+
+// // NG Translate
+// import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+// import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+// // AoT requires an exported function for factories
+// export function HttpLoaderFactory(http: HttpClient) {
+//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+// }
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    WebviewDirective
+    ...components,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [HttpClient]
-      }
-    })
+    FormsModule,
+    StoreModule.forRoot(rootReducers),
+    RouterModule.forRoot(appRoutes),
+    EffectsModule.forRoot([SettingsDialogEffects]),
+    ...matModules,
+    // TranslateModule.forRoot({
+    //   loader: {
+    //     provide: TranslateLoader,
+    //     useFactory: (HttpLoaderFactory),
+    //     deps: [HttpClient]
+    //   }
+    // })
   ],
-  providers: [ElectronService],
-  bootstrap: [AppComponent]
+  providers: [
+    AppGuard,
+    ElectronService,
+    PlatformServiceProvider,
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [SettingsDialogComponent],
 })
 export class AppModule { }

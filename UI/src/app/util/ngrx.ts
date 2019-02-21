@@ -1,6 +1,6 @@
 import { Action, ActionReducerMap } from '@ngrx/store';
 
-function keys<T>(t: T): (keyof T)[] {
+function keys<T>(t: T) { // }: (keyof T)[] {
   return Object.keys(t) as any;
 }
 

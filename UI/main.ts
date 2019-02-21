@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, session } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -15,8 +15,17 @@ function createWindow() {
   win = new BrowserWindow({
     x: 0,
     y: 0,
-    width: size.width,
-    height: size.height
+    width: 1280,
+    height: 720,
+    frame: false,
+    icon: './favicon.ico',
+    webPreferences: {
+      nodeIntegration: false,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
+      experimentalFeatures: false,
+      contextIsolation: true,
+    }
   });
 
   if (serve) {
@@ -32,7 +41,8 @@ function createWindow() {
     }));
   }
 
-  win.webContents.openDevTools();
+  // Open the DevTools.
+  win.webContents.openDevTools({ mode: 'bottom' });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -49,7 +59,21 @@ try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindow);
+  app.on('ready', () => {
+    // Add Content Security Policy (CSP) headers
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      callback({
+        responseHeaders: {
+          ...details.responseHeaders,
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+          // Further options: \'unsafe-inline\' \'unsafe-eval\' ws:
+          'Content-Security-Policy': ['default-src \'self\' https://localhost:5001']
+        }
+      });
+    });
+
+    createWindow();
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {

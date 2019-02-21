@@ -35,11 +35,11 @@ const createWindow = () => {
       icon: './src/favicon.ico',
       webPreferences: {
         webSecurity: true,
-        // nodeIntegration: false,
+        nodeIntegration: false,
         allowRunningInsecureContent: false,
         experimentalFeatures: false,
         contextIsolation: true,
-        preload: './preload.js',
+        preload: path.join(__dirname, 'preload.js'),
       }
     })
 

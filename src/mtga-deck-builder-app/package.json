@@ -4,8 +4,7 @@
   "main": "main.js",
   "scripts": {
     "ng": "ng",
-    "start": "electron .",
-    "start-web": "concurrently \"ng serve\" \"npm run electron\"",
+    "start": "concurrently \"ng serve\" \"npm run electron\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

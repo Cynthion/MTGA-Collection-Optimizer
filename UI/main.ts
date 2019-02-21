@@ -1,23 +1,33 @@
-import { app, BrowserWindow, screen, session } from 'electron';
+import { app, BrowserWindow, session } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { start } from 'repl';
 
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+const storage = require('./storage');
+const windowStateStorageKey = 'windowState';
+
 function createWindow() {
 
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  // Load window settings.
+  let lastWindowState = storage.get(windowStateStorageKey);
+
+  if (lastWindowState === null) {
+    lastWindowState = {
+      width: 1280,
+      height: 720,
+      maximized: false,
+    };
+  }
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: 1280,
-    height: 720,
+    x: lastWindowState.x,
+    y: lastWindowState.y,
+    width: lastWindowState.width,
+    height: lastWindowState.height,
     frame: false,
     icon: './favicon.ico',
     webPreferences: {
@@ -28,6 +38,10 @@ function createWindow() {
       contextIsolation: true,
     }
   });
+
+  if (lastWindowState.maximized) {
+    win.maximize();
+  }
 
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -44,6 +58,19 @@ function createWindow() {
 
   // Open the DevTools.
   win.webContents.openDevTools({ mode: 'bottom' });
+
+  // Store window settings.
+  win.on('close', function () {
+    const bounds = win.getBounds();
+
+    storage.set(windowStateStorageKey, {
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      maximized: win.isMaximized(),
+    });
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {

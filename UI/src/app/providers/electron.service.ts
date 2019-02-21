@@ -27,6 +27,7 @@ export class ElectronService {
     }
   }
 
+  // TODO this logic seems not to be true
   isElectron = () => {
     return window && window.process && window.process.type;
   }

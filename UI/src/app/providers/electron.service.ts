@@ -31,4 +31,8 @@ export class ElectronService {
   isElectron = () => {
     return window && window.process && window.process.type;
   }
+
+  public get isElectronApp(): boolean {
+    return !!window.navigator.userAgent.match(/Electron/);
+  }
 }

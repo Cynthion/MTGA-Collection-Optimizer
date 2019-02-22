@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 // import { TranslateService } from '@ngx-translate/core';
-import { ElectronService } from 'ngx-electron';
 
 import { AppConfig } from '../environments/environment';
 import { WindowService } from './providers/window.service';
+import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
 import { SettingsDialogComponent } from './settings';
 
@@ -26,6 +26,14 @@ export class AppComponent {
 
     // translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
+
+    if (electronService.isElectron) {
+      console.log('Mode: Electron');
+      console.log('Electron ipcRenderer', electronService.ipcRenderer);
+      console.log('NodeJS childProcess', electronService.childProcess);
+    } else {
+      console.log('Mode: Web');
+    }
 
     if (electronService.isElectronApp) {
       console.log('Mode: Electron');

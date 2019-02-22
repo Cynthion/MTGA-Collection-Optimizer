@@ -1,7 +1,3 @@
-# Introduction
-
-No introduction yet.
-
 ## To build for development
 
 - **in a terminal window** -> npm start

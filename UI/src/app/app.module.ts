@@ -15,6 +15,7 @@ import {
 } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgxElectronModule } from 'ngx-electron';
 
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
@@ -62,6 +63,7 @@ const components = [
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([SettingsDialogEffects]),
     ...matModules,
+    NgxElectronModule,
     // TranslateModule.forRoot({
     //   loader: {
     //     provide: TranslateLoader,

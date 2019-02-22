@@ -22,7 +22,7 @@
 ## Production
 - [ ] fix window menu (WinRef) for electron
 - [ ] rename application to 'Collection Optimizer'
-- [ ] use Angular enableProdMode()
+- [X] use Angular enableProdMode()
 - [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
 - [X] custom favicon

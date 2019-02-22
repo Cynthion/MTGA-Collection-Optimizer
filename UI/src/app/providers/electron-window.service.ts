@@ -1,4 +1,5 @@
-import { ElectronService } from './electron.service';
+import { ElectronService } from 'ngx-electron';
+
 import { WindowService } from './window.service';
 
 export class ElectronWindowService implements WindowService {

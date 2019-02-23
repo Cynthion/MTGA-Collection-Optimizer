@@ -31,11 +31,12 @@ function createWindow() {
     frame: false,
     icon: './favicon.ico',
     webPreferences: {
-      // nodeIntegration: false,
+      nodeIntegration: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
       webSecurity: true,
       allowRunningInsecureContent: false,
       experimentalFeatures: false,
-      contextIsolation: true,
     }
   });
 

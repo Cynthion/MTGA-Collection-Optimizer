@@ -1,24 +1,20 @@
-import { ElectronService } from 'ngx-electron';
-
 import { WindowService } from './window.service';
+import { PreloadBridge } from './preload.bridge';
 
 export class ElectronWindowService implements WindowService {
 
-  constructor(private electronService: ElectronService) { }
+  constructor(private preloadBridge: PreloadBridge) { }
 
   minimizeWindow(): void {
-    const browserWindow = this.electronService.remote.BrowserWindow;
-    (browserWindow as any).minimize();
+    this.preloadBridge.minimizeWindow();
     console.log('Electron: Window minimized.');
   }
   maximizeWindow(): void {
-    const browserWindow = this.electronService.remote.BrowserWindow;
-    (browserWindow as any).maximize();
+    this.preloadBridge.maximizeWindow();
     console.log('Electron: Window maximized.');
   }
   closeWindow(): void {
-    const browserWindow = this.electronService.remote.BrowserWindow;
-    (browserWindow as any).close();
+    this.preloadBridge.closeWindow();
     console.log('Electron: Window closed.');
   }
 }

@@ -15,7 +15,8 @@
           <img src="assets/img/window-minimize.png">
         </div>
         <div class="menu-item maximize" (click)="maximizeWindow()">
-            <img src="assets/img/window-maximize.png">
+          <img *ngIf="!isMaximized" src="assets/img/window-maximize.png">
+          <img *ngIf="isMaximized" src="assets/img/window-restore.png">
         </div>
         <div class="menu-item close" (click)="closeWindow()">
           <img src="assets/img/window-close.png">

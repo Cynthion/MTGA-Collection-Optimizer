@@ -12,6 +12,7 @@ function init() {
   window.MtgaCollectionOptimizerBridge = {
     minimizeWindow: minimizeWindow,
     maximizeWindow: maximizeWindow,
+    restoreWindow: restoreWindow,
     closeWindow: closeWindow,
   };
 }
@@ -24,6 +25,11 @@ function minimizeWindow() {
 function maximizeWindow() {
   var win = remote.getCurrentWindow();
   win.maximize();
+}
+
+function restoreWindow() {
+  var win = remote.getCurrentWindow();
+  win.restore();
 }
 
 function closeWindow() {

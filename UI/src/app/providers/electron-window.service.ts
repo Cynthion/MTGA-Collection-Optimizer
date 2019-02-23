@@ -9,10 +9,17 @@ export class ElectronWindowService implements WindowService {
     this.preloadBridge.minimizeWindow();
     console.log('Electron: Window minimized.');
   }
+
   maximizeWindow(): void {
     this.preloadBridge.maximizeWindow();
     console.log('Electron: Window maximized.');
   }
+
+  restoreWindow(): void {
+    this.preloadBridge.restoreWindow();
+    console.log('Electron: Window restored.');
+  }
+
   closeWindow(): void {
     this.preloadBridge.closeWindow();
     console.log('Electron: Window closed.');

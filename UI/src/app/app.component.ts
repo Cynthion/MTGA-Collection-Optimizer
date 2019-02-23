@@ -16,6 +16,7 @@ import { SettingsDialogComponent } from './settings';
 export class AppComponent {
 
   private windowService: WindowService;
+  private isWindowMaximized: boolean;
 
   constructor(
     public electronService: ElectronService,
@@ -61,10 +62,20 @@ export class AppComponent {
   }
 
   maximizeWindow() {
-    this.windowService.maximizeWindow();
+    if (this.isWindowMaximized) {
+      this.windowService.restoreWindow();
+      this.isWindowMaximized = false;
+    } else {
+      this.windowService.maximizeWindow();
+      this.isWindowMaximized = true;
+    }
   }
 
   closeWindow() {
     this.windowService.closeWindow();
+  }
+
+  get isMaximized(): boolean {
+    return this.isWindowMaximized;
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 export interface IMtgaCollectionOptimizerBridge {
   minimizeWindow(): void;
   maximizeWindow(): void;
+  restoreWindow(): void;
   closeWindow(): void;
 }
 
@@ -16,6 +17,10 @@ export class PreloadBridge implements IMtgaCollectionOptimizerBridge {
 
   maximizeWindow(): void {
     this.bridge.maximizeWindow();
+  }
+
+  restoreWindow(): void {
+    this.bridge.restoreWindow();
   }
 
   closeWindow(): void {

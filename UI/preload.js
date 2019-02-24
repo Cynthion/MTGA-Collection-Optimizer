@@ -10,11 +10,17 @@ function init() {
   // !CAREFUL! Don't expose any functionality or APIs that could compromise the user's computer. 
   // (e.g., don't directly expose core Electron (even IPC) or Node.js modules.
   window.MtgaCollectionOptimizerBridge = {
+    isWindowMaximized: isWindowMaximized,
     minimizeWindow: minimizeWindow,
     maximizeWindow: maximizeWindow,
     restoreWindow: restoreWindow,
     closeWindow: closeWindow,
   };
+}
+
+function isWindowMaximized() {
+  var win = remote.getCurrentWindow();
+  return win.isMaximized();
 }
 
 function minimizeWindow() {

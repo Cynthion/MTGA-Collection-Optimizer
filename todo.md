@@ -20,11 +20,11 @@
 - [X] detect changes and push from backend with Server Sent Events (SSE)
 
 ## Production
-- [ ] fix window menu (WinRef) for electron
 - [ ] rename application to 'Collection Optimizer'
-- [X] use Angular enableProdMode()
-- [ ] change ports for production
 - [ ] add License info (https://company.wizards.com/fancontentpolicy)
+- [ ] change ports for production
+- [X] fix window menu (WinRef) for electron
+- [X] use Angular enableProdMode()
 - [X] custom favicon
 
 ## Future Releases

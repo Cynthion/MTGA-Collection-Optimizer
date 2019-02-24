@@ -45,6 +45,7 @@ export class AppComponent {
     }
 
     this.windowService = platformServiceProvider.getWindowService();
+    this.isWindowMaximized = this.windowService.isWindowMaximized();
   }
 
   openSettingsDialog(): void {

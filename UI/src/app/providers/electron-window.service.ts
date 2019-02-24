@@ -5,6 +5,10 @@ export class ElectronWindowService implements WindowService {
 
   constructor(private preloadBridge: PreloadBridge) { }
 
+  isWindowMaximized(): boolean {
+    return this.preloadBridge.isWindowMaximized();
+  }
+
   minimizeWindow(): void {
     this.preloadBridge.minimizeWindow();
     console.log('Electron: Window minimized.');

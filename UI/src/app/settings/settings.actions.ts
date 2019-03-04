@@ -6,6 +6,7 @@ export enum SettingsActionTypes {
   Load = '[Settings] Load',
   Initialized = '[Settings] Initialized',
   LoadError = '[Settings] Load Error',
+  Apply = '[Settings] Apply',
 }
 
 export class LoadSettingsDialogAction implements Action {
@@ -22,6 +23,14 @@ export class InitializedSettingsDialogAction implements Action {
 
 export class LoadSettingsDialogErrorAction implements Action {
   readonly type = SettingsActionTypes.LoadError;
+}
+
+export class ApplySettingsDialogAction implements Action {
+  readonly type = SettingsActionTypes.Apply;
+
+  constructor(
+    public dto: SettingsDialogDto,
+  ) { }
 }
 
 export type SettingsActions =

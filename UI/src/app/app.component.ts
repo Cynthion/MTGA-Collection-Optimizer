@@ -28,14 +28,6 @@ export class AppComponent {
     // translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
-    if (electronService.isElectron) {
-      console.log('Mode: Electron');
-      console.log('Electron ipcRenderer', electronService.ipcRenderer);
-      console.log('NodeJS childProcess', electronService.childProcess);
-    } else {
-      console.log('Mode: Web');
-    }
-
     if (electronService.isElectronApp) {
       console.log('Mode: Electron');
       console.log('Electron ipcRenderer', electronService.ipcRenderer);
@@ -44,7 +36,7 @@ export class AppComponent {
       console.log('Mode: Web');
     }
 
-    this.windowService = platformServiceProvider.getWindowService();
+    this.windowService = this.platformServiceProvider.getWindowService();
     this.isWindowMaximized = this.windowService.isWindowMaximized();
   }
 

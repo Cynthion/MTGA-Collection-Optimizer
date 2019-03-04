@@ -17,7 +17,7 @@ export class ElectronService {
 
   constructor() {
     // Conditional imports
-    if (this.isElectron()) {
+    if (this.isElectronApp) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.webFrame = window.require('electron').webFrame;
       this.remote = window.require('electron').remote;
@@ -25,11 +25,6 @@ export class ElectronService {
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
     }
-  }
-
-  // TODO this logic seems not to be true
-  isElectron = () => {
-    return window && window.process && window.process.type;
   }
 
   public get isElectronApp(): boolean {

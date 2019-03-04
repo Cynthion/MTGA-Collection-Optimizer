@@ -4,9 +4,10 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { RootState } from '../app.state';
-import { SettingsDialogState } from './settings.state';
 import { PlatformServiceProvider } from '../providers/platform-service-provider';
 import { StorageService } from '../providers/storage.service';
+import { SettingsDialogState, SettingsStorageKey } from './settings.state';
+import { ApplySettingsDialogAction } from './settings.actions';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -16,10 +17,10 @@ import { StorageService } from '../providers/storage.service';
 })
 export class SettingsDialogComponent {
   state$: Observable<SettingsDialogState>;
+  outputLogPath: string;
+  logPollInterval: number;
 
   private storageService: StorageService;
-  private outputLogPathStorageKey = 'outputLogPath';
-  private outputLogPath: string;
 
   constructor(
     public dialogRef: MatDialogRef<SettingsDialogComponent>,
@@ -36,11 +37,17 @@ export class SettingsDialogComponent {
   }
 
   closeDialog(): void {
-    console.log('Configured path:', this.outputLogPath);
+    console.log('Configured outputLogPath:', this.outputLogPath);
+    console.log('Configured logPollInterval:', this.logPollInterval);
 
-    this.storageService.save(this.outputLogPathStorageKey, this.outputLogPath);
+    const newSettingsDialogState: SettingsDialogState = {
+      outputLogPath: this.outputLogPath,
+      logPollInterval: this.logPollInterval,
+    };
 
-    // TODO provide settings to backend
+    this.storageService.store(SettingsStorageKey, newSettingsDialogState);
+
+    this.actionsSubject.next(new ApplySettingsDialogAction(newSettingsDialogState));
 
     this.dialogRef.close();
   }

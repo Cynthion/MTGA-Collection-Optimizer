@@ -6,6 +6,8 @@ export interface IMtgaCollectionOptimizerBridge {
   maximizeWindow(): void;
   restoreWindow(): void;
   closeWindow(): void;
+  storeSetting(key: string, data: any): void;
+  loadSetting(key: string): any;
 }
 
 @Injectable()
@@ -30,5 +32,13 @@ export class PreloadBridge implements IMtgaCollectionOptimizerBridge {
 
   closeWindow(): void {
     this.bridge.closeWindow();
+  }
+
+  storeSetting(key: string, data: any): void {
+    this.bridge.storeSetting(key, data);
+  }
+
+  loadSetting(key: string): any {
+    return this.bridge.loadSetting(key);
   }
 }

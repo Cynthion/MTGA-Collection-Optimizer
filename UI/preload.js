@@ -1,5 +1,7 @@
 const { remote } = require('electron');
 
+const storage = require('./storage');
+
 init();
 
 function init() {
@@ -15,6 +17,8 @@ function init() {
     maximizeWindow: maximizeWindow,
     restoreWindow: restoreWindow,
     closeWindow: closeWindow,
+    storeSetting: storeSetting,
+    loadSetting: loadSetting,
   };
 }
 
@@ -41,4 +45,12 @@ function restoreWindow() {
 function closeWindow() {
   var win = remote.getCurrentWindow();
   win.close();
+}
+
+function storeSetting(key, data) {
+  storage.set(key, data);
+}
+
+function loadSetting(key) {
+  return storage.get(key);
 }

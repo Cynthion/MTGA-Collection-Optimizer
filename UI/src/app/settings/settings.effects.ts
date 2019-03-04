@@ -5,29 +5,28 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 
-import { internalApiGet } from '../util/http';
-import { SettingsDialogDto } from './settings.state';
-import { SettingsActionTypes, InitializedSettingsDialogAction } from './settings.actions';
+import { internalApiPost } from '../util/http';
+import { PlatformServiceProvider } from '../providers/platform-service-provider';
+import { StorageService } from '../providers/storage.service';
+import { LoadMissingCardsPageAction } from '../missing-cards/missing-cards-page';
+import { SettingsDialogDto, SettingsStorageKey } from './settings.state';
+import { SettingsActionTypes, ApplySettingsDialogAction } from './settings.actions';
 
 @Injectable()
 export class SettingsDialogEffects {
+  private storageService: StorageService;
 
   @Effect()
   loadDialogData$: Observable<Action> = this.actions$
   .pipe(
       ofType(SettingsActionTypes.Load),
       tap(a => console.log(a)),
-      flatMap(_ =>
-        // TODO load settings from store
-        // internalApiGet<SettingsDialogDto>(
-        //   this.http,
-        //   'settings',
-        //   dto => [
-        //     new InitializedSettingsDialogAction(dto),
-        //   ]
-        )
-      );,
-    )
+      flatMap(_ => {
+        const settingsDialogDto = this.storageService.load<SettingsDialogDto>(SettingsStorageKey);
+
+        return [new ApplySettingsDialogAction(settingsDialogDto)];
+      })
+    );
 
   applySettings$: Observable<Action> = this.actions$
   .pipe(
@@ -36,12 +35,18 @@ export class SettingsDialogEffects {
     flatMap(_ =>
       internalApiPost(
         this.http,
-        'settings'
-      ))
+        'settings',
+        {},
+        dto => [new LoadMissingCardsPageAction()]
+      )
+    )
   );
 
   constructor(
     private actions$: Actions,
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private platformServiceProvicer: PlatformServiceProvider,
+  ) {
+    this.storageService = this.platformServiceProvicer.getStorageService();
+  }
 }

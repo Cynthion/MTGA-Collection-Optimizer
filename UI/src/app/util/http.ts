@@ -18,6 +18,15 @@ export function internalApiGet<TResponse = null>(
   return httpGet(http, makeInternalApiUrl(relativeUrl), project);
 }
 
+export function internalApiPost<TResponse = null>(
+  http: HttpClient,
+  relativeUrl: string,
+  body: any,
+  project: (resp: TResponse) => ObservableInput<Action>,
+): Observable<Action> {
+  return httpPost(http, makeInternalApiUrl(relativeUrl), project, body);
+}
+
 function httpGet<TResponse = null>(
   http: HttpClient,
   url: string,
@@ -25,6 +34,19 @@ function httpGet<TResponse = null>(
 ): Observable<Action> {
   const obs = (() => {
     return http.get<TResponse>(url);
+  })();
+
+  return handleResponse(obs, project);
+}
+
+export function httpPost<TResponse = null>(
+  http: HttpClient,
+  url: string,
+  project: (resp: HttpResponse<TResponse> | TResponse) => ObservableInput<Action>,
+  body: any,
+): Observable<Action> {
+  const obs = (() => {
+    return http.post<TResponse>(url, body);
   })();
 
   return handleResponse(obs, project);

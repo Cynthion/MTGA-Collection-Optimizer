@@ -1,3 +1,4 @@
 export interface StorageService {
-  save(key: string, data: any);
+  store(key: string, data: any): void;
+  load<TResult>(key: string): TResult;
 }

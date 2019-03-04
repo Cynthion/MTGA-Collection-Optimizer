@@ -14,10 +14,12 @@ namespace MtgaDeckBuilder.Api.LogImport
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(LogParser));
 
         private readonly IConfiguration _configuration;
+        private readonly ISettings _settings;
 
-        public LogParser(IConfiguration configuration)
+        public LogParser(IConfiguration configuration, ISettings settings)
         {
             _configuration = configuration;
+            _settings = settings;
         }
 
         public IDictionary<long, short> ParsePlayerCards()
@@ -124,7 +126,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
-            using (var fileStream = new FileStream(_configuration.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
                 var result = default(TResult);
@@ -147,7 +149,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private string FindLineContainingCommand(string occurrenceCommand)
         {
-            using (var fileStream = new FileStream(_configuration.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
                 do

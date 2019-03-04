@@ -2,9 +2,6 @@
 {
     public interface IConfiguration
     {
-        // TODO move to settingsDto
-        string OutputLogPath { get; set; }
-
         string PlayerCardsCommand { get; set; }
 
         string PlayerDecksCommand { get; set; }

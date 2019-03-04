@@ -1,4 +1,3 @@
-using System;
 using Lib.AspNetCore.ServerSentEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,12 +31,12 @@ namespace MtgaDeckBuilder.Api
 
             services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration
             {
-                OutputLogPath = $@"C:\Users\{Environment.UserName}\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt",
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckLists",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
                 PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });
+            services.AddSingleton<ISettings, Settings>();
             services.AddSingleton<IMissingCardsService, MissingCardsService>();
             services.AddSingleton<ILogParser, LogParser>();
 

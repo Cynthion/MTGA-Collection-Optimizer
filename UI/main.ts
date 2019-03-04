@@ -29,7 +29,7 @@ function createWindow() {
     width: lastWindowState.width,
     height: lastWindowState.height,
     frame: false,
-    icon: './favicon.ico',
+    icon: 'src/favicon.ico',
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: false,

@@ -18,15 +18,27 @@ export class SettingsDialogEffects {
       ofType(SettingsActionTypes.Load),
       tap(a => console.log(a)),
       flatMap(_ =>
-        internalApiGet<SettingsDialogDto>(
-          this.http,
-          'settings',
-          dto => [
-            new InitializedSettingsDialogAction(dto),
-          ]
+        // TODO load settings from store
+        // internalApiGet<SettingsDialogDto>(
+        //   this.http,
+        //   'settings',
+        //   dto => [
+        //     new InitializedSettingsDialogAction(dto),
+        //   ]
         )
-      ),
-    );
+      );,
+    )
+
+  applySettings$: Observable<Action> = this.actions$
+  .pipe(
+    ofType(SettingsActionTypes.Apply),
+    tap(a => console.log(a)),
+    flatMap(_ =>
+      internalApiPost(
+        this.http,
+        'settings'
+      ))
+  );
 
   constructor(
     private actions$: Actions,

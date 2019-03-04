@@ -37,4 +37,5 @@ export type SettingsActions =
   | LoadSettingsDialogAction
   | InitializedSettingsDialogAction
   | LoadSettingsDialogErrorAction
+  | ApplySettingsDialogAction
   ;

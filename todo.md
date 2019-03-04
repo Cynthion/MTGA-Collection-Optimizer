@@ -36,8 +36,8 @@
 - [ ] make deck columns sortable/moveable
 
 # Optimization / Refactoring
-- [ ] remove file storage and set loader
+- [X] remove file storage and set loader
 - [ ] parse log file async
 - [ ] parse log file from end of file
-- [ ] npm command to restore, build and copy backend .exe to Angular dist folder
+- [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development
 - [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/

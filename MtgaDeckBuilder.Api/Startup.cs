@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using Lib.AspNetCore.ServerSentEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.MissingCards;
-using MtgaDeckBuilder.Api.SetImport;
 using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -16,10 +14,6 @@ namespace MtgaDeckBuilder.Api
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
-        {
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -39,8 +33,6 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration
             {
                 OutputLogPath = $@"C:\Users\{Environment.UserName}\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt",
-                // TODO move to executable directory
-                MtgaDeckBuilderDropFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MTGA Deck Builder"),
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckLists",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
@@ -48,8 +40,6 @@ namespace MtgaDeckBuilder.Api
             });
             services.AddSingleton<IMissingCardsService, MissingCardsService>();
             services.AddSingleton<ILogParser, LogParser>();
-            services.AddSingleton<ISetLoader, SetLoader>();
-            services.AddSingleton<IStorage, FileStorage>();
 
             services.AddSingleton<IHostedService, LogWatcher>();
         }

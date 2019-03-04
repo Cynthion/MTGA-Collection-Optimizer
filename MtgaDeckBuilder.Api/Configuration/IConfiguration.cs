@@ -2,9 +2,8 @@
 {
     public interface IConfiguration
     {
+        // TODO move to settingsDto
         string OutputLogPath { get; set; }
-
-        string MtgaDeckBuilderDropFolderPath { get; set; }
 
         string PlayerCardsCommand { get; set; }
 

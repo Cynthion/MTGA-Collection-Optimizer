@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace MtgaDeckBuilder.Api
+﻿namespace MtgaDeckBuilder.Api
 {
     public class ApiErrorDetailsDto
     {
@@ -9,10 +7,5 @@ namespace MtgaDeckBuilder.Api
         public string Message { get; set; }
 
         public ApiErrorCode ApiErrorCode { get; set; }
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
     }
 }

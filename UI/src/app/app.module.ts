@@ -25,6 +25,7 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { AppGuard } from './app.guard';
 import { rootReducers } from './app.reducer';
+import { ApiErrorComponent } from './api-error';
 import {
   SettingsDialogComponent,
   SettingsDialogEffects,
@@ -41,6 +42,7 @@ const matModules = [
 ];
 
 const components = [
+  ApiErrorComponent,
   SettingsDialogComponent,
 ];
 
@@ -84,6 +86,9 @@ const components = [
     PreloadBridge,
   ],
   bootstrap: [AppComponent],
-  entryComponents: [SettingsDialogComponent],
+  entryComponents: [
+    ApiErrorComponent,
+    SettingsDialogComponent,
+  ],
 })
 export class AppModule { }

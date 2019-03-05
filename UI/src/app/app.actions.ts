@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { ApiErrorDetailsDto } from './app.state';
+
+import { ApiErrorDetailsDto } from './api-error';
 
 export enum AppActionTypes {
   Initialized = '[App] Initialized',

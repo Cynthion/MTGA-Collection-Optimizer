@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.MissingCards;
 
 namespace MtgaDeckBuilder.Api.Controllers
@@ -17,9 +18,21 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public ActionResult GetMissingCards()
         {
-            var dto = _missingCardsService.GetMissingCardsPageDto();
+            // TODO move to attribute
+            try
+            {
+                var dto = _missingCardsService.GetMissingCardsPageDto();
 
-            return Ok(dto);
+                return Ok(dto);
+            }
+            catch (ApiException e)
+            {
+                return StatusCode(500, "API Error");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Other Internal Server Error");
+            }
         }
     }
 }

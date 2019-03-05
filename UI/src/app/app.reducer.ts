@@ -14,7 +14,7 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
     case AppActionTypes.Initialized:
       return state;
     case AppActionTypes.ApiError: {
-      console.log('API error occurred!');
+      console.log('API error occurred!', action.response);
       return state;
     }
 

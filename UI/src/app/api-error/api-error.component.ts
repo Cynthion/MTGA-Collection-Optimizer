@@ -22,12 +22,13 @@ export class ApiErrorComponent {
 
   getApiErrorMessage(): string {
     switch (this.apiErrorDetailsDto.apiErrorCode) {
-      case 0: return 'The path to the MTGA output_log.txt file on your machine is not configured.';
+      case 0: return 'The path to the MTGA output_log.txt file on your machine is not configured. Head over to the settings to make it right.';
       default: return this.apiErrorDetailsDto.message;
     }
   }
 
   closeSnackbar(): void {
+    // TODO dispatch action to fix error, if possible
     this.snackbar.dismiss();
   }
 }

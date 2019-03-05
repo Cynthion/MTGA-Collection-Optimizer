@@ -19,7 +19,6 @@ export class AppEffects {
     tap(a => console.log(a)),
     concatMap(a => this.snackBar.openFromComponent(ApiErrorComponent, {
       data: a.apiErrorDetails,
-      duration: 5000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
     }).afterDismissed()),

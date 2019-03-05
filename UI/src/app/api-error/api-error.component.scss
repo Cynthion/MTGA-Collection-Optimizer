@@ -1,11 +1,5 @@
 @import 'src/constants.scss';
 
 .api-error {
-  font-size: 14px;
-  color: $theme-accent-color-a100;
-  background: $mtga-deck-builder-theme-warn;
-  >mat-form-field {
-    width: 100%;
-    margin-bottom: $default-padding;
-  }
+
 }

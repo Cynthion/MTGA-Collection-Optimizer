@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
+using MtgaDeckBuilder.Api.Extensions;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.MissingCards;
 using Newtonsoft.Json.Serialization;
@@ -52,9 +53,10 @@ namespace MtgaDeckBuilder.Api
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.ConfigureExceptionHandler();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

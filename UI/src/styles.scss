@@ -20,3 +20,9 @@
   margin: 0;
   // overflow: hidden;
 }
+
+.api-error {
+  font-size: 14px;
+  margin: -16px;
+  background: mat-color(map-get($mtga-deck-builder-theme, warn));
+}

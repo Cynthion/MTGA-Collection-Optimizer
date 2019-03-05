@@ -9,7 +9,7 @@
 // mat-palette accepts $palette-name, main, lighter and darker variants
 $mtga-deck-builder-theme-primary: mat-palette($mat-orange, 700, 300, 900);
 $mtga-deck-builder-theme-accent: mat-palette($mat-grey);
-$mtga-deck-builder-theme-warn: mat-palette($mat-red);
+$mtga-deck-builder-theme-warn: mat-palette($mat-deep-orange);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
 $mtga-deck-builder-theme: mat-dark-theme(

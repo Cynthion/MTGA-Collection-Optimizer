@@ -6,7 +6,7 @@
 - [ ] show set completeness
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
-- [ ] API error handling
+- [X] API error handling
 - [X] settings menu
 - [X] persist window state
 - [X] enable CORS for electron

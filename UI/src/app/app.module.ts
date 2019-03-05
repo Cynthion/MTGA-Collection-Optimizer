@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   MatButtonModule,
+  MatCardModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
@@ -34,6 +35,7 @@ import { AppEffects } from './app.effects';
 
 const matModules = [
   MatButtonModule,
+  MatCardModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,

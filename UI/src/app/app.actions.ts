@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
+import { ApiErrorDetailsDto } from './app.state';
 
 export enum AppActionTypes {
   Initialized = '[App] Initialized',
@@ -16,7 +16,7 @@ export class ApiErrorAction implements Action {
   readonly type = AppActionTypes.ApiError;
 
   constructor(
-    public response: HttpErrorResponse,
+    public apiErrorDetails: ApiErrorDetailsDto,
   ) { }
 }
 

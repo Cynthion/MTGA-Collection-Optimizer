@@ -4,8 +4,11 @@ namespace MtgaDeckBuilder.Api
 {
     public class ApiException : Exception
     {
-        public ApiException(string message)
-            : base(message)
-        { }
+        public ApiErrorCode ApiErrorCode { get; set; }
+
+        public ApiException(ApiErrorCode apiErrorCode)
+        {
+            ApiErrorCode = apiErrorCode;
+        }
     }
 }

@@ -12,6 +12,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatSnackBarModule,
 } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -28,6 +29,7 @@ import {
   SettingsDialogComponent,
   SettingsDialogEffects,
 } from './settings';
+import { AppEffects } from './app.effects';
 
 const matModules = [
   MatButtonModule,
@@ -35,6 +37,7 @@ const matModules = [
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatSnackBarModule,
 ];
 
 const components = [
@@ -61,7 +64,10 @@ const components = [
     FormsModule,
     StoreModule.forRoot(rootReducers),
     RouterModule.forRoot(appRoutes),
-    EffectsModule.forRoot([SettingsDialogEffects]),
+    EffectsModule.forRoot([
+      AppEffects,
+      SettingsDialogEffects,
+    ]),
     ...matModules,
     // TranslateModule.forRoot({
     //   loader: {

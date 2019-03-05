@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using MtgaDeckBuilder.Api.Model;
 using NLog;
 
 namespace MtgaDeckBuilder.Api.Extensions
@@ -26,13 +25,18 @@ namespace MtgaDeckBuilder.Api.Extensions
                         var exception = contextFeature.Error;
                         Logger.Error($"Something went wrong: {exception}");
 
-                        var errorDetails = new ErrorDetails
+                        var apiErrorDetailsDto = new ApiErrorDetailsDto
                         {
                             StatusCode = context.Response.StatusCode,
                             Message = exception.Message,
                         };
 
-                        await context.Response.WriteAsync(errorDetails.ToString());
+                        if (exception is ApiException apiException)
+                        {
+                            apiErrorDetailsDto.ApiErrorCode = apiException.ApiErrorCode;
+                        }
+
+                        await context.Response.WriteAsync(apiErrorDetailsDto.ToString());
                     }
                 });
             });

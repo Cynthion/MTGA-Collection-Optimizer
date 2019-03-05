@@ -29,7 +29,7 @@ export class SettingsDialogComponent {
     private actionsSubject: ActionsSubject,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      this.state$ = store.select(s =>  {
+      this.state$ = this.store.select(s =>  {
         return s.app.settingsDialog;
       });
 

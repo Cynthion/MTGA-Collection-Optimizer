@@ -13,10 +13,6 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
   switch (action.type) {
     case AppActionTypes.Initialized:
       return state;
-    case AppActionTypes.ApiError: {
-      console.log('API error occurred!', action.response);
-      return state;
-    }
 
     case AppActionTypes.LoadingIncrement: {
       const semaphore = state.loadingSemaphore + 1;

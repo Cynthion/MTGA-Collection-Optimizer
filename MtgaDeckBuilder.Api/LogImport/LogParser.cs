@@ -126,6 +126,8 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
+            AssertOutputLogPath();
+
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
@@ -149,6 +151,8 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private string FindLineContainingCommand(string occurrenceCommand)
         {
+            AssertOutputLogPath();
+ 
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
@@ -165,6 +169,14 @@ namespace MtgaDeckBuilder.Api.LogImport
                 } while (!streamReader.EndOfStream);
 
                 return string.Empty;
+            }
+        }
+
+        private void AssertOutputLogPath()
+        {
+            if (_settings.OutputLogPath == null)
+            {
+                throw new ApiException(ApiErrorCode.OutputLogPathNull);
             }
         }
     }

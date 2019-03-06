@@ -16,7 +16,6 @@ import { ApplySettingsDialogAction } from './settings.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsDialogComponent {
-  state$: Observable<SettingsDialogState>;
   outputLogPath: string;
   logPollInterval: number;
 
@@ -29,8 +28,11 @@ export class SettingsDialogComponent {
     private actionsSubject: ActionsSubject,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      this.state$ = this.store.select(s =>  {
-        return s.app.settingsDialog;
+      this.store.select(s =>  {
+        const settingsDialogState = s.app.settingsDialog;
+
+        this.outputLogPath = settingsDialogState.outputLogPath;
+        this.logPollInterval = settingsDialogState.logPollInterval;
       });
 
       this.storageService = this.platformServiceProvicer.getStorageService();
@@ -43,9 +45,6 @@ export class SettingsDialogComponent {
     if (!this.areSettingsValid()) {
       return;
     }
-
-    console.log('Configured outputLogPath:', this.outputLogPath);
-    console.log('Configured logPollInterval:', this.logPollInterval);
 
     const newSettingsDialogState: SettingsDialogState = {
       outputLogPath: this.outputLogPath,

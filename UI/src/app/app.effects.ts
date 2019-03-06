@@ -3,11 +3,11 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { concatMap, flatMap, map, tap } from 'rxjs/operators';
+import { concatMap, flatMap, map, tap, startWith } from 'rxjs/operators';
 
 import { AppActionTypes, ApiErrorAction } from './app.actions';
 import { ApiErrorComponent } from './api-error';
-import { SettingsDialogComponent } from './settings';
+import { SettingsDialogComponent, LoadSettingsDialogAction } from './settings';
 
 @Injectable()
 export class AppEffects {
@@ -39,7 +39,7 @@ export class AppEffects {
         right: '10px',
       }
     }).afterClosed()),
-    flatMap(_ => []),
+    flatMap(_ => [new LoadSettingsDialogAction()]),
   );
 
   constructor(

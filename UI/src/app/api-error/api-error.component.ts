@@ -25,7 +25,7 @@ export class ApiErrorComponent {
   getApiErrorMessage(): string {
     switch (this.apiErrorDetailsDto.apiErrorCode) {
       case 0: return 'The path to the MTGA output_log.txt file on your machine is not configured. Head over to the settings to make it right.';
-      default: return this.apiErrorDetailsDto.message;
+      default: return this.apiErrorDetailsDto.message + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
     }
   }
 

@@ -28,6 +28,7 @@ export class SettingsDialogEffects {
       })
     );
 
+  @Effect()
   applySettings$: Observable<Action> = this.actions$
   .pipe(
     ofType(SettingsActionTypes.Apply),

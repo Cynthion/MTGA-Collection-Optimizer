@@ -30,7 +30,7 @@ export class AppEffects {
   @Effect()
   openSettings$: Observable<Action> = this.actions$
   .pipe(
-    ofType(AppActionTypes.Settings),
+    ofType(AppActionTypes.OpenSettings),
     tap(a => console.log(a)),
     flatMap(_ => this.dialog.open(SettingsDialogComponent, {
       width: '500px',
@@ -38,8 +38,8 @@ export class AppEffects {
         top: '30px',
         right: '10px',
       }
-    }).afterClosed()),
-    flatMap(_ => [new LoadSettingsDialogAction()]),
+    }).afterOpen()),
+    flatMap(_ => [new LoadSettingsDialogAction()])
   );
 
   constructor(

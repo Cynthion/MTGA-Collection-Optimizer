@@ -5,7 +5,7 @@ import { ApiErrorDetailsDto } from './api-error';
 export enum AppActionTypes {
   Initialized = '[App] Initialized',
   ApiError = '[App] API Error',
-  Settings = '[App] Open Settings',
+  OpenSettings = '[App] Open Settings',
   LoadingIncrement = '[App] Loading Increment',
   LoadingDecrement = '[App] Loading Decrement',
 }
@@ -23,7 +23,7 @@ export class ApiErrorAction implements Action {
 }
 
 export class OpenSettingsAction implements Action {
-  readonly type = AppActionTypes.Settings;
+  readonly type = AppActionTypes.OpenSettings;
 }
 
 export class IncrementAppLoadingSemaphoreAction implements Action {

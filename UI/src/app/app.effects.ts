@@ -24,7 +24,7 @@ export class AppEffects {
       horizontalPosition: 'right',
       verticalPosition: 'top',
     }).afterDismissed()),
-    flatMap(_ => [])
+    flatMap(_ => []),
   );
 
   @Effect()
@@ -39,6 +39,7 @@ export class AppEffects {
         right: '10px',
       }
     }).afterClosed()),
+    flatMap(_ => []),
   );
 
   constructor(

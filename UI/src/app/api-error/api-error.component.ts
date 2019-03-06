@@ -20,7 +20,6 @@ export class ApiErrorComponent {
     private actionsSubject: ActionsSubject,
     ) {
       this.apiErrorDetailsDto = data as ApiErrorDetailsDto;
-      console.log(this.apiErrorDetailsDto);
   }
 
   getApiErrorMessage(): string {

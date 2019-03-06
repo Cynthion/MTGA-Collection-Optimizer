@@ -34,9 +34,16 @@ export class SettingsDialogComponent {
       });
 
       this.storageService = this.platformServiceProvicer.getStorageService();
+
+      // TODO load previous settings
+      // TODO fix settings validation
   }
 
   closeDialog(): void {
+    if (!this.areSettingsValid()) {
+      return;
+    }
+
     console.log('Configured outputLogPath:', this.outputLogPath);
     console.log('Configured logPollInterval:', this.logPollInterval);
 
@@ -50,5 +57,13 @@ export class SettingsDialogComponent {
     this.actionsSubject.next(new ApplySettingsDialogAction(newSettingsDialogState));
 
     this.dialogRef.close();
+  }
+
+  areSettingsValid(): boolean {
+    return this.isOutputLogPathValid();
+  }
+
+  isOutputLogPathValid(): boolean {
+    return !!this.outputLogPath;
   }
 }

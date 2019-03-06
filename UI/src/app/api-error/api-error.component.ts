@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material';
+import { ActionsSubject } from '@ngrx/store';
 
+import { OpenSettingsAction } from '../app.actions';
 import { ApiErrorDetailsDto } from './api-error.state';
 
 @Component({
@@ -15,6 +17,7 @@ export class ApiErrorComponent {
   constructor(
     private snackbar: MatSnackBar,
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
+    private actionsSubject: ActionsSubject,
     ) {
       this.apiErrorDetailsDto = data as ApiErrorDetailsDto;
       console.log(this.apiErrorDetailsDto);
@@ -28,7 +31,10 @@ export class ApiErrorComponent {
   }
 
   closeSnackbar(): void {
-    // TODO dispatch action to fix error, if possible
+    if (this.apiErrorDetailsDto.apiErrorCode === 0) {
+      this.actionsSubject.next(new OpenSettingsAction());
+    }
+
     this.snackbar.dismiss();
   }
 }

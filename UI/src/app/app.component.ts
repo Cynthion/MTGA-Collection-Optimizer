@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { ActionsSubject } from '@ngrx/store';
 // import { TranslateService } from '@ngx-translate/core';
 
 import { AppConfig } from '../environments/environment';
 import { WindowService } from './providers/window.service';
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
-import { SettingsDialogComponent } from './settings';
+import { OpenSettingsAction } from './app.actions';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,7 @@ export class AppComponent {
   constructor(
     public electronService: ElectronService,
     private platformServiceProvider: PlatformServiceProvider,
-    private dialog: MatDialog,
+    private actionsSubject: ActionsSubject,
     // private translate: TranslateService,
     ) {
 
@@ -41,13 +41,7 @@ export class AppComponent {
   }
 
   openSettingsDialog(): void {
-    this.dialog.open(SettingsDialogComponent, {
-      width: '500px',
-      position: {
-        top: '30px',
-        right: '10px',
-      }
-    });
+    this.actionsSubject.next(new OpenSettingsAction());
   }
 
   minimizeWindow() {

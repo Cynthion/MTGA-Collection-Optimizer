@@ -15,6 +15,7 @@ export class PlatformServiceProvider {
   constructor(
     private preloadBridge: PreloadBridge,
     private electronService: ElectronService,
+    private browserStorageService: BrowserStorageService,
     ) { }
 
   getWindowService(): WindowService {
@@ -29,7 +30,7 @@ export class PlatformServiceProvider {
     if (this.electronService.isElectronApp) {
       return new ElectronStorageService(this.preloadBridge);
     } else {
-      return new BrowserStorageService();
+      return this.browserStorageService;
     }
   }
 }

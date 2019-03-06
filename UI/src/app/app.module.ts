@@ -21,6 +21,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
 import { PreloadBridge } from './providers/preload.bridge';
+import { BrowserStorageService } from './providers/browser-storage.service';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
@@ -86,6 +87,7 @@ const components = [
     ElectronService,
     PlatformServiceProvider,
     PreloadBridge,
+    BrowserStorageService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [

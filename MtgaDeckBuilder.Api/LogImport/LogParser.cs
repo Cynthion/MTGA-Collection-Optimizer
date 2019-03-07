@@ -126,71 +126,45 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
-            AssertOutputLogPath();
-
-            try
+            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
             {
-                using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                using (var streamReader = new StreamReader(fileStream))
+                var result = default(TResult);
+
+                do
                 {
-                    var result = default(TResult);
+                    var outputLine = streamReader.ReadLine();
 
-                    do
+                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
                     {
-                        var outputLine = streamReader.ReadLine();
+                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
 
-                        if (outputLine != null && outputLine.Contains(occurrenceCommand))
-                        {
-                            Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
+                        result = occurrenceAction(streamReader);
+                    }
+                } while (!streamReader.EndOfStream);
 
-                            result = occurrenceAction(streamReader);
-                        }
-                    } while (!streamReader.EndOfStream);
-
-                    return result;
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                throw new ApiException(ApiErrorCode.OutputLogPathInvalid);
+                return result;
             }
         }
 
         private string FindLineContainingCommand(string occurrenceCommand)
         {
-            AssertOutputLogPath();
-
-            try
+            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
             {
-                using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                using (var streamReader = new StreamReader(fileStream))
+                do
                 {
-                    do
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
                     {
-                        var outputLine = streamReader.ReadLine();
+                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
 
-                        if (outputLine != null && outputLine.Contains(occurrenceCommand))
-                        {
-                            Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
+                        return outputLine;
+                    }
+                } while (!streamReader.EndOfStream);
 
-                            return outputLine;
-                        }
-                    } while (!streamReader.EndOfStream);
-
-                    return string.Empty;
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                throw new ApiException(ApiErrorCode.OutputLogPathInvalid);
-            }
-        }
-
-        private void AssertOutputLogPath()
-        {
-            if (_settings.OutputLogPath == null)
-            {
-                throw new ApiException(ApiErrorCode.OutputLogPathNull);
+                return string.Empty;
             }
         }
     }

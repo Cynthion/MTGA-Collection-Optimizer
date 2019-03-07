@@ -31,7 +31,8 @@ export class ApiErrorComponent {
   }
 
   closeSnackbar(): void {
-    if (this.apiErrorDetailsDto.apiErrorCode === 0) {
+    if (this.apiErrorDetailsDto.apiErrorCode === 0
+      || this.apiErrorDetailsDto.apiErrorCode === 1) {
       this.actionsSubject.next(new OpenSettingsAction());
     }
 

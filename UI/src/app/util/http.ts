@@ -58,6 +58,9 @@ function handleResponse<TResponse = null>(
 ): Observable<Action> {
   return source.pipe(
     mergeMap(project),
-    catchError<Action, Action>(resp => [new ApiErrorAction(resp.error)]),
+    catchError<Action, Action>(resp => {
+      console.log(resp);
+      return [new ApiErrorAction(resp.error)];
+    }),
   );
 }

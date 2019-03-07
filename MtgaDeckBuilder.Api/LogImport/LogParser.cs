@@ -128,47 +128,61 @@ namespace MtgaDeckBuilder.Api.LogImport
         {
             AssertOutputLogPath();
 
-            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var streamReader = new StreamReader(fileStream))
+            try
             {
-                var result = default(TResult);
-
-                do
+                using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var streamReader = new StreamReader(fileStream))
                 {
-                    var outputLine = streamReader.ReadLine();
+                    var result = default(TResult);
 
-                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                    do
                     {
-                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
+                        var outputLine = streamReader.ReadLine();
 
-                        result = occurrenceAction(streamReader);
-                    }
-                } while (!streamReader.EndOfStream);
+                        if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                        {
+                            Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
 
-                return result;
+                            result = occurrenceAction(streamReader);
+                        }
+                    } while (!streamReader.EndOfStream);
+
+                    return result;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                throw new ApiException(ApiErrorCode.OutputLogPathInvalid);
             }
         }
 
         private string FindLineContainingCommand(string occurrenceCommand)
         {
             AssertOutputLogPath();
- 
-            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var streamReader = new StreamReader(fileStream))
+
+            try
             {
-                do
+                using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var streamReader = new StreamReader(fileStream))
                 {
-                    var outputLine = streamReader.ReadLine();
-
-                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                    do
                     {
-                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
+                        var outputLine = streamReader.ReadLine();
 
-                        return outputLine;
-                    }
-                } while (!streamReader.EndOfStream);
+                        if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                        {
+                            Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
 
-                return string.Empty;
+                            return outputLine;
+                        }
+                    } while (!streamReader.EndOfStream);
+
+                    return string.Empty;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                throw new ApiException(ApiErrorCode.OutputLogPathInvalid);
             }
         }
 

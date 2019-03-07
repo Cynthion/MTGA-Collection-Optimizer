@@ -63,7 +63,9 @@ namespace MtgaDeckBuilder.Api
             app.UseCookiePolicy();
    
             // first, add CORS middleware
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+            app.UseCors(builder => builder
+                .WithOrigins("http://localhost:4200")
+                .WithHeaders("Content-Type"));
 
             // add SSE middleware
             app.MapServerSentEvents("/api/sse-missingcards");

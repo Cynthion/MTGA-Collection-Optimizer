@@ -1,6 +1,6 @@
 ﻿namespace MtgaDeckBuilder.Api
 {
-    public class ApiErrorDetailsDto
+    public class ApiErrorDto
     {
         public int StatusCode { get; set; }
 

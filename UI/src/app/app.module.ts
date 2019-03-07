@@ -27,12 +27,14 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { AppGuard } from './app.guard';
 import { rootReducers } from './app.reducer';
-import { ApiErrorComponent } from './api-error';
+import {
+  ApiErrorComponent,
+  ApiErrorEffects,
+} from './api-error';
 import {
   SettingsDialogComponent,
   SettingsDialogEffects,
 } from './settings';
-import { AppEffects } from './app.effects';
 
 const matModules = [
   MatButtonModule,
@@ -70,7 +72,7 @@ const components = [
     StoreModule.forRoot(rootReducers),
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([
-      AppEffects,
+      ApiErrorEffects,
       SettingsDialogEffects,
     ]),
     ...matModules,

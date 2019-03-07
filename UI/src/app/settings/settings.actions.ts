@@ -3,9 +3,14 @@ import { Action } from '@ngrx/store';
 import { SettingsDialogState } from './settings.state';
 
 export enum SettingsActionTypes {
+  Open = '[Settings] Open',
   Load = '[Settings] Load',
   Initialized = '[Settings] Initialized',
   Apply = '[Settings] Apply',
+}
+
+export class OpenSettingsDialogAction implements Action {
+  readonly type = SettingsActionTypes.Open;
 }
 
 export class LoadSettingsDialogAction implements Action {
@@ -29,6 +34,7 @@ export class ApplySettingsDialogAction implements Action {
 }
 
 export type SettingsActions =
+  | OpenSettingsDialogAction
   | LoadSettingsDialogAction
   | InitializedSettingsDialogAction
   | ApplySettingsDialogAction

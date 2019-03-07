@@ -27,7 +27,7 @@ namespace MtgaDeckBuilder.Api.Extensions
                         var exception = contextFeature.Error;
                         Logger.Error($"Something went wrong: {exception}");
 
-                        var apiErrorDetailsDto = new ApiErrorDetailsDto
+                        var apiErrorDetailsDto = new ApiErrorDto
                         {
                             StatusCode = context.Response.StatusCode,
                             Message = exception.Message,

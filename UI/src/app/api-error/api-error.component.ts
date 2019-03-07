@@ -1,9 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material';
 import { ActionsSubject } from '@ngrx/store';
-
-import { OpenSettingsAction } from '../app.actions';
-import { ApiErrorDetailsDto } from './api-error.state';
+import { ApiErrorState } from './api-error.state';
 
 @Component({
   selector: 'app-api-error',
@@ -12,27 +10,27 @@ import { ApiErrorDetailsDto } from './api-error.state';
 })
 export class ApiErrorComponent {
 
-  public apiErrorDetailsDto: ApiErrorDetailsDto;
+  public state: ApiErrorState;
 
   constructor(
     private snackbar: MatSnackBar,
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
     private actionsSubject: ActionsSubject,
     ) {
-      this.apiErrorDetailsDto = data as ApiErrorDetailsDto;
+      this.state = data as ApiErrorState;
   }
 
   getApiErrorMessage(): string {
-    switch (this.apiErrorDetailsDto.apiErrorCode) {
+    switch (this.state.apiErrorCode) {
       case 0: return 'The path to the MTGA output_log.txt file on your machine is not configured. Head over to the settings to make it right.';
       case 1: return 'The path to the MTGA output_log.txt file on your machine is invalid. Head over to the settings to make it right.';
-      default: return this.apiErrorDetailsDto.message || 'Unknown Error.' + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
+      default: return this.state.message || 'Unknown Error.' + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
     }
   }
 
   closeSnackbar(): void {
-    if (this.apiErrorDetailsDto.apiErrorCode === 0
-      || this.apiErrorDetailsDto.apiErrorCode === 1) {
+    if (this.state.apiErrorCode === 0
+      || this.state.apiErrorCode === 1) {
       this.actionsSubject.next(new OpenSettingsAction());
     }
 

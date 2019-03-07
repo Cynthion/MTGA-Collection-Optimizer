@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { flatMap, tap } from 'rxjs/operators';
+import { flatMap, map, tap } from 'rxjs/operators';
 
 import { internalApiPost } from '../util/http';
 import { PlatformServiceProvider } from '../providers/platform-service-provider';
@@ -33,11 +33,12 @@ export class SettingsDialogEffects {
   .pipe(
     ofType(SettingsActionTypes.Apply),
     tap(a => console.log(a)),
-    flatMap(_ =>
+    map(a => a as ApplySettingsDialogAction),
+    flatMap(a =>
       internalApiPost(
         this.http,
         'settings',
-        {},
+        a.settingsDialogState,
         dto => [new LoadMissingCardsPageAction()]
       )
     )

@@ -16,7 +16,7 @@ export class InitializedSettingsDialogAction implements Action {
   readonly type = SettingsActionTypes.Initialized;
 
   constructor(
-    public state: SettingsDialogState,
+    public settingsDialogState: SettingsDialogState,
   ) { }
 }
 
@@ -24,7 +24,7 @@ export class ApplySettingsDialogAction implements Action {
   readonly type = SettingsActionTypes.Apply;
 
   constructor(
-    public state: SettingsDialogState,
+    public settingsDialogState: SettingsDialogState,
   ) { }
 }
 

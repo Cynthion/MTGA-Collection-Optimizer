@@ -16,7 +16,7 @@ export class AppEffects {
   apiError$: Observable<Action> = this.actions$
   .pipe(
     ofType(AppActionTypes.ApiError),
-    map(a => (a as ApiErrorAction)),
+    map(a => a as ApiErrorAction),
     tap(a => console.log(a)),
     concatMap(a => this.snackBar.openFromComponent(ApiErrorComponent, {
       data: a.apiErrorDetails,

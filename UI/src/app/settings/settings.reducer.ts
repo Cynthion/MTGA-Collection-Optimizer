@@ -7,7 +7,7 @@ export function settingsReducer(state = initialSettingsDialogState, action: Sett
     case SettingsActionTypes.Apply: {
       return {
         ...state,
-        ...action.state,
+        ...action.settingsDialogState,
       };
     }
 

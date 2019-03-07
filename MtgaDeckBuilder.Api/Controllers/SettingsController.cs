@@ -16,7 +16,7 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         // POST api/settings
         [HttpPost]
-        public ActionResult SetSettings(SettingsDialogDto settingsDialogDto)
+        public ActionResult SetSettings([FromBody] SettingsDialogDto settingsDialogDto)
         {
             _settings.OutputLogPath = settingsDialogDto.OutputLogPath;
             _settings.LogPollInterval = settingsDialogDto.LogPollInterval;

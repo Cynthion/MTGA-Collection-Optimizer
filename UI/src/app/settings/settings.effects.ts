@@ -10,7 +10,7 @@ import { PlatformServiceProvider } from '../providers/platform-service-provider'
 import { StorageService } from '../providers/storage.service';
 import { LoadMissingCardsPageAction } from '../missing-cards/missing-cards-page';
 import { SettingsDialogDto, SettingsStorageKey } from './settings.state';
-import { SettingsActionTypes, ApplySettingsDialogAction } from './settings.actions';
+import { SettingsActionTypes, ApplySettingsDialogAction, InitializedSettingsDialogAction } from './settings.actions';
 
 @Injectable()
 export class SettingsDialogEffects {
@@ -24,7 +24,7 @@ export class SettingsDialogEffects {
       flatMap(_ => {
         const settingsDialogDto = this.storageService.load<SettingsDialogDto>(SettingsStorageKey);
 
-        return [new ApplySettingsDialogAction(settingsDialogDto)];
+        return [new InitializedSettingsDialogAction(settingsDialogDto)];
       })
     );
 

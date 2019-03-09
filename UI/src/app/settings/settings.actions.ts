@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { SettingsState, SettingsDto } from './settings.state';
+import { SettingsDto } from './settings.state';
 
 export enum SettingsActionTypes {
   Open = '[Settings] Open',

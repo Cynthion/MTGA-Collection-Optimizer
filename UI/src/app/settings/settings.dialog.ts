@@ -23,16 +23,22 @@ export class SettingsDialogComponent {
     private actionsSubject: ActionsSubject,
     @Inject(MAT_DIALOG_DATA) public data: any) { // TODO use this via state
 
-      this.state$ = this.store.select(s => s.app.settings);
+    this.state$ = this.store.select(s => s.app.settings);
 
-      this.state$.subscribe(s => {
-        this.outputLogPath = s.outputLogPath;
-        this.logPollInterval = s.logPollInterval;
-      });
+    this.state$.subscribe(s => {
+      this.outputLogPath = s.outputLogPath;
+      this.logPollInterval = s.logPollInterval;
+    });
+  }
+
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.closeDialog();
     }
+  }
 
   closeDialog(): void {
-      // TODO fix settings validation
+    // TODO fix settings validation
     // if (!this.areSettingsValid()) {
     //   return;
     // }

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Settings</h1>
-<div class="settings">
+<div class="settings" (keydown)="onKeydown($event)">
   <mat-form-field hintLabel="Path to the MTGA output_log.txt file on your machine.">
     <input 
       matInput

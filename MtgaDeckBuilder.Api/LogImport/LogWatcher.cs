@@ -30,6 +30,8 @@ namespace MtgaDeckBuilder.Api.LogImport
         {
             while (!cancellationToken.IsCancellationRequested)
             {
+                Logger.Info($"Polling Output Log (Interval: {_settings.LogPollInterval}sec)");
+
                 try
                 {
                     if (_settings.OutputLogPath != null)
@@ -40,13 +42,18 @@ namespace MtgaDeckBuilder.Api.LogImport
                         {
                             _logLength = fileInfo.Length;
 
-                            var logEntry = $"{fileInfo.Name}: {fileInfo.LastAccessTime} / {fileInfo.LastWriteTime} / {fileInfo.Length}";
+                            var logEntry =
+                                $"{fileInfo.Name}: {fileInfo.LastAccessTime} / {fileInfo.LastWriteTime} / {fileInfo.Length}";
                             Logger.Info(logEntry);
 
                             await _serverSentEventsService.SendEventAsync(new ServerSentEvent
                             {
-                                Data = new List<string>(logEntry.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
+                                Data = new List<string>(logEntry.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None))
                             }, cancellationToken);
+                        }
+                        else
+                        {
+                            Logger.Info("No changes in Output Log.");
                         }
                     }
                     else

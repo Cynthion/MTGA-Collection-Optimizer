@@ -1,16 +1,16 @@
 export const SettingsStorageKey = 'settings';
 
-export interface SettingsDialogDto {
+export interface SettingsDto {
   outputLogPath: string;
   logPollInterval: number;
 }
 
-export interface SettingsDialogState extends SettingsDialogDto {
+export interface SettingsState extends SettingsDto {
   isOpen: boolean;
 }
 
-export const initialSettingsDialogState: SettingsDialogState = {
-  outputLogPath: '',
+export const initialSettingsState: SettingsState = {
+  outputLogPath: 'C:\\Users\\{user name}\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\output_log.txt',
   logPollInterval: 5,
   isOpen: false,
 };

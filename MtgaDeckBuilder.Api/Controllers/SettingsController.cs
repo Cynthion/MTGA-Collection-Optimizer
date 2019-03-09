@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
@@ -17,10 +18,10 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         // POST api/settings
         [HttpPost]
-        public ActionResult SetSettings([FromBody] SettingsDialogDto settingsDialogDto)
+        public ActionResult SetSettings([FromBody] SettingsDto settingsDto)
         {
-            _settings.OutputLogPath = settingsDialogDto.OutputLogPath;
-            _settings.LogPollInterval = settingsDialogDto.LogPollInterval;
+            _settings.OutputLogPath = settingsDto.OutputLogPath;
+            _settings.LogPollInterval = settingsDto.LogPollInterval;
 
             AssertOutputLogPath();
             AssertOutputLogPathValid();
@@ -44,7 +45,7 @@ namespace MtgaDeckBuilder.Api.Controllers
                 {
                 }
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
                 throw new ApiException(ApiErrorCode.OutputLogPathInvalid);
             }

@@ -1,9 +1,9 @@
-import { initialSettingsDialogState, SettingsDialogState } from './settings.state';
+import { initialSettingsState, SettingsState } from './settings.state';
 import { SettingsActions, SettingsActionTypes } from './settings.actions';
 
 export function settingsReducer(
-  state: SettingsDialogState = initialSettingsDialogState,
-  action: SettingsActions): SettingsDialogState {
+  state: SettingsState = initialSettingsState,
+  action: SettingsActions): SettingsState {
   switch (action.type) {
     case SettingsActionTypes.Open: {
       return {
@@ -23,7 +23,7 @@ export function settingsReducer(
     case SettingsActionTypes.Apply: {
       return {
         ...state,
-        ...action.settingsDialogState,
+        ...action.dto,
       };
     }
 

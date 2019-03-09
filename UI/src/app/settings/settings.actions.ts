@@ -1,11 +1,12 @@
 import { Action } from '@ngrx/store';
 
-import { SettingsDialogState } from './settings.state';
+import { SettingsState, SettingsDto } from './settings.state';
 
 export enum SettingsActionTypes {
   Open = '[Settings] Open',
   Close = '[Settings] Close',
   Load = '[Settings] Load',
+  Store = '[Settings] Store',
   Initialized = '[Settings] Initialized',
   Apply = '[Settings] Apply',
 }
@@ -18,30 +19,39 @@ export class CloseSettingsDialogAction implements Action {
   readonly type = SettingsActionTypes.Close;
 }
 
-export class LoadSettingsDialogAction implements Action {
+export class LoadSettingsAction implements Action {
   readonly type = SettingsActionTypes.Load;
 }
 
-export class InitializedSettingsDialogAction implements Action {
-  readonly type = SettingsActionTypes.Initialized;
+export class StoreSettingsAction implements Action {
+  readonly type = SettingsActionTypes.Store;
 
   constructor(
-    public settingsDialogState: SettingsDialogState,
+    public dto: SettingsDto,
   ) { }
 }
 
-export class ApplySettingsDialogAction implements Action {
+export class InitializedSettingsAction implements Action {
+  readonly type = SettingsActionTypes.Initialized;
+
+  constructor(
+    public dto: SettingsDto,
+  ) { }
+}
+
+export class ApplySettingsAction implements Action {
   readonly type = SettingsActionTypes.Apply;
 
   constructor(
-    public settingsDialogState: SettingsDialogState,
+    public dto: SettingsDto,
   ) { }
 }
 
 export type SettingsActions =
   | OpenSettingsDialogAction
   | CloseSettingsDialogAction
-  | LoadSettingsDialogAction
-  | InitializedSettingsDialogAction
-  | ApplySettingsDialogAction
+  | LoadSettingsAction
+  | StoreSettingsAction
+  | InitializedSettingsAction
+  | ApplySettingsAction
   ;

@@ -4,14 +4,14 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { flatMap, map, tap } from 'rxjs/operators';
+import { flatMap, map, tap, debounceTime, filter } from 'rxjs/operators';
 
 import { internalApiPost } from '../util/http';
 import { PlatformServiceProvider } from '../providers/platform-service-provider';
 import { StorageService } from '../providers/storage.service';
 import { LoadMissingCardsPageAction } from '../missing-cards/missing-cards-page';
-import { SettingsDialogDto, SettingsStorageKey } from './settings.state';
-import { SettingsActionTypes, ApplySettingsDialogAction, InitializedSettingsDialogAction, LoadSettingsDialogAction } from './settings.actions';
+import { SettingsDto, SettingsStorageKey } from './settings.state';
+import { SettingsActionTypes, ApplySettingsAction, InitializedSettingsAction, LoadSettingsAction, StoreSettingsAction, CloseSettingsDialogAction } from './settings.actions';
 import { SettingsDialogComponent } from './settings.dialog';
 
 @Injectable()
@@ -20,44 +20,62 @@ export class SettingsDialogEffects {
   private settingsDialogRef: MatDialogRef<SettingsDialogComponent, any>;
 
   @Effect()
-  openSettings$: Observable<Action> = this.actions$
+  openSettingsDialog$: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Open),
+      filter(_ => this.dialog.openDialogs.length === 0),
       tap(a => console.log(a)),
       flatMap(_ => {
         this.settingsDialogRef = this.dialog.open(SettingsDialogComponent, {
-          width: '500px',
+          width: '800px',
           position: {
             top: '30px',
             right: '10px',
           }
         });
-
         return this.settingsDialogRef.afterClosed();
       }),
-      flatMap(_ => [new LoadSettingsDialogAction()]),
+      flatMap(_ => []),
     );
 
   @Effect()
-  closeSettings$: Observable<Action> = this.actions$
+  closeSettingsDialog$: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Close),
       tap(a => console.log(a)),
+      map(a => a as CloseSettingsDialogAction),
       flatMap(_ => {
+        const obs = this.settingsDialogRef.beforeClose();
         this.settingsDialogRef.close();
+        return obs;
       }),
-      flatMap(_ => []), // TODO store settings
+      debounceTime(500),
+      flatMap(_ => []),
     );
 
   @Effect()
-  loadDialogData$: Observable<Action> = this.actions$
+  loadSettings: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Load),
       tap(a => console.log(a)),
       flatMap(_ => {
-        const settingsDialogDto = this.storageService.load<SettingsDialogDto>(SettingsStorageKey);
+        const settingsDto = this.storageService.load<SettingsDto>(SettingsStorageKey);
 
-        return [new InitializedSettingsDialogAction(settingsDialogDto)];
+        return [new InitializedSettingsAction(settingsDto)];
+      })
+    );
+
+  @Effect()
+  storeSettings: Observable<Action> = this.actions$
+    .pipe(
+      ofType(SettingsActionTypes.Store),
+      tap(a => console.log(a)),
+      map(a => a as StoreSettingsAction),
+      flatMap(a => {
+        const settingsDto = a.dto;
+        this.storageService.store(SettingsStorageKey, settingsDto);
+
+        return [new ApplySettingsAction(settingsDto)];
       })
     );
 
@@ -66,13 +84,13 @@ export class SettingsDialogEffects {
     .pipe(
       ofType(SettingsActionTypes.Apply),
       tap(a => console.log(a)),
-      map(a => a as ApplySettingsDialogAction),
+      map(a => a as ApplySettingsAction),
       flatMap(a =>
         internalApiPost(
           this.http,
           'settings',
-          a.settingsDialogState,
-          dto => [new LoadMissingCardsPageAction()]
+          a.dto,
+          _ => [new LoadMissingCardsPageAction()]
         )
       )
     );

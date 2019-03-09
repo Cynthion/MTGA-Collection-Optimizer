@@ -6,7 +6,7 @@ import { AppConfig } from '../environments/environment';
 import { WindowService } from './providers/window.service';
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
-import { OpenSettingsAction } from './app.actions';
+import { OpenSettingsDialogAction } from './settings';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +41,7 @@ export class AppComponent {
   }
 
   openSettingsDialog(): void {
-    this.actionsSubject.next(new OpenSettingsAction());
+    this.actionsSubject.next(new OpenSettingsDialogAction());
   }
 
   minimizeWindow() {

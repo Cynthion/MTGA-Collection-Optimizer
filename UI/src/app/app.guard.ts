@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { LoadSettingsDialogAction } from './settings';
 import { ActionsSubject } from '@ngrx/store';
 import { CanActivate } from '@angular/router';
+
+import { LoadSettingsAction } from './settings';
 
 @Injectable()
 export class AppGuard implements CanActivate {
@@ -9,7 +10,7 @@ export class AppGuard implements CanActivate {
   constructor(private actionsSubject: ActionsSubject) { }
 
   canActivate() {
-    this.actionsSubject.next(new LoadSettingsDialogAction());
+    this.actionsSubject.next(new LoadSettingsAction());
     return true;
   }
 }

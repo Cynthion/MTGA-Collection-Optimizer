@@ -1,4 +1,4 @@
-import { SettingsDialogState, initialSettingsDialogState } from './settings';
+import { SettingsState, initialSettingsState } from './settings';
 
 /// this is the root state for state that is shared among all components
 export interface RootState {
@@ -8,11 +8,11 @@ export interface RootState {
 export interface AppState {
   loadingSemaphore: number;
   isLoading: boolean;
-  settingsDialog: SettingsDialogState;
+  settings: SettingsState;
 }
 
 export const initialAppState: AppState = {
   loadingSemaphore: 0,
   isLoading: false,
-  settingsDialog: initialSettingsDialogState,
+  settings: initialSettingsState,
  };

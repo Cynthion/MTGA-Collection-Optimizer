@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material';
 import { ActionsSubject } from '@ngrx/store';
 
-import { OpenSettingsDialogAction } from '../settings/settings.actions';
+import { OpenSettingsDialogAction, LoadSettingsAction } from '../settings/settings.actions';
 import { ApiErrorState } from './api-error.state';
 
 @Component({

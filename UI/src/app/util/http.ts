@@ -3,8 +3,8 @@ import { Action } from '@ngrx/store';
 import { Observable, ObservableInput } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 
-import { ApiErrorAction } from '../app.actions';
 import { AppConfig } from '../../environments/environment';
+import { ShowApiErrorAction } from '../api-error';
 
 export function makeInternalApiUrl(relativeUrl: string) {
   return `${AppConfig.apiBaseUrl}${relativeUrl.replace(/^\/*/, '')}`;
@@ -59,8 +59,7 @@ function handleResponse<TResponse = null>(
   return source.pipe(
     mergeMap(project),
     catchError<Action, Action>(resp => {
-      console.log(resp);
-      return [new ApiErrorAction(resp.error)];
+      return [new ShowApiErrorAction(resp.error)];
     }),
   );
 }

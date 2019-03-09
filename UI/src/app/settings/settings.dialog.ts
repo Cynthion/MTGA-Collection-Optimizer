@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { RootState } from '../app.state';
-import { PlatformServiceProvider } from '../providers/platform-service-provider';
-import { StorageService } from '../providers/storage.service';
-import { SettingsDialogState, SettingsStorageKey } from './settings.state';
-import { ApplySettingsDialogAction, CloseSettingsDialogAction } from './settings.actions';
+import { SettingsState, SettingsDto } from './settings.state';
+import { CloseSettingsDialogAction, StoreSettingsAction } from './settings.actions';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -16,6 +14,7 @@ import { ApplySettingsDialogAction, CloseSettingsDialogAction } from './settings
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsDialogComponent {
+  state$: Observable<SettingsState>;
   outputLogPath: string;
   logPollInterval: number;
 
@@ -24,30 +23,26 @@ export class SettingsDialogComponent {
     private actionsSubject: ActionsSubject,
     @Inject(MAT_DIALOG_DATA) public data: any) { // TODO use this via state
 
-      this.store.select(s =>  {
-        const settingsDialogState = s.app.settingsDialog;
+      this.state$ = this.store.select(s => s.app.settings);
 
-        this.outputLogPath = settingsDialogState.outputLogPath;
-        this.logPollInterval = settingsDialogState.logPollInterval;
+      this.state$.subscribe(s => {
+        this.outputLogPath = s.outputLogPath;
+        this.logPollInterval = s.logPollInterval;
       });
-
-      // TODO load previous settings
-      // TODO fix settings validation
-  }
+    }
 
   closeDialog(): void {
+      // TODO fix settings validation
     // if (!this.areSettingsValid()) {
     //   return;
     // }
 
+    const settingsDto: SettingsDto = {
+      outputLogPath: this.outputLogPath,
+      logPollInterval: this.logPollInterval,
+    };
+
     this.actionsSubject.next(new CloseSettingsDialogAction());
-  }
-
-  areSettingsValid(): boolean {
-    return this.isOutputLogPathValid();
-  }
-
-  isOutputLogPathValid(): boolean {
-    return !!this.outputLogPath;
+    this.actionsSubject.next(new StoreSettingsAction(settingsDto));
   }
 }

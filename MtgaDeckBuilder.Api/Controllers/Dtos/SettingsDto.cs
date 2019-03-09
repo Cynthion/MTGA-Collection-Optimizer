@@ -1,6 +1,6 @@
 ﻿namespace MtgaDeckBuilder.Api.Controllers.Dtos
 {
-    public class SettingsDialogDto
+    public class SettingsDto
     {
         public string OutputLogPath { get; set; }
 

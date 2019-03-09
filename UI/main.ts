@@ -45,13 +45,11 @@ function createWindow() {
   }
 
   if (serve) {
-    console.log('SERVING!'); // TODO remove
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
     });
     win.loadURL('http://localhost:4200');
   } else {
-    console.log('NOT SERVING!'); // TODO remove
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
       protocol: 'file:',

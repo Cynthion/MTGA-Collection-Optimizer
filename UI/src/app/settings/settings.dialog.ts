@@ -7,7 +7,7 @@ import { RootState } from '../app.state';
 import { PlatformServiceProvider } from '../providers/platform-service-provider';
 import { StorageService } from '../providers/storage.service';
 import { SettingsDialogState, SettingsStorageKey } from './settings.state';
-import { ApplySettingsDialogAction } from './settings.actions';
+import { ApplySettingsDialogAction, CloseSettingsDialogAction } from './settings.actions';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -19,14 +19,10 @@ export class SettingsDialogComponent {
   outputLogPath: string;
   logPollInterval: number;
 
-  private storageService: StorageService;
-
   constructor(
-    public dialogRef: MatDialogRef<SettingsDialogComponent>,
-    private platformServiceProvicer: PlatformServiceProvider,
     private store: Store<RootState>,
     private actionsSubject: ActionsSubject,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any) { // TODO use this via state
 
       this.store.select(s =>  {
         const settingsDialogState = s.app.settingsDialog;
@@ -35,27 +31,16 @@ export class SettingsDialogComponent {
         this.logPollInterval = settingsDialogState.logPollInterval;
       });
 
-      this.storageService = this.platformServiceProvicer.getStorageService();
-
       // TODO load previous settings
       // TODO fix settings validation
   }
 
   closeDialog(): void {
-    if (!this.areSettingsValid()) {
-      return;
-    }
+    // if (!this.areSettingsValid()) {
+    //   return;
+    // }
 
-    const newSettingsDialogState: SettingsDialogState = {
-      outputLogPath: this.outputLogPath,
-      logPollInterval: this.logPollInterval,
-    };
-
-    this.storageService.store(SettingsStorageKey, newSettingsDialogState);
-
-    this.actionsSubject.next(new ApplySettingsDialogAction(newSettingsDialogState));
-
-    this.dialogRef.close();
+    this.actionsSubject.next(new CloseSettingsDialogAction());
   }
 
   areSettingsValid(): boolean {

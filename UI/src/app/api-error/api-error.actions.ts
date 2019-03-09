@@ -2,12 +2,12 @@ import { Action } from '@ngrx/store';
 
 import { ApiErrorState } from './api-error.state';
 
-export enum AppActionTypes {
+export enum ApiErrorActionTypes {
   Show = '[Api Error] Show',
 }
 
 export class ShowApiErrorAction implements Action {
-  readonly type = AppActionTypes.Show;
+  readonly type = ApiErrorActionTypes.Show;
 
   constructor(
     public apiErrorState: ApiErrorState,

@@ -6,10 +6,11 @@ export interface SettingsDialogDto {
 }
 
 export interface SettingsDialogState extends SettingsDialogDto {
-
+  isOpen: boolean;
 }
 
 export const initialSettingsDialogState: SettingsDialogState = {
   outputLogPath: '',
   logPollInterval: 5,
+  isOpen: false,
 };

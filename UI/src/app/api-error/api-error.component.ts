@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material';
 import { ActionsSubject } from '@ngrx/store';
+
+import { OpenSettingsDialogAction } from '../settings/settings.actions';
 import { ApiErrorState } from './api-error.state';
 
 @Component({
@@ -31,7 +33,7 @@ export class ApiErrorComponent {
   closeSnackbar(): void {
     if (this.state.apiErrorCode === 0
       || this.state.apiErrorCode === 1) {
-      this.actionsSubject.next(new OpenSettingsAction());
+      this.actionsSubject.next(new OpenSettingsDialogAction());
     }
 
     this.snackbar.dismiss();

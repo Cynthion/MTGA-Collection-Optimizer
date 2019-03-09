@@ -4,6 +4,7 @@ import { SettingsDialogState } from './settings.state';
 
 export enum SettingsActionTypes {
   Open = '[Settings] Open',
+  Close = '[Settings] Close',
   Load = '[Settings] Load',
   Initialized = '[Settings] Initialized',
   Apply = '[Settings] Apply',
@@ -11,6 +12,10 @@ export enum SettingsActionTypes {
 
 export class OpenSettingsDialogAction implements Action {
   readonly type = SettingsActionTypes.Open;
+}
+
+export class CloseSettingsDialogAction implements Action {
+  readonly type = SettingsActionTypes.Close;
 }
 
 export class LoadSettingsDialogAction implements Action {
@@ -35,6 +40,7 @@ export class ApplySettingsDialogAction implements Action {
 
 export type SettingsActions =
   | OpenSettingsDialogAction
+  | CloseSettingsDialogAction
   | LoadSettingsDialogAction
   | InitializedSettingsDialogAction
   | ApplySettingsDialogAction

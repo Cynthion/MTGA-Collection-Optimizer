@@ -36,6 +36,7 @@ import {
   SettingsDialogComponent,
   SettingsDialogEffects,
 } from './settings';
+import { MissingCardsModule } from './missing-cards/missing-cards.module';
 
 const matModules = [
   MatButtonModule,
@@ -53,13 +54,9 @@ const components = [
   SettingsDialogComponent,
 ];
 
-// // NG Translate
-// import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-// import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// // AoT requires an exported function for factories
-// export function HttpLoaderFactory(http: HttpClient) {
-//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-// }
+const featureModules = [
+  MissingCardsModule,
+];
 
 @NgModule({
   declarations: [
@@ -78,13 +75,7 @@ const components = [
       SettingsDialogEffects,
     ]),
     ...matModules,
-    // TranslateModule.forRoot({
-    //   loader: {
-    //     provide: TranslateLoader,
-    //     useFactory: (HttpLoaderFactory),
-    //     deps: [HttpClient]
-    //   }
-    // })
+    ...featureModules,
   ],
   providers: [
     AppGuard,

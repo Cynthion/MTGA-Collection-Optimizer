@@ -2,10 +2,10 @@
 
 ## MVP
 - [ ] settings via REST call
-- [ ] add loading bar
 - [ ] show set completeness
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
+- [X] add loading bar
 - [X] API error handling
 - [X] settings menu
 - [X] persist window state

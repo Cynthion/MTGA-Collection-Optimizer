@@ -13,6 +13,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatProgressBarModule,
   MatSnackBarModule,
 } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
@@ -43,6 +44,7 @@ const matModules = [
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatProgressBarModule,
   MatSnackBarModule,
 ];
 

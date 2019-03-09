@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 // import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
 import { AppConfig } from '../environments/environment';
 import { WindowService } from './providers/window.service';
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
 import { OpenSettingsDialogAction } from './settings';
+import { AppState, RootState } from './app.state';
 
 @Component({
   selector: 'app-root',
@@ -14,16 +16,19 @@ import { OpenSettingsDialogAction } from './settings';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  state$: Observable<AppState>;
 
   private windowService: WindowService;
   private isWindowMaximized: boolean;
 
   constructor(
+    private store: Store<RootState>,
     public electronService: ElectronService,
     private platformServiceProvider: PlatformServiceProvider,
     private actionsSubject: ActionsSubject,
     // private translate: TranslateService,
-    ) {
+  ) {
+    this.state$ = this.store.select(s => s.app);
 
     // translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);

@@ -13,6 +13,7 @@ import { LoadMissingCardsPageAction } from '../missing-cards/missing-cards-page'
 import { SettingsDto, SettingsStorageKey } from './settings.state';
 import { SettingsActionTypes, ApplySettingsAction, InitializedSettingsAction, LoadSettingsAction, StoreSettingsAction, CloseSettingsDialogAction } from './settings.actions';
 import { SettingsDialogComponent } from './settings.dialog';
+import { surroundWithLoadingActions } from '../app.actions';
 
 @Injectable()
 export class SettingsDialogEffects {
@@ -86,12 +87,13 @@ export class SettingsDialogEffects {
       tap(a => console.log(a)),
       map(a => a as ApplySettingsAction),
       flatMap(a =>
-        internalApiPost(
-          this.http,
-          'settings',
-          a.dto,
-          _ => [new LoadMissingCardsPageAction()]
-        )
+        surroundWithLoadingActions(
+          internalApiPost(
+            this.http,
+            'settings',
+            a.dto,
+            _ => [new LoadMissingCardsPageAction()]
+          ))
       )
     );
 

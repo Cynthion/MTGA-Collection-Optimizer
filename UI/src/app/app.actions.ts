@@ -1,4 +1,6 @@
 import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { startWith, concat } from 'rxjs/operators';
 
 export enum AppActionTypes {
   Initialized = '[App] Initialized',
@@ -23,3 +25,10 @@ export type AppActions =
   | IncrementAppLoadingSemaphoreAction
   | DecrementAppLoadingSemaphoreAction
   ;
+
+export function surroundWithLoadingActions(src: Observable<Action>): Observable<Action> {
+  return src.pipe(
+    startWith<Action>(new IncrementAppLoadingSemaphoreAction()),
+    concat<Action>([new DecrementAppLoadingSemaphoreAction()]),
+  );
+}

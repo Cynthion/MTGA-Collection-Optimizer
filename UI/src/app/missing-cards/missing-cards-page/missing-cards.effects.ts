@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 
 import { internalApiGet } from '../../util/http';
+import { surroundWithLoadingActions } from '../../app.actions';
 import { MissingCardsPageDto } from './missing-cards.state';
 import { MissingCardsActionTypes, InitializedMissingCardsPageAction } from './missing-cards.actions';
 import { LoadInventoryAction } from './inventory';
@@ -15,21 +16,20 @@ export class MissingCardsPageEffects {
 
   @Effect()
   loadPageData$: Observable<Action> = this.actions$
-  .pipe(
+    .pipe(
       ofType(MissingCardsActionTypes.Load),
       tap(a => console.log(a)),
       flatMap(_ =>
-        internalApiGet<MissingCardsPageDto>(
-          this.http,
-          'missingcards',
-          dto => [
-            new LoadInventoryAction(),
-            new InitializedMissingCardsPageAction(dto),
-            // new DecrementAppLoadingSemaphoreAction(),
-          ]
-        )
-      ),
-      // startWith(new IncrementAppLoadingSemaphoreAction()),
+        surroundWithLoadingActions(
+          internalApiGet<MissingCardsPageDto>(
+            this.http,
+            'missingcards',
+            dto => [
+              new LoadInventoryAction(),
+              new InitializedMissingCardsPageAction(dto),
+            ]
+          )
+        )),
     );
 
   constructor(

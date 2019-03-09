@@ -11,7 +11,6 @@ import {
   MatCardModule,
   MatInputModule,
   MatPaginatorModule,
-  MatProgressBarModule,
   MatSortModule,
   MatTableModule,
 } from '@angular/material';
@@ -38,7 +37,6 @@ const matModules = [
   MatCardModule,
   MatInputModule,
   MatPaginatorModule,
-  MatProgressBarModule,
   MatSortModule,
   MatTableModule,
 ];

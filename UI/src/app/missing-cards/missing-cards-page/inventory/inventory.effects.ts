@@ -8,23 +8,25 @@ import { flatMap, tap } from 'rxjs/operators';
 import { internalApiGet } from '../../../util/http';
 import { InventoryDto } from './inventory.state';
 import { InventoryActionTypes, InitializedInventoryAction } from './inventory.actions';
+import { surroundWithLoadingActions } from '../../../app.actions';
 
 @Injectable()
 export class InventoryEffects {
 
   @Effect()
   loadData$: Observable<Action> = this.actions$
-  .pipe(
+    .pipe(
       ofType(InventoryActionTypes.Load),
       tap(a => console.log(a)),
       flatMap(_ =>
-        internalApiGet<InventoryDto>(
-          this.http,
-          'inventory',
-          dto => [
-            new InitializedInventoryAction(dto),
-          ]
-        )
+        surroundWithLoadingActions(
+          internalApiGet<InventoryDto>(
+            this.http,
+            'inventory',
+            dto => [
+              new InitializedInventoryAction(dto),
+            ]
+          ))
       ),
     );
 

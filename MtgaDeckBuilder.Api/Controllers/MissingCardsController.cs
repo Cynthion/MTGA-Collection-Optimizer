@@ -17,9 +17,8 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet]
         public ActionResult GetMissingCards()
         {
-        var dto = _missingCardsService.GetMissingCardsPageDto();
-
-        return Ok(dto);
+            var dto = _missingCardsService.GetMissingCardsPageDto();
+            return Ok(dto);
         }
     }
 }

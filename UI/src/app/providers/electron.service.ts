@@ -28,6 +28,7 @@ export class ElectronService {
   }
 
   public get isElectronApp(): boolean {
-    return !!window.navigator.userAgent.match(/Electron/);
+    return window && window.process && window.process.type;
+    // return !!window.navigator.userAgent.match(/Electron/);
   }
 }

@@ -55,9 +55,14 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           return dcState;
         });
 
+        const totalOwnedCardsCalc = 22; // playerCardStates.map(pc => pc.ownedCount).reduce(sum);
+        const totalDeckCardsCalc = 30; // playerCardStates.length;
+
         playerDecksState.push({
           ...playerDeckDto,
           cards: deckCardStates,
+          totalOwnedCards: totalOwnedCardsCalc,
+          totalDeckCards: totalDeckCardsCalc,
         });
       }
 
@@ -98,4 +103,8 @@ function enrichToDeckCardState(deckCardDto: DeckCardDto): DeckCardState {
     rarity: rarityDictionary[mtgCard.get('rarity')],
     setCode: mtgCard.get('set'),
   });
+}
+
+function sum(accumulator: number, summand: number): number {
+  return accumulator + summand;
 }

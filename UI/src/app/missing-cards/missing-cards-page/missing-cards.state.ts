@@ -53,6 +53,8 @@ export interface PlayerDeckDto {
 
 export interface PlayerDeckState extends PlayerDeckDto {
   cards: DeckCardState[];
+  totalOwnedCards: number;
+  totalDeckCards: number;
 }
 
 export interface MissingCardsPageDto {

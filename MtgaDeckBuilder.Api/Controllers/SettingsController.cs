@@ -39,6 +39,13 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         private void AssertOutputLogPathValid()
         {
+            // replace UI placeholder with user name
+            const string userNamePlaceholder = "{user name}";
+            if (_settings.OutputLogPath.Contains(userNamePlaceholder))
+            {
+                _settings.OutputLogPath = _settings.OutputLogPath.Replace(userNamePlaceholder, Environment.UserName);
+            }
+
             try
             {
                 using (new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

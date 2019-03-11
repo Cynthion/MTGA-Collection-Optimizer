@@ -5,6 +5,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
+import { percentageToRgb } from '../../util/colors';
 import { makeInternalApiUrl } from '../../util/http';
 import { LoadMissingCardsPageAction } from './missing-cards.actions';
 import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
@@ -129,9 +130,14 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   }
 
   getProgressColorInRgb(deck: PlayerDeckState): string {
-    const redValue = 255 - (255 * Math.round(deck.totalOwnedCards / deck.totalDeckCards));
-    const greenValue = 255 * Math.round(deck.totalOwnedCards / deck.totalDeckCards);
-    return `rgb(${redValue},${greenValue},0)`;
+    const progressPercentage = (deck.totalOwnedCards * 100.0) / deck.totalDeckCards;
+    console.log(progressPercentage);
+    const redHue = 0;
+    const greenHue = 120;
+
+    const rgb = percentageToRgb(progressPercentage, redHue, greenHue);
+    console.log(rgb);
+    return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
   }
 
   protected onEventSourceOpen(message: MessageEvent) {

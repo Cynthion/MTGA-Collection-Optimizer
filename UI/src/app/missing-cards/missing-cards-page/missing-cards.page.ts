@@ -5,7 +5,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { percentageToRgb } from '../../util/colors';
+import { percentageToHsl } from '../../util/colors';
 import { makeInternalApiUrl } from '../../util/http';
 import { LoadMissingCardsPageAction } from './missing-cards.actions';
 import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
@@ -135,9 +135,9 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     const greenHue = 120;
 
     console.log(deck.name);
-    const rgb = percentageToRgb(progressPercentage, redHue, greenHue);
+    const hsl = percentageToHsl(progressPercentage, redHue, greenHue);
 
-    return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    return `hsl(${hsl[0] * 100}%,${hsl[1] * 100}%,${hsl[2] * 100}%)`;
   }
 
   protected onEventSourceOpen(message: MessageEvent) {

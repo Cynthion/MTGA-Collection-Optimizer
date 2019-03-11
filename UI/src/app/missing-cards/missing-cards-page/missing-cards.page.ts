@@ -129,7 +129,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   }
 
   protected onEventSourceOpen(message: MessageEvent) {
-    console.log('SSE connection established.');
+    console.log('SSE connection established');
   }
 
   protected onEventSourceMessage(message: MessageEvent): void {

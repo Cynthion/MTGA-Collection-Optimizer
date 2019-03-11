@@ -33,10 +33,13 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       // enrich deck cards, then add to collection cards
       const playerDecksState: PlayerDeckState[] = [];
       for (const playerDeckDto of action.dto.playerDecks) {
+        let totalOwnedCardsCalc = 0;
+
         const deckCardStates: DeckCardState[] = playerDeckDto.cards.map(dcDto => {
           // if player has card, then take its owned count
           const playerCardState = playerCardStates.find(pcState => pcState.mtgaId === dcDto.mtgaId);
           const ownedCount = playerCardState && playerCardState.ownedCount || 0;
+          totalOwnedCardsCalc += ownedCount;
 
           const dcState = enrichToDeckCardState(dcDto);
           const collectionCardDuplicate = collectionCardStates.find(ccState => ccState.mtgaId === dcState.mtgaId);
@@ -45,6 +48,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
             collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, dcState.requiredCount - ownedCount]);
           } else {
             // else add the new card to the collection
+            // TODO fix the typing
             collectionCardStates.push({
               ...dcState,
               missingCount: dcState.requiredCount - ownedCount,
@@ -55,8 +59,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           return dcState;
         });
 
-        const totalOwnedCardsCalc = 22; // playerCardStates.map(pc => pc.ownedCount).reduce(sum);
-        const totalDeckCardsCalc = 30; // playerCardStates.length;
+        const totalDeckCardsCalc = deckCardStates.map(pc => pc.requiredCount).reduce(sum);
 
         playerDecksState.push({
           ...playerDeckDto,

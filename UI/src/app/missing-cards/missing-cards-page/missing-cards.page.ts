@@ -130,13 +130,13 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   }
 
   getProgressColorInRgb(deck: PlayerDeckState): string {
-    const progressPercentage = (deck.totalOwnedCards * 100.0) / deck.totalDeckCards;
-    console.log(progressPercentage);
+    const progressPercentage = (deck.totalOwnedCards * 100) / deck.totalDeckCards;
     const redHue = 0;
     const greenHue = 120;
 
+    console.log(deck.name);
     const rgb = percentageToRgb(progressPercentage, redHue, greenHue);
-    console.log(rgb);
+
     return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
   }
 

@@ -1,8 +1,15 @@
-// taken from https://stackoverflow.com/questions/17525215/calculate-color-values-from-green-to-red
-export function percentageToRgb(percentage, hue0, hue1): number[] {
-  const hue = (percentage * (hue1 - hue0)) + hue0;
-  const saturation = 1; // 100%
+// parts taken from https://stackoverflow.com/questions/17525215/calculate-color-values-from-green-to-red
+export function percentageToRgb(percentage: number, hue0: number, hue1: number): number[] {
+  // bring percentage into hue range
+  const hueRange = hue1 - hue0;
+  const hueValue = (percentage / 100) * hueRange;
+  const huePercentage = ((hueValue / hueRange) * 100) / 100;
+
+  const hue = huePercentage;
+  const saturation = 1.0; // 100%
   const lightness = 0.5; // 50%
+
+  console.log(percentage, huePercentage); // TODO these two values should not be the same
 
   return hslToRgb(hue, saturation, lightness);
 }
@@ -21,7 +28,7 @@ export function percentageToRgb(percentage, hue0, hue1): number[] {
  * @return  Array           The RGB representation
  */
 export function hslToRgb(h: number, s: number, l: number): number[] {
-  let r, g, b;
+  let r: number, g: number, b: number;
 
   if (s === 0) {
       r = g = b = l; // achromatic

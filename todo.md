@@ -5,6 +5,7 @@
 - [ ] show set completeness
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
+- [ ] add About info
 - [X] add loading bar
 - [X] API error handling
 - [X] settings menu

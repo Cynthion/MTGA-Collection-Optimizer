@@ -35,6 +35,7 @@
 - [ ] progess tab (unique/all cards)
 - [ ] more beautiful owned/missing indicator
 - [ ] make deck columns sortable/moveable
+- [ ] paginator: show all items
 
 # Optimization / Refactoring
 - [X] remove file storage and set loader

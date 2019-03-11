@@ -39,7 +39,12 @@
       </ng-container>
     
       <ng-container [matColumnDef]="deck.name" *ngFor="let deck of playerDecks">
-        <th mat-header-cell *matHeaderCellDef>{{ deck.name }}</th>
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="deck-header">
+            <div class="deck-name">{{ deck.name }}</div>
+            <div class="deck-progress">22 / 33</div>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let i = index"> {{ getRequiredCount(deck, dataSource.filteredData[i].mtgaId) }} </td>
       </ng-container>
     

@@ -128,6 +128,12 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       : '';
   }
 
+  getProgressColorInRgb(deck: PlayerDeckState): string {
+    const redValue = 255 - (255 * Math.round(deck.totalOwnedCards / deck.totalDeckCards));
+    const greenValue = 255 * Math.round(deck.totalOwnedCards / deck.totalDeckCards);
+    return `rgb(${redValue},${greenValue},0)`;
+  }
+
   protected onEventSourceOpen(message: MessageEvent) {
     console.log('SSE connection established');
   }

@@ -42,7 +42,8 @@
         <th mat-header-cell *matHeaderCellDef>
           <div class="deck-header">
             <div class="deck-name">{{ playerDeck.name }}</div>
-            <div class="deck-progress">{{ playerDeck.totalOwnedCards}} / {{ playerDeck.totalDeckCards}}</div>
+            <div [ngStyle]="{'background-color': getProgressColorInRgb(playerDeck) }">
+              {{ playerDeck.totalOwnedCards}} / {{ playerDeck.totalDeckCards}}</div>
           </div>
         </th>
         <td mat-cell *matCellDef="let i = index"> {{ getRequiredCount(playerDeck, dataSource.filteredData[i].mtgaId) }} </td>

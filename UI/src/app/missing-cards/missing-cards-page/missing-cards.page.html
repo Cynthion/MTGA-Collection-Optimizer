@@ -42,7 +42,7 @@
         <th mat-header-cell *matHeaderCellDef>
           <div class="deck-header">
             <div class="deck-name">{{ playerDeck.name }}</div>
-            <div [ngStyle]="{'background-color': getProgressColorInRgb(playerDeck) }">
+            <div [ngStyle]="{'background-color': getProgressColor(playerDeck) }">
               {{ playerDeck.totalOwnedCards}} / {{ playerDeck.totalDeckCards}}</div>
           </div>
         </th>

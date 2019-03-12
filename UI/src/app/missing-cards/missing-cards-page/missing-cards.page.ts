@@ -27,6 +27,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
   deckColumns: string[] = [];
   columnsToDisplay: string[];
+  subHeadersToDisplay: string[];
 
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
@@ -47,6 +48,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       this.playerDecks = s.playerDecks;
       this.deckColumns = s.playerDecks.map(d => d.name);
       this.columnsToDisplay = [this.stickyColum.toString()].concat(this.flexColumns).concat(this.deckColumns);
+      this.subHeadersToDisplay = []; // TODO initialize
 
       this.initializePage();
     });

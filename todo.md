@@ -6,6 +6,7 @@
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] add About info
+- [ ] make deck columns sortable/moveable
 - [X] add loading bar
 - [X] API error handling
 - [X] settings menu
@@ -35,7 +36,6 @@
 - [ ] filter by class (vampire, etc.)
 - [ ] progess tab (unique/all cards)
 - [ ] more beautiful owned/missing indicator
-- [ ] make deck columns sortable/moveable
 - [ ] paginator: show all items
 
 # Optimization / Refactoring

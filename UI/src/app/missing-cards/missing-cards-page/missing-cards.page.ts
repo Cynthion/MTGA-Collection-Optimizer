@@ -74,9 +74,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
           : 0;
       }
 
-      const result = isNumber(value) ? Number(value) : value;
-      console.log(sortHeaderId, data, value, result);
-      return result;
+      return isNumber(value) ? Number(value) : value;
     };
   }
 
@@ -162,7 +160,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     const redHue = 0;
     const greenHue = 120;
 
-    const hsl = percentageToHsl(progressPercentage, redHue, greenHue, 100, 40);
+    const hsl = percentageToHsl(progressPercentage, redHue, greenHue, 100, 50);
 
     return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
   }

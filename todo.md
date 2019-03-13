@@ -6,7 +6,8 @@
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] add About info
-- [ ] make deck columns sortable/moveable
+- [ ] make deck columns moveable
+- [ ] make deck columns sortable
 - [X] add loading bar
 - [X] API error handling
 - [X] settings menu
@@ -40,6 +41,7 @@
 
 # Optimization / Refactoring
 - [X] remove file storage and set loader
+- [ ] better UI state structure of cards/decks
 - [ ] parse log file async
 - [ ] parse log file from end of file
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development

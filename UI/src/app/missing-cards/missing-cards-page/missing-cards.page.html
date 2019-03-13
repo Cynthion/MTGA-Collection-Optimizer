@@ -34,7 +34,7 @@
       <ng-container [matColumnDef]="playerDeck.name" *ngFor="let playerDeck of playerDecks">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <div class="deck-name">{{ playerDeck.name }}</div>
-          <div class="deck-header">
+          <div class="deck-progress">
             <div [ngStyle]="{'background-color': getProgressColor(playerDeck) }">
               {{ playerDeck.totalOwnedCards}} / {{ playerDeck.totalDeckCards}}
             </div>

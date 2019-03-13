@@ -95,14 +95,14 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  unsubscribeFromServerSentEvents() {
+  unsubscribeFromServerSentEvents(): void {
     if (this.isSseSubscribed) {
       this.eventSource.close();
       this.isSseSubscribed = false;
     }
   }
 
-  applyFilter() {
+  applyFilter(): void {
     if (!!this.filterValue) {
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
 
@@ -112,7 +112,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearFilter() {
+  clearFilter(): void {
     this.filterValue = '';
     this.dataSource.filter = '';
   }
@@ -140,7 +140,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     return 'n/a';
   }
 
-  getRequiredCount(deck: PlayerDeckState, mtgaId: number) {
+  getRequiredCount(deck: PlayerDeckState, mtgaId: number): number {
     return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
       ? deck.cards.find(c => c!.mtgaId === mtgaId).requiredCount
       : 0;

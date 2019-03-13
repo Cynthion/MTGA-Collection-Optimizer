@@ -28,6 +28,7 @@ namespace MtgaDeckBuilder.Api.MissingCards
                         MtgaId = c.Key,
                         OwnedCount = c.Value
                     })
+                    .Take(10) // TODO remove
                     .ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
                     {

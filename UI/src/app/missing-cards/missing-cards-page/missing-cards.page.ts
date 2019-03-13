@@ -63,8 +63,15 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       }
 
       // handle requiredCount specially (only available on DeckCardState)
-      if (!value && sortHeaderId !== 'ownedCount') {
-        value = data['requiredCount'] || 0;
+      if (!value && sortHeaderId !== 'ownedCount' && data['requiredCount']) {
+        // only sort within the sorted deck, not over all decks
+        const sortedPlayerDeckCardIds = this.playerDecks
+          .find(d => d.name === sortHeaderId).cards
+          .map(c => c.mtgaId);
+        const sortedCardId = data['mtgaId'];
+        value = _.includes(sortedPlayerDeckCardIds, sortedCardId)
+          ? data['requiredCount'] || 0
+          : 0;
       }
 
       const result = isNumber(value) ? Number(value) : value;

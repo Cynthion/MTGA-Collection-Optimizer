@@ -34,8 +34,6 @@
       <ng-container [matColumnDef]="playerDeck.name" *ngFor="let playerDeck of playerDecks">
         <th mat-header-cell *matHeaderCellDef>
           <div class="deck-name">{{ playerDeck.name }}</div>
-        </th>
-        <th mat-header-cell *matHeaderCellDef>
           <div class="deck-header">
             <div [ngStyle]="{'background-color': getProgressColor(playerDeck) }">
               {{ playerDeck.totalOwnedCards}} / {{ playerDeck.totalDeckCards}}
@@ -46,8 +44,18 @@
         </td>
       </ng-container>
 
+      <!-- <ng-container [matColumnDef]="playerDeck.name" *ngFor="let playerDeck of playerDecks">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="deck-header">
+            <div [ngStyle]="{'background-color': getProgressColor(playerDeck) }">
+              {{ playerDeck.totalOwnedCards}} / {{ playerDeck.totalDeckCards}}
+            </div>
+          </div>
+        </th>
+      </ng-container> -->
+
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr mat-header-row *matHeaderRowDef="subHeadersToDisplay; sticky: true"></tr>
+      <!-- <tr mat-header-row *matHeaderRowDef="subHeadersToDisplay; sticky: true"></tr> -->
       <tr mat-row *matRowDef="let element; columns: columnsToDisplay;">
       </tr>
     </table>

@@ -48,7 +48,6 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
             collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, dcState.requiredCount - ownedCount]);
           } else {
             // else add the new card to the collection
-            // TODO fix the typing
             collectionCardStates.push({
               ...dcState,
               missingCount: dcState.requiredCount - ownedCount,

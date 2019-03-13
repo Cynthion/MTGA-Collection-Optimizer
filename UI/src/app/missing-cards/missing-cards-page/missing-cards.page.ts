@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import { percentageToHsl } from '../../util/colors';
 import { makeInternalApiUrl } from '../../util/http';
 import { LoadMissingCardsPageAction } from './missing-cards.actions';
-import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
+import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState } from './missing-cards.state';
 import { isNumber } from 'util';
 
 @Component({
@@ -57,14 +57,15 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
       let value: any = data[sortHeaderId];
 
+      // TODO fix ownedCount sorting as well
       // handle deck columns specially
       if (!value) {
         value = data['requiredCount'] || 0;
       }
 
       const result = isNumber(value) ? Number(value) : value;
-      // console.log(sortHeaderId, data);
-      // console.log(value, isNumber(value), result);
+      console.log(sortHeaderId, data);
+      console.log(value, isNumber(value), result);
       return result;
     };
   }
@@ -140,10 +141,13 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     return 'n/a';
   }
 
-  getRequiredCount(deck: PlayerDeckState, mtgaId: number): number {
-    return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
-      ? deck.cards.find(c => c!.mtgaId === mtgaId).requiredCount
-      : 0;
+  getRequiredCount(collectionCard: CollectionCardState): string {
+    // not all collectionCards have a requiredCount (only the DeckCardStates)
+    // TODO find card in the deck and take its required count
+    return (collectionCard.requiredCount || '').toString();
+    // return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
+    //   ? deck.cards.find(c => c!.mtgaId === mtgaId).requiredCount
+    //   : 0;
   }
 
   getProgressColor(deck: PlayerDeckState): string {

@@ -33,16 +33,16 @@ export interface PlayerCardState extends PlayerCardDto, CardState {
 
 }
 
-export interface CollectionCardState extends PlayerCardState {
-  missingCount: number;
-}
-
 export interface DeckCardDto extends CardDto {
   requiredCount: number;
 }
 
 export interface DeckCardState extends DeckCardDto, CardState {
 
+}
+
+export interface CollectionCardState extends PlayerCardState, DeckCardState {
+  missingCount: number;
 }
 
 export interface PlayerDeckDto {

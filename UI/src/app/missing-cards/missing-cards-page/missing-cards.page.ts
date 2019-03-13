@@ -9,6 +9,7 @@ import { percentageToHsl } from '../../util/colors';
 import { makeInternalApiUrl } from '../../util/http';
 import { LoadMissingCardsPageAction } from './missing-cards.actions';
 import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState } from './missing-cards.state';
+import { isNumber } from 'util';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -36,10 +37,10 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   protected isSseSubscribed: boolean;
 
   constructor(
-      private store: Store<MissingCardsFeatureState>,
-      private actionsSubject: ActionsSubject,
-      protected _httpClient: HttpClient,
-    ) {
+    private store: Store<MissingCardsFeatureState>,
+    private actionsSubject: ActionsSubject,
+    protected _httpClient: HttpClient,
+  ) {
     this.featureState$ = store.select(s => s);
     this.pageState$ = store.select(s => s.missingCardsPage);
 
@@ -52,6 +53,20 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
 
       this.initializePage();
     });
+
+    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+      let value: any = data[sortHeaderId];
+
+      // handle deck columns specially
+      if (!value) {
+        value = data['requiredCount'] || 0;
+      }
+
+      const result = isNumber(value) ? Number(value) : value;
+      // console.log(sortHeaderId, data);
+      // console.log(value, isNumber(value), result);
+      return result;
+    };
   }
 
   ngOnInit() {
@@ -128,7 +143,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   getRequiredCount(deck: PlayerDeckState, mtgaId: number) {
     return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
       ? deck.cards.find(c => c!.mtgaId === mtgaId).requiredCount
-      : '';
+      : 0;
   }
 
   getProgressColor(deck: PlayerDeckState): string {
@@ -152,7 +167,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   }
 
   protected onEventSourceError(message: MessageEvent): void {
-    console.log( 'SSE connection error:', message);
+    console.log('SSE connection error:', message);
     if (message.eventPhase === this.eventSource.CLOSED) {
       this.eventSource.close();
       console.log('SSE connection closed.');

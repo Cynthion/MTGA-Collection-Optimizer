@@ -24,10 +24,11 @@ namespace MtgaDeckBuilder.Api.MissingCards
             var dto = new MissingCardsPageDto
             {
                 PlayerCards = playerCards.Select(c => new PlayerCardDto
-                {
-                    MtgaId = c.Key,
-                    OwnedCount = c.Value
-                }).ToArray(),
+                    {
+                        MtgaId = c.Key,
+                        OwnedCount = c.Value
+                    })
+                    .ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
                     {
                         Id = d.Id,
@@ -40,6 +41,7 @@ namespace MtgaDeckBuilder.Api.MissingCards
                     })
                     .Where(d => !d.Name.Contains("?=?"))
                     .OrderBy(d => d.Name)
+                    .Take(1) // TODO remove
                     .ToArray()
             };
 

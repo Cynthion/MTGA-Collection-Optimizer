@@ -28,6 +28,7 @@ namespace MtgaDeckBuilder.Api.MissingCards
                         MtgaId = c.Key,
                         OwnedCount = c.Value
                     })
+                    .Take(10)
                     .ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto
                     {
@@ -41,6 +42,7 @@ namespace MtgaDeckBuilder.Api.MissingCards
                     })
                     .Where(d => !d.Name.Contains("?=?"))
                     .OrderBy(d => d.Name)
+                    .Take(2)
                     .ToArray()
             };
 

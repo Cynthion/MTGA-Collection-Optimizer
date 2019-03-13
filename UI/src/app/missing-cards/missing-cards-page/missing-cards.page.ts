@@ -57,15 +57,18 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
       let value: any = data[sortHeaderId];
 
-      // TODO fix ownedCount sorting as well
-      // handle deck columns specially
-      if (!value) {
+      // handle ownedCount specially (only available on PlayerCardState)
+      if (!value && sortHeaderId === 'ownedCount') {
+        value = 0;
+      }
+
+      // handle requiredCount specially (only available on DeckCardState)
+      if (!value && sortHeaderId !== 'ownedCount') {
         value = data['requiredCount'] || 0;
       }
 
       const result = isNumber(value) ? Number(value) : value;
-      console.log(sortHeaderId, data);
-      console.log(value, isNumber(value), result);
+      console.log(sortHeaderId, data, value, result);
       return result;
     };
   }
@@ -141,13 +144,10 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     return 'n/a';
   }
 
-  getRequiredCount(collectionCard: CollectionCardState): string {
-    // not all collectionCards have a requiredCount (only the DeckCardStates)
-    // TODO find card in the deck and take its required count
-    return (collectionCard.requiredCount || '').toString();
-    // return _.includes(deck.cards.map(c => c.mtgaId), mtgaId)
-    //   ? deck.cards.find(c => c!.mtgaId === mtgaId).requiredCount
-    //   : 0;
+  getRequiredCount(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {
+    return _.includes(playerDeck.cards.map(c => c.mtgaId), collectionCard.mtgaId)
+      ? playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId).requiredCount.toString()
+      : '';
   }
 
   getProgressColor(deck: PlayerDeckState): string {

@@ -22,13 +22,13 @@
 
       <ng-container [matColumnDef]="stickyColum" sticky>
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(stickyColum)}} </th>
-        <td mat-cell *matCellDef="let element" [ngClass]="getRarityClass(stickyColum, element)">
-          {{element[stickyColum]}} </td>
+        <td mat-cell *matCellDef="let row" [ngClass]="getRarityClass(stickyColum, row)">
+          {{row[stickyColum]}} </td>
       </ng-container>
 
-      <ng-container [matColumnDef]="column" *ngFor="let column of flexColumns">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(column)}} </th>
-        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+      <ng-container [matColumnDef]="flexColumn" *ngFor="let flexColumn of flexColumns">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(flexColumn)}} </th>
+        <td mat-cell *matCellDef="let row"> {{row[flexColumn]}} </td>
       </ng-container>
 
       <ng-container [matColumnDef]="playerDeck.name" *ngFor="let playerDeck of playerDecks">
@@ -40,7 +40,7 @@
             </div>
           </div>
         </th>
-        <td mat-cell *matCellDef="let element"> {{ getRequiredCount(element, playerDeck) }}
+        <td mat-cell *matCellDef="let collectionCard"> {{ getRequiredCount(collectionCard, playerDeck) }}
         </td>
       </ng-container>
 
@@ -54,8 +54,12 @@
         </th>
       </ng-container> -->
 
+      <ng-container matColumnDef="item-description">
+        <th mat-header-cell *matHeaderCellDef>Subheader</th>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <!-- <tr mat-header-row *matHeaderRowDef="subHeadersToDisplay; sticky: true"></tr> -->
+      <tr mat-header-row *matHeaderRowDef="['item-description']; sticky: true"></tr>
       <tr mat-row *matRowDef="let element; columns: columnsToDisplay;">
       </tr>
     </table>

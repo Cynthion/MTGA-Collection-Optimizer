@@ -161,9 +161,12 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   }
 
   getRequiredCount(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {
-    return _.includes(playerDeck.cards.map(c => c.mtgaId), collectionCard.mtgaId)
-      ? playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId).requiredCount.toString()
-      : '';
+    if (!_.includes(playerDeck.cards.map(c => c.mtgaId), collectionCard.mtgaId)) {
+      return '';
+    }
+    const deckCard = playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
+    const ownedCount = collectionCard.ownedCount > deckCard.requiredCount ? deckCard.requiredCount : collectionCard.ownedCount;
+    return `${ownedCount} / ${deckCard.requiredCount}`;
   }
 
   getProgressColor(deck: PlayerDeckState): string {

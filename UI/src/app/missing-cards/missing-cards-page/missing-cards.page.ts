@@ -24,9 +24,9 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   pageState$: Observable<MissingCardsPageState>;
 
   stickyColumn: keyof CollectionCardState = 'name';
-  stickyColumnSubHeader = 'empty-subheader';
+  stickyColumnSubHeader = 'sticky-subheader';
   flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
-  flexColumnsSubHeaders = ['empty-subheader', 'empty-subheader', 'empty-subheader'];
+  flexColumnsSubHeaders = ['flex-subheader', 'flex-subheader', 'flex-subheader'];
   deckColumns: string[] = [];
   deckColumnsSubHeaders: string[] = [];
 

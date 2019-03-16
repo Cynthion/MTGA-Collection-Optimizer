@@ -39,6 +39,18 @@
       background-color: $theme-accent-color-a700;
     }
     
+    .subheader-row {
+      height: auto;
+    }
+    
+    th.mat-header-cell {
+      border-bottom-width: 0px;
+    }
+
+    th.mat-header-cell:last-of-type {
+      padding-right: 0px;
+    }
+
     .mat-header-cell,
     .mat-cell {
       text-align: center;
@@ -91,7 +103,7 @@
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
-  height: 3px;
+  height: 4px;
 }
 
 /* Track */

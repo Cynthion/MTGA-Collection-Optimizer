@@ -22,6 +22,7 @@
 - [X] show application name
 - [X] repeatedly call backend / polling
 - [X] detect changes and push from backend with Server Sent Events (SSE)
+- [X] try to auto-detect output log file with default path
 
 ## Production
 - [ ] rename application to 'Collection Optimizer'

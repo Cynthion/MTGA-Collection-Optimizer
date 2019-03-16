@@ -15,7 +15,9 @@ import {
   MatTableModule,
 } from '@angular/material';
 
-import { missingCardsRoutes } from './missing-cards.routing';
+import {
+  missingCardsRoutes
+} from './missing-cards.routing';
 
 import {
   MissingCardsPageInitializationGuard,

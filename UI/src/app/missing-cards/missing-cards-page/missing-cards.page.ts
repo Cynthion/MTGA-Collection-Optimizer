@@ -23,16 +23,19 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   featureState$: Observable<MissingCardsFeatureState>;
   pageState$: Observable<MissingCardsPageState>;
 
-  filterValue: string;
-  stickyColum: keyof CollectionCardState = 'name';
+  stickyColumn: keyof CollectionCardState = 'name';
+  stickyColumnSubHeader = 'empty-subheader';
   flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
+  flexColumnsSubHeaders = ['empty-subheader', 'empty-subheader', 'empty-subheader'];
   deckColumns: string[] = [];
+  deckColumnsSubHeaders: string[] = [];
 
-  columnsToDisplay: string[];
-  subHeadersToDisplay: string[];
+  displayedColumns: string[];
+  displayedColumnsSubHeaders: string[];
 
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
+  filterValue: string;
 
   protected eventSource: EventSource;
   protected isSseSubscribed: boolean;
@@ -50,8 +53,10 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       this.playerDecks = s.playerDecks;
 
       this.deckColumns = s.playerDecks.map(d => d.name);
-      this.columnsToDisplay = [this.stickyColum.toString()].concat(this.flexColumns).concat(this.deckColumns);
-      this.subHeadersToDisplay = []; // TODO initialize
+      this.deckColumnsSubHeaders = s.playerDecks.map(d => `${d.name}-subheader`);
+
+      this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
+      this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
 
       this.initializePage();
     });
@@ -136,6 +141,10 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       case 'missingCount': return 'Missing';
     }
     return 'n/a';
+  }
+
+  getDeckSubheaderName(playerDeck: PlayerDeckState): string {
+    return `${playerDeck.name}-subheader`;
   }
 
   getRarityClass(columnName: keyof CollectionCardState, card: CollectionCardState): string {

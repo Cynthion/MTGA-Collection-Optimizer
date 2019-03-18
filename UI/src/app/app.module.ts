@@ -29,6 +29,10 @@ import { appRoutes } from './app.routing';
 import { AppGuard } from './app.guard';
 import { rootReducers } from './app.reducer';
 import {
+  AboutDialogComponent,
+  AboutDialogEffects,
+} from './about';
+import {
   ApiErrorComponent,
   ApiErrorEffects,
 } from './api-error';
@@ -50,6 +54,7 @@ const matModules = [
 ];
 
 const components = [
+  AboutDialogComponent,
   ApiErrorComponent,
   SettingsDialogComponent,
 ];
@@ -71,6 +76,7 @@ const featureModules = [
     StoreModule.forRoot(rootReducers),
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([
+      AboutDialogEffects,
       ApiErrorEffects,
       SettingsDialogEffects,
     ]),
@@ -86,6 +92,7 @@ const featureModules = [
   ],
   bootstrap: [AppComponent],
   entryComponents: [
+    AboutDialogComponent,
     ApiErrorComponent,
     SettingsDialogComponent,
   ],

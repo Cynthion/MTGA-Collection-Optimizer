@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Settings</h1>
+<div class="settings" (keydown)="onKeydown($event)">
+  <mat-form-field hintLabel="Path to the MTGA output_log.txt file on your machine.">
+    <input 
+      matInput
+      type="text"
+      #input
+      [(ngModel)]="outputLogPath"
+      floatLabel="never"
+      placeholder="Enter Output Log Path">
+    <mat-error>You must provide a valid path to the MTGA output_log.txt file on your machine.</mat-error>
+  </mat-form-field>
+  <mat-form-field hintLabel="Interval for updates in seconds">
+    <input 
+      matInput
+      type="number"
+      #input
+      [(ngModel)]="logPollInterval"
+      floatLabel="never"
+      placeholder="Enter Update Interval">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button cdkFocusInitial (click)="closeDialog()">Ok</button>
+</div>

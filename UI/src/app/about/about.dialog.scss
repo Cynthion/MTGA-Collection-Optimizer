@@ -1,0 +1,10 @@
+@import 'src/constants.scss';
+
+.settings {
+  font-size: 14px;
+  color: $theme-accent-color-a100;
+  >mat-form-field {
+    width: 100%;
+    margin-bottom: $default-padding;
+  }
+}

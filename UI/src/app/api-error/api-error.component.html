@@ -1,10 +1,10 @@
 <mat-card class="api-error" (click)="closeSnackbar()">
   <mat-card-title>Oops!</mat-card-title>
   <mat-card-subtitle>There is definitely room for improvement...</mat-card-subtitle>
-    <p>
-      {{ getApiErrorMessage() }}
-    </p>
-    <div mat-dialog-actions align="end">
-      <button mat-button cdkFocusInitial (click)="closeSnackbar()">Ok</button>
-    </div>
+  <p>
+    {{ getApiErrorMessage() }}
+  </p>
+  <div mat-dialog-actions align="end">
+    <button mat-button cdkFocusInitial (click)="closeSnackbar()">Ok</button>
+  </div>
 </mat-card>

@@ -1,12 +1,15 @@
 <div class="window-container">
 
   <div class="app-bar">
-    <div class="title">MTGA Collection Optimizer</div>
+    <div class="title">{{ (state$ | async).about.appName }}</div>
 
     <div class="menues">
       <div class="app-menu">
         <div class="menu-item settings" (click)="openSettingsDialog()">
           <img src="assets/img/settings.png">
+        </div>
+        <div class="menu-item about" (click)="openAboutDialog()">
+          <img src="assets/img/about.png">
         </div>
       </div>
 
@@ -32,6 +35,4 @@
   <div class="app-container">
     <router-outlet></router-outlet>
   </div>
-
-  <!-- TODO add policy info here -->
 </div>

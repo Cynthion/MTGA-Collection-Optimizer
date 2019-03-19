@@ -1,4 +1,6 @@
 export interface AboutDto {
+  appName: string;
+  version: string;
 }
 
 export interface AboutState extends AboutDto {
@@ -6,5 +8,7 @@ export interface AboutState extends AboutDto {
 }
 
 export const initialAboutState: AboutState = {
+  appName: 'MTGA Collection Optimizer',
+  version: '1.0.0',
   isOpen: false,
 };

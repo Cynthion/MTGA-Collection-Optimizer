@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ActionsSubject, Store } from '@ngrx/store';
-// import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { AppConfig } from '../environments/environment';
 import { WindowService } from './providers/window.service';
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
+import { OpenAboutDialogAction } from './about';
 import { OpenSettingsDialogAction } from './settings';
 import { AppState, RootState } from './app.state';
 
@@ -26,11 +26,9 @@ export class AppComponent {
     public electronService: ElectronService,
     private platformServiceProvider: PlatformServiceProvider,
     private actionsSubject: ActionsSubject,
-    // private translate: TranslateService,
   ) {
     this.state$ = this.store.select(s => s.app);
 
-    // translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
     if (electronService.isElectronApp) {
@@ -47,6 +45,10 @@ export class AppComponent {
 
   openSettingsDialog(): void {
     this.actionsSubject.next(new OpenSettingsDialogAction());
+  }
+
+  openAboutDialog(): void {
+    this.actionsSubject.next(new OpenAboutDialogAction());
   }
 
   minimizeWindow() {

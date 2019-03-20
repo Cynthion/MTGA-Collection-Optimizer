@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatInputModule,
   MatPaginatorModule,
@@ -36,6 +37,7 @@ import {
 const matModules = [
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatInputModule,
   MatPaginatorModule,

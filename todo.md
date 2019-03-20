@@ -3,9 +3,9 @@
 ## MVP
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
-- [ ] add About info
 - [ ] make deck columns moveable
 - [ ] make deck columns sortable
+- [X] add About info
 - [X] show deck completeness
 - [X] add loading bar
 - [X] API error handling
@@ -26,8 +26,9 @@
 
 ## Production
 - [ ] rename application to 'Collection Optimizer'
-- [ ] add License info (https://company.wizards.com/fancontentpolicy)
 - [ ] change ports for production
+- [ ] add License
+- [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)
 - [X] fix window menu (WinRef) for electron
 - [X] use Angular enableProdMode()
 - [X] custom favicon

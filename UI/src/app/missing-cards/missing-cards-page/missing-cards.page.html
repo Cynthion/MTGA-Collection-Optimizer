@@ -4,13 +4,26 @@
     <app-inventory></app-inventory>
   </div>
 
-  <div class="filter">
-    <mat-form-field>
-      <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Card Filter">
-      <button matSuffix mat-button color="primary" *ngIf="filterValue" (click)="clearFilter()">
-        Clear
-      </button>
-    </mat-form-field>
+  <div class="table-menu">
+    <div class="search">
+      <mat-form-field>
+        <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Search">
+        <button matSuffix mat-button color="primary" *ngIf="filterValue" (click)="clearFilter()">
+          Clear
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="column-sort">
+      <mat-button-toggle-group>
+        <mat-button-toggle value="Alphabetical">
+          Alpha
+        </mat-button-toggle>
+        <mat-button-toggle value="Completeness">
+          Compl
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
   </div>
 
   <div class="mat-elevation-z8 table-container">

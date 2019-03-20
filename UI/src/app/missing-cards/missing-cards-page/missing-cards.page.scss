@@ -12,12 +12,19 @@
     -webkit-user-select: none;
   }
   
-  .filter {
+  .table-menu {
     flex: 0 1 auto;
-    font-size: 14px;
-    color: $theme-accent-color-a100;
-    >mat-form-field {
-      width: 50%;
+    
+    .search {
+      font-size: 14px;
+      color: $theme-accent-color-a100;
+      >mat-form-field {
+        width: 50%;
+      }
+    }
+    
+    .column-sort {
+  
     }
   }
   

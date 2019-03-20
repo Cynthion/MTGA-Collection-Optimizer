@@ -44,6 +44,10 @@
       .app-menu {
         display: flex;
 
+        .about {
+          margin-left: 5px;
+        }
+
         .settings:hover,
         .about:hover {
           background: $theme-accent-color;

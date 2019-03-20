@@ -26,3 +26,9 @@
   margin: -16px;
   background: mat-color(map-get($mtga-deck-builder-theme, warn));
 }
+
+.about-dialog {
+  .mat-dialog-container {
+    padding: 0px;
+  }
+}

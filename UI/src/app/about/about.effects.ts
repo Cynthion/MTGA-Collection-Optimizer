@@ -24,7 +24,8 @@ export class AboutDialogEffects {
           position: {
             top: '30px',
             right: '10px',
-          }
+          },
+          panelClass: ['about-dialog'],
         });
         return this.aboutDialogRef.afterClosed();
       }),

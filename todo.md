@@ -4,7 +4,7 @@
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] make deck columns moveable
-- [ ] make deck columns sortable
+- [ ] make deck columns sortable -> store setting
 - [X] add About info
 - [X] show deck completeness
 - [X] add loading bar
@@ -23,6 +23,10 @@
 - [X] repeatedly call backend / polling
 - [X] detect changes and push from backend with Server Sent Events (SSE)
 - [X] try to auto-detect output log file with default path
+
+## Bugs
+- [ ] fix UI subheader glitch
+- [ ] fix deck sorting
 
 ## Production
 - [ ] rename application to 'Collection Optimizer'

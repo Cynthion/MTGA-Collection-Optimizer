@@ -15,6 +15,11 @@ export const rarityDictionary: { [rarity: string]: number } = {
   'Mythic Rare': 4,
 };
 
+export enum SortDeckColumnOrder {
+  Alphabetical,
+  Completeness,
+}
+
 export interface CardDto {
   mtgaId: number;
 }

@@ -11,6 +11,7 @@ import {
   DeckCardDto,
   DeckCardState,
   CollectionCardState,
+  SortDeckColumnOrder,
 } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
@@ -79,6 +80,17 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       };
 
       return newState;
+    }
+
+    case MissingCardsActionTypes.SortDeckColumns: {
+      if (action.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
+        const sortedPlayerDecks = state.playerDecks; // TODO sort
+
+        return {
+          ...state,
+          playerDecks: sortedPlayerDecks,
+        };
+      }
     }
 
     default: {

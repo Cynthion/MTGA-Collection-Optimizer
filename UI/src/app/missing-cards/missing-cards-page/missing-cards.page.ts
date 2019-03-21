@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
 import { percentageToHsl } from '../../util/colors';
 import { makeInternalApiUrl } from '../../util/http';
-import { LoadMissingCardsPageAction } from './missing-cards.actions';
-import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState } from './missing-cards.state';
+import { LoadMissingCardsPageAction, SortDeckColumnsAction } from './missing-cards.actions';
+import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState, SortDeckColumnOrder } from './missing-cards.state';
 import { isNumber } from 'util';
 
 @Component({
@@ -131,6 +131,13 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   clearFilter(): void {
     this.filterValue = '';
     this.dataSource.filter = '';
+  }
+
+  onColumnSortValueChange(change: MatButtonToggleChange): void {
+    const newValue = change.value;
+    if (newValue === 'Alphabetical') {
+      this.actionsSubject.next(new SortDeckColumnsAction(SortDeckColumnOrder.Alphabetical));
+    }
   }
 
   getColumnName(columnName: keyof CollectionCardState): string {

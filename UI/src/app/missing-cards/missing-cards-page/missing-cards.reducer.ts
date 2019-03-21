@@ -66,6 +66,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           cards: deckCardStates,
           totalOwnedCards: totalOwnedCardsCalc,
           totalDeckCards: totalDeckCardsCalc,
+          completeness: totalOwnedCardsCalc / totalDeckCardsCalc,
         });
       }
 
@@ -84,13 +85,23 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
 
     case MissingCardsActionTypes.SortDeckColumns: {
       if (action.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
-        const sortedPlayerDecks = state.playerDecks; // TODO sort
+        const sortedPlayerDecks = _.orderBy(state.playerDecks, ['name'], ['asc']);
+        console.log('Sort alphabetically...', sortedPlayerDecks);
+        return {
+          ...state,
+          playerDecks: sortedPlayerDecks,
+        };
+      } else if (action.sortDeckColumnOrder === SortDeckColumnOrder.Completeness) {
+        const sortedPlayerDecks = _.orderBy(state.playerDecks, ['completeness'], ['desc']);
+        console.log('Sort by completeness...', sortedPlayerDecks);
 
         return {
           ...state,
           playerDecks: sortedPlayerDecks,
         };
       }
+
+      return state;
     }
 
     default: {

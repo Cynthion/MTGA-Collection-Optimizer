@@ -135,8 +135,11 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
 
   onColumnSortValueChange(change: MatButtonToggleChange): void {
     const newValue = change.value;
+
     if (newValue === 'Alphabetical') {
       this.actionsSubject.next(new SortDeckColumnsAction(SortDeckColumnOrder.Alphabetical));
+    } else if (newValue === 'Completeness') {
+      this.actionsSubject.next(new SortDeckColumnsAction(SortDeckColumnOrder.Completeness));
     }
   }
 
@@ -177,11 +180,10 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   }
 
   getProgressColor(deck: PlayerDeckState): string {
-    const progressPercentage = deck.totalOwnedCards / deck.totalDeckCards;
     const redHue = 0;
     const greenHue = 120;
 
-    const hsl = percentageToHsl(progressPercentage, redHue, greenHue, 100, 50);
+    const hsl = percentageToHsl(deck.completeness, redHue, greenHue, 100, 50);
 
     return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
   }

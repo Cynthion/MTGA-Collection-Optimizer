@@ -14,18 +14,24 @@
   
   .table-menu {
     flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: $theme-accent-color-a100;
     
     .search {
-      font-size: 14px;
-      color: $theme-accent-color-a100;
+      flex: 1 1 auto;
       >mat-form-field {
         width: 50%;
       }
     }
     
     .column-sort {
-      font-size: 14px;
-      color: $theme-accent-color-a100;
+      flex: 0 1 auto;
+
+      .mat-button-toggle-label-content {
+        line-height: 0px !important;
+      }
     }
   }
   
@@ -143,4 +149,8 @@
 
 ::ng-deep .mat-progress-bar-buffer {
   background: $theme-background-color;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 25px !important;
 }

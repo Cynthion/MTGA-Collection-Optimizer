@@ -52,8 +52,15 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource(s.collectionCards);
       this.playerDecks = s.playerDecks;
 
-      this.deckColumns = s.playerDecks.map(d => d.name);
-      this.deckColumnsSubHeaders = s.playerDecks.map(d => `${d.name}-subheader`);
+      if (s.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
+        this.playerDecks = _.orderBy(this.playerDecks, ['name'], ['asc']);
+      }
+      if (s.sortDeckColumnOrder === SortDeckColumnOrder.Completeness) {
+        this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
+      }
+
+      this.deckColumns = this.playerDecks.map(d => d.name);
+      this.deckColumnsSubHeaders = this.playerDecks.map(d => `${d.name}-subheader`);
 
       this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
       this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
@@ -204,5 +211,9 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       this.eventSource.close();
       console.log('SSE connection closed.');
     }
+  }
+
+  trackPlayerDeck(index: number, item: PlayerDeckState) {
+    return item.id;
   }
 }

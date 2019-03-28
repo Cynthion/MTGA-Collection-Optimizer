@@ -84,18 +84,9 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
     }
 
     case MissingCardsActionTypes.SortDeckColumns: {
-      let sortedPlayerDecks = state.playerDecks;
-
-      if (action.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
-        sortedPlayerDecks = _.orderBy(state.playerDecks, ['name'], ['asc']);
-      }
-      if (action.sortDeckColumnOrder === SortDeckColumnOrder.Completeness) {
-        sortedPlayerDecks = _.orderBy(state.playerDecks, ['completeness'], ['desc']);
-      }
-
       return {
         ...state,
-        playerDecks: sortedPlayerDecks,
+        sortDeckColumnOrder: action.sortDeckColumnOrder,
       };
     }
 

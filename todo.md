@@ -25,7 +25,7 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
-- [ ] fix UI subheader glitch
+- [X] fix UI subheader glitch
 - [ ] fix deck sorting
 
 ## Production

@@ -3,8 +3,6 @@
 ## MVP
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
-- [ ] make deck columns moveable
-- [ ] make deck columns sortable -> store setting
 - [X] add About info
 - [X] show deck completeness
 - [X] add loading bar
@@ -25,6 +23,7 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
+- [ ] fix error if log is empty (e.g., after patch/before first game start)
 - [X] fix UI subheader glitch
 - [ ] fix deck sorting
 
@@ -38,6 +37,8 @@
 - [X] custom favicon
 
 ## Future Releases
+- [ ] make deck columns moveable
+- [ ] make deck columns sortable -> store setting
 - [ ] drop location for new Card Set json file -> automatic installation
 - [ ] filter by type (creature, enchantment, etc.)
 - [ ] filter by class (vampire, etc.)

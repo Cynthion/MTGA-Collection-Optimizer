@@ -48,6 +48,7 @@ export interface DeckCardState extends DeckCardDto, CardState {
 
 export interface CollectionCardState extends PlayerCardState, DeckCardState {
   missingCount: number;
+  wildcardWorthynessFactor: number;
 }
 
 export interface PlayerDeckDto {

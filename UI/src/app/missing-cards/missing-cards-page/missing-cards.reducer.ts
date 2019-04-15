@@ -44,15 +44,22 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
 
           const dcState = enrichToDeckCardState(dcDto);
           const collectionCardDuplicate = collectionCardStates.find(ccState => ccState.mtgaId === dcState.mtgaId);
+
+          const missingCount = dcState.requiredCount - ownedCount;
+          const missingCountOverAllDecks = missingCount;
+
           if (collectionCardDuplicate) {
-            // if collection already contains card, update missing count to max
-            collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, dcState.requiredCount - ownedCount]);
+            // if collection already contains card, take max missing count
+            collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, missingCount]);
+            // update worthyness factor
+            collectionCardDuplicate.wildcardWorthynessFactor += missingCountOverAllDecks;
           } else {
             // else add the new card to the collection
             collectionCardStates.push({
               ...dcState,
-              missingCount: dcState.requiredCount - ownedCount,
               ownedCount,
+              missingCount,
+              wildcardWorthynessFactor: 0,
             });
           }
 
@@ -71,6 +78,9 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       }
 
       collectionCardStates = _.orderBy(collectionCardStates, ['rarity', 'name'], ['desc', 'asc']);
+
+      // TODO: for collection cards, calculate the wildcardWorthynessFactor
+
 
       const newState: MissingCardsPageState = {
         ...action.dto,

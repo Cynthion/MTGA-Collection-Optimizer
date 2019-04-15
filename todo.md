@@ -23,9 +23,9 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
+- [ ] fix deck sorting
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
 - [X] fix UI subheader glitch
-- [ ] fix deck sorting
 
 ## Production
 - [ ] rename application to 'Collection Optimizer'

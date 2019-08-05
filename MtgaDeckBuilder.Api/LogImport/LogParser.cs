@@ -100,17 +100,11 @@ namespace MtgaDeckBuilder.Api.LogImport
 
             var logDecks = JsonConvert.DeserializeObject<IEnumerable<LogDeck>>(json);
 
-            var playerDecks = logDecks.Select(d =>
+            var playerDecks = logDecks.Select(d => new PlayerDeck
             {
-                var cards = d.MainDeck.Select(c => new KeyValuePair<long, short>(long.Parse(c.Id), c.Quantity));
-                var deckCards = new Dictionary<long, short>(cards);
-
-                return new PlayerDeck
-                {
-                    Id = d.Id,
-                    Name = d.Name,
-                    Cards = deckCards
-                };
+                Id = d.Id,
+                Name = d.Name,
+                Cards = d.MainDeck
             });
 
             return playerDecks;

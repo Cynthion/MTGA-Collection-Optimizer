@@ -24,22 +24,30 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public IDictionary<long, short> ParsePlayerCards()
         {
-            return ParseLog(_configuration.PlayerCardsCommand, ParsePlayerCardsOccurrence);
+            var result = ParseLog(_configuration.PlayerCardsCommand, ParsePlayerCardsOccurrence);
+            return result ?? new Dictionary<long, short>(0);
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
-            return ParseLog(_configuration.PlayerDecksCommand, ParsePlayerDeckOccurrence);
+            var result = ParseLog(_configuration.PlayerDecksCommand, ParsePlayerDeckOccurrence);
+            return result ?? Enumerable.Empty<PlayerDeck>();
         }
 
         public LogPlayerInventory ParsePlayerInventory()
         {
-            return ParseLog(_configuration.PlayerInventoryCommand, ParsePlayerInventoryOccurrence);
+            var result = ParseLog(_configuration.PlayerInventoryCommand, ParsePlayerInventoryOccurrence);
+            return result ?? new LogPlayerInventory();
         }
 
         public string ParsePlayerName()
         {
             var nameLine = FindLineContainingCommand(_configuration.PlayerNameCommand);
+
+            if (nameLine == string.Empty)
+            {
+                return "Unknown Player";
+            }
 
             var routeIdx = nameLine.IndexOf('#');
             var nameCmdLength = _configuration.PlayerNameCommand.Length;

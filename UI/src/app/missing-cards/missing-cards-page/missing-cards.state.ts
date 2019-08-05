@@ -7,6 +7,7 @@ export interface MissingCardsFeatureState extends RootState {
 }
 
 export const rarityDictionary: { [rarity: string]: number } = {
+  Unknown: -1,
   'Basic Land': 0,
   Basic: 0,
   Common: 1,

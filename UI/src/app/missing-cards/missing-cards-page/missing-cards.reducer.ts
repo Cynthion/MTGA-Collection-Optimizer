@@ -108,11 +108,12 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
 
 function enrichToCollectionCardState(playerCardDto: PlayerCardDto): PlayerCardState {
   const mtgCard = mtgCardDb.findCard(playerCardDto.mtgaId);
+
   return ({
     ...playerCardDto,
-    name: mtgCard.get('prettyName'),
-    rarity: rarityDictionary[mtgCard.get('rarity')],
-    setCode: mtgCard.get('set'),
+    name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
+    rarity: !!mtgCard ? rarityDictionary[mtgCard.get('rarity')] : rarityDictionary['Unknown'],
+    setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
   });
 }
 

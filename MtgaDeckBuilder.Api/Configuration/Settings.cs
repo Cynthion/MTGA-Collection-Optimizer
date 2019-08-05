@@ -5,22 +5,30 @@ namespace MtgaDeckBuilder.Api.Configuration
     public class Settings : ISettings
     {
         private const string UserNamePlaceholder = "{user name}";
-        private int _logPollIntervall = 5;
 
-        public string OutputLogPath { get; set; } =  @"C:\Users\{user name}\AppData\LocalLow\Wizards Of The Coast\\MTGA\output_log.txt";
+        private string _outputLogPath = $@"C:\Users\{UserNamePlaceholder}\AppData\LocalLow\Wizards Of The Coast\\MTGA\output_log.txt";
+        private int _logPollInterval = 5;
+
+        public string OutputLogPath
+        {
+            get => TryReplaceUserNamePlaceholder(_outputLogPath);
+            set => _outputLogPath = value;
+        } 
 
         public int LogPollInterval
         {
-            get => _logPollIntervall > 0 ? _logPollIntervall : 5;
-            set => _logPollIntervall = value;
+            get => _logPollInterval > 0 ? _logPollInterval : 5;
+            set => _logPollInterval = value;
         }
 
-        public static void TryReplaceUserNamePlaceholder(ISettings settings)
+        private static string TryReplaceUserNamePlaceholder(string outputLogPath)
         {
-            if (settings.OutputLogPath.Contains(UserNamePlaceholder))
+            if (outputLogPath.Contains(UserNamePlaceholder))
             {
-                settings.OutputLogPath = settings.OutputLogPath.Replace(UserNamePlaceholder, Environment.UserName);
+                outputLogPath = outputLogPath.Replace(UserNamePlaceholder, Environment.UserName);
             }
+
+            return outputLogPath;
         }
     }
 }

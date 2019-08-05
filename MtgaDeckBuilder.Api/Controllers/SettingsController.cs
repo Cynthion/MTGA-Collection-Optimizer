@@ -39,9 +39,6 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         private void AssertOutputLogPathValid()
         {
-            // replace UI placeholder with user name
-            Settings.TryReplaceUserNamePlaceholder(_settings);
-
             try
             {
                 using (new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

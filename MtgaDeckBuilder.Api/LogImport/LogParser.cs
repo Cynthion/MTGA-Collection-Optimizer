@@ -46,7 +46,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
             if (nameLine == string.Empty)
             {
-                return "Unknown Player";
+                return string.Empty;
             }
 
             var routeIdx = nameLine.IndexOf('#');
@@ -134,9 +134,6 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
-            // replace UI placeholder with user name
-            Settings.TryReplaceUserNamePlaceholder(_settings);
-
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
@@ -160,9 +157,6 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private string FindLineContainingCommand(string occurrenceCommand)
         {
-            // replace UI placeholder with user name
-            Settings.TryReplaceUserNamePlaceholder(_settings);
-
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {

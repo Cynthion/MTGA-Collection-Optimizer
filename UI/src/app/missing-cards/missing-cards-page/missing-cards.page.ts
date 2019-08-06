@@ -174,7 +174,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
         case 0: return 'basic';
       }
     }
-    return 'n/a';
+    return '<unknown>';
   }
 
   getRequiredCount(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {
@@ -195,19 +195,19 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
   }
 
-  protected onEventSourceOpen(message: MessageEvent) {
+  protected onEventSourceOpen(event: Event) {
     console.log('SSE connection established');
   }
 
-  protected onEventSourceMessage(message: MessageEvent): void {
-    console.log('SSE connection message:', message.data);
+  protected onEventSourceMessage(messageEvent: MessageEvent): void {
+    console.log('SSE connection message:', messageEvent.data);
 
     this.actionsSubject.next(new LoadMissingCardsPageAction());
   }
 
-  protected onEventSourceError(message: MessageEvent): void {
-    console.log('SSE connection error:', message);
-    if (message.eventPhase === this.eventSource.CLOSED) {
+  protected onEventSourceError(event: Event): void {
+    console.log('SSE connection error:', event);
+    if (event.eventPhase === this.eventSource.CLOSED) {
       this.eventSource.close();
       console.log('SSE connection closed.');
     }

@@ -51,4 +51,5 @@
 - [ ] parse log file async
 - [ ] parse log file from end of file
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development
+- [ ] business logic should not be done in reducers
 - [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/

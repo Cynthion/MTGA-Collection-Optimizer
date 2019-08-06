@@ -11,13 +11,13 @@ import {
   DeckCardDto,
   DeckCardState,
   CollectionCardState,
-  SortDeckColumnOrder,
 } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
 export function missingCardsPageReducer(state = initialMissingCardsPageState, action: MissingCardsActions): MissingCardsPageState {
   switch (action.type) {
 
+    // TODO whole business logic should not be done in reducer
     case MissingCardsActionTypes.Initialized: {
       let collectionCardStates: CollectionCardState[] = [];
 

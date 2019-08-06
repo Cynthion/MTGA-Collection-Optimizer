@@ -1,7 +1,7 @@
 import { AboutState, initialAboutState } from './about';
 import { SettingsState, initialSettingsState } from './settings';
 
-/// this is the root state for state that is shared among all components
+// this is the root state for state that is shared among all components
 export interface RootState {
   app: AppState;
 }

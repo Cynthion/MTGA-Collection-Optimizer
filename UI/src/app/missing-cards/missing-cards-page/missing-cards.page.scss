@@ -19,10 +19,20 @@
     font-size: 14px;
     color: $theme-accent-color-a100;
     
-    .search {
+    .column-search {
       flex: 1 1 auto;
-      >mat-form-field {
-        width: 50%;
+      .search {
+        >mat-form-field {
+          width: 50%;
+        }
+      }
+
+      .unknown-cards {
+        .unknown-cards-text {
+          margin-bottom: 10px;
+          font-size: 15px;
+          color: red;
+        }
       }
     }
     

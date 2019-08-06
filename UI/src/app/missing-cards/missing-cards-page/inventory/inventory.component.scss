@@ -1,5 +1,6 @@
 .flex-container {
   width: 100%;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 
@@ -11,15 +12,15 @@
 
   .wcs-container {
     display: flex;
-    
+
     .wc-container {
       padding-left: 20px;
       display: flex;
-  
+
       img {
         height: 60px;
       }
-  
+
       .count {
         align-self: flex-end;
         margin-left: -10px;

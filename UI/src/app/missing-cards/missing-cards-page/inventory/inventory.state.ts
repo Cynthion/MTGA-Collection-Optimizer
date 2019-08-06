@@ -18,7 +18,11 @@ export interface InventoryDto {
 }
 
 export interface InventoryState extends InventoryDto {
-
+  // TODO implement
+  wildcardCommonRequired: number;
+  wildcardUncommonRequired: number;
+  wildcarRareRequired: number;
+  wildcardMythicRequired: number;
 }
 
 export const initialInventoryState: InventoryState = {
@@ -30,4 +34,8 @@ export const initialInventoryState: InventoryState = {
   gold: 0,
   gems: 0,
   vaultProgress: 0,
+  wildcardCommonRequired: 0,
+  wildcardUncommonRequired: 0,
+  wildcarRareRequired: 0,
+  wildcardMythicRequired: 0,
 };

@@ -28,7 +28,7 @@
 - [X] fix UI subheader glitch
 
 ## Production
-- [ ] rename application to 'Collection Optimizer'
+- [ ] rename application to something better
 - [ ] change ports for production
 - [ ] add License
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)

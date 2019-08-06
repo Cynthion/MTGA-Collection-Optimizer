@@ -5,13 +5,19 @@
   </div>
 
   <div class="table-menu">
-    <div class="search">
-      <mat-form-field>
-        <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Search">
-        <button matSuffix mat-button color="primary" *ngIf="filterValue" (click)="clearFilter()">
-          Clear
-        </button>
-      </mat-form-field>
+    <div class="column-search">
+      <div class="search">
+        <mat-form-field>
+          <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Search">
+          <button matSuffix mat-button color="primary" *ngIf="filterValue" (click)="clearFilter()">
+            Clear
+          </button>
+        </mat-form-field>
+      </div>
+  
+      <div class="unknown-cards" *ngIf="(pageState$ | async).nrOfUnknownCards > 0">
+        <div class="unknown-cards-text">{{ (pageState$ | async).nrOfUnknownCards }} unknown cards found. Update of card database required.</div>
+      </div>
     </div>
 
     <div class="column-sort">

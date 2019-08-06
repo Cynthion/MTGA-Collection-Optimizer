@@ -36,7 +36,7 @@ namespace MtgaDeckBuilder.Api.Model.Converters
             return objectType == typeof(LogDeck);
         }
 
-        private IDictionary<long, short> MapTuplesToDictionary(IList<int> tuples)
+        private static IDictionary<long, short> MapTuplesToDictionary(IList<int> tuples)
         {
             var dictionary = new Dictionary<long, short>();
 

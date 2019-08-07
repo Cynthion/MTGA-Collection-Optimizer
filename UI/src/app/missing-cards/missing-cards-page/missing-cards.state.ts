@@ -6,15 +6,15 @@ export interface MissingCardsFeatureState extends RootState {
   missingCardsPage: MissingCardsPageState;
 }
 
-export const rarityDictionary: { [rarity: string]: number } = {
-  Unknown: -1,
-  'Basic Land': 0,
-  Basic: 0,
-  Common: 1,
-  Uncommon: 2,
-  Rare: 3,
-  'Mythic Rare': 4,
-};
+export enum Rarity {
+  Unknown = -1,
+  'Basic Land' = 0,
+  Basic = 0,
+  Common = 1,
+  Uncommon = 2,
+  Rare = 3,
+  'Mythic Rare' = 4,
+}
 
 export enum SortDeckColumnOrder {
   Alphabetical,
@@ -27,7 +27,7 @@ export interface CardDto {
 
 export interface CardState extends CardDto {
   name: string;
-  rarity: number;
+  rarity: Rarity;
   setCode: string;
 }
 

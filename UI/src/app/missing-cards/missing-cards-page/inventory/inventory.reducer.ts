@@ -14,7 +14,7 @@ export function inventoryReducer(state = initialInventoryState, action: Inventor
     case InventoryActionTypes.WildcardRequirementsUpdated: {
       return {
         ...state,
-        ...action.wildcardRequirementsState, // TODO correct?
+        wildcardRequirements: action.wildcardRequirementsState,
       };
     }
 

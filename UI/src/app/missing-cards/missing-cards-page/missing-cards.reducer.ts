@@ -5,12 +5,12 @@ import {
   MissingCardsPageState,
   initialMissingCardsPageState,
   PlayerDeckState,
-  rarityDictionary,
   PlayerCardState,
   PlayerCardDto,
   DeckCardDto,
   DeckCardState,
   CollectionCardState,
+  Rarity,
 } from './missing-cards.state';
 import { MissingCardsActions, MissingCardsActionTypes } from './missing-cards.actions';
 
@@ -113,7 +113,7 @@ function enrichToCollectionCardState(playerCardDto: PlayerCardDto): PlayerCardSt
   return ({
     ...playerCardDto,
     name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
-    rarity: !!mtgCard ? rarityDictionary[mtgCard.get('rarity')] : rarityDictionary['Unknown'],
+    rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
     setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
   });
 }
@@ -122,9 +122,9 @@ function enrichToDeckCardState(deckCardDto: DeckCardDto): DeckCardState {
   const mtgCard = mtgCardDb.findCard(deckCardDto.mtgaId);
   return ({
     ...deckCardDto,
-    name: mtgCard.get('prettyName'),
-    rarity: rarityDictionary[mtgCard.get('rarity')],
-    setCode: mtgCard.get('set'),
+    name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
+    rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
+    setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
   });
 }
 

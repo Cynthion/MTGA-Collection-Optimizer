@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import { percentageToHsl } from '../../util/colors';
 import { makeInternalApiUrl } from '../../util/http';
 import { LoadMissingCardsPageAction, SortDeckColumnsAction } from './missing-cards.actions';
-import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState, SortDeckColumnOrder } from './missing-cards.state';
+import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState, SortDeckColumnOrder, Rarity } from './missing-cards.state';
 import { isNumber } from 'util';
 
 @Component({
@@ -167,14 +167,14 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   getRarityClass(columnName: keyof CollectionCardState, card: CollectionCardState): string {
     if (columnName === 'name') {
       switch (card.rarity) {
-        case 4: return 'mythic';
-        case 3: return 'rare';
-        case 2: return 'uncommon';
-        case 1: return 'common';
-        case 0: return 'basic';
+        case Rarity['Mythic Rare']: return 'mythic';
+        case Rarity.Rare: return 'rare';
+        case Rarity.Uncommon: return 'uncommon';
+        case Rarity.Common: return 'common';
+        case Rarity.Basic: return 'basic';
       }
     }
-    return '<unknown>';
+    return 'unknown';
   }
 
   getRequiredCount(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {

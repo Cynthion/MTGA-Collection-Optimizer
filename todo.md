@@ -3,6 +3,7 @@
 ## MVP
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
+- [ ] show required wildcards
 - [X] add About info
 - [X] show deck completeness
 - [X] add loading bar
@@ -31,6 +32,7 @@
 - [ ] rename application to something better
 - [ ] change ports for production
 - [ ] add License
+- [ ] update maximegris/angular-electron version (Angular 8)
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)
 - [X] fix window menu (WinRef) for electron
 - [X] use Angular enableProdMode()

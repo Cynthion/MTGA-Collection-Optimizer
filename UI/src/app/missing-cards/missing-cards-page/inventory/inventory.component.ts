@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 
 import { InventoryState, InventoryFeatureState } from './inventory.state';
 import { WildcardRequirementsUpdatedAction } from './inventory.actions';
+import { Rarity } from '../missing-cards.state';
 
 @Component({
   selector: 'app-inventory',
@@ -22,10 +24,10 @@ export class InventoryComponent {
 
     store.select(s => s.missingCardsPage.collectionCards).subscribe(ccs => {
       this.actionsSubject.next(new WildcardRequirementsUpdatedAction({
-        wildcardUncommonRequired: 10,
-        wildcardCommonRequired: 20,
-        wildcarRareRequired: 30,
-        wildcardMythicRequired: 40,
+        wildcardUncommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Uncommon), cc => cc.missingCount),
+        wildcardCommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Common), cc => cc.missingCount),
+        wildcarRareRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Rare), cc => cc.missingCount),
+        wildcardMythicRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity['Mythic Rare']), cc => cc.missingCount),
       }));
     });
   }

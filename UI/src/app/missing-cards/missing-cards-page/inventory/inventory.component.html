@@ -5,19 +5,31 @@
   <div class="wcs-container">
     <div class="wc-container">
       <img src="assets/img/wcMythic.png">
-      <div class="count">{{ (state$ | async).wildcardMythic }}</div>
+      <div class="count-container">
+        <div class="count">{{ (state$ | async).wildcardMythic }}</div>
+        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcardMythicRequired }}</div>
+      </div>
     </div>
     <div class="wc-container">
       <img src="assets/img/wcRare.png">
-      <div class="count">{{ (state$ | async).wildcardRare }}</div>
+      <div class="count-container">
+        <div class="count">{{ (state$ | async).wildcardRare }}</div>
+        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcarRareRequired }}</div>
+      </div>
     </div>
     <div class="wc-container">
       <img src="assets/img/wcUncommon.png">
-      <div class="count">{{ (state$ | async).wildcardUncommon }}</div>
+      <div class="count-container">
+        <div class="count">{{ (state$ | async).wildcardUncommon }}</div>
+        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcardUncommonRequired }}</div>
+      </div>
     </div>
     <div class="wc-container">
       <img src="assets/img/wcCommon.png">
-      <div class="count">{{ (state$ | async).wildcardCommon }} / {{ (state$ |async).wildcardRequirements.wildcardCommonRequired }}</div>
+      <div class="count-container">
+        <div class="count">{{ (state$ | async).wildcardCommon }}</div>
+        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcardCommonRequired }}</div>
+      </div>
     </div>
   </div>
 </div>

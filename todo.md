@@ -3,7 +3,8 @@
 ## MVP
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
-- [ ] show required wildcards
+- [ ] connection --> retry
+- [X] show required wildcards
 - [X] add About info
 - [X] show deck completeness
 - [X] add loading bar

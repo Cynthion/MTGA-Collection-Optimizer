@@ -26,13 +26,13 @@
         display: flex;
         align-self: flex-end;
         color: whitesmoke;
-        margin-bottom: -20px;
+        margin-bottom: -10px;
         margin-left: -20px;
         width: 65px;
         
         .count {
           font-size: 25px;
-          color: $theme-primary-color;
+          color: $theme-accent-color-a100;
         }
   
         .required {

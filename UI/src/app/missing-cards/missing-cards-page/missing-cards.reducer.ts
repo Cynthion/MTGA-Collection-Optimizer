@@ -46,20 +46,19 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           const collectionCardDuplicate = collectionCardStates.find(ccState => ccState.mtgaId === dcState.mtgaId);
 
           const missingCount = dcState.requiredCount - ownedCount;
-          const missingCountOverAllDecks = missingCount;
 
           if (collectionCardDuplicate) {
             // if collection already contains card, take max missing count
             collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, missingCount]);
             // update worthyness factor
-            collectionCardDuplicate.wildcardWorthynessFactor += missingCountOverAllDecks;
+            collectionCardDuplicate.missingCountOverAllDecks += missingCount;
           } else {
             // else add the new card to the collection
             collectionCardStates.push({
               ...dcState,
               ownedCount,
               missingCount,
-              wildcardWorthynessFactor: 0,
+              missingCountOverAllDecks: 0,
             });
           }
 

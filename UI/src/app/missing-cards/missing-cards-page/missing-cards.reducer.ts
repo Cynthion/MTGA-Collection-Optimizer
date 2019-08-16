@@ -1,6 +1,7 @@
 import { allCards as mtgCardDb } from 'mtga';
 import * as _ from 'lodash';
 
+import { calcWildcardWorthinessFactor } from '../../util/calculations';
 import {
   MissingCardsPageState,
   initialMissingCardsPageState,
@@ -32,7 +33,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       collectionCardStates.push(...collectionPlayerCardStates);
 
       // enrich deck cards, then add to collection cards
-      const playerDecksState: PlayerDeckState[] = [];
+      const playerDecksStates: PlayerDeckState[] = [];
       for (const playerDeckDto of action.dto.playerDecks) {
         let totalOwnedCardsCalc = 0;
 
@@ -50,15 +51,13 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           if (collectionCardDuplicate) {
             // if collection already contains card, take max missing count
             collectionCardDuplicate.missingCount = _.max([collectionCardDuplicate.missingCount, missingCount]);
-            // update worthyness factor
-            collectionCardDuplicate.missingCountOverAllDecks += missingCount;
           } else {
             // else add the new card to the collection
             collectionCardStates.push({
               ...dcState,
               ownedCount,
               missingCount,
-              missingCountOverAllDecks: 0,
+              wildcardWorthinessFactor: 0,
             });
           }
 
@@ -67,7 +66,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
 
         const totalDeckCardsCalc = deckCardStates.map(pc => pc.requiredCount).reduce(sum);
 
-        playerDecksState.push({
+        playerDecksStates.push({
           ...playerDeckDto,
           cards: deckCardStates,
           totalOwnedCards: totalOwnedCardsCalc,
@@ -79,12 +78,14 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       collectionCardStates = _.orderBy(collectionCardStates, ['rarity', 'name'], ['desc', 'asc']);
       const nrOfUnknownCards = collectionCardStates.filter(cc => cc.rarity === -1).length;
 
-      // TODO: for collection cards, calculate the wildcardWorthynessFactor
+      for (const collectionCard of collectionCardStates) {
+        collectionCard.wildcardWorthinessFactor = calcWildcardWorthinessFactor(collectionCard, playerDecksStates);
+      }
 
       const newState: MissingCardsPageState = {
         ...action.dto,
         ...state,
-        playerDecks: playerDecksState,
+        playerDecks: playerDecksStates,
         playerCards: playerCardStates,
         collectionCards: collectionCardStates,
         nrOfUnknownCards,

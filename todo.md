@@ -25,6 +25,7 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
+- [ ] fix completeness
 - [ ] fix deck sorting
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
 - [X] fix UI subheader glitch

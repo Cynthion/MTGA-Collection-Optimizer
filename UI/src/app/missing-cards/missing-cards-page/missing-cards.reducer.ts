@@ -64,7 +64,7 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           return dcState;
         });
 
-        const totalDeckCardsCalc = deckCardStates.map(pc => pc.requiredCount).reduce(sum);
+        const totalDeckCardsCalc = deckCardStates.map(dc => dc.requiredCount).reduce(sum);
 
         playerDecksStates.push({
           ...playerDeckDto,

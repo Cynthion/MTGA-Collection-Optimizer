@@ -182,7 +182,9 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
       return '';
     }
     const deckCard = playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
-    const ownedCount = collectionCard.ownedCount > deckCard.requiredCount ? deckCard.requiredCount : collectionCard.ownedCount;
+    const ownedCount = collectionCard.ownedCount > deckCard.requiredCount
+      ? deckCard.requiredCount
+      : collectionCard.ownedCount;
     return `${ownedCount} / ${deckCard.requiredCount}`;
   }
 

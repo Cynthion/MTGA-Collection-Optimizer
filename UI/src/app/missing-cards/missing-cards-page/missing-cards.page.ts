@@ -10,6 +10,7 @@ import { makeInternalApiUrl } from '../../util/http';
 import { LoadMissingCardsPageAction, SortDeckColumnsAction } from './missing-cards.actions';
 import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState, SortDeckColumnOrder, Rarity } from './missing-cards.state';
 import { isNumber } from 'util';
+import { LoadInventoryAction } from './inventory';
 
 @Component({
   templateUrl: './missing-cards.page.html',
@@ -205,6 +206,7 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     console.log('SSE connection message:', messageEvent.data);
 
     this.actionsSubject.next(new LoadMissingCardsPageAction());
+    this.actionsSubject.next(new LoadInventoryAction());
   }
 
   protected onEventSourceError(event: Event): void {

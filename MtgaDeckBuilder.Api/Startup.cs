@@ -35,7 +35,7 @@ namespace MtgaDeckBuilder.Api
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckLists",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
-                PlayerNameCommand = "[Accounts - Login] Logged in successfully. Display Name: ",
+                PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });
             services.AddSingleton<ISettings, Settings>();
             services.AddSingleton<IMissingCardsService, MissingCardsService>();

@@ -35,13 +35,13 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       // enrich deck cards, then add to collection cards
       const playerDecksStates: PlayerDeckState[] = [];
       for (const playerDeckDto of action.dto.playerDecks) {
-        let totalOwnedCardsCalc = 0;
+        let totalOwnedCards = 0;
 
         const deckCardStates: DeckCardState[] = playerDeckDto.cards.map(dcDto => {
           // if player has card, then take its owned count
           const playerCardState = playerCardStates.find(pcState => pcState.mtgaId === dcDto.mtgaId);
           const ownedCount = playerCardState && playerCardState.ownedCount || 0;
-          totalOwnedCardsCalc += ownedCount;
+          totalOwnedCards += ownedCount;
 
           const dcState = enrichToDeckCardState(dcDto);
           const collectionCardDuplicate = collectionCardStates.find(ccState => ccState.mtgaId === dcState.mtgaId);
@@ -64,14 +64,14 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
           return dcState;
         });
 
-        const totalDeckCardsCalc = deckCardStates.map(dc => dc.requiredCount).reduce(sum);
+        const totalDeckCards = deckCardStates.map(dc => dc.requiredCount).reduce(sum);
 
         playerDecksStates.push({
           ...playerDeckDto,
           cards: deckCardStates,
-          totalOwnedCards: totalOwnedCardsCalc,
-          totalDeckCards: totalDeckCardsCalc,
-          completeness: totalOwnedCardsCalc / totalDeckCardsCalc,
+          totalOwnedCards,
+          totalDeckCards,
+          completeness: totalOwnedCards / totalDeckCards,
         });
       }
 

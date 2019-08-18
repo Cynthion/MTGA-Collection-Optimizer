@@ -38,6 +38,9 @@ import {
   ApiErrorEffects,
 } from './api-error';
 import {
+  LayoutComponent,
+} from './layout';
+import {
   SettingsDialogComponent,
   SettingsDialogEffects,
 } from './settings';
@@ -57,6 +60,7 @@ const matModules = [
 const components = [
   AboutDialogComponent,
   ApiErrorComponent,
+  LayoutComponent,
   SettingsDialogComponent,
 ];
 

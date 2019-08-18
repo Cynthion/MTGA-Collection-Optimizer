@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 
 import { InventoryState, InventoryFeatureState } from './inventory.state';
 import { WildcardRequirementsUpdatedAction, UnknownCardsUpdatedAction } from './inventory.actions';
-import { Rarity } from '../missing-cards.state';
 
 @Component({
   selector: 'app-inventory',

@@ -1,11 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { MissingCardsPageDto, SortDeckColumnOrder } from './missing-cards.state';
+import { MissingCardsPageDto } from './missing-cards.state';
 
 export enum MissingCardsActionTypes {
   Load = '[Missing Cards] Load',
   Initialized = '[Missing Cards] Initialized',
-  SortDeckColumns = '[Missing Cards] Sort Deck Columns',
 }
 
 export class LoadMissingCardsPageAction implements Action {
@@ -20,16 +19,7 @@ export class InitializedMissingCardsPageAction implements Action {
   ) { }
 }
 
-export class SortDeckColumnsAction implements Action {
-  readonly type = MissingCardsActionTypes.SortDeckColumns;
-
-  constructor(
-    public sortDeckColumnOrder: SortDeckColumnOrder,
-  ) { }
-}
-
 export type MissingCardsActions =
   | LoadMissingCardsPageAction
   | InitializedMissingCardsPageAction
-  | SortDeckColumnsAction
   ;

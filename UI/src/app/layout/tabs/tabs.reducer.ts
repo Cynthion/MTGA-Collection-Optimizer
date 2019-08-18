@@ -92,13 +92,6 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       return newState;
     }
 
-    case MissingCardsActionTypes.SortDeckColumns: {
-      return {
-        ...state,
-        sortDeckColumnOrder: action.sortDeckColumnOrder,
-      };
-    }
-
     default: {
       return state;
     }
@@ -116,15 +109,15 @@ function enrichToCollectionCardState(playerCardDto: PlayerCardDto): PlayerCardSt
   });
 }
 
-function enrichToDeckCardState(deckCardDto: DeckCardDto): DeckCardState {
-  const mtgCard = mtgCardDb.findCard(deckCardDto.mtgaId);
-  return ({
-    ...deckCardDto,
-    name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
-    rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
-    setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
-  });
-}
+// function enrichToDeckCardState(deckCardDto: DeckCardDto): DeckCardState {
+//   const mtgCard = mtgCardDb.findCard(deckCardDto.mtgaId);
+//   return ({
+//     ...deckCardDto,
+//     name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
+//     rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
+//     setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
+//   });
+// }
 
 function sum(accumulator: number, summand: number): number {
   return accumulator + summand;

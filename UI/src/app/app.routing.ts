@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
 import { AppGuard } from './app.guard';
-import { MissingCardsPageComponent } from './missing-cards/missing-cards-page';
+import { LayoutComponent } from './layout/layout.component';
 
-const MISSING_CARDS_PATH = 'missing-cards';
+const LAYOUT_PATH = 'layout';
 
 export const appRoutes: Routes = [
   {
@@ -11,12 +11,12 @@ export const appRoutes: Routes = [
     canActivate: [AppGuard],
     children: [
       {
-        path: MISSING_CARDS_PATH,
-        component: MissingCardsPageComponent,
+        path: LAYOUT_PATH,
+        component: LayoutComponent,
       },
       {
         path: '**',
-        redirectTo: MISSING_CARDS_PATH,
+        redirectTo: LAYOUT_PATH,
       },
     ],
   },

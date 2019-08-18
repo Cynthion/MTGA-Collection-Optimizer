@@ -1,0 +1,54 @@
+.layout-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .inventory {
+    flex: 0 1 auto;
+    color: $theme-accent-color-a100;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+  }
+}
+
+// Scrollbar Style Override
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px $theme-accent-color; 
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $theme-primary-color; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $theme-primary-color; 
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0px !important; 
+}
+::ng-deep .mat-sort-header-arrow {
+  color: mat-color($primary);
+}
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: $theme-background-color;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 25px !important;
+}

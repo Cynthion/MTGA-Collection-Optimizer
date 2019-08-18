@@ -1,23 +1,28 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { percentageToHsl } from '../../util/colors';
-import { makeInternalApiUrl } from '../../util/http';
-import { LoadMissingCardsPageAction, SortDeckColumnsAction } from './missing-cards.actions';
-import { MissingCardsPageState, PlayerDeckState, MissingCardsFeatureState, CollectionCardState, DeckCardState, SortDeckColumnOrder, Rarity } from './missing-cards.state';
+import { percentageToHsl } from '../../../util/colors';
+
+import {
+  MissingCardsPageState,
+  PlayerDeckState,
+  MissingCardsFeatureState,
+  CollectionCardState,
+  SortDeckColumnOrder,
+  Rarity } from './tabs.state';
 import { isNumber } from 'util';
-import { LoadInventoryAction } from './inventory';
+import { SortDeckColumnsAction } from '../tabs.actions';
 
 @Component({
-  templateUrl: './missing-cards.page.html',
-  styleUrls: ['./missing-cards.page.scss'],
+  templateUrl: './decks.component.html',
+  styleUrls: ['./decks.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MissingCardsPageComponent implements OnInit, OnDestroy {
+export class DecksComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -37,9 +42,6 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
   filterValue: string;
-
-  protected eventSource: EventSource;
-  protected isSseSubscribed: boolean;
 
   constructor(
     private store: Store<MissingCardsFeatureState>,
@@ -95,35 +97,12 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializePage();
-    this.subscribeToServerSentEvents();
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeFromServerSentEvents();
   }
 
   initializePage() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.applyFilter();
-  }
-
-  subscribeToServerSentEvents() {
-    if (!this.isSseSubscribed) {
-      this.eventSource = new EventSource(makeInternalApiUrl('sse-missingcards'));
-      this.eventSource.onopen = (evt) => this.onEventSourceOpen(evt);
-      this.eventSource.onmessage = (data) => this.onEventSourceMessage(data);
-      this.eventSource.onerror = (evt) => this.onEventSourceError(evt);
-
-      this.isSseSubscribed = true;
-    }
-  }
-
-  unsubscribeFromServerSentEvents(): void {
-    if (this.isSseSubscribed) {
-      this.eventSource.close();
-      this.isSseSubscribed = false;
-    }
   }
 
   applyFilter(): void {
@@ -196,25 +175,6 @@ export class MissingCardsPageComponent implements OnInit, OnDestroy {
     const hsl = percentageToHsl(deck.completeness, redHue, greenHue, 100, 50);
 
     return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
-  }
-
-  protected onEventSourceOpen(event: Event) {
-    console.log('SSE connection established');
-  }
-
-  protected onEventSourceMessage(messageEvent: MessageEvent): void {
-    console.log('SSE connection message:', messageEvent.data);
-
-    this.actionsSubject.next(new LoadMissingCardsPageAction());
-    this.actionsSubject.next(new LoadInventoryAction());
-  }
-
-  protected onEventSourceError(event: Event): void {
-    console.log('SSE connection error:', event);
-    if (event.eventPhase === this.eventSource.CLOSED) {
-      this.eventSource.close();
-      console.log('SSE connection closed.');
-    }
   }
 
   trackPlayerDeck(index: number, item: PlayerDeckState) {

@@ -6,7 +6,7 @@ import { first, map } from 'rxjs/operators';
 import { LoadMissingCardsPageAction, MissingCardsActionTypes } from './missing-cards.actions';
 
 @Injectable()
-export class MissingCardsPageInitializationGuard implements CanActivate {
+export class TabsInitializationGuard implements CanActivate {
   constructor(private actionsSubject: ActionsSubject) { }
 
   canActivate(route: ActivatedRouteSnapshot) {

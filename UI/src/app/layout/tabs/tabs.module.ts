@@ -18,22 +18,15 @@ import {
 } from '@angular/material';
 
 import {
-  missingCardsRoutes
-} from './missing-cards.routing';
+  tabsRoutes,
+} from './tabs.routing';
 
-import {
-  MissingCardsPageInitializationGuard,
-  MISSING_CARDS_FEATURE_NAME,
-  MissingCardsPageComponent,
-  MissingCardsPageEffects,
-  missingCardsPageReducer,
-} from './missing-cards-page';
 import {
   INVENTORY_FEATURE_NAME,
   InventoryComponent,
   InventoryEffects,
   inventoryReducer,
-} from './missing-cards-page/inventory';
+} from '../inventory';
 
 const matModules = [
   MatAutocompleteModule,
@@ -48,8 +41,9 @@ const matModules = [
 ];
 
 const components = [
-  MissingCardsPageComponent,
   InventoryComponent,
+  DecksComponent,
+  MissingCardsPageComponent,
 ];
 
 const effects = [

@@ -5,10 +5,11 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 
-import { internalApiGet } from '../../../util/http';
+import { surroundWithLoadingActions } from '../../app.actions';
+import { internalApiGet } from '../../util/http';
+
 import { InventoryDto } from './inventory.state';
 import { InventoryActionTypes, InitializedInventoryAction } from './inventory.actions';
-import { surroundWithLoadingActions } from '../../../app.actions';
 
 @Injectable()
 export class InventoryEffects {

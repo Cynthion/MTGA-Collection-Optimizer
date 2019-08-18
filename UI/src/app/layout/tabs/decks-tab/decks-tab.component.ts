@@ -7,22 +7,15 @@ import * as _ from 'lodash';
 
 import { percentageToHsl } from '../../../util/colors';
 
-import {
-  MissingCardsPageState,
-  PlayerDeckState,
-  MissingCardsFeatureState,
-  CollectionCardState,
-  SortDeckColumnOrder,
-  Rarity } from './tabs.state';
+
 import { isNumber } from 'util';
-import { SortDeckColumnsAction } from '../tabs.actions';
 
 @Component({
   templateUrl: './decks.component.html',
   styleUrls: ['./decks.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DecksComponent implements OnInit {
+export class DecksTabComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 

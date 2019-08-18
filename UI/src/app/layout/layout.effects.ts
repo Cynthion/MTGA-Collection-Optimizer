@@ -5,19 +5,17 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 
-import { internalApiGet } from '../../util/http';
-import { surroundWithLoadingActions } from '../../app.actions';
-import { MissingCardsPageDto } from './missing-cards.state';
-import { MissingCardsActionTypes, InitializedMissingCardsPageAction } from './missing-cards.actions';
-import { LoadInventoryAction } from './inventory';
+import { surroundWithLoadingActions } from '../app.actions';
+import { internalApiGet } from '../util/http';
+import { LayoutActionTypes } from './layout.actions';
 
 @Injectable()
-export class MissingCardsPageEffects {
+export class LayoutEffects {
 
   @Effect()
-  loadPageData$: Observable<Action> = this.actions$
+  loadData$: Observable<Action> = this.actions$
     .pipe(
-      ofType(MissingCardsActionTypes.Load),
+      ofType(LayoutActionTypes.LoadData),
       tap(a => console.log(a)),
       flatMap(_ =>
         surroundWithLoadingActions(

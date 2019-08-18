@@ -1,12 +1,12 @@
 import { playerDeckReducer, playerCardsReducer } from '../../../domain.reducers';
 import { InitializePlayerDeckAction, InitializePlayerCardsAction } from '../../../domain.actions';
 
-import { initialDecksState, DecksState } from './decks.state';
-import { DecksActions, DecksActionTypes } from './decks.actions';
+import { DecksTabState, initialDecksTabState } from './decks-tab.state';
+import { DecksTabActions, DecksTabActionTypes } from './decks-tab.actions';
 
-export function decksReducer(state: DecksState = initialDecksState, action: DecksActions): DecksState {
+export function decksTabReducer(state: DecksTabState = initialDecksTabState, action: DecksTabActions): DecksTabState {
   switch (action.type) {
-    case DecksActionTypes.Initialized: {
+    case DecksTabActionTypes.Initialize: {
       return {
         ...state,
         ...action.dto,
@@ -17,7 +17,7 @@ export function decksReducer(state: DecksState = initialDecksState, action: Deck
 
     // TODO add action to calc collectionCards property
 
-    case DecksActionTypes.SortDeckColumns: {
+    case DecksTabActionTypes.SortDeckColumns: {
       return {
         ...state,
         sortDeckColumnOrder: action.sortDeckColumnOrder,

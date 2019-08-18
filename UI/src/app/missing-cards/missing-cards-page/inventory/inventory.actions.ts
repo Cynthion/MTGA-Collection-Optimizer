@@ -5,7 +5,7 @@ import { InventoryDto, WildcardRequirementsState } from './inventory.state';
 export enum InventoryActionTypes {
   Load = '[Inventory] Load',
   Initialized = '[Inventory] Initialized',
-  LoadError = '[Inventory] Load Error',
+  UnknownCardsUpdated = '[Inventory] Unknown Cards Updated',
   WildcardRequirementsUpdated = '[Inventory] Wildcard Requirements Updated',
 }
 
@@ -21,9 +21,12 @@ export class InitializedInventoryAction implements Action {
   ) { }
 }
 
-// TODO not used yet
-export class LoadInventoryErrorAction implements Action {
-  readonly type = InventoryActionTypes.LoadError;
+export class UnknownCardsUpdatedAction implements Action {
+  readonly type = InventoryActionTypes.UnknownCardsUpdated;
+
+  constructor(
+    public nrOfUnknownCards: number,
+  ) { }
 }
 
 export class WildcardRequirementsUpdatedAction implements Action {
@@ -37,6 +40,6 @@ export class WildcardRequirementsUpdatedAction implements Action {
 export type InventoryActions =
   | LoadInventoryAction
   | InitializedInventoryAction
-  | LoadInventoryErrorAction
+  | UnknownCardsUpdatedAction
   | WildcardRequirementsUpdatedAction
   ;

@@ -26,6 +26,7 @@ export interface InventoryDto {
 
 export interface InventoryState extends InventoryDto {
   wildcardRequirements: WildcardRequirementsState;
+  nrOfUnknownCards: number;
 }
 
 export const initialInventoryState: InventoryState = {
@@ -43,4 +44,5 @@ export const initialInventoryState: InventoryState = {
     wildcarRareRequired: 0,
     wildcardMythicRequired: 0,
   },
+  nrOfUnknownCards: 0,
 };

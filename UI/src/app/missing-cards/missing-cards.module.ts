@@ -14,6 +14,7 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatTabsModule,
 } from '@angular/material';
 
 import {
@@ -43,6 +44,7 @@ const matModules = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatTabsModule,
 ];
 
 const components = [

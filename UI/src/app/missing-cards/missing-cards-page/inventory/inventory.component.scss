@@ -6,13 +6,23 @@
   display: flex;
   justify-content: space-between;
 
-  .name-container {
+  .left-container {
     .name {
       font-size: 30px;
     }
+
+    .unknown-cards {
+      margin-top: 10px;
+
+      .unknown-cards-text {
+        margin-bottom: 10px;
+        font-size: 15px;
+        color: red;
+      }
+    }
   }
 
-  .wcs-container {
+  .right-container {
     display: flex;
 
     .wc-container {

@@ -1,8 +1,13 @@
 <div class="flex-container">
-  <div class="name-container">
+
+  <div class="left-container">
     <div class="name">{{ (state$ | async).playerName }}</div>
+    <div class="unknown-cards" *ngIf="(state$ | async).nrOfUnknownCards > 0">
+      <div class="unknown-cards-text">{{ (state$ | async).nrOfUnknownCards }} unknown cards found. Update of card database required.</div>
+    </div>
   </div>
-  <div class="wcs-container">
+
+  <div class="right-container">
     <div class="wc-container">
       <img src="assets/img/wcMythic.png">
       <div class="count-container">

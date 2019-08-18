@@ -4,6 +4,15 @@
     <app-inventory></app-inventory>
   </div>
 
+  <mat-tab-group>
+    <mat-tab label="OVERVIEW">
+
+    </mat-tab>
+    <mat-tab label="BEST CARDS">
+      
+    </mat-tab>
+  </mat-tab-group>
+
   <div class="table-menu">
     <div class="column-search">
       <div class="search">
@@ -13,10 +22,6 @@
             Clear
           </button>
         </mat-form-field>
-      </div>
-  
-      <div class="unknown-cards" *ngIf="(pageState$ | async).nrOfUnknownCards > 0">
-        <div class="unknown-cards-text">{{ (pageState$ | async).nrOfUnknownCards }} unknown cards found. Update of card database required.</div>
       </div>
     </div>
 

@@ -76,7 +76,6 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
       }
 
       collectionCardStates = _.orderBy(collectionCardStates, ['rarity', 'name'], ['desc', 'asc']);
-      const nrOfUnknownCards = collectionCardStates.filter(cc => cc.rarity === -1).length;
 
       for (const collectionCard of collectionCardStates) {
         collectionCard.wildcardWorthinessFactor = calcWildcardWorthinessFactor(collectionCard, playerDecksStates);
@@ -88,7 +87,6 @@ export function missingCardsPageReducer(state = initialMissingCardsPageState, ac
         playerDecks: playerDecksStates,
         playerCards: playerCardStates,
         collectionCards: collectionCardStates,
-        nrOfUnknownCards,
       };
 
       return newState;

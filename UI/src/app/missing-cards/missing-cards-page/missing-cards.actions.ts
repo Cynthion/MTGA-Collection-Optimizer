@@ -5,7 +5,6 @@ import { MissingCardsPageDto, SortDeckColumnOrder } from './missing-cards.state'
 export enum MissingCardsActionTypes {
   Load = '[Missing Cards] Load',
   Initialized = '[Missing Cards] Initialized',
-  LoadError = '[Missing Cards] Load Error',
   SortDeckColumns = '[Missing Cards] Sort Deck Columns',
 }
 
@@ -21,10 +20,6 @@ export class InitializedMissingCardsPageAction implements Action {
   ) { }
 }
 
-export class LoadMissingCardsPageErrorAction implements Action {
-  readonly type = MissingCardsActionTypes.LoadError;
-}
-
 export class SortDeckColumnsAction implements Action {
   readonly type = MissingCardsActionTypes.SortDeckColumns;
 
@@ -36,6 +31,5 @@ export class SortDeckColumnsAction implements Action {
 export type MissingCardsActions =
   | LoadMissingCardsPageAction
   | InitializedMissingCardsPageAction
-  | LoadMissingCardsPageErrorAction
   | SortDeckColumnsAction
   ;

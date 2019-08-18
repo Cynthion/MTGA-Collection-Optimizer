@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
 import { InventoryState, InventoryFeatureState } from './inventory.state';
-import { WildcardRequirementsUpdatedAction } from './inventory.actions';
+import { WildcardRequirementsUpdatedAction, UnknownCardsUpdatedAction } from './inventory.actions';
 import { Rarity } from '../missing-cards.state';
 
 @Component({
@@ -22,7 +22,11 @@ export class InventoryComponent {
     ) {
     this.state$ = store.select(s =>  s.inventory);
 
-    store.select(s => s.missingCardsPage.collectionCards).subscribe(ccs => {
+    this.store.select(s => s.missingCardsPage.collectionCards).subscribe(ccs => {
+      this.actionsSubject.next(new UnknownCardsUpdatedAction(
+        ccs.filter(cc => cc.rarity === -1).length
+      ));
+
       this.actionsSubject.next(new WildcardRequirementsUpdatedAction({
         wildcardUncommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Uncommon), cc => cc.missingCount),
         wildcardCommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Common), cc => cc.missingCount),

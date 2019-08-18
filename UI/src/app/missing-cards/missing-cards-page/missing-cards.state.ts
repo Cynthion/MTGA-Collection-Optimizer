@@ -75,7 +75,6 @@ export interface MissingCardsPageState extends MissingCardsPageDto {
   playerCards: PlayerCardState[];
   collectionCards: CollectionCardState[];
   sortDeckColumnOrder: SortDeckColumnOrder;
-  nrOfUnknownCards: number;
 }
 
 export const initialMissingCardsPageState: MissingCardsPageState = {
@@ -83,5 +82,4 @@ export const initialMissingCardsPageState: MissingCardsPageState = {
   playerCards: [],
   collectionCards: [],
   sortDeckColumnOrder: SortDeckColumnOrder.Completeness,
-  nrOfUnknownCards: 0,
 };

@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { playerCardsReducer, playerDeckReducer } from '../domain.reducers';
 import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../domain.actions';
 
@@ -24,7 +26,7 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
     case LayoutActionTypes.CalculateCollectionCards: {
       const collectionCards: CollectionCardState[] = [];
 
-      // add PlayerCards to CollectionCards
+      // create CollectionCards from PlayerCards
       const playerCardCcs: CollectionCardState[] = state.playerCards.map(pc => {
         return {
           ...pc,
@@ -34,9 +36,7 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         };
       });
 
-      collectionCards.push(...playerCardCcs);
-
-      // add DeckCards to CollectionCards
+      // create DeckCards from DeckCards
       const deckCards: DeckCardState[] = state.playerDecks.reduce((dc, pd) => [...dc, ...pd.cards], []);
       const deckCardCcs: CollectionCardState[] = deckCards.map(dc => {
         return {
@@ -47,7 +47,22 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         };
       });
 
-      collectionCards.push(...deckCardCcs);
+      // consolidate: starting with PlayerCards, merge DeckCards
+      collectionCards.push(...playerCardCcs);
+
+      for (const deckCardCc of deckCardCcs) {
+        // if player has card, take ownedCount
+        const existingPlayerCard = playerCardCcs.find(pc => pc.mtgaId === deckCardCc.mtgaId);
+        const ownedCount = existingPlayerCard !== undefined
+          ? existingPlayerCard.ownedCount
+          : 0;
+        const missingCount = deckCardCc.requiredCount - ownedCount;
+
+        // if collection has card, take max missingCount
+        const existingCollectionCard = collectionCards.find(cc => cc.mtgaId === deckCardCc.mtgaId);
+        
+
+      }
 
       return {
         ...state,

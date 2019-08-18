@@ -3,16 +3,16 @@ import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { ActionsSubject } from '@ngrx/store';
 import { first, map } from 'rxjs/operators';
 
-import { LoadMissingCardsPageAction, MissingCardsActionTypes } from './missing-cards.actions';
+import { LoadDataAction, LayoutActionTypes } from './layout.actions';
 
 @Injectable()
-export class TabsInitializationGuard implements CanActivate {
+export class LayoutInitializationGuard implements CanActivate {
   constructor(private actionsSubject: ActionsSubject) { }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    this.actionsSubject.next(new LoadMissingCardsPageAction());
+    this.actionsSubject.next(new LoadDataAction());
     return this.actionsSubject.pipe(
-      first(a => a.type === MissingCardsActionTypes.Initialized),
+      first(a => a.type === LayoutActionTypes.Initialize),
       map(() => true),
     );
   }

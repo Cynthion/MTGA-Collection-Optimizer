@@ -1,12 +1,6 @@
 import { RootState } from '../../app.state';
 
-import {
-  PlayerCardState,
-  DeckCardState,
-  DeckCardDto,
-} from '../../domain.state';
-
-import { DecksTabState, initialDecksTabState } from './decks/decks.state';
+import { DecksTabState, initialDecksTabState } from './decks-tab';
 
 export const TABS_FEATURE_NAME: keyof TabsFeatureState = 'tabs';
 
@@ -21,8 +15,3 @@ export interface TabsState {
 export const initialTabsState: TabsState = {
   decksTab: initialDecksTabState,
 };
-
-export interface CollectionCardState extends PlayerCardState, DeckCardState {
-  missingCount: number;
-  wildcardWorthinessFactor: number;
-}

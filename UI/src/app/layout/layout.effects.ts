@@ -7,7 +7,8 @@ import { flatMap, tap } from 'rxjs/operators';
 
 import { surroundWithLoadingActions } from '../app.actions';
 import { internalApiGet } from '../util/http';
-import { LayoutActionTypes } from './layout.actions';
+import { LayoutActionTypes, InitializeLayoutAction, CalculateCollectionCardsAction } from './layout.actions';
+import { LayoutDto } from './layout.state';
 
 @Injectable()
 export class LayoutEffects {
@@ -19,12 +20,12 @@ export class LayoutEffects {
       tap(a => console.log(a)),
       flatMap(_ =>
         surroundWithLoadingActions(
-          internalApiGet<MissingCardsPageDto>(
+          internalApiGet<LayoutDto>(
             this.http,
-            'missingcards',
+            'missingcards', // TODO rename on backend
             dto => [
-              new LoadInventoryAction(),
-              new InitializedMissingCardsPageAction(dto),
+              new InitializeLayoutAction(dto),
+              new CalculateCollectionCardsAction(),
             ]
           )
         )),

@@ -1,6 +1,5 @@
-import { initialTabsState, TabsState } from "./tabs.state";
-import { TabsActionTypes, TabsActions } from "./tabs.actions";
-import { decksTabReducer, InitializeDecksTabAction } from "./decks-tab";
+import { initialTabsState, TabsState } from './tabs.state';
+import { TabsActionTypes, TabsActions } from './tabs.actions';
 
 export function tabsReducer(state = initialTabsState, action: TabsActions): TabsState {
   switch (action.type) {
@@ -8,8 +7,8 @@ export function tabsReducer(state = initialTabsState, action: TabsActions): Tabs
     case TabsActionTypes.Initialize: {
       return {
         ...state,
-        decksTab: decksTabReducer(state.decksTab, new InitializeDecksTabAction())
-      }
+        decksTab
+      };
 
       // let collectionCardStates: CollectionCardState[] = [];
 

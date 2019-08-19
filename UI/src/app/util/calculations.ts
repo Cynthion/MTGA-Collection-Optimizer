@@ -22,7 +22,7 @@ export function calcWildcardWorthinessFactor(collectionCard: CollectionCardState
         const requiredCount = containingDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId).requiredCount;
 
         if (ownedCount < requiredCount) {
-            const deckProgressWithCard = ((containingDeck.totalOwnedCards + 1) / containingDeck.totalDeckCards) * 100;
+            const deckProgressWithCard = ((containingDeck.totalOwnedDeckCards + 1) / containingDeck.totalDeckCards) * 100;
             const deckTotalWorth = calcDeckTotalWorth(containingDeck);
 
             wildcardWorthinessFactor += (deckProgressWithCard * deckTotalWorth);

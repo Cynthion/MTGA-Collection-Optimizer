@@ -42,7 +42,7 @@ export interface PlayerDeckDto {
 
 export interface PlayerDeckState extends PlayerDeckDto {
   cards: DeckCardState[];
-  totalOwnedCards: number;
+  totalOwnedDeckCards: number;
   totalDeckCards: number;
   completeness: number;
 }
@@ -67,7 +67,7 @@ export const initialPlayerDeckState: PlayerDeckState = {
   id: '',
   name: '',
   cards: [initialDeckCardState],
-  totalOwnedCards: 0,
+  totalOwnedDeckCards: 0,
   totalDeckCards: 0,
   completeness: 0,
 };

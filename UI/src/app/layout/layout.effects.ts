@@ -7,7 +7,7 @@ import { flatMap, tap } from 'rxjs/operators';
 
 import { surroundWithLoadingActions } from '../app.actions';
 import { internalApiGet } from '../util/http';
-import { LayoutActionTypes, InitializeLayoutAction, CalculateCollectionCardsAction } from './layout.actions';
+import { LayoutActionTypes, InitializeLayoutAction, CalculateCollectionCardsAction, CalculateDeckCompletenessAction } from './layout.actions';
 import { LayoutDto } from './layout.state';
 
 @Injectable()
@@ -26,6 +26,7 @@ export class LayoutEffects {
             dto => [
               new InitializeLayoutAction(dto),
               new CalculateCollectionCardsAction(),
+              new CalculateDeckCompletenessAction(),
             ]
           )
         )),

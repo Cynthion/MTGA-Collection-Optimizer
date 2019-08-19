@@ -6,6 +6,7 @@ import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../doma
 import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';
 import { LayoutActions, LayoutActionTypes } from './layout.actions';
 import { PlayerCardState, DeckCardState } from '../domain.state';
+import { calcWildcardWorthinessFactor } from '../util/calculations';
 
 export function layoutReducer(state: LayoutState = initialLayoutState, action: LayoutActions): LayoutState {
   // TODO add callNestedReducer for tree, on all levels (so that all action can flow through the tree)
@@ -24,7 +25,7 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
     }
 
     case LayoutActionTypes.CalculateCollectionCards: {
-      const collectionCards: CollectionCardState[] = [];
+      let collectionCards: CollectionCardState[] = [];
 
       // create CollectionCards from PlayerCards
       const playerCardCcs: CollectionCardState[] = state.playerCards.map(pc => {
@@ -56,17 +57,51 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         const ownedCount = existingPlayerCard !== undefined
           ? existingPlayerCard.ownedCount
           : 0;
-        const missingCount = deckCardCc.requiredCount - ownedCount;
+        let missingCount = deckCardCc.requiredCount - ownedCount;
 
         // if collection has card, take max missingCount
         const existingCollectionCard = collectionCards.find(cc => cc.mtgaId === deckCardCc.mtgaId);
-        
+        missingCount = existingCollectionCard !== undefined
+          ? _.max(existingCollectionCard.missingCount, missingCount)
+          : missingCount;
 
+        // add new card
+        if (existingCollectionCard === undefined) {
+          collectionCards.push(deckCardCc);
+        }
       }
+
+      // calculate wildcardWorthinessFactor
+      collectionCards.forEach(cc => {
+        cc.wildcardWorthinessFactor = calcWildcardWorthinessFactor(cc, state.playerDecks);
+      });
+
+      // sort
+      collectionCards = _.orderBy(collectionCards, ['rarity', 'name'], ['desc', 'asc']);
 
       return {
         ...state,
         collectionCards,
+      };
+    }
+
+    case LayoutActionTypes.CalculateDeckCompleteness: {
+      const playerDecks = {
+        ...state.playerDecks,
+      };
+
+      for (const playerDeck of playerDecks) {
+        playerDeck.totalDeckCards = playerDeck.cards.map(dc => dc.requiredCount).reduce((a, b) => a + b);
+
+        // TODO take collectionCards.ownedCards if not bigger than requiredCount
+        playerDeck.totalOwnedDeckCards = 0;
+
+        playerDeck.completeness = playerDeck.totalOwnedDeckCards / playerDeck.totalDeckCards;
+      }
+
+      return {
+        ...state,
+        playerDecks,
       };
     }
 

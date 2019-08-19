@@ -91,11 +91,18 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
       };
 
       for (const playerDeck of playerDecks) {
+        // take collectionCards.ownedCards if not bigger than requiredCount
+        let totalOwnedDeckCards = 0;
+        for (const deckCard of playerDeck.cards) {
+          const collectionCard = state.collectionCards.find(cc => cc.mtgaId === deckCard.mtgaId);
+          const deckCardOwnedCount = collectionCard.ownedCount > deckCard.requiredCount
+          ? deckCard.requiredCount
+          : collectionCard.ownedCount;
+          totalOwnedDeckCards += deckCardOwnedCount;
+        }
+
         playerDeck.totalDeckCards = playerDeck.cards.map(dc => dc.requiredCount).reduce((a, b) => a + b);
-
-        // TODO take collectionCards.ownedCards if not bigger than requiredCount
-        playerDeck.totalOwnedDeckCards = 0;
-
+        playerDeck.totalOwnedDeckCards = totalOwnedDeckCards;
         playerDeck.completeness = playerDeck.totalOwnedDeckCards / playerDeck.totalDeckCards;
       }
 

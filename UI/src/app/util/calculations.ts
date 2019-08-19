@@ -1,10 +1,7 @@
 import * as _ from 'lodash';
 
-import {
-    CollectionCardState,
-    PlayerDeckState,
-    Rarity,
-} from '../missing-cards/missing-cards-page/missing-cards.state';
+import { PlayerDeckState, Rarity } from '../domain.state';
+import { CollectionCardState } from '../layout/layout.state';
 
 const wcCommonDropRate: number = 1 / 3;         // 0.33
 const wcUncommonDropRate: number = 1 / 5;       // 0.20

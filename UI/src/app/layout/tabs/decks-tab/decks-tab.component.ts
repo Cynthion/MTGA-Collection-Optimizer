@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { isNumber } from 'util';
 import * as _ from 'lodash';
 
 import { percentageToHsl } from '../../../util/colors';
+import { PlayerDeckState } from '../../../domain.state';
+import { CollectionCardState } from '../../layout.state';
 
-
-import { isNumber } from 'util';
+import { DecksTabState } from './decks-tab.state';
 
 @Component({
   templateUrl: './decks.component.html',
@@ -16,11 +18,10 @@ import { isNumber } from 'util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DecksTabComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  featureState$: Observable<MissingCardsFeatureState>;
-  pageState$: Observable<MissingCardsPageState>;
+  state$: Observable<DecksTabState>;
 
   stickyColumn: keyof CollectionCardState = 'name';
   stickyColumnSubHeader = 'sticky-subheader';
@@ -37,14 +38,13 @@ export class DecksTabComponent implements OnInit {
   filterValue: string;
 
   constructor(
-    private store: Store<MissingCardsFeatureState>,
+    private store: Store<DecksTabState>,
     private actionsSubject: ActionsSubject,
     protected _httpClient: HttpClient,
   ) {
-    this.featureState$ = store.select(s => s);
-    this.pageState$ = store.select(s => s.missingCardsPage);
+    this.state$ = store.select(s => s.missingCardsPage);
 
-    this.pageState$.subscribe(s => {
+    this.state$.subscribe(s => {
       this.dataSource = new MatTableDataSource(s.collectionCards);
       this.playerDecks = s.playerDecks;
 

@@ -46,9 +46,11 @@
 - [ ] drop location for new Card Set json file -> automatic installation
 - [ ] filter by type (creature, enchantment, etc.)
 - [ ] filter by class (vampire, etc.)
-- [ ] progess tab (unique/all cards)
-- [ ] paginator: show all items
 - [X] more beautiful owned/missing indicator
+
+# Future Features
+- [ ] booster advisor
+- [ ] collection progresses
 
 # Optimization / Refactoring
 - [X] remove file storage and set loader

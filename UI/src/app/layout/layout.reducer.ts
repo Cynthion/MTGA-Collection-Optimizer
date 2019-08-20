@@ -5,7 +5,7 @@ import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../doma
 
 import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';
 import { LayoutActions, LayoutActionTypes } from './layout.actions';
-import { PlayerCardState, DeckCardState } from '../domain.state';
+import { DeckCardState } from '../domain.state';
 import { calcWildcardWorthinessFactor } from '../util/calculations';
 
 export function layoutReducer(state: LayoutState = initialLayoutState, action: LayoutActions): LayoutState {

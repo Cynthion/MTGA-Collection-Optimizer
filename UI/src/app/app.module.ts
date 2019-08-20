@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import {
   MatButtonModule,
   MatCardModule,
@@ -16,6 +15,7 @@ import {
   MatProgressBarModule,
   MatSnackBarModule,
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -38,13 +38,12 @@ import {
   ApiErrorEffects,
 } from './api-error';
 import {
-  LayoutComponent,
-} from './layout';
+  LayoutModule,
+} from './layout/layout.module';
 import {
   SettingsDialogComponent,
   SettingsDialogEffects,
 } from './settings';
-import { MissingCardsModule } from './missing-cards/missing-cards.module';
 
 const matModules = [
   MatButtonModule,
@@ -60,12 +59,11 @@ const matModules = [
 const components = [
   AboutDialogComponent,
   ApiErrorComponent,
-  LayoutComponent,
   SettingsDialogComponent,
 ];
 
 const featureModules = [
-  MissingCardsModule,
+  LayoutModule,
 ];
 
 @NgModule({

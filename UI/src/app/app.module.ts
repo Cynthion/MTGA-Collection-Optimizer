@@ -39,7 +39,8 @@ import {
 } from './api-error';
 import {
   LayoutModule,
-} from './layout/layout.module';
+  LayoutEffects,
+} from './layout';
 import {
   SettingsDialogComponent,
   SettingsDialogEffects,
@@ -81,6 +82,7 @@ const featureModules = [
     EffectsModule.forRoot([
       AboutDialogEffects,
       ApiErrorEffects,
+      LayoutEffects,
       SettingsDialogEffects,
     ]),
     ...matModules,

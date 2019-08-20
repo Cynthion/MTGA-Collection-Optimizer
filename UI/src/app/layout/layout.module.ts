@@ -17,6 +17,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { LayoutInitializationGuard } from './layout.guard';
+import {
+    InventoryComponent,
+    InventoryEffects,
+} from './inventory';
+import { TabsComponent } from './tabs';
+import { layoutRoutes } from './layout.routing';
 
 const matModules = [
     MatAutocompleteModule,
@@ -32,12 +38,10 @@ const matModules = [
 
 const components = [
     InventoryComponent,
-    DecksComponent,
-    MissingCardsPageComponent,
+    TabsComponent,
   ];
-  
+
   const effects = [
-    MissingCardsPageEffects,
     InventoryEffects,
   ];
 
@@ -48,7 +52,7 @@ const components = [
     imports: [
       CommonModule,
       FormsModule,
-      RouterModule.forChild(missingCardsRoutes),
+      RouterModule.forChild(layoutRoutes),
       StoreModule.forFeature(MISSING_CARDS_FEATURE_NAME, missingCardsPageReducer),
       StoreModule.forFeature(INVENTORY_FEATURE_NAME, inventoryReducer),
       EffectsModule.forFeature(effects),

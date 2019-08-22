@@ -16,13 +16,14 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { layoutRoutes } from './layout.routing';
 import { LayoutInitializationGuard } from './layout.guard';
+import { LayoutComponent } from './layout.component';
 import {
     InventoryComponent,
     InventoryEffects,
 } from './inventory';
 import { TabsComponent } from './tabs';
-import { layoutRoutes } from './layout.routing';
 
 const matModules = [
     MatAutocompleteModule,
@@ -37,6 +38,7 @@ const matModules = [
   ];
 
 const components = [
+    LayoutComponent,
     InventoryComponent,
     TabsComponent,
   ];

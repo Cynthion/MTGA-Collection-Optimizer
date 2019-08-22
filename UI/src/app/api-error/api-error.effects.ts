@@ -16,7 +16,6 @@ export class ApiErrorEffects {
   .pipe(
     ofType(ApiErrorActionTypes.Show),
     map(a => a as ShowApiErrorAction),
-    tap(a => console.log(a)),
     concatMap(a => this.snackBar.openFromComponent(ApiErrorComponent, {
       data: a.apiErrorState,
       panelClass: ['api-error'],

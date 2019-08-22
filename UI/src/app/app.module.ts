@@ -26,9 +26,12 @@ import { PreloadBridge } from './providers/preload.bridge';
 import { BrowserStorageService } from './providers/browser-storage.service';
 
 import { AppComponent } from './app.component';
-import { appRoutes } from './app.routing';
+import { routes } from './app.routing';
 import { AppGuard } from './app.guard';
-import { rootReducers } from './app.reducer';
+import {
+  reducers,
+  metaReducers,
+} from './app.reducer';
 import {
   AboutDialogComponent,
   AboutDialogEffects,
@@ -77,8 +80,8 @@ const featureModules = [
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot(rootReducers),
-    RouterModule.forRoot(appRoutes),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    RouterModule.forRoot(routes),
     EffectsModule.forRoot([
       AboutDialogEffects,
       ApiErrorEffects,

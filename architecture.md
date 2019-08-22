@@ -1,5 +1,10 @@
 # Modules
 - App Module
+|-- about
+|-- api-error
+|-- providers
+|-- settings
+|-- util
 |-- Layout Module (to be renamed)
 | |-- Inventory
 | |-- Tabs

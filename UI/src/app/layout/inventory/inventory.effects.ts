@@ -18,7 +18,6 @@ export class InventoryEffects {
   loadData$: Observable<Action> = this.actions$
     .pipe(
       ofType(InventoryActionTypes.Load),
-      tap(a => console.log(a)),
       flatMap(_ =>
         surroundWithLoadingActions(
           internalApiGet<InventoryDto>(

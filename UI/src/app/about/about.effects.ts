@@ -17,7 +17,6 @@ export class AboutDialogEffects {
     .pipe(
       ofType(AboutActionTypes.Open),
       filter(_ => this.dialog.openDialogs.length === 0),
-      tap(a => console.log(a)),
       flatMap(_ => {
         this.aboutDialogRef = this.dialog.open(AboutDialogComponent, {
           width: '800px',
@@ -36,7 +35,6 @@ export class AboutDialogEffects {
   closeAboutDialog$: Observable<Action> = this.actions$
     .pipe(
       ofType(AboutActionTypes.Close),
-      tap(a => console.log(a)),
       flatMap(_ => {
         const obs = this.aboutDialogRef.beforeClose();
         this.aboutDialogRef.close();

@@ -17,7 +17,6 @@ export class LayoutEffects {
   loadData$: Observable<Action> = this.actions$
     .pipe(
       ofType(LayoutActionTypes.LoadData),
-      tap(a => console.log(a)),
       flatMap(_ =>
         surroundWithLoadingActions(
           internalApiGet<LayoutDto>(

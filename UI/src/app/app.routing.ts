@@ -5,7 +5,7 @@ import { LayoutComponent } from './layout/layout.component';
 
 const LAYOUT_PATH = 'layout';
 
-export const appRoutes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     canActivate: [AppGuard],

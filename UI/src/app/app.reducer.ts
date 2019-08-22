@@ -1,6 +1,6 @@
 import { AppState, initialAppState, RootState } from './app.state';
 import { AppActions, AppActionTypes } from './app.actions';
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import { callNestedReducers } from './util/ngrx';
 import { settingsReducer } from './settings';
@@ -38,6 +38,16 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
   }
 }
 
-export const rootReducers: ActionReducerMap<RootState, any> = {
+export function debugMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(state, action) {
+    console.log(action);
+
+    return reducer(state, action);
+  };
+}
+
+export const reducers: ActionReducerMap<RootState, any> = {
   app: appReducer,
 };
+
+export const metaReducers: MetaReducer<any>[] = [debugMetaReducer];

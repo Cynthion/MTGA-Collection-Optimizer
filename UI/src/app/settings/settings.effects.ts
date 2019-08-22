@@ -25,7 +25,6 @@ export class SettingsDialogEffects {
     .pipe(
       ofType(SettingsActionTypes.Open),
       filter(_ => this.dialog.openDialogs.length === 0),
-      tap(a => console.log(a)),
       flatMap(_ => {
         this.settingsDialogRef = this.dialog.open(SettingsDialogComponent, {
           width: '800px',
@@ -43,7 +42,6 @@ export class SettingsDialogEffects {
   closeSettingsDialog$: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Close),
-      tap(a => console.log(a)),
       map(a => a as CloseSettingsDialogAction),
       flatMap(_ => {
         const obs = this.settingsDialogRef.beforeClose();
@@ -58,7 +56,6 @@ export class SettingsDialogEffects {
   loadSettings: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Load),
-      tap(a => console.log(a)),
       flatMap(_ => {
         const settingsDto = this.storageService.load<SettingsDto>(SettingsStorageKey);
 
@@ -70,7 +67,6 @@ export class SettingsDialogEffects {
   storeSettings: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Store),
-      tap(a => console.log(a)),
       map(a => a as StoreSettingsAction),
       flatMap(a => {
         const settingsDto = a.dto;
@@ -84,7 +80,6 @@ export class SettingsDialogEffects {
   applySettings$: Observable<Action> = this.actions$
     .pipe(
       ofType(SettingsActionTypes.Apply),
-      tap(a => console.log(a)),
       map(a => a as ApplySettingsAction),
       flatMap(a =>
         surroundWithLoadingActions(

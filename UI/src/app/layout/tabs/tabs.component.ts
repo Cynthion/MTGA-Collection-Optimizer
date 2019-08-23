@@ -11,7 +11,7 @@ export class TabsComponent {
   public navLinks: NavLink[] = [
     {
       label: 'DECKS',
-      path: 'decks-tab'
+      path: '/decks-tab'
     },
   ];
 }

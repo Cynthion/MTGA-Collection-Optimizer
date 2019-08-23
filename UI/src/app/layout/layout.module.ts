@@ -56,7 +56,6 @@ const components = [
       FormsModule,
       RouterModule.forChild(layoutRoutes),
       StoreModule.forFeature(MISSING_CARDS_FEATURE_NAME, missingCardsPageReducer),
-      StoreModule.forFeature(INVENTORY_FEATURE_NAME, inventoryReducer),
       EffectsModule.forFeature(effects),
       ...matModules,
     ],

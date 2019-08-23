@@ -4,7 +4,6 @@ import { PlayerCardState, PlayerDeckState, PlayerCardDto, PlayerDeckDto, initial
 import { initialInventoryState, InventoryState } from './inventory';
 import { TabsState, initialTabsState } from './tabs/tabs.state';
 
-export const LAYOUT_FEATURE_NAME: keyof LayoutFeatureState = 'layout';
 
 export interface LayoutFeatureState extends RootState {
   layout: LayoutState;

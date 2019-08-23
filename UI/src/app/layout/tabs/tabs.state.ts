@@ -1,8 +1,8 @@
-import { RootState } from '../../app.state';
+import { State as ParentState } from '../layout.state';
 
-export const TABS_FEATURE_NAME: keyof TabsFeatureState = 'tabs';
+export const TABS_FEATURE_NAME: keyof State = 'tabs';
 
-export interface TabsFeatureState extends RootState {
+export interface State extends ParentState {
   tabs: TabsState;
 }
 

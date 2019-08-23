@@ -7,10 +7,12 @@ import { isNumber } from 'util';
 import * as _ from 'lodash';
 
 import { percentageToHsl } from '../../../util/colors';
-import { PlayerDeckState } from '../../../domain.state';
-import { CollectionCardState } from '../../layout.state';
+import { PlayerDeckState, Rarity } from '../../../domain.state';
+import { CollectionCardState, LayoutState } from '../../layout.state';
 
-import { DecksTabState } from './decks-tab.state';
+import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
+import { SortDeckColumnsAction } from './decks-tab.actions';
+import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
   templateUrl: './decks.component.html',
@@ -38,20 +40,25 @@ export class DecksTabComponent implements OnInit {
   filterValue: string;
 
   constructor(
-    private store: Store<DecksTabState>,
+    private store: Store<State>,
     private actionsSubject: ActionsSubject,
     protected _httpClient: HttpClient,
   ) {
-    this.state$ = store.select(s => s.missingCardsPage);
+    this.state$ = this.store.select(s => s.decksTab);
 
-    this.state$.subscribe(s => {
-      this.dataSource = new MatTableDataSource(s.collectionCards);
-      this.playerDecks = s.playerDecks;
+    // TODO do this in with proper NgRx approach
+    const layoutState$ = this.store.select(s => s.layout)
+      .pipe(
+        withLatestFrom(this.state$)
+      );
+    layoutState$.subscribe(([layoutState, decksTabState]) => {
+      this.dataSource = new MatTableDataSource(layoutState.collectionCards);
+      this.playerDecks = layoutState.playerDecks;
 
-      if (s.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
+      if (decksTabState.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
         this.playerDecks = _.orderBy(this.playerDecks, ['name'], ['asc']);
       }
-      if (s.sortDeckColumnOrder === SortDeckColumnOrder.Completeness) {
+      if (decksTabState.sortDeckColumnOrder === SortDeckColumnOrder.Completeness) {
         this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
       }
 

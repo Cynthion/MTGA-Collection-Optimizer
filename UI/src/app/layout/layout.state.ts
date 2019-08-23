@@ -1,11 +1,12 @@
-import { RootState } from '../app.state';
+import { RootState as ParentState } from '../app.state';
 import { PlayerCardState, PlayerDeckState, PlayerCardDto, PlayerDeckDto, initialPlayerCardState, initialPlayerDeckState, DeckCardState } from '../domain.state';
 
 import { initialInventoryState, InventoryState } from './inventory';
 import { TabsState, initialTabsState } from './tabs/tabs.state';
 
+export const LAYOUT_FEATURE_NAME: keyof State = 'layout';
 
-export interface LayoutFeatureState extends RootState {
+export interface State extends ParentState {
   layout: LayoutState;
 }
 

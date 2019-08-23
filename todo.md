@@ -1,6 +1,7 @@
 # Features / Backlog
 
 ## MVP
+- [ ] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry

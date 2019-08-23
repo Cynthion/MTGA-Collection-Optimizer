@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { decksTabRoutes } from './decks-tab.routing';
-import { DECKS_TAB_MODULE_FEATURE_NAME } from './decks-tab.state';
+import { DECKS_TAB_MODULE_FEATURE_NAME as DECKS_TAB_FEATURE_NAME } from './decks-tab.state';
 import { decksTabReducer } from './decks-tab.reducer';
 import { DecksTabComponent } from './decks-tab.component';
 
@@ -49,7 +49,7 @@ const effects = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(decksTabRoutes),
-    StoreModule.forFeature(DECKS_TAB_MODULE_FEATURE_NAME, decksTabReducer),
+    StoreModule.forFeature(DECKS_TAB_FEATURE_NAME, decksTabReducer),
     EffectsModule.forFeature(effects),
     ...matModules,
   ],

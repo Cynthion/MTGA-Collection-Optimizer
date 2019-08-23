@@ -6,13 +6,9 @@ import { AppGuard } from './app.guard';
 
 export const routes: Routes = [
   {
-    path: 'layout',
+    path: '',
     component: LayoutComponent,
     canActivate: [AppGuard],
-  },
-  {
-    path: '**',
-    redirectTo: 'layout',
   },
   // {
   //   path: '',

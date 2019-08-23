@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 
 import { percentageToHsl } from '../../../util/colors';
 import { PlayerDeckState, Rarity } from '../../../domain.state';
-import { CollectionCardState, LayoutState } from '../../layout.state';
+import { CollectionCardState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
 import { SortDeckColumnsAction } from './decks-tab.actions';

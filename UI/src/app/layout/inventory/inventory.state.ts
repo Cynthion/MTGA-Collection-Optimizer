@@ -1,8 +1,6 @@
-import { MissingCardsFeatureState } from '../missing-cards.state';
+import { State as ParentState } from '../layout.state';
 
-export const INVENTORY_FEATURE_NAME: keyof InventoryFeatureState = 'inventory';
-
-export interface InventoryFeatureState extends MissingCardsFeatureState {
+export interface State extends ParentState {
   inventory: InventoryState;
 }
 

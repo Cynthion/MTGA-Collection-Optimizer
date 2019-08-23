@@ -3,6 +3,9 @@ import { Store, ActionsSubject } from '@ngrx/store';
 
 import { makeInternalApiUrl } from '../util/http';
 
+import { State } from './layout.state';
+import { LoadDataAction } from './layout.actions';
+
 @Component({
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
@@ -14,7 +17,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   protected isSseSubscribed: boolean;
 
   constructor(
-    private store: Store<>,
+    private store: Store<State>,
     private actionsSubject: ActionsSubject,
   ) { }
 
@@ -51,8 +54,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   protected onEventSourceMessage(messageEvent: MessageEvent): void {
     console.log('SSE connection message:', messageEvent.data);
 
-    this.actionsSubject.next(new LoadInventoryAction());
-    this.actionsSubject.next(new LoadMissingCardsPageAction());
+    this.actionsSubject.next(new LoadDataAction());
   }
 
   protected onEventSourceError(event: Event): void {

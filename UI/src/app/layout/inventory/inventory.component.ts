@@ -3,7 +3,9 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { InventoryState, InventoryFeatureState } from './inventory.state';
+import { Rarity } from '../../domain.state';
+
+import { InventoryState, State } from './inventory.state';
 import { WildcardRequirementsUpdatedAction, UnknownCardsUpdatedAction } from './inventory.actions';
 
 @Component({
@@ -16,12 +18,12 @@ export class InventoryComponent {
   state$: Observable<InventoryState>;
 
   constructor(
-      private store: Store<InventoryFeatureState>,
+      private store: Store<State>,
       private actionsSubject: ActionsSubject,
     ) {
-    this.state$ = store.select(s =>  s.inventory);
+    this.state$ = store.select(s =>  s.layout.inventory);
 
-    this.store.select(s => s.missingCardsPage.collectionCards).subscribe(ccs => {
+    this.store.select(s => s.layout.collectionCards).subscribe(ccs => {
       this.actionsSubject.next(new UnknownCardsUpdatedAction(
         ccs.filter(cc => cc.rarity === -1).length
       ));

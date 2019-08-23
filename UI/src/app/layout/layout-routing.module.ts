@@ -14,7 +14,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'decks-tab',
-        loadChildren: () => import('./tabs/decks-tab/decks-tab.module').then(mod => mod.DecksTabModule)
+        loadChildren: 'app/layout/tabs/decks-tab/decks-tab.module#DecksTabModule',
       },
       {
         path: '**',

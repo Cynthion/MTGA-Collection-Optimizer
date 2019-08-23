@@ -15,6 +15,7 @@ import { SortDeckColumnsAction } from './decks-tab.actions';
 import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
+  selector: 'app-decks-tab',
   templateUrl: './decks.component.html',
   styleUrls: ['./decks.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

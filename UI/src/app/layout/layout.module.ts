@@ -18,6 +18,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { layoutRoutes } from './layout.routing';
 import { LayoutInitializationGuard } from './layout.guard';
+import { LAYOUT_FEATURE_NAME } from './layout.state';
+import { layoutReducer } from './layout.reducer';
 import { LayoutComponent } from './layout.component';
 import {
     InventoryComponent,
@@ -55,7 +57,7 @@ const components = [
       CommonModule,
       FormsModule,
       RouterModule.forChild(layoutRoutes),
-      StoreModule.forFeature(MISSING_CARDS_FEATURE_NAME, missingCardsPageReducer),
+      StoreModule.forFeature(LAYOUT_FEATURE_NAME, layoutReducer),
       EffectsModule.forFeature(effects),
       ...matModules,
     ],

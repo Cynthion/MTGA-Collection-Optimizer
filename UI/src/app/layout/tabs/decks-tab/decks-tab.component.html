@@ -12,11 +12,11 @@
 
   <div class="column-sort">
     <mat-button-toggle-group>
-      <mat-button-toggle value="Alphabetical" [checked]="(pageState$ | async).sortDeckColumnOrder === 0"
+      <mat-button-toggle value="Alphabetical" [checked]="(state$ | async).sortDeckColumnOrder === 0"
         (change)="onColumnSortValueChange($event)">
         Alphabetical
       </mat-button-toggle>
-      <mat-button-toggle value="Completeness" [checked]="(pageState$ | async).sortDeckColumnOrder === 1"
+      <mat-button-toggle value="Completeness" [checked]="(state$ | async).sortDeckColumnOrder === 1"
         (change)="onColumnSortValueChange($event)">
         Completeness
       </mat-button-toggle>

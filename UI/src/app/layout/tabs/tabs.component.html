@@ -1,29 +1,16 @@
 <div class="tabs">
 
-  <!-- <mat-tab-group>
-    <mat-tab label="DECKS">
-      <ng-template matTabContent>
-        <app-decks-tab></app-decks-tab>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="BEST CARDS">
-      <ng-template matTabContent>
-        
-      </ng-template>
-    </mat-tab>
-  </mat-tab-group> -->
-
   <!-- While <mat-tab-group> is used to switch between views within a single route, 
     <nav mat-tab-nav-bar> provides a tab-like UI for navigating between routes. -->
   <nav mat-tab-nav-bar>
-      <a mat-tab-link
-          *ngFor="let link of links"
-          [routerLink]="link.path"
-          routerLinkActive #rla="routerLinkActive"
-          [active]="rla.isActive">
-        {{link.label}}
-      </a>
-    </nav>
-    
-    <router-outlet></router-outlet>
+    <a mat-tab-link 
+      *ngFor="let link of navLinks" 
+      [routerLink]="link.path"
+      routerLinkActive #rla="routerLinkActive"
+      [active]="rla.isActive">
+      {{ link.label }}
+    </a>
+  </nav>
+
+  <router-outlet></router-outlet>
 </div>

@@ -15,18 +15,17 @@ import {
   MatProgressBarModule,
   MatSnackBarModule,
 } from '@angular/material';
-import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { AppRoutingModule } from './app-routing.module';
 import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
 import { PreloadBridge } from './providers/preload.bridge';
 import { BrowserStorageService } from './providers/browser-storage.service';
 
 import { AppComponent } from './app.component';
-import { routes } from './app.routing';
 import { AppGuard } from './app.guard';
 import {
   reducers,
@@ -76,12 +75,12 @@ const featureModules = [
     ...components,
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    RouterModule.forRoot(routes),
     EffectsModule.forRoot([
       AboutDialogEffects,
       ApiErrorEffects,

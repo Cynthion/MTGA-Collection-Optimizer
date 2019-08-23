@@ -12,11 +12,11 @@ import {
     MatTableModule,
     MatTabsModule,
   } from '@angular/material';
-import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { layoutRoutes } from './layout.routing';
+import { LayoutRoutingModule } from './layout-routing.module';
+
 import { LayoutInitializationGuard } from './layout.guard';
 import { LAYOUT_FEATURE_NAME } from './layout.state';
 import { layoutReducer } from './layout.reducer';
@@ -54,9 +54,9 @@ const components = [
       ...components,
     ],
     imports: [
+      LayoutRoutingModule,
       CommonModule,
       FormsModule,
-      RouterModule.forChild(layoutRoutes),
       StoreModule.forFeature(LAYOUT_FEATURE_NAME, layoutReducer),
       EffectsModule.forFeature(effects),
       ...matModules,

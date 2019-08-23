@@ -6,7 +6,7 @@ import { LayoutComponent } from './layout.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'layout',
     canActivate: [LayoutInitializationGuard],
     component: LayoutComponent,
     // router displays the components of these routes in the RouterOutlet of the LayoutComponent,
@@ -18,7 +18,7 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'decks-tab',
+        redirectTo: '/decks-tab',
         pathMatch: 'full',
       },
     ],

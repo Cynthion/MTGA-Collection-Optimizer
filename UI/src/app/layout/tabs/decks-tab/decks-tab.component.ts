@@ -16,8 +16,8 @@ import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'app-decks-tab',
-  templateUrl: './decks.component.html',
-  styleUrls: ['./decks.component.scss'],
+  templateUrl: './decks-tab.component.html',
+  styleUrls: ['./decks-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DecksTabComponent implements OnInit {

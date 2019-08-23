@@ -4,16 +4,17 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { flatMap, map, tap, debounceTime, filter } from 'rxjs/operators';
+import { flatMap, map, debounceTime, filter } from 'rxjs/operators';
 
+import { surroundWithLoadingActions } from '../app.actions';
+import { LoadDataAction } from '../layout';
 import { internalApiPost } from '../util/http';
 import { PlatformServiceProvider } from '../providers/platform-service-provider';
 import { StorageService } from '../providers/storage.service';
-import { LoadMissingCardsPageAction } from '../missing-cards/missing-cards-page';
+
 import { SettingsDto, SettingsStorageKey } from './settings.state';
 import { SettingsActionTypes, ApplySettingsAction, InitializedSettingsAction, LoadSettingsAction, StoreSettingsAction, CloseSettingsDialogAction } from './settings.actions';
 import { SettingsDialogComponent } from './settings.dialog';
-import { surroundWithLoadingActions } from '../app.actions';
 
 @Injectable()
 export class SettingsDialogEffects {
@@ -87,7 +88,7 @@ export class SettingsDialogEffects {
             this.http,
             'settings',
             a.dto,
-            _ => [new LoadMissingCardsPageAction()]
+            _ => [new LoadDataAction()]
           ))
       )
     );

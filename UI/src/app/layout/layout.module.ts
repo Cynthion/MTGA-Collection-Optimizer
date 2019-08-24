@@ -26,6 +26,7 @@ import {
     InventoryEffects,
 } from './inventory';
 import { TabsComponent } from './tabs';
+import { DecksTabModule } from './tabs/decks-tab/decks-tab.module';
 
 const matModules = [
     MatAutocompleteModule,
@@ -60,6 +61,7 @@ const components = [
       StoreModule.forFeature(LAYOUT_FEATURE_NAME, layoutReducer),
       EffectsModule.forFeature(effects),
       ...matModules,
+      DecksTabModule,
     ],
     providers: [LayoutInitializationGuard],
   })

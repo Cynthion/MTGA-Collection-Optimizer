@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutInitializationGuard } from './layout.guard';
 import { LayoutComponent } from './layout.component';
+import { DecksTabComponent } from './tabs/decks-tab/decks-tab.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,8 @@ export const routes: Routes = [
     children: [
       {
         path: 'decks-tab',
-        loadChildren: 'app/layout/tabs/decks-tab/decks-tab.module#DecksTabModule',
+        // loadChildren: 'app/layout/tabs/decks-tab/decks-tab.module#DecksTabModule',
+        component: DecksTabComponent,
       },
     ],
   },

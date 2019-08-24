@@ -55,6 +55,7 @@
 
 # Optimization / Refactoring
 - [X] remove file storage and set loader
+- [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
 - [ ] parse log file async
 - [ ] parse log file from end of file
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development

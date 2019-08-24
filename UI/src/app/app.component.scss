@@ -82,3 +82,22 @@
     padding: $default-padding;
   }
 }
+
+// Angular Material Overrides
+::ng-deep .mat-card-header-text {
+  margin: 0px !important; 
+}
+::ng-deep .mat-sort-header-arrow {
+  color: mat-color($primary);
+}
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: $theme-background-color;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 25px !important;
+}

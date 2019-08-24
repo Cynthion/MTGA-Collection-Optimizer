@@ -6,9 +6,11 @@
   flex-direction: column;
   background: $theme-background-color;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  border-left: solid $default-border $theme-accent-color-a700;
-  border-right: solid $default-border $theme-accent-color-a700;
-  border-bottom: solid $default-border $theme-accent-color-a700;
+
+  // TODO this border introduces a scrollbar, find a cleaner way
+  // border-left: solid $default-border $theme-accent-color-a700;
+  // border-right: solid $default-border $theme-accent-color-a700;
+  // border-bottom: solid $default-border $theme-accent-color-a700;
 
   .app-bar {
     $height: 24px;
@@ -76,10 +78,12 @@
     }
   }
 
+  // TODO fix this in proper flex manner
   .app-container {
     height: 0px; // overridden by flex, makes it take the rest of the space
     flex: 1 1 auto;
     padding: $default-padding;
+    background: orange;
   }
 }
 

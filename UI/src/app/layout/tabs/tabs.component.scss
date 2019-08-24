@@ -8,6 +8,7 @@
     flex: 0 1 auto;
   }
 
+  // TODO needed on this level or only on .table-container?
   // tabs content should not extend bottom, components should adapt internally
   .tabs-content {
     flex: 1 1 auto;

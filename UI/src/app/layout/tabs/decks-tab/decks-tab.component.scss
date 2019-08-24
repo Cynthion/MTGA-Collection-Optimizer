@@ -1,7 +1,7 @@
 @import 'src/constants.scss';
 
 .decks-tab-container {
-  flex: 0 1 auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
 
@@ -31,7 +31,10 @@
   }
   
   .table-container {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
+    height: 700px;
+    overflow: auto; // overflow only works for blocks with specified height
+    -webkit-user-select: none;
   
     >table {
       width: 100% !important;

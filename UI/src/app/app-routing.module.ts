@@ -6,8 +6,8 @@ import { AppGuard } from './app.guard';
 
 export const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
+    path: 'layout/decks-tab',
+    // pathMatch: 'full',
     component: LayoutComponent,
     canActivate: [AppGuard],
   },
@@ -23,7 +23,7 @@ export const routes: Routes = [
   //   // paths for routes defined earlier in the configuration. This is useful for displaying a
   //   // "404 - Not Found" page or redirecting to another route
   //   path: '**',
-  //   redirectTo: 'layout', // absolute if the URL begins with a slash (/)
+  //   redirectTo: '', // absolute if the URL begins with a slash (/)
   // },
 ];
 

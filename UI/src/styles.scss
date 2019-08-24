@@ -33,27 +33,3 @@
     padding: 0px;
   }
 }
-
-// Scrollbar Style Overrides
-/* width */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px $theme-accent-color; 
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: $theme-primary-color; 
-  border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $theme-primary-color; 
-}

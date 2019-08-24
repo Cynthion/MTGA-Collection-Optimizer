@@ -7,8 +7,8 @@ import { LayoutComponent } from './layout.component';
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [LayoutInitializationGuard],
     component: LayoutComponent,
+    canActivate: [LayoutInitializationGuard],
     // router displays the components of these routes in the RouterOutlet of the LayoutComponent,
     // not in the RouterOutlet of the AppComponent shell
     children: [
@@ -16,15 +16,6 @@ export const routes: Routes = [
         path: 'decks-tab',
         loadChildren: 'app/layout/tabs/decks-tab/decks-tab.module#DecksTabModule',
       },
-      {
-        path: '',
-        redirectTo: 'decks-tab',
-        pathMatch: 'full',
-      },
-      // {
-      //   path: '**',
-      //   redirectTo: 'decks-tab',
-      // },
     ],
   },
 ];

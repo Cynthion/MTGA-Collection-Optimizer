@@ -1,17 +1,21 @@
 @import 'src/constants.scss';
 
 .tabs-container {
-  direction: flex;
+  height: 100%;
+  display: flex;
   flex-direction: column;
 
   .tabs-nav-bar {
     flex: 0 1 auto;
   }
 
-  // TODO needed on this level or only on .table-container?
+  // TODO why 700px?
   // tabs content should not extend bottom, components should adapt internally
   .tabs-content {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
+    // This property specifies whether to clip content or to add scrollbars 
+    // when an element's content is too big to fit in a specified area.
+    // Note: The overflow property only works for block elements with a specified height.
     height: 700px;
     overflow: auto; // overflow only works for blocks with specified height
   }

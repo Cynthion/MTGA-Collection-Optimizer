@@ -1,7 +1,7 @@
 @import 'src/constants.scss';
 
 .decks-tab-container {
-  height: 100%;
+  height: 100%; // inhibits container to stretch more than available space
   display: flex;
   flex-direction: column;
 
@@ -30,10 +30,12 @@
     }
   }
   
+  // TODO all properties required?
   .table-container {
     flex: 1 1 auto;
     height: 700px;
-    overflow: auto; // overflow only works for blocks with specified height
+    // overflow only works for blocks with specified height
+    overflow: auto; // make table scrollable if not sufficient place
     -webkit-user-select: none;
   
     >table {

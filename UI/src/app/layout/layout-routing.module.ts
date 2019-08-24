@@ -18,7 +18,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'decks-tab',
+        redirectTo: '/decks-tab',
         pathMatch: 'full',
       },
     ],

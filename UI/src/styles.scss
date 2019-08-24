@@ -17,8 +17,8 @@
 // Include theme styles for your custom components.
 
 .full-window {
-  height: 100%;
-  margin: 0;
+  height: 100%; // takes whole vertical space of webpage dynamically
+  margin: 0; // remove default webpage margins
   // overflow: hidden;
 }
 

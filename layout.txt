@@ -1,0 +1,23 @@
+<body class="full-window"> // height: 100%; --> takes whole vertical space of webpage dynamically
+	<div class="window-container"> // height: 100%; flex-column --> takes whole vertical space of parent container dynamically
+		<app-bar>
+		<progress-bar>
+		<div class="app-container"> // flex 1 1 auto --> takes rest of vertical space
+			<div class="layout-container"> // height: 100%; flex-column --> takes whole vertical space of parent container dynamically
+				<inventory>
+				<div class="tabs"> // flex 1 1 auto --> takes rest of vertical space
+					<div class="tabs-container> // height: 100%; flex-colum --> takes whole vertical space of parent container dynamically
+						<tabs-nav-bar>
+						<div class="tabs-content"> // flex 1 1 auto --> takes rest of vertical space
+							<div class="decks-tab-container"> // height: 100%; flex-column 
+								<table-menu> 		// flex 0 1 auto
+								<table-container>	// flex 1 1 auto, height: 700px, overflow: auto
+								<paginator>			// flex 0 1 auto, padding-top
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>

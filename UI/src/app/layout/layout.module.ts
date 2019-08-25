@@ -21,10 +21,7 @@ import { LayoutInitializationGuard } from './layout.guard';
 import { LAYOUT_FEATURE_NAME } from './layout.state';
 import { layoutReducer } from './layout.reducer';
 import { LayoutComponent } from './layout.component';
-import {
-    InventoryComponent,
-    InventoryEffects,
-} from './inventory';
+import { InventoryComponent } from './inventory';
 import { TabsComponent } from './tabs';
 import { DecksTabModule } from './tabs/decks-tab/decks-tab.module';
 
@@ -47,7 +44,6 @@ const components = [
   ];
 
   const effects = [
-    InventoryEffects,
   ];
 
 @NgModule({

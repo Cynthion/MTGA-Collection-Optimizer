@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Extensions;
+using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
-using MtgaDeckBuilder.Api.MissingCards;
 using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -38,7 +38,7 @@ namespace MtgaDeckBuilder.Api
                 PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });
             services.AddSingleton<ISettings, Settings>();
-            services.AddSingleton<IMissingCardsService, MissingCardsService>();
+            services.AddSingleton<ILayoutService, LayoutService>();
             services.AddSingleton<ILogParser, LogParser>();
 
             services.AddSingleton<IHostedService, LogWatcher>();
@@ -68,7 +68,7 @@ namespace MtgaDeckBuilder.Api
                 .AllowAnyHeader());
 
             // add SSE middleware
-            app.MapServerSentEvents("/api/sse-missingcards");
+            app.MapServerSentEvents("/api/sse-layout-data");
 
             app.UseMvc();
         }

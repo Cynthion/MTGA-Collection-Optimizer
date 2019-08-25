@@ -3,18 +3,13 @@ import { Action } from '@ngrx/store';
 import { InventoryDto, WildcardRequirementsState } from './inventory.state';
 
 export enum InventoryActionTypes {
-  Load = '[Inventory] Load',
-  Initialized = '[Inventory] Initialized',
+  Initialize = '[Inventory] Initialize',
   UnknownCardsUpdated = '[Inventory] Unknown Cards Updated',
   WildcardRequirementsUpdated = '[Inventory] Wildcard Requirements Updated',
 }
 
-export class LoadInventoryAction implements Action {
-  readonly type = InventoryActionTypes.Load;
-}
-
-export class InitializedInventoryAction implements Action {
-  readonly type = InventoryActionTypes.Initialized;
+export class InitializeInventoryAction implements Action {
+  readonly type = InventoryActionTypes.Initialize;
 
   constructor(
     public dto: InventoryDto,
@@ -38,8 +33,7 @@ export class WildcardRequirementsUpdatedAction implements Action {
 }
 
 export type InventoryActions =
-  | LoadInventoryAction
-  | InitializedInventoryAction
+  | InitializeInventoryAction
   | UnknownCardsUpdatedAction
   | WildcardRequirementsUpdatedAction
   ;

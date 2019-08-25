@@ -1,12 +1,13 @@
 import * as _ from 'lodash';
 
-import { playerCardsReducer, playerDeckReducer } from '../domain.reducers';
+import { DeckCardState } from '../domain.state';
 import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../domain.actions';
+import { playerCardsReducer, playerDeckReducer } from '../domain.reducers';
+import { calcWildcardWorthinessFactor } from '../util/calculations';
 
+import { inventoryReducer, InitializeInventoryAction } from './inventory';
 import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';
 import { LayoutActions, LayoutActionTypes } from './layout.actions';
-import { DeckCardState } from '../domain.state';
-import { calcWildcardWorthinessFactor } from '../util/calculations';
 
 export function layoutReducer(state: LayoutState = initialLayoutState, action: LayoutActions): LayoutState {
   // TODO add callNestedReducer for tree, on all levels (so that all action can flow through the tree)
@@ -16,11 +17,9 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
       return {
         ...state,
         ...action.dto,
+        inventory: inventoryReducer(state.inventory, new InitializeInventoryAction(action.dto.inventory)),
         playerCards: action.dto.playerCards.map((dto, idx) => playerCardsReducer(state.playerCards[idx], new InitializePlayerCardsAction(dto))),
         playerDecks: action.dto.playerDecks.map((dto, idx) => playerDeckReducer(state.playerDecks[idx], new InitializePlayerDeckAction(dto))),
-        // TODO add loading of InventoryDto to single backend call
-        // inventory: inventoryReducer(state.inventory, new InitializedInventoryAction(action.dto.))
-        // TODO what about tabs?
       };
     }
 

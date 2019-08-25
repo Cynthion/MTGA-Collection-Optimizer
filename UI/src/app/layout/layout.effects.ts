@@ -21,7 +21,7 @@ export class LayoutEffects {
         surroundWithLoadingActions(
           internalApiGet<LayoutDto>(
             this.http,
-            'missingcards', // TODO rename on backend
+            'layout/load-data',
             dto => [
               new InitializeLayoutAction(dto),
               new CalculateCollectionCardsAction(),

@@ -1,28 +1,29 @@
 ﻿using System.Linq;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
-using MtgaDeckBuilder.Api.InternalApi.MissingCards;
 using MtgaDeckBuilder.Api.LogImport;
 
-namespace MtgaDeckBuilder.Api.MissingCards
+namespace MtgaDeckBuilder.Api.Layout
 {
-    public class MissingCardsService : IMissingCardsService
+    public class LayoutService : ILayoutService
     {
         private readonly ILogParser _logParser;
 
-        public MissingCardsService(ILogParser logParser)
+        public LayoutService(ILogParser logParser)
         {
             _logParser = logParser;
         }
 
-        public MissingCardsPageDto GetMissingCardsPageDto()
+        public LayoutDto LoadLayout()
         {
             // TODO parse log async
             // TODO optimize parsing: start from end of file
+            var inventory = LoadInventory();
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = _logParser.ParsePlayerDecks();
 
-            var dto = new MissingCardsPageDto
+            var dto = new LayoutDto
             {
+                Inventory = inventory,
                 PlayerCards = playerCards.Select(c => new PlayerCardDto
                     {
                         MtgaId = c.Key,
@@ -42,6 +43,26 @@ namespace MtgaDeckBuilder.Api.MissingCards
                     .Where(d => !d.Name.Contains("?=?"))
                     .OrderBy(d => d.Name)
                     .ToArray()
+            };
+
+            return dto;
+        }
+
+        private InventoryDto LoadInventory()
+        {
+            var playerName = _logParser.ParsePlayerName();
+            var playerInventory = _logParser.ParsePlayerInventory();
+
+            var dto = new InventoryDto
+            {
+                PlayerName = playerName,
+                WildcardCommon = playerInventory.WcCommon,
+                WildcardUncommon = playerInventory.WcUncommon,
+                WildcardRare = playerInventory.WcRare,
+                WildcardMythic = playerInventory.WcMythic,
+                Gold = playerInventory.Gold,
+                Gems = playerInventory.Gems,
+                VaultProgress = playerInventory.VaultProgress,
             };
 
             return dto;

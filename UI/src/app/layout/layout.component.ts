@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   subscribeToServerSentEvents() {
     if (!this.isSseSubscribed) {
-      this.eventSource = new EventSource(makeInternalApiUrl('sse-missingcards'));
+      this.eventSource = new EventSource(makeInternalApiUrl('sse-layout-data'));
       this.eventSource.onopen = (evt) => this.onEventSourceOpen(evt);
       this.eventSource.onmessage = (data) => this.onEventSourceMessage(data);
       this.eventSource.onerror = (evt) => this.onEventSourceError(evt);

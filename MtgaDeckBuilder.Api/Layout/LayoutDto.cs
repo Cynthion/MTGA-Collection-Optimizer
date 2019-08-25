@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using MtgaDeckBuilder.Api.Controllers;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
 
-namespace MtgaDeckBuilder.Api.InternalApi.MissingCards
+namespace MtgaDeckBuilder.Api.Layout
 {
-    public class MissingCardsPageDto
+    public class LayoutDto
     {
+        public InventoryDto Inventory { get; set; }
+
         public IList<PlayerCardDto> PlayerCards { get; set; }
 
         public IList<PlayerDeckDto> PlayerDecks { get; set; }

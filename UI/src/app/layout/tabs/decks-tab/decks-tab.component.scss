@@ -30,12 +30,10 @@
     }
   }
   
-  // TODO all properties required?
   .table-container {
-    flex: 1 1 auto;
-    height: 700px;
-    // overflow only works for blocks with specified height
-    overflow: auto; // make table scrollable if not sufficient place
+    flex: 1 1 auto; // takes rest of vertical space
+    overflow: auto; // if overflow is clipped, a scroll-bar should be added to see the rest of the content
+    height: 1px; // overflow only works for blocks with specified height, flex-grow of 1 scales the rest of the element to take the available room
     -webkit-user-select: none;
   
     >table {

@@ -7,11 +7,11 @@
 				<inventory> // flex 0 1 auto // allowed to shrink only
 				<div class="tabs"> // flex 1 1 auto --> takes rest of vertical space, allowed to shrink
 					<div class="tabs-container> // height: 100%; flex-colum --> takes whole vertical space of parent container dynamically
-						<tabs-nav-bar>
-						<div class="tabs-content"> // flex 1 1 auto --> takes rest of vertical space
+						<tabs-nav-bar> // flex 0 1 auto --> allowed to shrink only
+						<div class="tabs-content"> // flex 1 1 auto, overflow: hidden, height: 1px --> takes rest of vertical space, overflow is clipped, and the rest of the content will be invisible, child components must care for themselves
 							<div class="decks-tab-container"> // height: 100%; flex-column 
 								<table-menu> 		// flex 0 1 auto
-								<table-container>	// flex 1 1 auto, height: 700px, overflow: auto
+								<table-container>	// flex 1 1 auto, height: 700px, overflow: auto --> // takes rest of vertical space
 								<paginator>			// flex 0 1 auto, padding-top
 							</div>
 						</div>

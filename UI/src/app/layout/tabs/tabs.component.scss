@@ -14,9 +14,7 @@
     // // This property specifies whether to clip content or to add scrollbars 
     // // when an element's content is too big to fit in a specified area.
     // // Note: The overflow property only works for block elements with a specified height.
-    // height: 700px;
-    // overflow: auto; // overflow only works for blocks with specified height
-    overflow: hidden;
-    height: 10px;
+    overflow: hidden; // overflow is clipped, and the rest of the content will be invisible
+    height: 1px; // overflow only works for blocks with specified height, flex-grow of 1 scales the rest of the element to take the available room
   }
 }

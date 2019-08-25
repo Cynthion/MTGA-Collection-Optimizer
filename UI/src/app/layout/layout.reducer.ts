@@ -59,17 +59,21 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         const ownedCount = existingPlayerCard !== undefined
           ? existingPlayerCard.ownedCount
           : 0;
-        let missingCount = deckCardCc.requiredCount - ownedCount;
+        const missingCountForDeck = _.max([deckCardCc.requiredCount - ownedCount, 0]);
 
         // if collection has card, take max missingCount
         const existingCollectionCard = collectionCards.find(cc => cc.mtgaId === deckCardCc.mtgaId);
-        missingCount = existingCollectionCard !== undefined
-          ? _.max(existingCollectionCard.missingCount, missingCount)
-          : missingCount;
 
-        // add new card
+        const missingCount = existingCollectionCard !== undefined
+          ? _.max([existingCollectionCard.missingCount, missingCountForDeck])
+          : missingCountForDeck;
+
+        // add/update card
         if (existingCollectionCard === undefined) {
+          deckCardCc.missingCount = missingCount;
           collectionCards.push(deckCardCc);
+        } else {
+          existingCollectionCard.missingCount = missingCount;
         }
       }
 
@@ -98,8 +102,8 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         for (const deckCard of playerDeck.cards) {
           const collectionCard = state.collectionCards.find(cc => cc.mtgaId === deckCard.mtgaId);
           const deckCardOwnedCount = collectionCard.ownedCount > deckCard.requiredCount
-          ? deckCard.requiredCount
-          : collectionCard.ownedCount;
+            ? deckCard.requiredCount
+            : collectionCard.ownedCount;
           totalOwnedDeckCards += deckCardOwnedCount;
         }
 

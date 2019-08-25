@@ -47,7 +47,9 @@ export class DecksTabComponent implements OnInit {
   ) {
     this.state$ = this.store.select(s => s.decksTab);
 
-    // TODO do this in with proper NgRx approach
+    this.store.select(s => s.decksTab.sortDeckColumnOrder)
+      .subscribe(columnOrder => this.arrangeDeckColumns(columnOrder));
+
     const layoutState$ = this.store.select(s => s.layout)
       .pipe(
         withLatestFrom(this.state$)
@@ -56,18 +58,7 @@ export class DecksTabComponent implements OnInit {
       this.dataSource = new MatTableDataSource(layoutState.collectionCards);
       this.playerDecks = layoutState.playerDecks;
 
-      if (decksTabState.sortDeckColumnOrder === SortDeckColumnOrder.Alphabetical) {
-        this.playerDecks = _.orderBy(this.playerDecks, ['name'], ['asc']);
-      }
-      if (decksTabState.sortDeckColumnOrder === SortDeckColumnOrder.Completeness) {
-        this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
-      }
-
-      this.deckColumns = this.playerDecks.map(d => d.name);
-      this.deckColumnsSubHeaders = this.playerDecks.map(d => `${d.name}-subheader`);
-
-      this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
-      this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
+      this.arrangeDeckColumns(decksTabState.sortDeckColumnOrder);
 
       this.initializePage();
     });
@@ -94,6 +85,7 @@ export class DecksTabComponent implements OnInit {
 
       return isNumber(value) ? Number(value) : value;
     };
+
   }
 
   ngOnInit() {
@@ -104,6 +96,21 @@ export class DecksTabComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.applyFilter();
+  }
+
+  arrangeDeckColumns(columnOrder: SortDeckColumnOrder): void {
+    if (columnOrder === SortDeckColumnOrder.Alphabetical) {
+      this.playerDecks = _.orderBy(this.playerDecks, ['name'], ['asc']);
+    }
+    if (columnOrder === SortDeckColumnOrder.Completeness) {
+      this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
+    }
+
+    this.deckColumns = this.playerDecks.map(d => d.name);
+    this.deckColumnsSubHeaders = this.playerDecks.map(d => `${d.name}-subheader`);
+
+    this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
+    this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
   }
 
   applyFilter(): void {

@@ -7,6 +7,7 @@
 
   .tabs-nav-bar {
     flex: 0 1 auto; // allowed to shrink only
+    margin-bottom: $default-padding;
   }
 
   .tabs-content {

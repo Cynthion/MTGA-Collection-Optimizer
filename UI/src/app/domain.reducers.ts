@@ -53,8 +53,6 @@ export function playerDeckReducer(state: PlayerDeckState = initialPlayerDeckStat
       };
     }
 
-    // TODO add action to calc   totalOwnedCards totalDeckCards completeness
-
     default: {
       return state;
     }

@@ -5,12 +5,10 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatCardModule,
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatTabsModule,
   } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -21,16 +19,14 @@ import { DECKS_TAB_MODULE_FEATURE_NAME as DECKS_TAB_FEATURE_NAME } from './decks
 import { decksTabReducer } from './decks-tab.reducer';
 import { DecksTabComponent } from './decks-tab.component';
 
-const matModules = [ // TODO all required?
+const matModules = [
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
-  MatCardModule,
   MatInputModule,
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
-  MatTabsModule,
 ];
 
 const components = [

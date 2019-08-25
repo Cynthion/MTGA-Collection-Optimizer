@@ -4,7 +4,7 @@
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
-- [ ] make decks clickable to only show their cards in table
+- [ ] make decks clickable to only show their cards in table / same for cards?
 - [X] show required wildcards
 - [X] add About info
 - [X] show deck completeness
@@ -26,6 +26,7 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
+- [ ] fix ownedCount of basic lands
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
 - [X] fix deck sorting
 - [X] fix completeness

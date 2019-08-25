@@ -1,10 +1,10 @@
 # Features / Backlog
 
 ## MVP
-- [ ] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
+- [ ] make decks clickable to only show their cards in table
 - [X] show required wildcards
 - [X] add About info
 - [X] show deck completeness
@@ -26,9 +26,9 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
-- [ ] fix completeness
-- [ ] fix deck sorting
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
+- [X] fix deck sorting
+- [X] fix completeness
 - [X] fix UI subheader glitch
 
 ## Production
@@ -36,6 +36,7 @@
 - [ ] change ports for production
 - [ ] add License
 - [ ] update maximegris/angular-electron version (Angular 8)
+- [ ] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)
 - [X] fix window menu (WinRef) for electron
 - [X] use Angular enableProdMode()

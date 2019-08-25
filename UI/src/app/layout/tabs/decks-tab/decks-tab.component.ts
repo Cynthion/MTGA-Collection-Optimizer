@@ -56,36 +56,28 @@ export class DecksTabComponent implements OnInit {
       );
     layoutState$.subscribe(([layoutState, decksTabState]) => {
       this.dataSource = new MatTableDataSource(layoutState.collectionCards);
+      this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+        let value: any = data[sortHeaderId];
+
+        // if sortHeaderId is not a data property, then its a deck name
+        if (value === undefined) {
+          const deckToBeSorted = this.playerDecks.find(d => d.name === sortHeaderId);
+          const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
+          const card: CollectionCardState = data as CollectionCardState;
+          value = _.includes(deckCardIds, card.mtgaId)
+            ? card.rarity
+            : Rarity.Unknown;
+        }
+
+        return isNumber(value) ? Number(value) : value;
+      };
+
       this.playerDecks = layoutState.playerDecks;
 
       this.arrangeDeckColumns(decksTabState.sortDeckColumnOrder);
 
       this.initializePage();
     });
-
-    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-      let value: any = data[sortHeaderId];
-
-      // handle ownedCount specially (only available on PlayerCardState)
-      if (!value && sortHeaderId === 'ownedCount') {
-        value = 0;
-      }
-
-      // handle requiredCount specially (only available on DeckCardState)
-      if (!value && sortHeaderId !== 'ownedCount' && data['requiredCount']) {
-        // only sort within the sorted deck, not over all decks
-        const sortedPlayerDeckCardIds = this.playerDecks
-          .find(d => d.name === sortHeaderId).cards
-          .map(c => c.mtgaId);
-        const sortedCardId = data['mtgaId'];
-        value = _.includes(sortedPlayerDeckCardIds, sortedCardId)
-          ? data['requiredCount'] || 0
-          : 0;
-      }
-
-      return isNumber(value) ? Number(value) : value;
-    };
-
   }
 
   ngOnInit() {

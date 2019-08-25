@@ -1,5 +1,5 @@
 <body class="full-window"> // height: 100%; --> takes whole vertical space of webpage dynamically
-	<div class="window-container"> // height: 100%; flex-column --> takes whole vertical space of parent container dynamically
+	<div class="window-container"> // height: calc(100%-2px); flex-column --> takes whole vertical space of parent container dynamically, minus border to avoid scrollbar
 		<app-bar> // flex 0 0 --> not allowed to grow or shrink
 		<progress-bar> // flex 0 0 --> not allowed to grow or shrink
 		<div class="app-container"> // flex 1 1 auto --> takes rest of vertical space, allowed to shrink

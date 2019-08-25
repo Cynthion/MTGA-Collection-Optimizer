@@ -21,7 +21,10 @@ export class InventoryComponent {
       private store: Store<State>,
       private actionsSubject: ActionsSubject,
     ) {
-    this.state$ = store.select(s => s.layout.inventory);
+    this.state$ = this.store.select(s => {
+      console.log('happening', s.layout.inventory);
+      return s.layout.inventory;
+    });
 
     this.store.select(s => s.layout.collectionCards).subscribe(ccs => {
       this.actionsSubject.next(new UnknownCardsUpdatedAction(

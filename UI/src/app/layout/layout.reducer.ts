@@ -8,9 +8,12 @@ import { calcWildcardWorthinessFactor } from '../util/calculations';
 import { inventoryReducer, InitializeInventoryAction } from './inventory';
 import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';
 import { LayoutActions, LayoutActionTypes } from './layout.actions';
+import { callNestedReducers } from '../util/ngrx';
 
 export function layoutReducer(state: LayoutState = initialLayoutState, action: LayoutActions): LayoutState {
-  // TODO add callNestedReducer for tree, on all levels (so that all action can flow through the tree)
+  state = callNestedReducers(state, action, {
+    inventory: inventoryReducer,
+  });
 
   switch (action.type) {
     case LayoutActionTypes.Initialize: {

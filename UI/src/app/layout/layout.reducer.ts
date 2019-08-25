@@ -92,12 +92,9 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
     }
 
     case LayoutActionTypes.CalculateDeckCompleteness: {
-      const playerDecks = {
-        ...state.playerDecks,
-      };
+      const playerDecks = [...state.playerDecks];
 
       for (const playerDeck of playerDecks) {
-        // take collectionCards.ownedCards if not bigger than requiredCount
         let totalOwnedDeckCards = 0;
         for (const deckCard of playerDeck.cards) {
           const collectionCard = state.collectionCards.find(cc => cc.mtgaId === deckCard.mtgaId);

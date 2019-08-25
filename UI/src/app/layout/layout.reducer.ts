@@ -58,7 +58,7 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         const existingPlayerCard = playerCardCcs.find(pc => pc.mtgaId === deckCardCc.mtgaId);
         const ownedCount = existingPlayerCard !== undefined
           ? existingPlayerCard.ownedCount
-          : 0;
+          : deckCardCc.ownedCount;
         const missingCountForDeck = _.max([deckCardCc.requiredCount - ownedCount, 0]);
 
         // if collection has card, take max missingCount
@@ -70,9 +70,11 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
 
         // add/update card
         if (existingCollectionCard === undefined) {
+          deckCardCc.ownedCount = ownedCount;
           deckCardCc.missingCount = missingCount;
           collectionCards.push(deckCardCc);
         } else {
+          existingCollectionCard.ownedCount = ownedCount;
           existingCollectionCard.missingCount = missingCount;
         }
       }

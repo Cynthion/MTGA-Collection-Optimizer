@@ -8,13 +8,20 @@ export function playerCardsReducer(state: PlayerCardState = initialPlayerCardSta
     case DomainActionTypes.InitializePlayerCard: {
       const mtgCard = mtgCardDb.findCard(action.dto.mtgaId);
 
-      return {
+      const newState = {
         ...state,
         ...action.dto,
         name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
         rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
         setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
       };
+
+      // exception: if the card is a Basic Land, MTGA provides infinite copies of it instead of 1
+      if (newState.rarity === Rarity['Basic Land']) {
+        newState.ownedCount = Number.POSITIVE_INFINITY;
+      }
+
+      return newState;
     }
 
     default: {

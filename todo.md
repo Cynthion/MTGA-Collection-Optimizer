@@ -1,6 +1,7 @@
 # Features / Backlog
 
 ## MVP
+- [ ] sort columns by incompleteness and worthiness
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
@@ -26,8 +27,8 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
-- [ ] fix ownedCount of basic lands
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
+- [X] fix ownedCount of basic lands --> infinite number of copies provided by MTGA
 - [X] fix deck sorting
 - [X] fix completeness
 - [X] fix UI subheader glitch
@@ -52,6 +53,7 @@
 - [X] more beautiful owned/missing indicator
 
 # Future Features
+- [ ] read the long logs (has separate folder)
 - [ ] booster advisor
 - [ ] collection progresses
 

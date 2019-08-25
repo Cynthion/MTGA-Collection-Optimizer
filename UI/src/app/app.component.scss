@@ -13,8 +13,8 @@
   // border-bottom: solid $default-border $theme-accent-color-a700;
 
   .app-bar {
+    flex: 0 0 auto; // not allowed to grow or shrink
     $height: 24px;
-
     height: $height;
     background: $theme-accent-color-a700;
     -webkit-app-region: drag;
@@ -72,13 +72,14 @@
   }
   
   .progress-bar {
+    flex: 0 0 auto; // not allowed to grow or shrink
     >mat-progress-bar {
       height: 2px;
     }
   }
 
   .app-container {
-    flex: 1 1 auto;
+    flex: 1 1 auto; // takes rest of vertical space, allowed to shrink
     padding: $default-padding;
     background: orange;
   }

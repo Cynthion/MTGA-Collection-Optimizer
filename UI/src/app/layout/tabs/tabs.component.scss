@@ -6,10 +6,9 @@
   flex-direction: column;
 
   .tabs-nav-bar {
+    flex: 0 1 auto; // allowed to shrink only
   }
 
-  // TODO is overflow needed?
-  // tabs content should not extend bottom, components should adapt internally
   .tabs-content {
     flex: 1 1 auto; // takes rest of vertical space
     // // This property specifies whether to clip content or to add scrollbars 
@@ -17,5 +16,7 @@
     // // Note: The overflow property only works for block elements with a specified height.
     // height: 700px;
     // overflow: auto; // overflow only works for blocks with specified height
+    overflow: hidden;
+    height: 10px;
   }
 }

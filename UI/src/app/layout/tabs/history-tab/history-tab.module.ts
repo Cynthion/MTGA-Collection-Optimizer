@@ -13,11 +13,11 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { DecksTabRoutingModule } from './decks-tab-routing.module';
+import { HistoryTabRoutingModule } from './history-tab-routing.module';
 
-import { DECKS_TAB_MODULE_FEATURE_NAME } from './decks-tab.state';
-import { decksTabReducer } from './decks-tab.reducer';
-import { DecksTabComponent } from './decks-tab.component';
+import { HISTORY_TAB_MODULE_FEATURE_NAME } from './history-tab.state';
+import { historyTabReducer } from './history-tab.reducer';
+import { HistoryTabComponent } from './history-tab.component';
 
 const matModules = [
   MatAutocompleteModule,
@@ -30,7 +30,7 @@ const matModules = [
 ];
 
 const components = [
-  DecksTabComponent,
+  HistoryTabComponent,
 ];
 
 const effects = [
@@ -42,13 +42,13 @@ const effects = [
     ...components,
   ],
   imports: [
-    DecksTabRoutingModule,
+    HistoryTabRoutingModule,
     CommonModule,
     FormsModule,
-    StoreModule.forFeature(DECKS_TAB_MODULE_FEATURE_NAME, decksTabReducer),
+    StoreModule.forFeature(HISTORY_TAB_MODULE_FEATURE_NAME, historyTabReducer),
     EffectsModule.forFeature(effects),
     ...matModules,
   ],
   providers: [],
 })
-export class DecksTabModule { }
+export class HistoryTabModule { }

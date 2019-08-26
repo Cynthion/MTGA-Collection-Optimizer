@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { withLatestFrom } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
 
@@ -12,7 +12,6 @@ import { CollectionCardState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
 import { SortDeckColumnsAction } from './decks-tab.actions';
-import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'app-decks-tab',
@@ -43,7 +42,6 @@ export class DecksTabComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private actionsSubject: ActionsSubject,
-    protected _httpClient: HttpClient,
   ) {
     this.state$ = this.store.select(s => s.decksTab);
 

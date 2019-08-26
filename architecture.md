@@ -9,5 +9,6 @@
 | |-- Inventory
 | |-- Tabs
 |   |-- Decks Tab Module (lazy loaded)
+|   |-- History Tab Module (lazy loaded)
 |   |-- Wildcard Path Module (lazy loaded)
 |-- Shared Module (?)

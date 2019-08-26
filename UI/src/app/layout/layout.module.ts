@@ -23,7 +23,10 @@ import { layoutReducer } from './layout.reducer';
 import { LayoutComponent } from './layout.component';
 import { InventoryComponent } from './inventory';
 import { TabsComponent } from './tabs';
+
+// TODO remove once lazy loaded
 import { DecksTabModule } from './tabs/decks-tab/decks-tab.module';
+import { HistoryTabModule } from './tabs/history-tab/history-tab.module';
 
 const matModules = [
     MatAutocompleteModule,
@@ -58,6 +61,7 @@ const components = [
       EffectsModule.forFeature(effects),
       ...matModules,
       DecksTabModule,
+      HistoryTabModule,
     ],
     providers: [LayoutInitializationGuard],
   })

@@ -13,5 +13,9 @@ export class TabsComponent {
       label: 'DECKS',
       path: '/decks-tab'
     },
+    {
+      label: 'HISTORY',
+      path: '/history-tab'
+    },
   ];
 }

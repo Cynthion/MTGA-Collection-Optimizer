@@ -27,6 +27,7 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
+- [ ] fix lazy loading of tabs
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
 - [X] fix ownedCount of basic lands --> infinite number of copies provided by MTGA
 - [X] fix deck sorting

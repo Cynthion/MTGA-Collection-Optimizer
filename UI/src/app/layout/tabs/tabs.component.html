@@ -2,15 +2,15 @@
   <div class="tabs-nav-bar">
     <!-- While <mat-tab-group> is used to switch between views within a single route, 
       <nav mat-tab-nav-bar> provides a tab-like UI for navigating between routes. -->
-    <nav mat-tab-nav-bar>
-      <a mat-tab-link 
-        *ngFor="let link of navLinks" 
-        [routerLink]="link.path"
-        routerLinkActive #rla="routerLinkActive"
-        [active]="rla.isActive">
-        {{ link.label }}
-      </a>
-    </nav>
+      <nav mat-tab-nav-bar>
+        <a mat-tab-link
+            *ngFor="let link of navLinks"
+            [routerLink]="link.path"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+          {{link.label}}
+        </a>
+      </nav>
   </div>
 
   <div class="tabs-content">

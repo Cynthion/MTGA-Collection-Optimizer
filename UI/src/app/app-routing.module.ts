@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LayoutComponent } from './layout/layout.component';
 import { AppGuard } from './app.guard';
 
 export const routes: Routes = [
@@ -13,13 +12,14 @@ export const routes: Routes = [
     redirectTo: 'decks-tab', // absolute if the URL begins with a slash (/)
     canActivate: [AppGuard],
   },
-  {
-    // wildcard route: the router will select this route if the requested URL doesn't match any
-    // paths for routes defined earlier in the configuration. This is useful for displaying a
-    // "404 - Not Found" page or redirecting to another route
-    path: '**',
-    redirectTo: 'decks-tab',
-  },
+  // TODO currently wildcard doesn't work (always resets to deck-card), fix navigation to work properly
+  // {
+  //   // wildcard route: the router will select this route if the requested URL doesn't match any
+  //   // paths for routes defined earlier in the configuration. This is useful for displaying a
+  //   // "404 - Not Found" page or redirecting to another route
+  //   path: '**',
+  //   redirectTo: 'decks-tab',
+  // },
 ];
 
 @NgModule({

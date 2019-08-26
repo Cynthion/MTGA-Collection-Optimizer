@@ -25,8 +25,8 @@ import { InventoryComponent } from './inventory';
 import { TabsComponent } from './tabs';
 
 // TODO remove once lazy loaded
-import { DecksTabModule } from './tabs/decks-tab/decks-tab.module';
-import { HistoryTabModule } from './tabs/history-tab/history-tab.module';
+// import { DecksTabModule } from './tabs/decks-tab/decks-tab.module';
+// import { HistoryTabModule } from './tabs/history-tab/history-tab.module';
 
 const matModules = [
     MatAutocompleteModule,
@@ -60,8 +60,8 @@ const components = [
       StoreModule.forFeature(LAYOUT_FEATURE_NAME, layoutReducer),
       EffectsModule.forFeature(effects),
       ...matModules,
-      DecksTabModule,
-      HistoryTabModule,
+      // DecksTabModule,
+      // HistoryTabModule,
     ],
     providers: [LayoutInitializationGuard],
   })

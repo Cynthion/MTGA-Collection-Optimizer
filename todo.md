@@ -27,8 +27,8 @@
 - [X] try to auto-detect output log file with default path
 
 ## Bugs
-- [ ] fix lazy loading of tabs
 - [ ] fix error if log is empty (e.g., after patch/before first game start)
+- [X] fix lazy loading of tabs
 - [X] fix ownedCount of basic lands --> infinite number of copies provided by MTGA
 - [X] fix deck sorting
 - [X] fix completeness
@@ -39,7 +39,7 @@
 - [ ] change ports for production
 - [ ] add License
 - [ ] update maximegris/angular-electron version (Angular 8)
-- [ ] check lazy loading (module dependencies, e.g. domain / Rarity)
+- [X] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)
 - [X] fix window menu (WinRef) for electron
 - [X] use Angular enableProdMode()

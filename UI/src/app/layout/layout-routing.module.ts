@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutInitializationGuard } from './layout.guard';
 import { LayoutComponent } from './layout.component';
+import { HistoryTabComponent } from './tabs/history-tab/history-tab.component';
 
 export const routes: Routes = [
   {
@@ -18,7 +19,7 @@ export const routes: Routes = [
       },
       {
         path: 'history-tab',
-        loadChildren: './tabs/history-tab/history-tab.module#HistoryTabModule',
+        component: HistoryTabComponent,
       },
     ],
   },

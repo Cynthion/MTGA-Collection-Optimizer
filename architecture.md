@@ -5,10 +5,10 @@
 |-- providers
 |-- settings
 |-- util
-|-- Layout Module (to be renamed)
+|-- Layout Module
 | |-- Inventory
 | |-- Tabs
 |   |-- Decks Tab Module (lazy loaded)
-|   |-- History Tab Module (lazy loaded)
 |   |-- Wildcard Path Module (lazy loaded)
+|   |-- History Tab Module
 |-- Shared Module (?)

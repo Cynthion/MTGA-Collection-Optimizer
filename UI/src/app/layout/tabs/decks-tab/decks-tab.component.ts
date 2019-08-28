@@ -133,7 +133,7 @@ export class DecksTabComponent implements OnInit {
 
   getColumnName(columnName: keyof CollectionCardState): string {
     switch (columnName) {
-      case 'name': return 'Card Name (Owned & Missing)';
+      case 'name': return 'Card Name';
       case 'setCode': return 'Set';
       case 'ownedCount': return 'Owned';
       case 'missingCount': return 'Missing';

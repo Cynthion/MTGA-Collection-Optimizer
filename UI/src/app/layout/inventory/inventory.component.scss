@@ -15,9 +15,9 @@
       margin-top: 10px;
 
       .unknown-cards-text {
+        @extend .unknown-color;
         margin-bottom: 10px;
         font-size: 15px;
-        color: red;
       }
     }
   }

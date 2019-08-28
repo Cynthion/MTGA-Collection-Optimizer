@@ -6,7 +6,7 @@
   
     <table mat-table [dataSource]="dataSource" matSort>
     
-      <ng-container matColumnDef="name">
+      <ng-container matColumnDef="name" sticky>
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <div>Card Name</div>
         </th>

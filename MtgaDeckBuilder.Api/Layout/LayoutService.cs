@@ -41,6 +41,7 @@ namespace MtgaDeckBuilder.Api.Layout
                         }).ToArray()
                     })
                     .Where(d => !d.Name.Contains("?=?"))
+                    .Where(d => d.Name.Contains("Eternal Thirs")) // TODO remove
                     .OrderBy(d => d.Name)
                     .ToArray()
             };

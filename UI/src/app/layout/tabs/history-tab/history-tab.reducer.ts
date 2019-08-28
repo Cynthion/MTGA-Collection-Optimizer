@@ -6,61 +6,40 @@ import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions'
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
   switch (action.type) {
     case HistoryTabActionTypes.CalculateHistoryDeltas: {
+      const historyDeltas = [...state.historyDeltas];
+      const existingCardRecords: CardRecord[] = action.playerCards.map(pc => ({
+        id: pc.mtgaId,
+        count: pc.ownedCount,
+      }));
 
-      const existingRecords: CardRecord[] = [
-        {
-          id: 1,
-          count: 1,
-        },
-        {
-          id: 2,
-          count: 2,
-        },
-      ];
+      // don't add history deltas for initial load
+      if (state.existingCardRecords.length !== 0) {
+        const newCardRecords: CardRecord[] = action.playerCards.map(pc => ({
+          id: pc.mtgaId,
+          count: pc.ownedCount,
+        }));
 
-      const newRecords: CardRecord[] = [
-        existingRecords[0],
-        {
-          id: 2,
-          count: 3,
-        },
-        {
-          id: 3,
-          count: 1,
-        },
-      ];
+        const deltaCardRecords: CardRecord[] = _.differenceWith(newCardRecords, state.existingCardRecords, _.isEqual);
 
-      const deltas = _.differenceWith(newRecords, existingRecords, _.isEqual);
-      console.log(deltas);
+        for (const deltaRecord of deltaCardRecords) {
+          historyDeltas.push({
+            mtgaId: deltaRecord.id,
+            timeStamp: 'now',
+          });
+        }
+      }
 
-      return state;
-
-      // const existingPlayerCardIds = action.playerCardIds;
-      // const historyDeltas = [...state.historyDeltas];
-
-      // // don't add history deltas for initial load
-      // if (state.existingPlayerCardIds.length !== 0) {
-      //   const newPlayerCardIds = action.playerCardIds;
-      //   const deltaPlayerCardIds = _.difference(newPlayerCardIds, state.existingPlayerCardIds);
-
-      //   for (const deltaPlayerCardId of deltaPlayerCardIds) {
-
-      //     historyDeltas.push({
-      //       mtgaId: deltaPlayerCardId,
-      //       timeStamp: 'now',
-      //     });
-      //   }
-      // }
-
-      // return {
-      //   ...state,
-      //   existingPlayerCardIds,
-      //   historyDeltas: historyDeltas,
-      // };
+      return {
+        ...state,
+        existingCardRecords,
+        historyDeltas: historyDeltas,
+      };
     }
 
     case HistoryTabActionTypes.UpdateHistoryCards: {
-      const historyCards: HistoryCardState[] = [];
+      // TODO remove after UI mock is not needed anymore
+      // const historyCards: HistoryCardState[] = [];
+      const historyCards = state.historyCards;
 
       for (const historyDelta of state.historyDeltas) {
         const collectionCard = action.collectionCards.find(cc => cc.mtgaId === historyDelta.mtgaId);

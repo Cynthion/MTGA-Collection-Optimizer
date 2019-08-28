@@ -5,4 +5,45 @@
   display: flex;
   flex-direction: column;
   
+  .table-container {
+    flex: 1 1 auto; // takes rest of vertical space
+    overflow: auto; // if overflow is clipped, a scroll-bar should be added to see the rest of the content
+    height: 1px; // overflow only works for blocks with specified height, flex-grow of 1 scales the rest of the element to take the available room
+    -webkit-user-select: none;
+
+    >table {
+      width: 100% !important;
+    }
+
+    .mat-row {
+      height: 30px;
+    }
+
+    .mat-row:hover {
+      background-color: $theme-accent-color-a700;
+    }
+
+    .subheader-row {
+      height: auto;
+    }
+    
+    th.mat-header-cell {
+      border-bottom-width: 0px;
+    }
+  
+    th.mat-header-cell:last-of-type {
+      padding-right: 0px;
+    }
+    .mat-header-cell,
+    .mat-cell {
+      text-align: center;
+      min-width: 60px;
+    }
+    
+    .mat-table-sticky:first-child {
+      border-right: 1px solid $theme-accent-color;
+      text-align: left !important;
+      min-width: 200px;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, merge } from 'rxjs';
@@ -14,7 +14,7 @@ import { UpdateHistoryCardsAction } from './history-tab.actions';
   styleUrls: ['./history-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryTabComponent {
+export class HistoryTabComponent implements OnInit {
   state$: Observable<HistoryTabState>;
 
   displayedColumns: string[] = ['name', 'timeStamp'];
@@ -41,5 +41,10 @@ export class HistoryTabComponent {
     .subscribe(([, layout]) => {
       this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
     });
+  }
+
+  // TODO remove after UI mock is not needed anymore
+  ngOnInit(): void {
+    this.actionsSubject.next(new UpdateHistoryCardsAction([], []));
   }
 }

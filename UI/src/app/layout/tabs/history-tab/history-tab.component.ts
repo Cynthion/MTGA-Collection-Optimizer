@@ -5,6 +5,9 @@ import { Observable, merge } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 import * as _ from 'lodash';
 
+import { Rarity } from '../../../domain.state';
+import { getRarityClass } from '../../../domain.utils';
+
 import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
 import { UpdateHistoryCardsAction } from './history-tab.actions';
 
@@ -17,7 +20,7 @@ import { UpdateHistoryCardsAction } from './history-tab.actions';
 export class HistoryTabComponent implements OnInit {
   state$: Observable<HistoryTabState>;
 
-  displayedColumns: string[] = ['name', 'timeStamp'];
+  displayedColumns: string[] = ['name', 'setCode', 'timeStamp'];
   dataSource: MatTableDataSource<HistoryCardState>;
 
   constructor(
@@ -46,5 +49,9 @@ export class HistoryTabComponent implements OnInit {
   // TODO remove after UI mock is not needed anymore
   ngOnInit(): void {
     this.actionsSubject.next(new UpdateHistoryCardsAction([], []));
+  }
+
+  getRarityColorClass(rarity: Rarity): string {
+    return getRarityClass(rarity);
   }
 }

@@ -6,8 +6,9 @@ import { withLatestFrom } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
 
-import { percentageToHsl } from '../../../util/colors';
 import { PlayerDeckState, Rarity } from '../../../domain.state';
+import { getRarityClass } from '../../../domain.utils';
+import { percentageToHsl } from '../../../util/colors';
 import { CollectionCardState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
@@ -144,17 +145,8 @@ export class DecksTabComponent implements OnInit {
     return `${playerDeck.name}-subheader`;
   }
 
-  getRarityClass(columnName: keyof CollectionCardState, card: CollectionCardState): string {
-    if (columnName === 'name') {
-      switch (card.rarity) {
-        case Rarity['Mythic Rare']: return 'mythic';
-        case Rarity.Rare: return 'rare';
-        case Rarity.Uncommon: return 'uncommon';
-        case Rarity.Common: return 'common';
-        case Rarity.Basic: return 'basic';
-      }
-    }
-    return 'unknown';
+  getRarityColorClass(rarity: Rarity): string {
+    return getRarityClass(rarity);
   }
 
   getRequiredCount(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {

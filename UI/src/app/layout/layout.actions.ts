@@ -15,7 +15,9 @@ export class LoadDataAction implements Action {
 export class InitializeLayoutAction implements Action {
   readonly type = LayoutActionTypes.Initialize;
 
-  constructor (public dto: LayoutDto) { }
+  constructor (
+    public dto: LayoutDto
+  ) { }
 }
 
 export class CalculateCollectionCardsAction implements Action {

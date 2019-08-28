@@ -1,13 +1,17 @@
 import { Action } from '@ngrx/store';
 
 export enum HistoryTabActionTypes {
-  NewCardAdded = '[History Tab] New Card Added',
+  CalculateHistoryDeltas = '[History Tab] Calculate History Deltas',
 }
 
-export class NewCardAddedAction implements Action {
-  readonly type = HistoryTabActionTypes.NewCardAdded;
+export class CalculateHistoryDeltasAction implements Action {
+  readonly type = HistoryTabActionTypes.CalculateHistoryDeltas;
+
+  constructor(
+    public playerCardIds: number[]
+  ) { }
 }
 
 export type HistoryTabActions =
-  | NewCardAddedAction
+  | CalculateHistoryDeltasAction
   ;

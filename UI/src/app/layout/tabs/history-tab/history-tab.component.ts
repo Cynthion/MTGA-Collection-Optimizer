@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, merge } from 'rxjs';
-import { withLatestFrom, subscribeOn } from 'rxjs/operators';
+import { withLatestFrom } from 'rxjs/operators';
 import * as _ from 'lodash';
 
-import { HistoryTabState, State } from './history-tab.state';
+import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
 import { UpdateHistoryCardsAction } from './history-tab.actions';
 
 @Component({
@@ -16,11 +17,17 @@ import { UpdateHistoryCardsAction } from './history-tab.actions';
 export class HistoryTabComponent {
   state$: Observable<HistoryTabState>;
 
+  displayedColumns: string[] = ['name', 'timeStamp'];
+  dataSource: MatTableDataSource<HistoryCardState>;
+
   constructor(
     private store: Store<State>,
     private actionsSubject: ActionsSubject,
   ) {
     this.state$ = this.store.select(s => s.historyTab);
+
+    this.store.select(s => s.historyTab.historyCards)
+      .subscribe(historyCards => this.dataSource = new MatTableDataSource(historyCards));
 
     const historyRelevantDataChanged$ = merge(
       this.store.select(s => s.layout.collectionCards.length),

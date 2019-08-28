@@ -1,3 +1,29 @@
 <div class="history-tab-container">
-  HISTORY TAB
+  <div class="table-container mat-elevation-z8">
+    <div class="scrollbar" id="scrollbar-style">
+      <div class="force-overflow"></div>
+    </div>
+  
+    <table mat-table [dataSource]="dataSource" matSort>
+    
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <div>Name</div>
+        </th>
+        <td mat-cell *matCellDef="let historyCard"> {{ historyCard.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="timeStamp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <div>TimeStamp</div>
+        </th>
+        <td mat-cell *matCellDef="let historyCard"> {{ historyCard.timeStamp }}
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>

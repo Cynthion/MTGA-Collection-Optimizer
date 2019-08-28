@@ -12,7 +12,7 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
       // don't add history deltas for initial load
       if (state.existingPlayerCardIds.length !== 0) {
         const newPlayerCardIds = action.playerCardIds;
-        const deltaPlayerCardIds = _.without(newPlayerCardIds, state.existingPlayerCardIds);
+        const deltaPlayerCardIds = _.difference(newPlayerCardIds, state.existingPlayerCardIds);
 
         for (const deltaPlayerCardId of deltaPlayerCardIds) {
 

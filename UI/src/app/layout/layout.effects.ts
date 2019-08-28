@@ -27,7 +27,7 @@ export class LayoutEffects {
             'layout/load-data',
             dto => [
               new InitializeLayoutAction(dto),
-              new CalculateHistoryDeltasAction(dto.playerCards.map(pc => pc.mtgaId)),
+              new CalculateHistoryDeltasAction(dto.playerCards),
               new CalculateCollectionCardsAction(),
               new CalculateDeckCompletenessAction(),
             ]

@@ -3,6 +3,11 @@ import { CollectionCardState } from '../../layout.state';
 
 export const HISTORY_TAB_MODULE_FEATURE_NAME: keyof State = 'historyTab';
 
+export interface CardRecord {
+  id: number;
+  count: number;
+}
+
 export interface HistoryDelta {
   mtgaId: number;
   timeStamp: string;

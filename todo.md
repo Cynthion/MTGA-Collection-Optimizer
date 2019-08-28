@@ -60,6 +60,7 @@
 - [ ] collection progresses
 
 # Optimization / Refactoring
+- [ ] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
 - [X] remove file storage and set loader
 - [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
 - [ ] parse log file async

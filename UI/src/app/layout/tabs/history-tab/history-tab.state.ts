@@ -4,7 +4,7 @@ import { CollectionCardState } from '../../layout.state';
 export const HISTORY_TAB_MODULE_FEATURE_NAME: keyof State = 'historyTab';
 
 export interface HistoryDelta {
-  cardId: number;
+  mtgaId: number;
   timeStamp: string;
 }
 
@@ -14,7 +14,7 @@ export interface State extends ParentState {
 
 export interface HistoryCardState extends CollectionCardState {
   timeStamp: string;
-  requiringDecks: string[];
+  requiringDeckNames: string[];
 }
 
 export interface HistoryTabState {

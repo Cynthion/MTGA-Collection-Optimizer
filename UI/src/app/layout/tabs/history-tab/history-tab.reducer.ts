@@ -20,11 +20,12 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
         }));
 
         const deltaCardRecords: CardRecord[] = _.differenceWith(newCardRecords, state.existingCardRecords, _.isEqual);
+        const timeStamp = new Date();
 
         for (const deltaRecord of deltaCardRecords) {
           historyDeltas.push({
             mtgaId: deltaRecord.id,
-            timeStamp: 'now',
+            timeStamp,
           });
         }
       }
@@ -49,8 +50,21 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
         historyCards.push({
           ...collectionCard,
           timeStamp: historyDelta.timeStamp,
+          timeStampPrettyPrint: '',
           requiringDeckNames,
         });
+      }
+
+      return {
+        ...state,
+        historyCards,
+      };
+    }
+
+    case HistoryTabActionTypes.UpdateTimestampPrettyPrint: {
+      const historyCards = [...state.historyCards];
+      for (const historyCard of historyCards) {
+        historyCard.timeStampPrettyPrint = getTimestampPrettyPrint(historyCard.timeStamp, action.date);
       }
 
       return {
@@ -62,5 +76,19 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
     default: {
       return state;
     }
+  }
+
+  function getTimestampPrettyPrint(oldDate: Date, newDate: Date): string {
+    const diff = Math.abs(oldDate.getTime() - newDate.getTime());
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+
+    if (seconds < 60) {
+      return `${seconds} ${seconds < 2 ? 'second' : 'seconds'} ago`;
+    }
+    if (minutes < 60) {
+      return `${minutes} ${minutes < 2 ? 'minute' : 'minutes'} ago`;
+    }
+    return oldDate.toLocaleString();
   }
 }

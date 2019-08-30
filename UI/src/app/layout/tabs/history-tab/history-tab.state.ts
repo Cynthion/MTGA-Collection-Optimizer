@@ -11,7 +11,7 @@ export interface CardRecord {
 
 export interface HistoryDelta {
   mtgaId: number;
-  timeStamp: string;
+  timeStamp: Date;
 }
 
 export interface State extends ParentState {
@@ -19,7 +19,8 @@ export interface State extends ParentState {
 }
 
 export interface HistoryCardState extends CollectionCardState {
-  timeStamp: string;
+  timeStamp: Date;
+  timeStampPrettyPrint: string;
   requiringDeckNames: string[];
 }
 
@@ -41,7 +42,8 @@ export const initialHistoryTabState: HistoryTabState = {
     requiredCount: 0,
     requiringDeckNames: ['mock'],
     setCode: 'M19',
-    timeStamp: 'mock',
+    timeStamp: new Date(),
+    timeStampPrettyPrint: '0 seconds ago',
     wildcardWorthinessFactor: 0,
   }],
 };

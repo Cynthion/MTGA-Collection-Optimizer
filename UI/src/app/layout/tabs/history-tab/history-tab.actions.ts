@@ -6,6 +6,7 @@ import { CollectionCardState } from '../../layout.state';
 export enum HistoryTabActionTypes {
   CalculateHistoryDeltas = '[History Tab] Calculate History Deltas',
   UpdateHistoryCards = '[History Tab] Update History Cards',
+  UpdateTimestampPrettyPrint = '[History Tab] Update Timestamp Pretty Print',
 }
 
 export class CalculateHistoryDeltasAction implements Action {
@@ -25,7 +26,16 @@ export class UpdateHistoryCardsAction implements Action {
   ) { }
 }
 
+export class UpdateTimestampPrettyPrintAction implements Action {
+  readonly type = HistoryTabActionTypes.UpdateTimestampPrettyPrint;
+
+  constructor(
+    public date: Date,
+  ) { }
+}
+
 export type HistoryTabActions =
   | CalculateHistoryDeltasAction
   | UpdateHistoryCardsAction
+  | UpdateTimestampPrettyPrintAction
   ;

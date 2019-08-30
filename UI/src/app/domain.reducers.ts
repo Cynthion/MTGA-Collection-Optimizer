@@ -11,9 +11,9 @@ export function playerCardsReducer(state: PlayerCardState = initialPlayerCardSta
       const newState = {
         ...state,
         ...action.dto,
-        name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
+        name: !!mtgCard ? mtgCard.get('prettyName') : '<?>',
         rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
-        setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
+        setCode:  !!mtgCard ? mtgCard.get('set') : '<?>',
       };
 
       // exception: if the card is a Basic Land, MTGA provides infinite copies of it instead of 1
@@ -38,9 +38,9 @@ export function deckCardReducer(state: DeckCardState = initialDeckCardState, act
       return {
         ...state,
         ...action.dto,
-        name: !!mtgCard ? mtgCard.get('prettyName') : '<Unknown Name>',
+        name: !!mtgCard ? mtgCard.get('prettyName') : '<?>',
         rarity: !!mtgCard ? Rarity[`${mtgCard.get('rarity')}`] : Rarity.Unknown,
-        setCode:  !!mtgCard ? mtgCard.get('set') : '<Unknown Set>',
+        setCode:  !!mtgCard ? mtgCard.get('set') : '<?>',
       };
     }
 

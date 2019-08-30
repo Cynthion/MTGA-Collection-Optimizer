@@ -87,9 +87,14 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
       // sort
       collectionCards = _.orderBy(collectionCards, ['rarity', 'name'], ['desc', 'asc']);
 
+      const collectionCardsOwnedCountTotal = _.sumBy(collectionCards, 'ownedCount');
+      const collectionCardsRequiredCountTotal = _.sumBy(collectionCards, 'requiredCount');
+
       return {
         ...state,
         collectionCards,
+        collectionCardsOwnedCountTotal,
+        collectionCardsRequiredCountTotal,
       };
     }
 

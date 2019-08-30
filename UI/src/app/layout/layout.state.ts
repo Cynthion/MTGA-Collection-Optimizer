@@ -26,6 +26,8 @@ export interface LayoutState extends LayoutDto {
   playerCards: PlayerCardState[];
   playerDecks: PlayerDeckState[];
   collectionCards: CollectionCardState[];
+  collectionCardsOwnedCountTotal: number;
+  collectionCardsRequiredCountTotal: number;
   tabs: TabsState;
 }
 
@@ -34,5 +36,7 @@ export const initialLayoutState: LayoutState = {
   playerCards: [initialPlayerCardState],
   playerDecks: [initialPlayerDeckState],
   collectionCards: [],
+  collectionCardsOwnedCountTotal: 0,
+  collectionCardsRequiredCountTotal: 0,
   tabs: initialTabsState,
 };

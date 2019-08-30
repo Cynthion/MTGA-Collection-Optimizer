@@ -20,7 +20,7 @@ import { UpdateHistoryCardsAction, UpdateTimestampPrettyPrintAction } from './hi
 export class HistoryTabComponent implements OnInit, OnDestroy {
   state$: Observable<HistoryTabState>;
 
-  displayedColumns: string[] = ['name', 'setCode', 'timeStamp'];
+  displayedColumns: string[] = ['name', 'setCode', 'requiringDeckNames', 'timeStamp'];
   dataSource: MatTableDataSource<HistoryCardState>;
 
   timeSubscription: Subscription;
@@ -37,8 +37,8 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
       .subscribe(historyCards => this.dataSource = new MatTableDataSource(historyCards));
 
     const historyRelevantDataChanged$ = merge(
-      this.store.select(s => s.layout.collectionCards.length),
-      this.store.select(s => s.layout.playerDecks.length),
+      this.store.select(s => s.layout.collectionCardsOwnedCountTotal),
+      this.store.select(s => s.layout.collectionCardsRequiredCountTotal),
     );
 
     historyRelevantDataChanged$
@@ -61,9 +61,6 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
     this.soundEffect = new Audio();
     this.soundEffect.src = 'assets/sound/newCard.mp3';
     this.soundEffect.load();
-
-    // TODO remove after UI mock is not needed anymore
-    this.actionsSubject.next(new UpdateHistoryCardsAction([], []));
   }
 
   ngOnDestroy(): void {

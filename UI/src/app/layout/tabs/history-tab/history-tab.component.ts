@@ -24,6 +24,7 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<HistoryCardState>;
 
   timeSubscription: Subscription;
+  soundEffect: any;
 
   constructor(
     private store: Store<State>,
@@ -48,14 +49,20 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
       this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
     });
 
-    this.timeSubscription = interval(10000).subscribe(val => {
+    this.timeSubscription = interval(30000).subscribe(val => {
       this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
       this.changeDetector.markForCheck();
+      // this.soundEffect.play();
     });
   }
 
-  // TODO remove after UI mock is not needed anymore
   ngOnInit(): void {
+
+    this.soundEffect = new Audio();
+    this.soundEffect.src = 'assets/sound/newCard.mp3';
+    this.soundEffect.load();
+
+    // TODO remove after UI mock is not needed anymore
     this.actionsSubject.next(new UpdateHistoryCardsAction([], []));
   }
 

@@ -90,8 +90,6 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
       const collectionCardsOwnedCountTotal = _.sumBy(collectionCards, 'ownedCount');
       const collectionCardsRequiredCountTotal = _.sumBy(collectionCards, 'requiredCount');
 
-      console.log(collectionCardsOwnedCountTotal, collectionCardsRequiredCountTotal);
-
       return {
         ...state,
         collectionCards,

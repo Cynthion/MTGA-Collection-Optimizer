@@ -40,7 +40,7 @@ export function appReducer(state = initialAppState, action: AppActions): AppStat
 
 export function debugMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    console.log(action);
+    // console.log(action);
 
     return reducer(state, action);
   };

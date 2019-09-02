@@ -6,6 +6,8 @@ import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions'
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
   switch (action.type) {
     case HistoryTabActionTypes.CalculateHistoryDeltas: {
+      const startTime = new Date();
+
       let historyDeltas = [...state.historyDeltas];
       const existingCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
         id: pc.mtgaId,
@@ -32,6 +34,10 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
 
       historyDeltas = _.orderBy(historyDeltas, ['timeStamp', 'name'], ['desc', 'asc']);
 
+      const endTime = new Date();
+      const diff = endTime.getTime() - startTime.getTime();
+      console.log('CalculateHistoryDeltas:', diff, 'ms');
+
       return {
         ...state,
         existingCardRecords,
@@ -40,6 +46,7 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
     }
 
     case HistoryTabActionTypes.UpdateHistoryCards: {
+      const startTime = new Date();
       const historyCards: HistoryCardState[] = [];
 
       for (const historyDelta of state.historyDeltas) {
@@ -54,6 +61,10 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
           requiringDeckNames,
         });
       }
+
+      const endTime = new Date();
+      const diff = endTime.getTime() - startTime.getTime();
+      console.log('UpdateHistoryCards:', diff, 'ms');
 
       return {
         ...state,

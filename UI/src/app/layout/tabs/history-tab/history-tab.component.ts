@@ -31,8 +31,10 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
     private actionsSubject: ActionsSubject,
     private changeDetector: ChangeDetectorRef,
   ) {
+    this.changeDetector.detach();
     this.state$ = this.store.select(s => s.historyTab);
 
+    this.dataSource = new MatTableDataSource([]);
     this.store.select(s => s.historyTab.historyCards)
       .subscribe(historyCards => {
         this.dataSource = new MatTableDataSource(historyCards);
@@ -48,19 +50,20 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
         withLatestFrom(this.store.select(s => s.layout)),
       )
       .subscribe(([, layout]) => {
+        console.log('historyRelevantDataChanged$');
         this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
-        this.changeDetector.markForCheck();
+        this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
+        this.changeDetector.detectChanges();
+        // console.log('markedForCheck');
     });
 
     this.timeSubscription = interval(15000).subscribe(val => {
       this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
-      this.changeDetector.markForCheck();
-      // this.soundEffect.play();
+      // this.changeDetector.markForCheck();
     });
   }
 
   ngOnInit(): void {
-
     this.soundEffect = new Audio();
     this.soundEffect.src = 'assets/sound/newCard.mp3';
     this.soundEffect.load();

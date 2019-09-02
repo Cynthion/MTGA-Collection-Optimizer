@@ -1,12 +1,17 @@
 ﻿using System.Linq;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
 using MtgaDeckBuilder.Api.LogImport;
+using NLog;
 
 namespace MtgaDeckBuilder.Api.Layout
 {
     public class LayoutService : ILayoutService
     {
+        private static readonly ILogger Logger = LogManager.GetLogger(nameof(LogParser));
+
         private readonly ILogParser _logParser;
+        // TODO remove
+        private int _counter = 1;
 
         public LayoutService(ILogParser logParser)
         {
@@ -21,6 +26,9 @@ namespace MtgaDeckBuilder.Api.Layout
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = _logParser.ParsePlayerDecks();
 
+            var ownedCountRandom = (short)(_counter++ % 5);
+            Logger.Info(ownedCountRandom);
+
             var dto = new LayoutDto
             {
                 Inventory = inventory,
@@ -28,7 +36,7 @@ namespace MtgaDeckBuilder.Api.Layout
                     {
                         MtgaId = c.Key,
                         // TODO remove after HistoryTab UI finished
-                        OwnedCount = c.Key == 66931 ? (short)new System.Random().Next(0, 5) : c.Value,
+                        OwnedCount = c.Key == 66931 ? ownedCountRandom : c.Value,
                     })
                     .ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto

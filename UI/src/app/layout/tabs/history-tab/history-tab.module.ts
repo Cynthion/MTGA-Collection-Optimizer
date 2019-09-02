@@ -7,7 +7,6 @@ import {
   MatButtonToggleModule,
   MatInputModule,
   MatPaginatorModule,
-  MatSortModule,
   MatTableModule,
 } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,7 +24,6 @@ const matModules = [
   MatButtonToggleModule,
   MatInputModule,
   MatPaginatorModule,
-  MatSortModule,
   MatTableModule,
 ];
 

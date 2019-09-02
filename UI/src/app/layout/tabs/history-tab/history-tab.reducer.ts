@@ -6,18 +6,16 @@ import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions'
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
   switch (action.type) {
     case HistoryTabActionTypes.CalculateHistoryDeltas: {
-      const startTime = new Date();
-
       let historyDeltas = [...state.historyDeltas];
       const existingCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
-        id: pc.mtgaId,
+        mtgaId: pc.mtgaId,
         count: pc.ownedCount,
       }));
 
       // don't add history deltas for initial load
       if (state.existingCardRecords.length !== 0) {
         const newCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
-          id: pc.mtgaId,
+          mtgaId: pc.mtgaId,
           count: pc.ownedCount,
         }));
 
@@ -26,17 +24,13 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
 
         for (const deltaRecord of deltaCardRecords) {
           historyDeltas.push({
-            mtgaId: deltaRecord.id,
+            mtgaId: deltaRecord.mtgaId,
             timeStamp,
           });
         }
       }
 
       historyDeltas = _.orderBy(historyDeltas, ['timeStamp', 'name'], ['desc', 'asc']);
-
-      const endTime = new Date();
-      const diff = endTime.getTime() - startTime.getTime();
-      console.log('CalculateHistoryDeltas:', diff, 'ms');
 
       return {
         ...state,
@@ -46,7 +40,6 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
     }
 
     case HistoryTabActionTypes.UpdateHistoryCards: {
-      const startTime = new Date();
       const historyCards: HistoryCardState[] = [];
 
       for (const historyDelta of state.historyDeltas) {
@@ -62,10 +55,6 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
         });
       }
 
-      const endTime = new Date();
-      const diff = endTime.getTime() - startTime.getTime();
-      console.log('UpdateHistoryCards:', diff, 'ms');
-
       return {
         ...state,
         historyCards,
@@ -73,14 +62,12 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
     }
 
     case HistoryTabActionTypes.UpdateTimestampPrettyPrint: {
-      const historyCards = [...state.historyCards];
-      for (const historyCard of historyCards) {
+      for (const historyCard of state.historyCards) {
         historyCard.timeStampPrettyPrint = getTimestampPrettyPrint(historyCard.timeStamp, action.date);
       }
 
       return {
         ...state,
-        historyCards,
       };
     }
 

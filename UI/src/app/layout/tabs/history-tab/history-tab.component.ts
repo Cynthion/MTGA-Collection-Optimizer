@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription, merge, interval } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
@@ -21,7 +20,7 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
   state$: Observable<HistoryTabState>;
 
   displayedColumns: string[] = ['name', 'setCode', 'requiringDeckNames', 'timeStamp'];
-  dataSource: MatTableDataSource<HistoryCardState>;
+  dataSource: HistoryCardState[] = [];
 
   timeSubscription: Subscription;
   soundEffect: any;
@@ -31,13 +30,14 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
     private actionsSubject: ActionsSubject,
     private changeDetector: ChangeDetectorRef,
   ) {
-    this.changeDetector.detach();
     this.state$ = this.store.select(s => s.historyTab);
 
-    this.dataSource = new MatTableDataSource([]);
+    // TODO define better workflow for all of this --> make state updates straigt forward
     this.store.select(s => s.historyTab.historyCards)
       .subscribe(historyCards => {
-        this.dataSource = new MatTableDataSource(historyCards);
+        this.dataSource = historyCards;
+        this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
+        this.changeDetector.markForCheck();
       });
 
     const historyRelevantDataChanged$ = merge(
@@ -50,16 +50,14 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
         withLatestFrom(this.store.select(s => s.layout)),
       )
       .subscribe(([, layout]) => {
-        console.log('historyRelevantDataChanged$');
         this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
         this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
-        this.changeDetector.detectChanges();
-        // console.log('markedForCheck');
-    });
+        this.changeDetector.markForCheck();
+      });
 
-    this.timeSubscription = interval(15000).subscribe(val => {
+    this.timeSubscription = interval(10000).subscribe(val => {
       this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
-      // this.changeDetector.markForCheck();
+      this.changeDetector.markForCheck();
     });
   }
 
@@ -75,5 +73,9 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
 
   getRarityColorClass(rarity: Rarity): string {
     return getRarityClass(rarity);
+  }
+
+  trackTableItem(index: number, item: HistoryCardState) {
+    return !!item ? item.mtgaId + item.timeStamp.toString() : 0;
   }
 }

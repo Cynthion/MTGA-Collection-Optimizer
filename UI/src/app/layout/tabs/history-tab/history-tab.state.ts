@@ -5,7 +5,7 @@ import { Rarity } from '../../../domain.state';
 export const HISTORY_TAB_MODULE_FEATURE_NAME: keyof State = 'historyTab';
 
 export interface CardRecord {
-  id: number;
+  mtgaId: number;
   count: number;
 }
 

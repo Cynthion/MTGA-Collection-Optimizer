@@ -4,10 +4,10 @@
       <div class="force-overflow"></div>
     </div>
   
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" [trackBy]="trackTableItem">
     
       <ng-container matColumnDef="name" sticky class="name-column">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef>
           <div>Card Name</div>
         </th>
         <td mat-cell *matCellDef="let historyCard" [ngClass]="getRarityColorClass(historyCard.rarity)"> 
@@ -16,7 +16,7 @@
       </ng-container>
 
       <ng-container matColumnDef="setCode" class="set-column">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef>
           <div>Set</div>
         </th>
         <td mat-cell *matCellDef="let historyCard"> 
@@ -34,7 +34,7 @@
       </ng-container>
 
       <ng-container matColumnDef="timeStamp" class="time-column">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef>
           <div>Time</div>
         </th>
         <td mat-cell *matCellDef="let historyCard"> 

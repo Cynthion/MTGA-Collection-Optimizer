@@ -6,7 +6,7 @@
   
     <table mat-table [dataSource]="dataSource" matSort>
     
-      <ng-container matColumnDef="name" sticky>
+      <ng-container matColumnDef="name" sticky class="name-column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <div>Card Name</div>
         </th>
@@ -15,7 +15,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="setCode">
+      <ng-container matColumnDef="setCode" class="set-column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <div>Set</div>
         </th>
@@ -24,7 +24,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="requiringDeckNames">
+      <ng-container matColumnDef="requiringDeckNames" class="requiring-decks-column">
         <th mat-header-cell *matHeaderCellDef>
           <div>Required for Decks</div>
         </th>
@@ -33,7 +33,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="timeStamp">
+      <ng-container matColumnDef="timeStamp" class="time-column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <div>Time</div>
         </th>

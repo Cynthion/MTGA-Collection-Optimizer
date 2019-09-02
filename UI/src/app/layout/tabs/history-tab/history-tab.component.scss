@@ -37,13 +37,26 @@
     .mat-header-cell,
     .mat-cell {
       text-align: center;
-      min-width: 60px;
     }
     
     .mat-table-sticky:first-child {
       border-right: 1px solid $theme-accent-color;
       text-align: left !important;
-      min-width: 200px;
+    }
+
+    .name-column {
+    }
+
+    .set-column {
+
+    }
+
+    .requiring-decks-column {
+
+    }
+
+    .time-column {
+
     }
   }
 }

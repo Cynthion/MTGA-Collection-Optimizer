@@ -34,7 +34,9 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
     this.state$ = this.store.select(s => s.historyTab);
 
     this.store.select(s => s.historyTab.historyCards)
-      .subscribe(historyCards => this.dataSource = new MatTableDataSource(historyCards));
+      .subscribe(historyCards => {
+        this.dataSource = new MatTableDataSource(historyCards);
+      });
 
     const historyRelevantDataChanged$ = merge(
       this.store.select(s => s.layout.collectionCardsOwnedCountTotal),
@@ -45,11 +47,12 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
       .pipe(
         withLatestFrom(this.store.select(s => s.layout)),
       )
-    .subscribe(([, layout]) => {
-      this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
+      .subscribe(([, layout]) => {
+        this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
+        this.changeDetector.markForCheck();
     });
 
-    this.timeSubscription = interval(30000).subscribe(val => {
+    this.timeSubscription = interval(15000).subscribe(val => {
       this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
       this.changeDetector.markForCheck();
       // this.soundEffect.play();

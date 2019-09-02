@@ -6,15 +6,15 @@ import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions'
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
   switch (action.type) {
     case HistoryTabActionTypes.CalculateHistoryDeltas: {
-      const historyDeltas = [...state.historyDeltas];
-      const existingCardRecords: CardRecord[] = action.playerCards.map(pc => ({
+      let historyDeltas = [...state.historyDeltas];
+      const existingCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
         id: pc.mtgaId,
         count: pc.ownedCount,
       }));
 
       // don't add history deltas for initial load
       if (state.existingCardRecords.length !== 0) {
-        const newCardRecords: CardRecord[] = action.playerCards.map(pc => ({
+        const newCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
           id: pc.mtgaId,
           count: pc.ownedCount,
         }));
@@ -30,6 +30,8 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
         }
       }
 
+      historyDeltas = _.orderBy(historyDeltas, ['timeStamp', 'name'], ['desc', 'asc']);
+
       return {
         ...state,
         existingCardRecords,
@@ -38,9 +40,7 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
     }
 
     case HistoryTabActionTypes.UpdateHistoryCards: {
-      // TODO remove after UI mock is not needed anymore
-      // const historyCards: HistoryCardState[] = [];
-      const historyCards = state.historyCards;
+      const historyCards: HistoryCardState[] = [];
 
       for (const historyDelta of state.historyDeltas) {
         const collectionCard = action.collectionCards.find(cc => cc.mtgaId === historyDelta.mtgaId);

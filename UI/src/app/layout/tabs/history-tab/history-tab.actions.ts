@@ -13,7 +13,7 @@ export class CalculateHistoryDeltasAction implements Action {
   readonly type = HistoryTabActionTypes.CalculateHistoryDeltas;
 
   constructor(
-    public playerCards: PlayerCardDto[]
+    public newPlayerCards: PlayerCardDto[]
   ) { }
 }
 

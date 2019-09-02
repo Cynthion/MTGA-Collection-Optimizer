@@ -18,7 +18,7 @@ export function playerCardsReducer(state: PlayerCardState = initialPlayerCardSta
 
       // exception: if the card is a Basic Land, MTGA provides infinite copies of it instead of 1
       if (newState.rarity === Rarity['Basic Land']) {
-        newState.ownedCount = Number.POSITIVE_INFINITY;
+        newState.ownedCount = 1000;
       }
 
       return newState;

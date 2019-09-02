@@ -27,7 +27,8 @@ namespace MtgaDeckBuilder.Api.Layout
                 PlayerCards = playerCards.Select(c => new PlayerCardDto
                     {
                         MtgaId = c.Key,
-                        OwnedCount = c.Value
+                        // TODO remove after HistoryTab UI finished
+                        OwnedCount = c.Key == 66931 ? (short)new System.Random().Next(0, 5) : c.Value,
                     })
                     .ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto

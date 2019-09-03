@@ -18,6 +18,7 @@ export interface DeckRequirement {
   deckName: string;
   requiredCount: number;
   ownedCount: number;
+  isComplete: boolean;
 }
 
 export interface State extends ParentState {

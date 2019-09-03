@@ -48,10 +48,15 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
         const requiringDecks = action.playerDecks.filter(pd => _.includes(pd.cards.map(c => c.mtgaId), historyDelta.mtgaId));
         const deckRequirements: DeckRequirement[] = [];
         for (const requiringDeck of requiringDecks) {
+          const requiredCount = requiringDeck.cards.find(dc => dc.mtgaId === historyDelta.mtgaId).requiredCount;
+          const ownedCount = collectionCard.ownedCount;
+          const isComplete = ownedCount >= requiredCount;
+
           deckRequirements.push({
             deckName: requiringDeck.name,
-            requiredCount: requiringDeck.cards.find(dc => dc.mtgaId === historyDelta.mtgaId).requiredCount,
-            ownedCount: collectionCard.ownedCount,
+            requiredCount,
+            ownedCount,
+            isComplete,
           });
         }
 

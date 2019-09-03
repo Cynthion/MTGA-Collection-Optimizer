@@ -31,7 +31,7 @@
         <td mat-cell *matCellDef="let historyCard"> 
           <ul>
             <li *ngFor="let deckRequirement of historyCard.deckRequirements">
-              {{ deckRequirement.deckName }} ({{deckRequirement.ownedCount}}/{{deckRequirement.requiredCount}})
+              ({{ getOwnedOfRequired(deckRequirement) }}) {{ deckRequirement.deckName }}
             </li>
           </ul>
         </td>

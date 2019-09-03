@@ -10,3 +10,10 @@ export function getRarityClass(rarity: Rarity): string {
     default: return 'unknown-color';
   }
 }
+
+export function getOwnedOfRequired(ownedCount: number, requiredCount: number): string {
+  const count = ownedCount > requiredCount
+    ? requiredCount
+    : ownedCount;
+  return `${count} / ${requiredCount}`;
+}

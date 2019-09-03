@@ -5,9 +5,9 @@ import { withLatestFrom } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
-import { getRarityClass } from '../../../domain.utils';
+import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
 
-import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
+import { HistoryTabState, State, HistoryCardState, DeckRequirement } from './history-tab.state';
 import { UpdateHistoryCardsAction, UpdateTimestampPrettyPrintAction } from './history-tab.actions';
 
 @Component({
@@ -73,6 +73,10 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
 
   getRarityColorClass(rarity: Rarity): string {
     return getRarityClass(rarity);
+  }
+
+  getOwnedOfRequired(deckRequirement: DeckRequirement): string {
+    return getOwnedOfRequired(deckRequirement.ownedCount, deckRequirement.requiredCount);
   }
 
   trackTableItem(index: number, item: HistoryCardState) {

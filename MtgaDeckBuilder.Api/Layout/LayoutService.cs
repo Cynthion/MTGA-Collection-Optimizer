@@ -26,8 +26,7 @@ namespace MtgaDeckBuilder.Api.Layout
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = _logParser.ParsePlayerDecks();
 
-            var ownedCountRandom = (short)(_counter++ % 5);
-            Logger.Info(ownedCountRandom);
+            // var ownedCountRandom = (short)(_counter++ % 5);
 
             var dto = new LayoutDto
             {
@@ -36,7 +35,7 @@ namespace MtgaDeckBuilder.Api.Layout
                     {
                         MtgaId = c.Key,
                         // TODO remove after HistoryTab UI finished
-                        OwnedCount = c.Key == 66931 ? ownedCountRandom : c.Value,
+                        OwnedCount = c.Value, //c.Key == 66931 ? ownedCountRandom : c.Value,
                     })
                     .ToArray(),
                 PlayerDecks = playerDecks.Select(d => new PlayerDeckDto

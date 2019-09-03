@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription, merge, interval } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { UpdateHistoryCardsAction, UpdateTimestampPrettyPrintAction } from './hi
   styleUrls: ['./history-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryTabComponent implements OnInit, OnDestroy {
+export class HistoryTabComponent implements OnDestroy {
   state$: Observable<HistoryTabState>;
 
   displayedColumns: string[] = ['name', 'setCode', 'requiringDeckNames', 'timeStamp'];
@@ -31,6 +31,10 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
   ) {
     this.state$ = this.store.select(s => s.historyTab);
+
+    this.soundEffect = new Audio();
+    this.soundEffect.src = 'assets/sound/newCard.mp3';
+    this.soundEffect.load();
 
     // TODO define better workflow for all of this --> make state updates straigt forward
     this.store.select(s => s.historyTab.historyCards)
@@ -53,18 +57,13 @@ export class HistoryTabComponent implements OnInit, OnDestroy {
         this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
         this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
         this.changeDetector.markForCheck();
+        this.soundEffect.play();
       });
 
     this.timeSubscription = interval(10000).subscribe(val => {
       this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
       this.changeDetector.markForCheck();
     });
-  }
-
-  ngOnInit(): void {
-    this.soundEffect = new Audio();
-    this.soundEffect.src = 'assets/sound/newCard.mp3';
-    this.soundEffect.load();
   }
 
   ngOnDestroy(): void {

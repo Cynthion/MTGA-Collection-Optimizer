@@ -39,7 +39,9 @@
     "e2e": "npm run postinstall:web && ng e2e",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-sass": "^4.12.0"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.12.1",
     "@angular/animations": "~7.2.0",

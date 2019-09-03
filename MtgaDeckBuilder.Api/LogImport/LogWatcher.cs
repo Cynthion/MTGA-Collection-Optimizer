@@ -56,10 +56,10 @@ namespace MtgaDeckBuilder.Api.LogImport
                             Logger.Info("No changes in Output Log.");
 
                             // TODO remove after HistoryTab has been tested
-                            await _serverSentEventsService.SendEventAsync(new ServerSentEvent
-                            {
-                                Data = new List<string>(new[] { "UI TEST" })
-                            }, cancellationToken);
+                            // await _serverSentEventsService.SendEventAsync(new ServerSentEvent
+                            // {
+                            //     Data = new List<string>(new[] { "UI TEST" })
+                            // }, cancellationToken);
                         }
                     }
                     else

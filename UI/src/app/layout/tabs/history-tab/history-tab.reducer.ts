@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { HistoryTabState, initialHistoryTabState, HistoryCardState, CardRecord } from './history-tab.state';
+import { HistoryTabState, initialHistoryTabState, HistoryCardState, CardRecord, DeckRequirement } from './history-tab.state';
 import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions';
 
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
@@ -45,13 +45,21 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
       for (const historyDelta of state.historyDeltas) {
         const collectionCard = action.collectionCards.find(cc => cc.mtgaId === historyDelta.mtgaId);
 
-        const requiringDeckNames = action.playerDecks.filter(pd => _.includes(pd.cards.map(c => c.mtgaId), historyDelta.mtgaId)).map(pd => pd.name);
+        const requiringDecks = action.playerDecks.filter(pd => _.includes(pd.cards.map(c => c.mtgaId), historyDelta.mtgaId));
+        const deckRequirements: DeckRequirement[] = [];
+        for (const requiringDeck of requiringDecks) {
+          deckRequirements.push({
+            deckName: requiringDeck.name,
+            requiredCount: requiringDeck.cards.find(dc => dc.mtgaId === historyDelta.mtgaId).requiredCount,
+            ownedCount: collectionCard.ownedCount,
+          });
+        }
 
         historyCards.push({
           ...collectionCard,
           timeStamp: historyDelta.timeStamp,
           timeStampPrettyPrint: '',
-          requiringDeckNames,
+          deckRequirements,
         });
       }
 

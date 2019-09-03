@@ -6,6 +6,7 @@ import {
   MatButtonModule,
   MatButtonToggleModule,
   MatInputModule,
+  MatListModule,
   MatPaginatorModule,
   MatTableModule,
 } from '@angular/material';
@@ -23,8 +24,10 @@ const matModules = [
   MatButtonModule,
   MatButtonToggleModule,
   MatInputModule,
+  MatListModule,
   MatPaginatorModule,
   MatTableModule,
+
 ];
 
 const components = [

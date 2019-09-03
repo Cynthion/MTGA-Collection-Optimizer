@@ -14,6 +14,12 @@ export interface HistoryDelta {
   timeStamp: Date;
 }
 
+export interface DeckRequirement {
+  deckName: string;
+  requiredCount: number;
+  ownedCount: number;
+}
+
 export interface State extends ParentState {
   historyTab: HistoryTabState;
 }
@@ -21,7 +27,7 @@ export interface State extends ParentState {
 export interface HistoryCardState extends CollectionCardState {
   timeStamp: Date;
   timeStampPrettyPrint: string;
-  requiringDeckNames: string[];
+  deckRequirements: DeckRequirement[];
 }
 
 export interface HistoryTabState {
@@ -33,33 +39,5 @@ export interface HistoryTabState {
 export const initialHistoryTabState: HistoryTabState = {
   existingCardRecords: [],
   historyDeltas: [],
-  historyCards: [
-    // TODO remove after UI mock is not needed anymore
-    {
-      mtgaId: 67682,
-      missingCount: 0,
-      ownedCount: 0,
-      name: 'Aegis of the Heavens Mock',
-      rarity: Rarity.Uncommon,
-      requiredCount: 0,
-      requiringDeckNames: ['mock, mock, mock'],
-      setCode: 'M19',
-      timeStamp: new Date(),
-      timeStampPrettyPrint: '',
-      wildcardWorthinessFactor: 0,
-    },
-    {
-      mtgaId: 66931,
-      missingCount: 0,
-      ownedCount: 0,
-      name: 'Elenda the Dusk Rose',
-      rarity: Rarity['Mythic Rare'],
-      requiredCount: 0,
-      requiringDeckNames: ['mock, mock, mock'],
-      setCode: 'RIX',
-      timeStamp: new Date(),
-      timeStampPrettyPrint: '',
-      wildcardWorthinessFactor: 0,
-    },
-  ],
+  historyCards: [],
 };

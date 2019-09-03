@@ -33,7 +33,7 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration
             {
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
-                PlayerDecksCommand = "<== Deck.GetDeckLists",
+                PlayerDecksCommand = "<== Deck.GetDeckListsV3",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
                 PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });

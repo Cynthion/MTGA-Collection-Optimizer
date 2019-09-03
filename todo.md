@@ -1,6 +1,10 @@
 # Features / Backlog
 
 ## MVP
+- [ ] use deck.deckTileId (= mtgaId format) to show deck image
+- [ ] show deck worth and make columns sortable by it
+- [ ] parse log for newly added decks with Deck.UpdateDeckV3 command
+- [ ] make history-tab sortable and searchable
 - [ ] sort columns by incompleteness and worthiness
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection

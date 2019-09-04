@@ -35,6 +35,10 @@
 - [X] detect changes and push from backend with Server Sent Events (SSE)
 - [X] try to auto-detect output log file with default path
 
+## Images
+- [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)
+- via G:\MTGArenaLive\MTGA_Data\Downloads\Data\data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON
+- lookup grpId (=mtgaId), take artId --> prefix of cardart file in G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle
 ## Bugs
 - [ ] fix error if log is empty (e.g., after patch/before first game start, before game is installed)
 - [ ] fix active tab (visual representation)
@@ -69,6 +73,11 @@
 - [ ] collection progresses
 
 # Optimization / Refactoring
+- [ ] find NuGet package for MTGA Card information, instead of npm package
+- [ ] OR load model data from game: G:\MTGArenaLive\MTGA_Data\Downloads\Data
+  - [ ] Card data: data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON
+  - [ ] Abilities: data_abilities_ --> JSON
+  - etc.
 - [ ] business logic should not be done in reducers -> move to backend
 - [ ] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
 - [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)

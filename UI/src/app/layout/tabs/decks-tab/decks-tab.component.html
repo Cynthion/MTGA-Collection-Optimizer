@@ -21,6 +21,10 @@
           (change)="onColumnSortValueChange($event)">
           Completeness
         </mat-button-toggle>
+        <mat-button-toggle value="Incompleteness" [checked]="(state$ | async).sortDeckColumnOrder === 2"
+          (change)="onColumnSortValueChange($event)">
+          Incompleteness
+        </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
   </div>

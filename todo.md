@@ -5,12 +5,13 @@
 - [ ] show deck worth and make columns sortable by it
 - [ ] parse log for newly added decks with Deck.UpdateDeckV3 command
 - [ ] make history-tab sortable and searchable
-- [ ] sort columns by incompleteness and worthiness
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
-- [ ] show owned and missing count in history-tab
+- [ ] sort columns by worthiness
+- [X] sort columns by incompleteness
+- [X] show owned and missing count in history-tab
 - [X] show required wildcards
 - [X] add About info
 - [X] show deck completeness

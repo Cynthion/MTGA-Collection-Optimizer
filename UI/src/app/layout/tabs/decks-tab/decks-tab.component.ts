@@ -96,6 +96,10 @@ export class DecksTabComponent implements OnInit {
     if (columnOrder === SortDeckColumnOrder.Completeness) {
       this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
     }
+    if (columnOrder === SortDeckColumnOrder.Incompleteness) {
+      console.log('incompletenesss sorting');
+      this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['asc']);
+    }
 
     this.deckColumns = this.playerDecks.map(d => d.name);
     this.deckColumnsSubHeaders = this.playerDecks.map(d => `${d.name}-subheader`);
@@ -128,6 +132,8 @@ export class DecksTabComponent implements OnInit {
       this.actionsSubject.next(new SortDeckColumnsAction(SortDeckColumnOrder.Alphabetical));
     } else if (newValue === 'Completeness') {
       this.actionsSubject.next(new SortDeckColumnsAction(SortDeckColumnOrder.Completeness));
+    } else if (newValue === 'Incompleteness') {
+      this.actionsSubject.next(new SortDeckColumnsAction(SortDeckColumnOrder.Incompleteness));
     }
   }
 

@@ -19,7 +19,7 @@ import { UpdateHistoryCardsAction, UpdateTimestampPrettyPrintAction } from './hi
 export class HistoryTabComponent implements OnDestroy {
   state$: Observable<HistoryTabState>;
 
-  displayedColumns: string[] = ['name', 'setCode', 'requiringDeckNames', 'timeStamp'];
+  displayedColumns: string[] = ['name', 'setCode', 'ownedCount', 'missingCount', 'requiringDeckNames', 'timeStamp'];
   dataSource: HistoryCardState[] = [];
 
   timeSubscription: Subscription;

@@ -24,6 +24,24 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="ownedCount">
+        <th mat-header-cell *matHeaderCellDef>
+          <div>Owned</div>
+        </th>
+        <td mat-cell *matCellDef="let historyCard"> 
+          {{ historyCard.ownedCount }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="missingCount">
+        <th mat-header-cell *matHeaderCellDef>
+          <div>Missing</div>
+        </th>
+        <td mat-cell *matCellDef="let historyCard"> 
+          {{ historyCard.missingCount }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="requiringDeckNames">
         <th mat-header-cell *matHeaderCellDef>
           <div>Required for Decks</div>

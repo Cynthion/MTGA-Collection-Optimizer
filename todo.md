@@ -10,6 +10,7 @@
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
+- [ ] show owned and missing count in history-tab
 - [X] show required wildcards
 - [X] add About info
 - [X] show deck completeness

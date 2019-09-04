@@ -34,6 +34,12 @@ namespace MtgaDeckBuilder.Api.LogImport
             return result ?? Enumerable.Empty<PlayerDeck>();
         }
 
+        public IEnumerable<PlayerDeck> ParsePlayerDeckUpdates()
+        {
+            var results = ParseLogAggregate(_configuration.PlayerDeckUpdateCommand, ParsePlayerDeckUpdateOccurrence);
+            return results ?? Enumerable.Empty<PlayerDeck>;
+        }
+
         public LogPlayerInventory ParsePlayerInventory()
         {
             var result = ParseLog(_configuration.PlayerInventoryCommand, ParsePlayerInventoryOccurrence);
@@ -110,6 +116,28 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerDecks;
         }
 
+        private static PlayerDeck ParsePlayerDeckUpdateOccurrence(TextReader reader)
+        {
+            string outputLine;
+            var json = string.Empty;
+
+            do
+            {
+                outputLine = reader.ReadLine();
+                json += outputLine;
+            } while (outputLine != null && !outputLine.Equals("}"));
+
+            var logDeck = JsonConvert.DeserializeObject<LogDeck>(json);
+
+            var playerDeck = new PlayerDeck
+            {
+                Id = logDeck.Id,
+                Name = logDeck.Name,
+                Cards = logDeck.MainDeck,
+            };
+            return playerDeck;
+        }
+
         private static LogPlayerInventory ParsePlayerInventoryOccurrence(TextReader reader)
         {
             string outputLine;
@@ -146,6 +174,30 @@ namespace MtgaDeckBuilder.Api.LogImport
                 } while (!streamReader.EndOfStream);
 
                 return result;
+            }
+        }
+
+        private IEnumerable<TResult> ParseLogAggregate<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
+        {
+            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                var results = Enumerable.Empty<TResult>().ToList();
+
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                    {
+                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
+
+                        var result = occurrenceAction(streamReader);
+                        results.Add(result);
+                    }
+                } while (!streamReader.EndOfStream);
+
+                return results;
             }
         }
 

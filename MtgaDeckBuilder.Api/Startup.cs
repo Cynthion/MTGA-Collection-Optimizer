@@ -34,6 +34,7 @@ namespace MtgaDeckBuilder.Api
             {
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckListsV3",
+                PlayerDeckUpdateCommand = "<== Deck.UpdateDeckV3",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
                 PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });

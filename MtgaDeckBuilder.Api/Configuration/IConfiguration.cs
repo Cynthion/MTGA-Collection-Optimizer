@@ -6,6 +6,8 @@
 
         string PlayerDecksCommand { get; set; }
 
+        string PlayerDeckUpdateCommand { get; set; }
+
         string PlayerInventoryCommand { get; set; }
 
         string PlayerNameCommand { get; set; }

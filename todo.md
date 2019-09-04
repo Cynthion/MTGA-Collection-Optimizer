@@ -9,7 +9,7 @@
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
-- [ ] sort columns by worthiness
+- [ ] sort columns by worth
 - [X] sort columns by incompleteness
 - [X] show owned and missing count in history-tab
 - [X] show required wildcards

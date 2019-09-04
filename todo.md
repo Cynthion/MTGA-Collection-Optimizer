@@ -1,15 +1,18 @@
 # Features / Backlog
 
 ## MVP
+- [ ] parse newly created decks (<== Deck.CreateDeckV3)
+- [ ] parse newly updated decks (<== Deck.UpdateDeckV3)
+- [ ] parse newly deleted decks (==> Deck.DeleteDeck)
+- [ ] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 - [ ] use deck.deckTileId (= mtgaId format) to show deck image
-- [ ] show deck worth and make columns sortable by it
 - [ ] parse log for newly added decks with Deck.UpdateDeckV3 command
 - [ ] make history-tab sortable and searchable
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
-- [ ] sort columns by worth
+- [ ] show deck worth and make columns sortable by it
 - [X] sort columns by incompleteness
 - [X] show owned and missing count in history-tab
 - [X] show required wildcards
@@ -66,11 +69,11 @@
 - [ ] collection progresses
 
 # Optimization / Refactoring
+- [ ] business logic should not be done in reducers -> move to backend
 - [ ] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
-- [X] remove file storage and set loader
 - [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
 - [ ] parse log file async
 - [ ] parse log file from end of file
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development
-- [ ] business logic should not be done in reducers
 - [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/
+- [X] remove file storage and set loader

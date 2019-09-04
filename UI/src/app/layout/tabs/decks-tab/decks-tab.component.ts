@@ -97,7 +97,6 @@ export class DecksTabComponent implements OnInit {
       this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
     }
     if (columnOrder === SortDeckColumnOrder.Incompleteness) {
-      console.log('incompletenesss sorting');
       this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['asc']);
     }
 

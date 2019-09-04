@@ -36,8 +36,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public IEnumerable<PlayerDeck> ParsePlayerDeckUpdates()
         {
-            var results = ParseLogAggregate(_configuration.PlayerDeckUpdateCommand, ParsePlayerDeckUpdateOccurrence);
-            return results ?? Enumerable.Empty<PlayerDeck>;
+            return ParseLogAggregate(_configuration.PlayerDeckUpdateCommand, ParsePlayerDeckUpdateOccurrence);
         }
 
         public LogPlayerInventory ParsePlayerInventory()

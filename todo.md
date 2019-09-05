@@ -73,6 +73,7 @@
 - [ ] collection progresses
 
 # Optimization / Refactoring
+- [ ] improve ngrx/rxjs stuff (.subscription bodys not dispatching actions, etc.)
 - [ ] find NuGet package for MTGA Card information, instead of npm package
 - [ ] OR load model data from game: G:\MTGArenaLive\MTGA_Data\Downloads\Data
   - [ ] Card data: data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON

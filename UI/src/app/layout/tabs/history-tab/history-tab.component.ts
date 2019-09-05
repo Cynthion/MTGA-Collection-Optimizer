@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { ActionsSubject, Store } from '@ngrx/store';
+import { ActionsSubject, Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge, interval } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -20,9 +20,10 @@ export class HistoryTabComponent implements OnDestroy {
   state$: Observable<HistoryTabState>;
 
   displayedColumns: string[] = ['name', 'setCode', 'ownedCount', 'missingCount', 'requiringDeckNames', 'timeStamp'];
-  dataSource: HistoryCardState[] = [];
+  dataSource$: Observable<HistoryCardState[]>;
 
   timeSubscription: Subscription;
+  historyChangedSubscription: Subscription;
   soundEffect: any;
 
   constructor(
@@ -30,26 +31,21 @@ export class HistoryTabComponent implements OnDestroy {
     private actionsSubject: ActionsSubject,
     private changeDetector: ChangeDetectorRef,
   ) {
-    this.state$ = this.store.select(s => s.historyTab);
+    this.state$ = this.store.pipe(select(s => s.historyTab));
+    this.dataSource$ = this.store.pipe(select(s => s.historyTab.historyCards));
 
-    this.soundEffect = new Audio();
-    this.soundEffect.src = 'assets/sound/newCard.mp3';
-    this.soundEffect.load();
-
-    // TODO define better workflow for all of this --> make state updates straigt forward
-    this.store.select(s => s.historyTab.historyCards)
-      .subscribe(historyCards => {
-        this.dataSource = historyCards;
-        this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
-        this.changeDetector.markForCheck();
-      });
+    // TODO make side effect
+    // this.soundEffect = new Audio();
+    // this.soundEffect.src = 'assets/sound/newCard.mp3';
+    // this.soundEffect.load();
+    // this.soundEffect.play();
 
     const historyRelevantDataChanged$ = merge(
       this.store.select(s => s.layout.collectionCardsOwnedCountTotal),
       this.store.select(s => s.layout.collectionCardsRequiredCountTotal),
     );
 
-    historyRelevantDataChanged$
+    this.historyChangedSubscription = historyRelevantDataChanged$
       .pipe(
         withLatestFrom(this.store.select(s => s.layout)),
       )
@@ -57,7 +53,6 @@ export class HistoryTabComponent implements OnDestroy {
         this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
         this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
         this.changeDetector.markForCheck();
-        this.soundEffect.play();
       });
 
     this.timeSubscription = interval(10000).subscribe(val => {
@@ -67,6 +62,7 @@ export class HistoryTabComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.historyChangedSubscription.unsubscribe();
     this.timeSubscription.unsubscribe();
   }
 

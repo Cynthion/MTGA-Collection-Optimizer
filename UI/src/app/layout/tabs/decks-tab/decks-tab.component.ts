@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
@@ -20,7 +20,7 @@ import { SortDeckColumnsAction } from './decks-tab.actions';
   styleUrls: ['./decks-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DecksTabComponent implements OnInit {
+export class DecksTabComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -36,9 +36,13 @@ export class DecksTabComponent implements OnInit {
   displayedColumns: string[];
   displayedColumnsSubHeaders: string[];
 
+  // TODO make dataSource an observable
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
   filterValue: string;
+
+  sortColumnSubscription: Subscription;
+  dataSourceSubscription: Subscription;
 
   constructor(
     private store: Store<State>,
@@ -46,14 +50,14 @@ export class DecksTabComponent implements OnInit {
   ) {
     this.state$ = this.store.select(s => s.decksTab);
 
-    this.store.select(s => s.decksTab.sortDeckColumnOrder)
+    this.sortColumnSubscription = this.store.select(s => s.decksTab.sortDeckColumnOrder)
       .subscribe(columnOrder => this.arrangeDeckColumns(columnOrder));
 
     const layoutState$ = this.store.select(s => s.layout)
       .pipe(
         withLatestFrom(this.state$)
       );
-    layoutState$.subscribe(([layoutState, decksTabState]) => {
+    this.dataSourceSubscription = layoutState$.subscribe(([layoutState, decksTabState]) => {
       this.dataSource = new MatTableDataSource(layoutState.collectionCards);
       this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
         let value: any = data[sortHeaderId];
@@ -81,6 +85,11 @@ export class DecksTabComponent implements OnInit {
 
   ngOnInit() {
     this.initializePage();
+  }
+
+  ngOnDestroy() {
+    this.sortColumnSubscription.unsubscribe();
+    this.dataSourceSubscription.unsubscribe();
   }
 
   initializePage() {

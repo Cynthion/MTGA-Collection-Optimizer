@@ -36,6 +36,7 @@ export class DecksTabComponent implements OnInit {
   displayedColumns: string[];
   displayedColumnsSubHeaders: string[];
 
+  // TODO make dataSource an observable
   dataSource: MatTableDataSource<CollectionCardState>;
   playerDecks: PlayerDeckState[];
   filterValue: string;

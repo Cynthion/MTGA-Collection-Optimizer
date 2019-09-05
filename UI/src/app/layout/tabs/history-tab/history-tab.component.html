@@ -4,7 +4,7 @@
       <div class="force-overflow"></div>
     </div>
   
-    <table mat-table [dataSource]="dataSource" [trackBy]="trackTableItem">
+    <table mat-table [dataSource]="dataSource$ | async" [trackBy]="trackTableItem">
     
       <ng-container matColumnDef="name" sticky>
         <th mat-header-cell *matHeaderCellDef>

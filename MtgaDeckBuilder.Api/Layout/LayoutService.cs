@@ -20,7 +20,29 @@ namespace MtgaDeckBuilder.Api.Layout
             var inventory = LoadInventory();
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = _logParser.ParsePlayerDecks();
+            var playerDeckCreations = _logParser.ParsePlayerDeckCreations();
             var playerDeckUpdates = _logParser.ParsePlayerDeckUpdates();
+            var playerDeckDeletions = _logParser.ParsePlayerDeckDeletions();
+
+            // merge existing decks and created decks
+            var playerDecksConsolidated = playerDecks
+                .Concat(playerDeckCreations)
+                .GroupBy(pd => pd.Id)
+                .Select(id => id.First())
+                .ToList();
+
+            // remove deleted decks
+            playerDecksConsolidated.RemoveAll(pd => playerDeckDeletions.Contains(pd.Id));
+
+            // TODO check if works
+            // replace updated decks
+            playerDecksConsolidated.ForEach(pd =>
+            {
+                if (playerDeckUpdates.Any(u => u.Id == pd.Id))
+                {
+                    pd = playerDeckUpdates.Single(u => u.Id == pd.Id);
+                }
+            });
 
             var dto = new LayoutDto
             {
@@ -32,10 +54,7 @@ namespace MtgaDeckBuilder.Api.Layout
                         OwnedCount = c.Value,
                     })
                     .ToArray(),
-                PlayerDecks = playerDecks
-                    .Concat(playerDeckUpdates)
-                    .GroupBy(pd => pd.Id)
-                    .Select(id => id.First())
+                PlayerDecks = playerDecksConsolidated
                     .Select(d => new PlayerDeckDto
                     {
                         Id = d.Id,

@@ -30,13 +30,36 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
-            var result = ParseLog(_configuration.PlayerDecksCommand, ParsePlayerDeckOccurrence);
+            var result = ParseLog(_configuration.PlayerDecksCommand, ParsePlayerDecksOccurrence);
             return result ?? Enumerable.Empty<PlayerDeck>();
+        }
+
+        public IEnumerable<PlayerDeck> ParsePlayerDeckCreations()
+        {
+            return ParseLogAggregate(_configuration.PlayerDeckCreateCommand, ParsePlayerDeckOccurrence);
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDeckUpdates()
         {
-            return ParseLogAggregate(_configuration.PlayerDeckUpdateCommand, ParsePlayerDeckUpdateOccurrence);
+            var results = Enumerable.Empty<PlayerDeck>().ToList();
+            var updates = ParseLogAggregate(_configuration.PlayerDeckUpdateCommand, ParsePlayerDeckOccurrence);
+
+            // only take latest of many updates
+            updates.Reverse();
+            updates.ToList().ForEach(u =>
+            {
+                if (!results.Any(r => r.Id == u.Id))
+                {
+                    results.Add(u);
+                }
+            });
+
+            return results;
+        }
+
+        public IEnumerable<string> ParsePlayerDeckDeletions()
+        {
+            return Enumerable.Empty<string>(); // TODO implement
         }
 
         public LogPlayerInventory ParsePlayerInventory()
@@ -92,7 +115,7 @@ namespace MtgaDeckBuilder.Api.LogImport
             return new Dictionary<long, short>(cards);
         }
 
-        private static IEnumerable<PlayerDeck> ParsePlayerDeckOccurrence(TextReader reader)
+        private static IEnumerable<PlayerDeck> ParsePlayerDecksOccurrence(TextReader reader)
         {
             string outputLine;
             var json = string.Empty;
@@ -115,7 +138,7 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerDecks;
         }
 
-        private static PlayerDeck ParsePlayerDeckUpdateOccurrence(TextReader reader)
+        private static PlayerDeck ParsePlayerDeckOccurrence(TextReader reader)
         {
             string outputLine;
             var json = string.Empty;

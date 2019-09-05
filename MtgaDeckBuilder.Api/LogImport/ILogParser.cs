@@ -9,7 +9,11 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         IEnumerable<PlayerDeck> ParsePlayerDecks();
 
+        IEnumerable<PlayerDeck> ParsePlayerDeckCreations();
+
         IEnumerable<PlayerDeck> ParsePlayerDeckUpdates();
+
+        IEnumerable<string> ParsePlayerDeckDeletions();
 
         LogPlayerInventory ParsePlayerInventory();
 

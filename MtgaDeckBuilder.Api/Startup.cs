@@ -34,7 +34,9 @@ namespace MtgaDeckBuilder.Api
             {
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckListsV3",
+                PlayerDeckCreateCommand = "<== Deck.CreateDeckV3",
                 PlayerDeckUpdateCommand = "<== Deck.UpdateDeckV3",
+                PlayerDeckDeleteCommand = "==> Deck.DeleteDeck",
                 PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
                 PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
             });

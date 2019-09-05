@@ -59,12 +59,14 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public IEnumerable<string> ParsePlayerDeckDeletions()
         {
-            return Enumerable.Empty<string>(); // TODO implement
+            var logJsonRpcs = ParseLogAggregate(_configuration.PlayerDeckDeleteCommand, ParseJson<LogJsonRpc>);
+
+            return logJsonRpcs.Where(jr => jr.Method.Equals("Deck.DeleteDeck")).Select(jr => jr.Params.DeckId);
         }
 
         public LogPlayerInventory ParsePlayerInventory()
         {
-            var result = ParseLog(_configuration.PlayerInventoryCommand, ParsePlayerInventoryOccurrence);
+            var result = ParseLog(_configuration.PlayerInventoryCommand, ParseJson<LogPlayerInventory>);
             return result ?? new LogPlayerInventory();
         }
 
@@ -160,7 +162,7 @@ namespace MtgaDeckBuilder.Api.LogImport
             return playerDeck;
         }
 
-        private static LogPlayerInventory ParsePlayerInventoryOccurrence(TextReader reader)
+        private static TResult ParseJson<TResult>(TextReader reader)
         {
             string outputLine;
             var json = string.Empty;
@@ -171,9 +173,9 @@ namespace MtgaDeckBuilder.Api.LogImport
                 json += outputLine;
             } while (outputLine != null && !outputLine.Equals("}"));
 
-            var logPlayerInventory = JsonConvert.DeserializeObject<LogPlayerInventory>(json);
+            var result = JsonConvert.DeserializeObject<TResult>(json);
 
-            return logPlayerInventory;
+            return result;
         }
 
         private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)

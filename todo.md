@@ -1,18 +1,18 @@
 # Features / Backlog
 
 ## MVP
-- [ ] parse newly created decks (<== Deck.CreateDeckV3)
-- [ ] parse newly updated decks (<== Deck.UpdateDeckV3)
-- [ ] parse newly deleted decks (==> Deck.DeleteDeck)
+- [ ] make history-tab sortable and searchable
 - [ ] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 - [ ] use deck.deckTileId (= mtgaId format) to show deck image
 - [ ] parse log for newly added decks with Deck.UpdateDeckV3 command
-- [ ] make history-tab sortable and searchable
 - [ ] show where to spend available wildcards
-- [ ] sound bleep upon required card is added to collection
+- [ ] sound bleep upon required card is added to collection, as an effect
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
 - [ ] show deck worth and make columns sortable by it
+- [X] parse newly created decks (<== Deck.CreateDeckV3)
+- [X] parse newly updated decks (<== Deck.UpdateDeckV3)
+- [X] parse newly deleted decks (==> Deck.DeleteDeck)
 - [X] sort columns by incompleteness
 - [X] show owned and missing count in history-tab
 - [X] show required wildcards

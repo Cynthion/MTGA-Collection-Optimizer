@@ -65,11 +65,14 @@ export class DecksTabComponent implements OnInit, OnDestroy {
         // if sortHeaderId is not a data property, then its a deck name
         if (value === undefined) {
           const deckToBeSorted = this.playerDecks.find(d => d.name === sortHeaderId);
-          const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
-          const card: CollectionCardState = data as CollectionCardState;
-          value = _.includes(deckCardIds, card.mtgaId)
-            ? card.rarity
-            : Rarity.Unknown;
+          // only sort if deckToBeSorted still exists (might be deleted)
+          if (deckToBeSorted !== undefined) {
+            const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
+            const card: CollectionCardState = data as CollectionCardState;
+            value = _.includes(deckCardIds, card.mtgaId)
+              ? card.rarity
+              : Rarity.Unknown;
+          }
         }
 
         return isNumber(value) ? Number(value) : value;

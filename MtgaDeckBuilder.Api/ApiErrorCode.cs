@@ -4,5 +4,6 @@
     {
         OutputLogPathNull = 0,
         OutputLogPathInvalid = 1,
+        DetailedLogsDisabled = 2,
     }
 }

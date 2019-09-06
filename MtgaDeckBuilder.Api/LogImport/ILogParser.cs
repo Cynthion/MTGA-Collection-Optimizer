@@ -5,6 +5,8 @@ namespace MtgaDeckBuilder.Api.LogImport
 {
     public interface ILogParser
     {
+        bool IsDetailedLogDisabled();
+
         IDictionary<long, short> ParsePlayerCards();
 
         IEnumerable<PlayerDeck> ParsePlayerDecks();

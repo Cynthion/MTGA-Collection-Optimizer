@@ -32,6 +32,7 @@ namespace MtgaDeckBuilder.Api
 
             services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration
             {
+                DetailedLogCommand = "DETAILED LOGS:",
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
                 PlayerDecksCommand = "<== Deck.GetDeckListsV3",
                 PlayerDeckCreateCommand = "<== Deck.CreateDeckV3",

@@ -2,6 +2,8 @@
 {
     public interface ILayoutService
     {
+        bool IsDetailedLogDisabled();
+
         LayoutDto LoadLayout();
     }
 }

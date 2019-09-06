@@ -2,6 +2,8 @@
 {
   public class Configuration : IConfiguration
   {
+    public string DetailedLogCommand { get; set; }
+
     public string PlayerCardsCommand { get; set; }
 
     public string PlayerDecksCommand { get; set; }

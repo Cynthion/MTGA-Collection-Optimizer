@@ -22,15 +22,21 @@ namespace MtgaDeckBuilder.Api.LogImport
             _settings = settings;
         }
 
+        public bool IsDetailedLogDisabled()
+        {
+            var detailedLogLines = FindLinesContainingCommand(_configuration.DetailedLogCommand);
+            return detailedLogLines.Any(l => l.Contains("DISABLED"));
+        }
+
         public IDictionary<long, short> ParsePlayerCards()
         {
-            var result = ParseLog(_configuration.PlayerCardsCommand, ParsePlayerCardsOccurrence);
+            var result = FindOccurrenceInLog(_configuration.PlayerCardsCommand, ParsePlayerCardsOccurrence);
             return result ?? new Dictionary<long, short>(0);
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
-            var result = ParseLog(_configuration.PlayerDecksCommand, ParsePlayerDecksOccurrence);
+            var result = FindOccurrenceInLog(_configuration.PlayerDecksCommand, ParsePlayerDecksOccurrence);
             return result ?? Enumerable.Empty<PlayerDeck>();
         }
 
@@ -66,7 +72,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public LogPlayerInventory ParsePlayerInventory()
         {
-            var result = ParseLog(_configuration.PlayerInventoryCommand, ParseJson<LogPlayerInventory>);
+            var result = FindOccurrenceInLog(_configuration.PlayerInventoryCommand, ParseJson<LogPlayerInventory>);
             return result ?? new LogPlayerInventory();
         }
 
@@ -178,7 +184,7 @@ namespace MtgaDeckBuilder.Api.LogImport
             return result;
         }
 
-        private TResult ParseLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
+        private TResult FindOccurrenceInLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
@@ -243,6 +249,28 @@ namespace MtgaDeckBuilder.Api.LogImport
                 } while (!streamReader.EndOfStream);
 
                 return string.Empty;
+            }
+        }
+
+        private IEnumerable<string> FindLinesContainingCommand(string occurrenceCommand)
+        {
+            using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                var results = Enumerable.Empty<string>().ToList();
+                do
+                {
+                    var outputLine = streamReader.ReadLine();
+
+                    if (outputLine != null && outputLine.Contains(occurrenceCommand))
+                    {
+                        Logger.Info($"Found {occurrenceCommand} occurrence on position {streamReader.BaseStream.Position}.");
+
+                        results.Add(outputLine);
+                    }
+                } while (!streamReader.EndOfStream);
+
+                return results;
             }
         }
     }

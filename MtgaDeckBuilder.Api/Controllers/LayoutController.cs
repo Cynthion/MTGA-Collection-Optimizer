@@ -17,8 +17,18 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet("load-data")]
         public ActionResult LoadData()
         {
+            AssertDetailedLogEnabled();
+
             var dto = _layoutService.LoadLayout();
             return Ok(dto);
+        }
+
+        private void AssertDetailedLogEnabled()
+        {
+            if (_layoutService.IsDetailedLogDisabled())
+            {
+                throw new ApiException(ApiErrorCode.DetailedLogsDisabled);
+            }
         }
     }
 }

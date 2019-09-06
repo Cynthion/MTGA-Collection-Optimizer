@@ -13,11 +13,16 @@ namespace MtgaDeckBuilder.Api.Layout
             _logParser = logParser;
         }
 
+        public bool IsDetailedLogDisabled()
+        {
+            return _logParser.IsDetailedLogDisabled();
+        }
+
         public LayoutDto LoadLayout()
         {
             // TODO parse log async
             // TODO optimize parsing: start from end of file
-            var inventory = LoadInventory();
+            var inventory = ParseInventory();
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = _logParser.ParsePlayerDecks();
             var playerDeckCreations = _logParser.ParsePlayerDeckCreations();
@@ -34,7 +39,6 @@ namespace MtgaDeckBuilder.Api.Layout
             // remove deleted decks
             playerDecksConsolidated.RemoveAll(pd => playerDeckDeletions.Contains(pd.Id));
 
-            // TODO check if works
             // replace updated decks
             playerDecksConsolidated.ForEach(pd =>
             {
@@ -73,7 +77,7 @@ namespace MtgaDeckBuilder.Api.Layout
             return dto;
         }
 
-        private InventoryDto LoadInventory()
+        private InventoryDto ParseInventory()
         {
             var playerName = _logParser.ParsePlayerName();
             var playerInventory = _logParser.ParsePlayerInventory();

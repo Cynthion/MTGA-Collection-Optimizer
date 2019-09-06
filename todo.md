@@ -2,7 +2,6 @@
 
 ## MVP
 - [ ] make history-tab sortable and searchable
-- [ ] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 - [ ] use deck.deckTileId (= mtgaId format) to show deck image
 - [ ] parse log for newly added decks with Deck.UpdateDeckV3 command
 - [ ] show where to spend available wildcards
@@ -34,6 +33,7 @@
 - [X] repeatedly call backend / polling
 - [X] detect changes and push from backend with Server Sent Events (SSE)
 - [X] try to auto-detect output log file with default path
+- [X] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 
 ## Images
 - [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)

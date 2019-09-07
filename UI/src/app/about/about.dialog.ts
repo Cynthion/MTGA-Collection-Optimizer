@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Store, ActionsSubject } from '@ngrx/store';
+import { Store, ActionsSubject, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { RootState } from '../app.state';
@@ -17,9 +17,9 @@ export class AboutDialogComponent {
 
   constructor(
     private store: Store<RootState>,
-    private actionsSubject: ActionsSubject) {
-
-    this.state$ = this.store.select(s => s.app.about);
+    private actionsSubject: ActionsSubject
+  ) {
+    this.state$ = this.store.pipe(select(s => s.app.about));
   }
 
   onKeydown(event: KeyboardEvent) {

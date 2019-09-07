@@ -4,16 +4,22 @@ import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import { callNestedReducers } from './util/ngrx';
 import { settingsReducer } from './settings';
+import { apiErrorReducer } from './api-error';
+import { aboutReducer } from './about';
 
 export function appReducer(state = initialAppState, action: AppActions): AppState {
 
   state = callNestedReducers(state, action, {
-    settings: settingsReducer
+    about: aboutReducer,
+    apiError: apiErrorReducer,
+    settings: settingsReducer,
   });
 
   switch (action.type) {
     case AppActionTypes.Initialized:
-      return state;
+      return {
+        ...state,
+      };
 
     case AppActionTypes.LoadingIncrement: {
       const semaphore = state.loadingSemaphore + 1;

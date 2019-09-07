@@ -1,12 +1,21 @@
 import { initialApiErrorState, ApiErrorState } from './api-error.state';
 import { ApiErrorActions, ApiErrorActionTypes } from './api-error.actions';
 
-export function apiErrorReducer(
-  state: ApiErrorState = initialApiErrorState,
-  action: ApiErrorActions): ApiErrorState {
+export function apiErrorReducer(state: ApiErrorState = initialApiErrorState, action: ApiErrorActions): ApiErrorState {
     switch (action.type) {
-      case ApiErrorActionTypes.Show: {
-        return state;
+      case ApiErrorActionTypes.Open: {
+        return {
+          ...state,
+          ...action.apiErrorState,
+          isSnackbarOpen: true,
+        };
+      }
+
+      case ApiErrorActionTypes.Close: {
+        return {
+          ...state,
+          isSnackbarOpen: false,
+        };
       }
 
       default: {

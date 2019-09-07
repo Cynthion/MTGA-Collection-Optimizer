@@ -4,7 +4,7 @@ import { Observable, ObservableInput } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 
 import { AppConfig } from '../../environments/environment';
-import { ShowApiErrorAction } from '../api-error';
+import { OpenApiErrorSnackbarAction } from '../api-error/api-error.actions';
 
 export function makeInternalApiUrl(relativeUrl: string) {
   return `${AppConfig.apiBaseUrl}${relativeUrl.replace(/^\/*/, '')}`;
@@ -59,7 +59,7 @@ function handleResponse<TResponse = null>(
   return source.pipe(
     mergeMap(project),
     catchError<Action, Action>(resp => {
-      return [new ShowApiErrorAction(resp.error)];
+      return [new OpenApiErrorSnackbarAction(resp.error)];
     }),
   );
 }

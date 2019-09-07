@@ -5,11 +5,12 @@ export interface ApiErrorDto {
 }
 
 export interface ApiErrorState extends ApiErrorDto {
-
+  isSnackbarOpen: boolean;
 }
 
 export const initialApiErrorState: ApiErrorState = {
-  statusCode: 0,
+  statusCode: -1,
   message: '',
-  apiErrorCode: 0,
+  apiErrorCode: -1,
+  isSnackbarOpen: false,
 };

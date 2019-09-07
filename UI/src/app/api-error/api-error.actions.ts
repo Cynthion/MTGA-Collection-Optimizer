@@ -3,17 +3,27 @@ import { Action } from '@ngrx/store';
 import { ApiErrorState } from './api-error.state';
 
 export enum ApiErrorActionTypes {
-  Show = '[Api Error] Show',
+  Open = '[Api Error] Open Snachbar',
+  Close = '[Api Error] Close Snackbar'
 }
 
-export class ShowApiErrorAction implements Action {
-  readonly type = ApiErrorActionTypes.Show;
+export class OpenApiErrorSnackbarAction implements Action {
+  readonly type = ApiErrorActionTypes.Open;
 
   constructor(
     public apiErrorState: ApiErrorState,
   ) { }
 }
 
+export class CloseApiErrorSnackbarAction implements Action {
+  readonly type = ApiErrorActionTypes.Close;
+
+  constructor(
+    public apiErrorCode: number,
+  ) { }
+}
+
 export type ApiErrorActions =
-  | ShowApiErrorAction
+  | OpenApiErrorSnackbarAction
+  | CloseApiErrorSnackbarAction
   ;

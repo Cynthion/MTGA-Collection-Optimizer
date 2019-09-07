@@ -1,11 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material';
-import { ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { OpenSettingsDialogAction } from '../settings/settings.actions';
 import { LoadDataAction } from '../layout/layout.actions';
 
 import { ApiErrorState } from './api-error.state';
+import { RootState } from '../app.state';
+import { takeLast, map, take } from 'rxjs/operators';
+import { CloseApiErrorSnackbarAction } from './api-error.actions';
 
 @Component({
   selector: 'app-api-error',
@@ -13,35 +16,34 @@ import { ApiErrorState } from './api-error.state';
   styles: ['./api-error.component.scss'],
 })
 export class ApiErrorComponent {
-
-  public state: ApiErrorState;
+  state$: Observable<ApiErrorState>;
 
   constructor(
-    private snackbar: MatSnackBar,
-    @Inject(MAT_SNACK_BAR_DATA) public data: any,
+    private store: Store<RootState>,
     private actionsSubject: ActionsSubject,
-    ) {
-      this.state = data as ApiErrorState;
+  ) {
+    this.state$ = this.store.pipe(select(s => s.app.apiError));
   }
 
-  getApiErrorMessage(): string {
-    switch (this.state.apiErrorCode) {
+  getApiErrorMessage(apiError: ApiErrorState): string {
+    switch (apiError.apiErrorCode) {
       case 0: return 'The path to the MTGA output_log.txt file on your machine is not configured. Head over to the settings to make it right.';
       case 1: return 'The path to the MTGA output_log.txt file on your machine is invalid. Head over to the settings to make it right.';
       case 2: return 'Please enable detailed logs in the MTGA game and restart the game for this community-built application to work properly. (Settings > View Account Link > check Detailed Logs)';
-      default: return this.state.message || 'Unknown Error.' + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
+      default: return apiError.message || 'Unknown Error.' + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
+    }
+  }
+
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.closeSnackbar();
     }
   }
 
   closeSnackbar(): void {
-    if (this.state.apiErrorCode === 0
-      || this.state.apiErrorCode === 1) {
-      this.actionsSubject.next(new OpenSettingsDialogAction());
-    }
-    if (this.state.apiErrorCode === 2) {
-      this.actionsSubject.next(new LoadDataAction());
-    }
+    let apiErrorCode = -1;
+    this.state$.pipe(take(1)).subscribe(s => apiErrorCode = s.apiErrorCode);
 
-    this.snackbar.dismiss();
+    this.actionsSubject.next(new CloseApiErrorSnackbarAction(apiErrorCode));
   }
 }

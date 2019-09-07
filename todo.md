@@ -35,6 +35,9 @@
 - [X] try to auto-detect output log file with default path
 - [X] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 
+## Game Data Import
+- [ ] make file locations configurable via settings
+
 ## Images
 - [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)
 - via G:\MTGArenaLive\MTGA_Data\Downloads\Data\data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON

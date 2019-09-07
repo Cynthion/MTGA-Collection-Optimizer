@@ -29,7 +29,14 @@ namespace MtgaDeckBuilder.Api
                 // return json format with Camel Case
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
-
+            services.AddSingleton<IFileLocations>(provider => new FileLocations
+            {
+                AbilitiesDataPrefix ="data_abilities_",
+                CardsDataPrefix ="data_cards_",
+                EnumsDataPrefix ="data_enums_",
+                LocalityDataPrefix ="data_loc_",
+                MtgaDownloadsDataDirectoryPath = @"G:\MTGArenaLive\MTGA_Data\Downloads\Data",
+            });
             services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration
             {
                 DetailedLogCommand = "DETAILED LOGS:",

@@ -9,6 +9,8 @@ namespace MtgaDeckBuilder.Api.GameData
     {
         GameCard[] GameCards { get; }
 
+        GameEnum[] GameEnums { get; }
+
         void LoadModel();
     }
 
@@ -17,6 +19,8 @@ namespace MtgaDeckBuilder.Api.GameData
         private readonly IGameDataLoader _gameDataLoader;
 
         public GameCard[] GameCards { get; private set; }
+
+        public GameEnum[] GameEnums { get; private set; }
 
         public GameModel(IGameDataLoader gameDataLoader)
         {
@@ -29,6 +33,11 @@ namespace MtgaDeckBuilder.Api.GameData
             if (GameCards == null)
             {
                 GameCards = _gameDataLoader.LoadGameCards();
+            }
+
+            if (GameEnums == null)
+            {
+                GameEnums = _gameDataLoader.LoadGameEnums();
             }
         }
     }

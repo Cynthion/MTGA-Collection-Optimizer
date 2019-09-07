@@ -6,6 +6,13 @@ using NLog;
 
 namespace MtgaDeckBuilder.Api.GameData
 {
+    public interface IGameDataLoader
+    {
+        GameCard[] LoadGameCards();
+
+        GameEnum[] LoadGameEnums();
+    }
+
     public class GameDataLoader : IGameDataLoader
     {
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(GameDataLoader));
@@ -23,10 +30,17 @@ namespace MtgaDeckBuilder.Api.GameData
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
+                return GameCard.FromJson(json);
+            }
+        }
 
-                var gameCards = GameCard.FromJson(json);
-
-                return gameCards;
+        public GameEnum[] LoadGameEnums()
+        {
+            using (var fileStream = new FileStream(FindModelPath(_fileLocations.EnumsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                var json = streamReader.ReadToEnd();
+                return GameEnum.FromJson(json);
             }
         }
 

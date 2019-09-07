@@ -144,10 +144,10 @@
 
     public partial class GameCard
     {
-        public static GameCard[] FromJson(string json) => JsonConvert.DeserializeObject<GameCard[]>(json, Converter.Settings);
+        public static GameCard[] FromJson(string json) => JsonConvert.DeserializeObject<GameCard[]>(json, GameCardConverter.Settings);
     }
 
-    internal static class Converter
+    internal static class GameCardConverter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {

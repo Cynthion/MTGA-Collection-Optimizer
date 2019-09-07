@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Extensions;
+using MtgaDeckBuilder.Api.GameData;
 using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
 using Newtonsoft.Json.Serialization;
@@ -53,6 +54,13 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<ILogParser, LogParser>();
 
             services.AddSingleton<IHostedService, LogWatcher>();
+            services.AddSingleton<IGameDataLoader, GameDataLoader>();
+            services.AddSingleton<IGameModel>(provider =>
+            {
+                var gameModel = new GameModel(provider.GetService<IGameDataLoader>());
+                gameModel.LoadModel();
+                return gameModel;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

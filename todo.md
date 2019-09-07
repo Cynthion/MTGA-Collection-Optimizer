@@ -37,6 +37,7 @@
 
 ## Game Data Import
 - [ ] make file locations configurable via settings
+- [ ] make model loading async
 
 ## Images
 - [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)

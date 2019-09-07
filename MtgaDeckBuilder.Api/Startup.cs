@@ -55,9 +55,9 @@ namespace MtgaDeckBuilder.Api
 
             services.AddSingleton<IHostedService, LogWatcher>();
             services.AddSingleton<IGameDataLoader, GameDataLoader>();
-            services.AddSingleton<IGameModel>(provider =>
+            services.AddSingleton<IGameData>(provider =>
             {
-                var gameModel = new GameModel(provider.GetService<IGameDataLoader>());
+                var gameModel = new GameData.GameData(provider.GetService<IGameDataLoader>());
                 gameModel.LoadModel();
                 return gameModel;
             });

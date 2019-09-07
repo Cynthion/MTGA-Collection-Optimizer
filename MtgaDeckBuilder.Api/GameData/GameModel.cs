@@ -1,20 +1,19 @@
 ﻿using GameData;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MtgaDeckBuilder.Api.GameData
 {
-    public interface IGameModel
+    public interface IGameData
     {
         GameCard[] GameCards { get; }
 
         GameEnum[] GameEnums { get; }
 
+        GameAbility[] GameAbilities { get; }
+
         void LoadModel();
     }
 
-    public class GameModel : IGameModel
+    public class GameData : IGameData
     {
         private readonly IGameDataLoader _gameDataLoader;
 
@@ -22,7 +21,9 @@ namespace MtgaDeckBuilder.Api.GameData
 
         public GameEnum[] GameEnums { get; private set; }
 
-        public GameModel(IGameDataLoader gameDataLoader)
+        public GameAbility[] GameAbilities { get; private set; }
+
+        public GameData(IGameDataLoader gameDataLoader)
         {
             _gameDataLoader = gameDataLoader;
         }
@@ -38,6 +39,11 @@ namespace MtgaDeckBuilder.Api.GameData
             if (GameEnums == null)
             {
                 GameEnums = _gameDataLoader.LoadGameEnums();
+            }
+
+            if (GameAbilities == null)
+            {
+                GameAbilities = _gameDataLoader.LoadGameAbilities();
             }
         }
     }

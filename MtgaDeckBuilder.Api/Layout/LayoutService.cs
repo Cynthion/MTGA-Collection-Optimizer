@@ -8,9 +8,9 @@ namespace MtgaDeckBuilder.Api.Layout
     public class LayoutService : ILayoutService
     {
         private readonly ILogParser _logParser;
-        private readonly IGameModel _gameModel;
+        private readonly IGameData _gameModel;
 
-        public LayoutService(ILogParser logParser, IGameModel gameModel)
+        public LayoutService(ILogParser logParser, IGameData gameModel)
         {
             _logParser = logParser;
             _gameModel = gameModel;

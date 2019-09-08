@@ -29,6 +29,7 @@ export class ApiErrorComponent {
     switch (apiError.apiErrorCode) {
       case 0: return 'The path to the MTGA output_log.txt file on your machine is invalid. Head over to the settings to make it right.';
       case 1: return 'Please enable detailed logs in the MTGA game and restart the game for this community-built application to work properly. (Settings > View Account Link > check Detailed Logs)';
+      case 2: return 'The path to the \'\\Wizards Of The Coast\\MTGA\\MTGA_Data\\Downloads\\Data\' folder on your machine is invalid. Head over to the settings to make it right.';
       default: return apiError.message || 'Unknown Error.' + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
     }
   }

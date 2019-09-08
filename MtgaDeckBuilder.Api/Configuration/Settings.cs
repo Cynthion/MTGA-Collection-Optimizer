@@ -12,6 +12,8 @@ namespace MtgaDeckBuilder.Api.Configuration
         string GameDataPath { get; set; }
 
         void AssertOutputLogPathValid();
+
+        void AssertGameDataPathValid();
     }
 
     public class Settings : ISettings
@@ -52,6 +54,14 @@ namespace MtgaDeckBuilder.Api.Configuration
             catch (Exception)
             {
                 throw new ApiException(ApiErrorCode.OutputLogPathInvalid);
+            }
+        }
+
+        public void AssertGameDataPathValid()
+        {
+            if (!Directory.Exists(GameDataPath))
+            {
+                throw new ApiException(ApiErrorCode.GameDataPathInvalid);
             }
         }
 

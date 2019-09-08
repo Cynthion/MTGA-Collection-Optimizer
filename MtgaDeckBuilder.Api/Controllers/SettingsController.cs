@@ -35,6 +35,9 @@ namespace MtgaDeckBuilder.Api.Controllers
                 ? _settings.GameDataPath
                 : settingsDto.GameDataPath;
 
+            _settings.AssertOutputLogPathValid();
+            _settings.AssertGameDataPathValid();
+
             return NoContent();
         }
     }

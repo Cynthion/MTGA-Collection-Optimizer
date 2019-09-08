@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Extensions;
-using MtgaDeckBuilder.Api.GameData;
+using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
 using Newtonsoft.Json.Serialization;
@@ -57,9 +57,7 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IGameDataLoader, GameDataLoader>();
             services.AddSingleton<IGameData>(provider =>
             {
-                var gameModel = new GameData.GameData(provider.GetService<IGameDataLoader>());
-                gameModel.LoadModel();
-                return gameModel;
+                return new GameData(provider.GetService<IGameDataLoader>());
             });
         }
 

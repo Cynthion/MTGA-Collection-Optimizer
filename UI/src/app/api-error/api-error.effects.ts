@@ -34,11 +34,8 @@ export class ApiErrorEffects {
     map(a => a as CloseApiErrorSnackbarAction),
     tap(_ => this.snackBar.dismiss()),
     map(a => {
-      if (a.apiErrorCode === 0 || a.apiErrorCode === 1) {
+      if (a.apiErrorCode === 0 || a.apiErrorCode === 1 || a.apiErrorCode === 2) {
         return new OpenSettingsAction();
-      }
-      if (a.apiErrorCode === 2) {
-        return new LoadDataAction();
       }
     }),
   );

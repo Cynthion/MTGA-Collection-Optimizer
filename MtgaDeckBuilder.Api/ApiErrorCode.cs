@@ -4,5 +4,6 @@
     {
         OutputLogPathInvalid = 0,
         DetailedLogsDisabled = 1,
+        GameDataPathInvalid = 2,
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
-using GameData;
+using Game.Model;
 using MtgaDeckBuilder.Api.Configuration;
 using NLog;
 
-namespace MtgaDeckBuilder.Api.GameData
+namespace MtgaDeckBuilder.Api.Game
 {
     public interface IGameDataLoader
     {
@@ -21,10 +21,12 @@ namespace MtgaDeckBuilder.Api.GameData
     {
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(GameDataLoader));
 
+        private readonly ISettings _settings;
         private readonly IFileLocations _fileLocations;
 
-        public GameDataLoader(IFileLocations fileLocations)
+        public GameDataLoader(ISettings settings, IFileLocations fileLocations)
         {
+            _settings = settings;
             _fileLocations = fileLocations;
         }
 
@@ -70,7 +72,8 @@ namespace MtgaDeckBuilder.Api.GameData
 
         private string FindModelPath(string prefix)
         {
-            var matchingFile = Directory.GetFiles(_fileLocations.MtgaDownloadsDataDirectoryPath, $"{prefix}*").Single();
+            _settings.AssertGameDataPathValid();
+            var matchingFile = Directory.GetFiles(_settings.GameDataPath, $"{prefix}*").Single();
             Logger.Info($"Found {matchingFile} game model file.");
             return matchingFile;
         }

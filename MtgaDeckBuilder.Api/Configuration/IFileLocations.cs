@@ -9,7 +9,5 @@
         string EnumsDataPrefix { get; set; }
 
         string LocalityDataPrefix { get; set; }
-
-        string MtgaDownloadsDataDirectoryPath { get; set; }
     }
 }

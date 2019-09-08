@@ -1,36 +1,33 @@
-﻿namespace GameData
+﻿namespace Game.Model
 {
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public partial class GameLocality
+    public partial class GameEnum
     {
-        [JsonProperty("langkey")]
-        public string Langkey { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-        [JsonProperty("isoCode")]
-        public string IsoCode { get; set; }
-
-        [JsonProperty("keys")]
-        public Key[] Keys { get; set; }
+        [JsonProperty("values")]
+        public Value[] Values { get; set; }
     }
 
-    public partial class Key
+    public partial class Value
     {
         [JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("text")]
-        public string Text { get; set; }
+        public long Text { get; set; }
     }
 
-    public partial class GameLocality
+    public partial class GameEnum
     {
-        public static GameLocality[] FromJson(string json) => JsonConvert.DeserializeObject<GameLocality[]>(json, GameLocalityConverter.Settings);
+        public static GameEnum[] FromJson(string json) => JsonConvert.DeserializeObject<GameEnum[]>(json, GameEnumConverter.Settings);
     }
 
-    internal static class GameLocalityConverter
+    internal static class GameEnumConverter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {

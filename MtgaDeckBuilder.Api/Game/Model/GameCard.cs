@@ -1,4 +1,4 @@
-﻿namespace GameData
+﻿namespace Game.Model
 {
     using System.Globalization;
     using Newtonsoft.Json;

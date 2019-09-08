@@ -23,3 +23,7 @@
 - Upon closing the settings dialog
   - settings are stored to backend, data is re-loaded
   - dialog is closed
+
+- Backend verifies paths
+  - upon storing to the backend
+  - upon accessing files and throws ApiErrors if not valid

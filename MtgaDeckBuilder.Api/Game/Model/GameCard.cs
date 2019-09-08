@@ -8,7 +8,10 @@
     {
         [JsonProperty("grpid")]
         public long Grpid { get; set; }
-
+        
+        /// <summary>
+        /// Loc.Keys.Id
+        /// </summary>
         [JsonProperty("titleId")]
         public long TitleId { get; set; }
 

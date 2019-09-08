@@ -40,8 +40,7 @@ export class SettingsDialogEffects {
       flatMap(a => [
         new StoreBackendSettingsAction(a.dto),
         new CloseSettingsDialogAction(),
-        new LoadDataAction(),
-      ])
+      ]),
     );
 
   @Effect()
@@ -104,7 +103,7 @@ export class SettingsDialogEffects {
             this.http,
             'settings',
             a.dto,
-            _ => [],
+            _ => [new LoadDataAction()],
           ))
       )
     );

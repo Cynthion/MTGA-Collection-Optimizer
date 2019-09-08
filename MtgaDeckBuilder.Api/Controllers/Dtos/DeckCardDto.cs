@@ -1,6 +1,11 @@
 ﻿namespace MtgaDeckBuilder.Api.Controllers.Dtos
 {
-    public class DeckCardDto : IMtgaCard
+    public interface IDeckCard : IMtgaCard
+    {
+        short RequiredCount { get; set; }
+    }
+
+    public class DeckCardDto : IDeckCard
     {
         public long MtgaId { get; set; }
 

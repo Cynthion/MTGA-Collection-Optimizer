@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
 using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.LogImport;
+using MtgaDeckBuilder.Api.Model;
 
 namespace MtgaDeckBuilder.Api.Layout
 {
@@ -36,29 +38,7 @@ namespace MtgaDeckBuilder.Api.Layout
             // TODO optimize parsing: start from end of file
             var inventory = ParseInventory();
             var playerCards = _logParser.ParsePlayerCards();
-            var playerDecks = _logParser.ParsePlayerDecks();
-            var playerDeckCreations = _logParser.ParsePlayerDeckCreations();
-            var playerDeckUpdates = _logParser.ParsePlayerDeckUpdates();
-            var playerDeckDeletions = _logParser.ParsePlayerDeckDeletions();
-
-            // merge existing decks and created decks
-            var playerDecksConsolidated = playerDecks
-                .Concat(playerDeckCreations)
-                .GroupBy(pd => pd.Id)
-                .Select(id => id.First())
-                .ToList();
-
-            // remove deleted decks
-            playerDecksConsolidated.RemoveAll(pd => playerDeckDeletions.Contains(pd.Id));
-
-            // replace updated decks
-            playerDecksConsolidated.ForEach(pd =>
-            {
-                if (playerDeckUpdates.Any(u => u.Id == pd.Id))
-                {
-                    pd = playerDeckUpdates.Single(u => u.Id == pd.Id);
-                }
-            });
+            var playerDecks = ParsePlayerDecks();
 
             var dto = new LayoutDto
             {
@@ -70,7 +50,7 @@ namespace MtgaDeckBuilder.Api.Layout
                         OwnedCount = c.Value,
                     })
                     .ToArray(),
-                PlayerDecks = playerDecksConsolidated
+                PlayerDecks = playerDecks
                     .Select(d => new PlayerDeckDto
                     {
                         Id = d.Id,
@@ -107,6 +87,35 @@ namespace MtgaDeckBuilder.Api.Layout
             };
 
             return dto;
+        }
+
+        private IEnumerable<PlayerDeck> ParsePlayerDecks()
+        {
+            var playerDecks = _logParser.ParsePlayerDecks();
+            var playerDeckCreations = _logParser.ParsePlayerDeckCreations();
+            var playerDeckUpdates = _logParser.ParsePlayerDeckUpdates();
+            var playerDeckDeletions = _logParser.ParsePlayerDeckDeletions();
+
+            // merge existing decks and created decks
+            var playerDecksConsolidated = playerDecks
+                .Concat(playerDeckCreations)
+                .GroupBy(pd => pd.Id)
+                .Select(id => id.First())
+                .ToList();
+
+            // remove deleted decks
+            playerDecksConsolidated.RemoveAll(pd => playerDeckDeletions.Contains(pd.Id));
+
+            // replace updated decks
+            playerDecksConsolidated.ForEach(pd =>
+            {
+                if (playerDeckUpdates.Any(u => u.Id == pd.Id))
+                {
+                    pd = playerDeckUpdates.Single(u => u.Id == pd.Id);
+                }
+            });
+
+            return playerDecksConsolidated;
         }
     }
 }

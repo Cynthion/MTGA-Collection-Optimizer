@@ -1,9 +1,9 @@
 export const SettingsStorageKey = 'settings';
 
 export interface SettingsDto {
+  logPollInterval: number;
   outputLogPath: string;
   gameDataPath: string;
-  logPollInterval: number;
 }
 
 export interface SettingsState extends SettingsDto {
@@ -11,8 +11,8 @@ export interface SettingsState extends SettingsDto {
 }
 
 export const initialSettingsState: SettingsState = {
+  logPollInterval: 5,
   outputLogPath: '',
   gameDataPath: '',
-  logPollInterval: 5,
   isOpen: false,
 };

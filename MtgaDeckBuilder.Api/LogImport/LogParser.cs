@@ -186,6 +186,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private TResult FindOccurrenceInLog<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
+            _settings.AssertOutputLogPathValid();
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
@@ -209,6 +210,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private IEnumerable<TResult> ParseLogAggregate<TResult>(string occurrenceCommand, Func<TextReader, TResult> occurrenceAction)
         {
+            _settings.AssertOutputLogPathValid();
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
@@ -233,6 +235,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private string FindLineContainingCommand(string occurrenceCommand)
         {
+            _settings.AssertOutputLogPathValid();
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
@@ -254,6 +257,7 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         private IEnumerable<string> FindLinesContainingCommand(string occurrenceCommand)
         {
+            _settings.AssertOutputLogPathValid();
             using (var fileStream = new FileStream(_settings.OutputLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {

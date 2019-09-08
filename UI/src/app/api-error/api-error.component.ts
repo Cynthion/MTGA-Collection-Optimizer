@@ -27,9 +27,8 @@ export class ApiErrorComponent {
 
   getApiErrorMessage(apiError: ApiErrorState): string {
     switch (apiError.apiErrorCode) {
-      case 0: return 'The path to the MTGA output_log.txt file on your machine is not configured. Head over to the settings to make it right.';
-      case 1: return 'The path to the MTGA output_log.txt file on your machine is invalid. Head over to the settings to make it right.';
-      case 2: return 'Please enable detailed logs in the MTGA game and restart the game for this community-built application to work properly. (Settings > View Account Link > check Detailed Logs)';
+      case 0: return 'The path to the MTGA output_log.txt file on your machine is invalid. Head over to the settings to make it right.';
+      case 1: return 'Please enable detailed logs in the MTGA game and restart the game for this community-built application to work properly. (Settings > View Account Link > check Detailed Logs)';
       default: return apiError.message || 'Unknown Error.' + ' Please report this issue at https://github.com/Cynthion/MTGA-Collection-Optimizer/issues';
     }
   }
@@ -43,7 +42,6 @@ export class ApiErrorComponent {
   closeSnackbar(): void {
     let apiErrorCode = -1;
     this.state$.pipe(take(1)).subscribe(s => apiErrorCode = s.apiErrorCode);
-
     this.actionsSubject.next(new CloseApiErrorSnackbarAction(apiErrorCode));
   }
 }

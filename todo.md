@@ -1,6 +1,7 @@
 # Features / Backlog
 
 ## MVP
+- [ ] load default settings from backend
 - [ ] make history-tab sortable and searchable
 - [ ] use deck.deckTileId (= mtgaId format) to show deck image
 - [ ] parse log for newly added decks with Deck.UpdateDeckV3 command

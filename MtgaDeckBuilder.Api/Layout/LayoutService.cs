@@ -5,6 +5,13 @@ using MtgaDeckBuilder.Api.LogImport;
 
 namespace MtgaDeckBuilder.Api.Layout
 {
+    public interface ILayoutService
+    {
+        bool IsDetailedLogDisabled();
+
+        LayoutDto LoadLayout();
+    }
+
     public class LayoutService : ILayoutService
     {
         private readonly ILogParser _logParser;

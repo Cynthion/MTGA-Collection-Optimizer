@@ -105,7 +105,8 @@ export class SettingsDialogEffects {
             a.dto,
             _ => [
               new StoreUserSettingsAction(a.dto),
-              new LoadDataAction()],
+              new LoadDataAction(),
+            ],
           ))
       )
     );

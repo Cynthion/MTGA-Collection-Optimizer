@@ -1,16 +1,15 @@
 # Features / Backlog
 
 ## MVP
-- [ ] load default settings from backend
+- [ ] add UI validation for settings dialog
 - [ ] make history-tab sortable and searchable
-- [ ] use deck.deckTileId (= mtgaId format) to show deck image
-- [ ] parse log for newly added decks with Deck.UpdateDeckV3 command
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection, as an effect
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
 - [ ] show deck worth and make columns sortable by it
 - [ ] show message on empty tables/filter data
+- [X] load default settings from backend
 - [X] parse newly created decks (<== Deck.CreateDeckV3)
 - [X] parse newly updated decks (<== Deck.UpdateDeckV3)
 - [X] parse newly deleted decks (==> Deck.DeleteDeck)
@@ -45,6 +44,8 @@
 - [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)
 - via G:\MTGArenaLive\MTGA_Data\Downloads\Data\data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON
 - lookup grpId (=mtgaId), take artId --> prefix of cardart file in G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle
+- [ ] use deck.deckTileId (= mtgaId format) to show deck image
+
 ## Bugs
 - [ ] fix error if log is empty (e.g., after patch/before first game start, before game is installed)
 - [ ] fix active tab (visual representation)
@@ -59,6 +60,7 @@
 - [ ] change ports for production
 - [ ] add License
 - [ ] update maximegris/angular-electron version (Angular 8)
+- [ ] handle connection refused with separate api error code
 - [X] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)
 - [X] fix window menu (WinRef) for electron

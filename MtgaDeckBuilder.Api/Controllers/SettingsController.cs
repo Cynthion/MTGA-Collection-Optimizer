@@ -7,7 +7,7 @@ namespace MtgaDeckBuilder.Api.Controllers
     [Route("api/[controller]")]
     public class SettingsController : Controller
     {
-        private readonly ISettings _settings;
+        private ISettings _settings;
 
         public SettingsController(ISettings settings)
         {
@@ -25,7 +25,7 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpPost]
         public ActionResult SetSettings([FromBody] SettingsDto settingsDto)
         {
-            _settings.LogPollInterval = settingsDto.LogPollInterval > 0 
+            _settings.LogPollInterval = settingsDto.LogPollInterval > 0
                 ? settingsDto.LogPollInterval 
                 : _settings.LogPollInterval;
             _settings.OutputLogPath = string.IsNullOrEmpty(settingsDto.OutputLogPath)

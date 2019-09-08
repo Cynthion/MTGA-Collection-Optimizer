@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path');
 
 var data = null;
+// C:\Users\{user name}\AppData\Roaming\mtga-collection-optimizer\MTGA Collection Optimizer Storage.json
 var dataFilePath = path.join(app.getPath('userData'), 'MTGA Collection Optimizer Storage.json'); 
 
 function load() {

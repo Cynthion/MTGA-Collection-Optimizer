@@ -1,4 +1,5 @@
 ﻿using GameData;
+using System.Linq;
 
 namespace MtgaDeckBuilder.Api.GameData
 {
@@ -9,6 +10,8 @@ namespace MtgaDeckBuilder.Api.GameData
         GameEnum[] GameEnums { get; }
 
         GameAbility[] GameAbilities { get; }
+
+        GameLocality[] GameLocalities { get; }
 
         void LoadModel();
     }
@@ -22,6 +25,8 @@ namespace MtgaDeckBuilder.Api.GameData
         public GameEnum[] GameEnums { get; private set; }
 
         public GameAbility[] GameAbilities { get; private set; }
+
+        public GameLocality[] GameLocalities { get; private set; }
 
         public GameData(IGameDataLoader gameDataLoader)
         {
@@ -44,6 +49,13 @@ namespace MtgaDeckBuilder.Api.GameData
             if (GameAbilities == null)
             {
                 GameAbilities = _gameDataLoader.LoadGameAbilities();
+            }
+
+            if (GameLocalities == null)
+            {
+                GameLocalities = _gameDataLoader.LoadGameLocalities()
+                    .Where(l => l.IsoCode == "en-US")
+                    .ToArray();
             }
         }
     }

@@ -7,6 +7,7 @@ namespace MtgaDeckBuilder.Api.Configuration
         private const string UserNamePlaceholder = "{user name}";
 
         private string _outputLogPath = $@"C:\Users\{UserNamePlaceholder}\AppData\LocalLow\Wizards Of The Coast\\MTGA\output_log.txt";
+        private string _gameDataPath = $@"C:\Program Files (x86)\Wizards Of The Coast\MTGA\MTGA_Data\Downloads\Data";
         private int _logPollInterval = 5;
 
         public string OutputLogPath

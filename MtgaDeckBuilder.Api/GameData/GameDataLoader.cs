@@ -13,6 +13,8 @@ namespace MtgaDeckBuilder.Api.GameData
         GameEnum[] LoadGameEnums();
 
         GameAbility[] LoadGameAbilities();
+
+        GameLocality[] LoadGameLocalities();
     }
 
     public class GameDataLoader : IGameDataLoader
@@ -53,6 +55,16 @@ namespace MtgaDeckBuilder.Api.GameData
             {
                 var json = streamReader.ReadToEnd();
                 return GameAbility.FromJson(json);
+            }
+        }
+
+        public GameLocality[] LoadGameLocalities()
+        {
+            using (var fileStream = new FileStream(FindModelPath(_fileLocations.LocalityDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                var json = streamReader.ReadToEnd();
+                return GameLocality.FromJson(json);
             }
         }
 

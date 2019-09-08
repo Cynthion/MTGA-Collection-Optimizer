@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { Store, ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Store, ActionsSubject, select } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { RootState } from '../app.state';
 import { SettingsState, SettingsDto } from './settings.state';
@@ -13,22 +12,23 @@ import { CloseSettingsDialogAction, StoreSettingsAction } from './settings.actio
   styleUrls: ['./settings.dialog.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsDialogComponent {
+export class SettingsDialogComponent implements OnDestroy {
   state$: Observable<SettingsState>;
-  outputLogPath: string;
-  logPollInterval: number;
+
+  settings: SettingsDto;
+  settingsSubscription: Subscription;
 
   constructor(
     private store: Store<RootState>,
-    private actionsSubject: ActionsSubject,
-    @Inject(MAT_DIALOG_DATA) public data: any) { // TODO use this via state
+    private actionsSubject: ActionsSubject) {
 
-    this.state$ = this.store.select(s => s.app.settings);
+    this.state$ = this.store.pipe(select(s => s.app.settings));
 
-    this.state$.subscribe(s => {
-      this.outputLogPath = s.outputLogPath;
-      this.logPollInterval = s.logPollInterval;
-    });
+    this.settingsSubscription = this.state$.subscribe(s => this.settings = s);
+  }
+
+  ngOnDestroy(): void {
+    this.settingsSubscription.unsubscribe();
   }
 
   onKeydown(event: KeyboardEvent) {
@@ -38,17 +38,8 @@ export class SettingsDialogComponent {
   }
 
   closeDialog(): void {
-    // TODO fix settings validation
-    // if (!this.areSettingsValid()) {
-    //   return;
-    // }
-
-    const settingsDto: SettingsDto = {
-      outputLogPath: this.outputLogPath,
-      logPollInterval: this.logPollInterval,
-    };
-
+    console.log(this.settings);
     this.actionsSubject.next(new CloseSettingsDialogAction());
-    this.actionsSubject.next(new StoreSettingsAction(settingsDto));
+    this.actionsSubject.next(new StoreSettingsAction(this.settings));
   }
 }

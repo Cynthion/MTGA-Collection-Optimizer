@@ -2,6 +2,7 @@ export const SettingsStorageKey = 'settings';
 
 export interface SettingsDto {
   outputLogPath: string;
+  gameDataPath: string;
   logPollInterval: number;
 }
 
@@ -10,7 +11,8 @@ export interface SettingsState extends SettingsDto {
 }
 
 export const initialSettingsState: SettingsState = {
-  outputLogPath: 'C:\\Users\\{user name}\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\output_log.txt',
+  outputLogPath: '',
+  gameDataPath: '',
   logPollInterval: 5,
   isOpen: false,
 };

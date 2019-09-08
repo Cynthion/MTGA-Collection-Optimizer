@@ -9,6 +9,7 @@
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
 - [ ] show deck worth and make columns sortable by it
+- [ ] show message on empty tables/filter data
 - [X] parse newly created decks (<== Deck.CreateDeckV3)
 - [X] parse newly updated decks (<== Deck.UpdateDeckV3)
 - [X] parse newly deleted decks (==> Deck.DeleteDeck)

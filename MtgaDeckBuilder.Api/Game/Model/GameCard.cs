@@ -48,6 +48,7 @@
         //[JsonProperty("cmc")]
         //public long Cmc { get; set; }
 
+
         [JsonProperty("rarity")]
         public long Rarity { get; set; }
 

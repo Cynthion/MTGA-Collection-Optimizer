@@ -1,4 +1,6 @@
-﻿namespace MtgaDeckBuilder.Api.Controllers
+﻿using MtgaDeckBuilder.Api.Model;
+
+namespace MtgaDeckBuilder.Api.Controllers
 {
     public interface IMtgaCard
     {
@@ -6,7 +8,7 @@
 
         string Name { get; set; }
 
-        int Rarity { get; set; } // TODO make enum
+        Rarity Rarity { get; set; }
 
         string Set { get; set; }
 

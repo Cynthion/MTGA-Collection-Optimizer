@@ -13,7 +13,7 @@ import { PlatformServiceProvider } from '../providers/platform-service-provider'
 import { StorageService } from '../providers/storage.service';
 
 import { SettingsDto, SettingsStorageKey } from './settings.state';
-import { SettingsActionTypes, CloseSettingsDialogAction, LoadBackendSettingsAction, InitializeSettingsAction, OpenSettingsAction, OpenSettingsDialogAction, StoreBackendSettingsAction, CloseSettingsAction } from './settings.actions';
+import { SettingsActionTypes, CloseSettingsDialogAction, LoadBackendSettingsAction, InitializeSettingsAction, OpenSettingsAction, OpenSettingsDialogAction, StoreBackendSettingsAction, CloseSettingsAction, LoadUserSettingsAction, StoreUserSettingsAction } from './settings.actions';
 import { SettingsDialogComponent } from './settings.dialog';
 
 @Injectable()
@@ -86,7 +86,7 @@ export class SettingsDialogEffects {
             this.http,
             'settings',
             dto => [
-              new InitializeSettingsAction(dto),
+              new LoadUserSettingsAction(dto),
             ]
           )
         )),
@@ -104,35 +104,41 @@ export class SettingsDialogEffects {
             'settings',
             a.dto,
             _ => [
-              new InitializeSettingsAction(a.dto),
+              new StoreUserSettingsAction(a.dto),
               new LoadDataAction()],
           ))
       )
     );
 
-  // @Effect()
-  // loadSettings: Observable<Action> = this.actions$
-  //   .pipe(
-  //     ofType(SettingsActionTypes.Load),
-  //     flatMap(_ => {
-  //       const settingsDto = this.storageService.load<SettingsDto>(SettingsStorageKey);
+  @Effect()
+  loadUserSettings: Observable<Action> = this.actions$
+    .pipe(
+      ofType(SettingsActionTypes.LoadUserSettings),
+      map(a => a as LoadUserSettingsAction),
+      flatMap(a => {
+        const userSettings = this.storageService.load<SettingsDto>(SettingsStorageKey);
+        const backendSettings = a.backendDto;
+        const mergedSettings = {
+          ...backendSettings,
+          ...userSettings,
+        };
 
-  //       return [new InitializedSettingsAction(settingsDto)];
-  //     })
-  //   );
+        return [new InitializeSettingsAction(mergedSettings)];
+      })
+    );
 
-  // @Effect()
-  // storeSettings: Observable<Action> = this.actions$
-  //   .pipe(
-  //     ofType(SettingsActionTypes.Store),
-  //     map(a => a as StoreSettingsAction),
-  //     flatMap(a => {
-  //       const settingsDto = a.dto;
-  //       this.storageService.store(SettingsStorageKey, settingsDto);
+  @Effect()
+  storeUserSettings: Observable<Action> = this.actions$
+    .pipe(
+      ofType(SettingsActionTypes.StoreUserSettings),
+      map(a => a as StoreUserSettingsAction),
+      flatMap(a => {
+        const settingsDto = a.dto;
+        this.storageService.store(SettingsStorageKey, settingsDto);
 
-  //       return [new ApplySettingsAction(settingsDto)];
-  //     })
-  //   );
+        return [new InitializeSettingsAction(settingsDto)];
+      })
+    );
 
   constructor(
     private actions$: Actions,

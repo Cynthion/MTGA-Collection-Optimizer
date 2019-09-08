@@ -20,7 +20,6 @@ export function settingsReducer(
     }
 
     case SettingsActionTypes.Initialize: {
-    // case SettingsActionTypes.Apply: {
       return {
         ...state,
         ...action.dto,

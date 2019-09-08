@@ -48,6 +48,10 @@ export class StoreBackendSettingsAction implements Action {
 
 export class LoadUserSettingsAction implements Action {
   readonly type = SettingsActionTypes.LoadUserSettings;
+
+  constructor(
+    public backendDto: SettingsDto,
+  ) { }
 }
 
 export class StoreUserSettingsAction implements Action {

@@ -103,7 +103,9 @@ export class SettingsDialogEffects {
             this.http,
             'settings',
             a.dto,
-            _ => [new LoadDataAction()],
+            _ => [
+              new InitializeSettingsAction(a.dto),
+              new LoadDataAction()],
           ))
       )
     );
@@ -130,22 +132,6 @@ export class SettingsDialogEffects {
 
   //       return [new ApplySettingsAction(settingsDto)];
   //     })
-  //   );
-
-  // @Effect()
-  // applySettings$: Observable<Action> = this.actions$
-  //   .pipe(
-  //     ofType(SettingsActionTypes.Apply),
-  //     map(a => a as ApplySettingsAction),
-  //     flatMap(a =>
-  //       surroundWithLoadingActions(
-  //         internalApiPost(
-  //           this.http,
-  //           'settings',
-  //           a.dto,
-  //           _ => [new LoadDataAction()]
-  //         ))
-  //     )
   //   );
 
   constructor(

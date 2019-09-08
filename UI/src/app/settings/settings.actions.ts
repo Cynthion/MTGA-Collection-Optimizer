@@ -7,12 +7,11 @@ export enum SettingsActionTypes {
   Close = '[Settings] Close',
   OpenDialog = '[Settings] Open Dialog',
   CloseDialog = '[Settings] Close Dialog',
-  // Load = '[Settings] Load',
-  // Store = '[Settings] Store',
   LoadBackendSettings = '[Settings] Load Backend Settings',
   StoreBackendSettings = '[Settings] Store Backend Settings',
+  LoadUserSettings = '[Settings] Load User Settings',
+  StoreUserSettings = '[Settings] Store User Settings',
   Initialize = '[Settings] Initialize',
-  // Apply = '[Settings] Apply',
 }
 
 export class OpenSettingsAction implements Action {
@@ -35,25 +34,24 @@ export class CloseSettingsDialogAction implements Action {
   readonly type = SettingsActionTypes.CloseDialog;
 }
 
-// TODO rename to LoadUserSettingsAction or similar
-// export class LoadSettingsAction implements Action {
-//   readonly type = SettingsActionTypes.Load;
-// }
-
-// export class StoreSettingsAction implements Action {
-//   readonly type = SettingsActionTypes.Store;
-
-//   constructor(
-//     public dto: SettingsDto,
-//   ) { }
-// }
-
 export class LoadBackendSettingsAction implements Action {
   readonly type = SettingsActionTypes.LoadBackendSettings;
 }
 
 export class StoreBackendSettingsAction implements Action {
   readonly type = SettingsActionTypes.StoreBackendSettings;
+
+  constructor(
+    public dto: SettingsDto,
+  ) { }
+}
+
+export class LoadUserSettingsAction implements Action {
+  readonly type = SettingsActionTypes.LoadUserSettings;
+}
+
+export class StoreUserSettingsAction implements Action {
+  readonly type = SettingsActionTypes.StoreUserSettings;
 
   constructor(
     public dto: SettingsDto,
@@ -68,23 +66,14 @@ export class InitializeSettingsAction implements Action {
   ) { }
 }
 
-// export class ApplySettingsAction implements Action {
-//   readonly type = SettingsActionTypes.Apply;
-
-//   constructor(
-//     public dto: SettingsDto,
-//   ) { }
-// }
-
 export type SettingsActions =
   | OpenSettingsAction
   | CloseSettingsAction
   | OpenSettingsDialogAction
   | CloseSettingsDialogAction
-  // | LoadSettingsAction
-  // | StoreSettingsAction
   | LoadBackendSettingsAction
   | StoreBackendSettingsAction
+  | LoadUserSettingsAction
+  | StoreUserSettingsAction
   | InitializeSettingsAction
-  // | ApplySettingsAction
   ;

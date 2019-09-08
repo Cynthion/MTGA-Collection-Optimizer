@@ -14,6 +14,13 @@ namespace MtgaDeckBuilder.Api.Controllers
             _settings = settings;
         }
 
+        // GET api/settings
+        [HttpGet]
+        public ActionResult GetSettings()
+        {
+            return Ok(_settings);
+        }
+
         // POST api/settings
         [HttpPost]
         public ActionResult SetSettings([FromBody] SettingsDto settingsDto)

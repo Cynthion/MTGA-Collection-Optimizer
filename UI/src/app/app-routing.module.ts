@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppGuard } from './app.guard';
-
 export const routes: Routes = [
   {
    // default path for the application, the place to go when the path in the URL is empty,
@@ -10,7 +8,6 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full', // matches against the entire URL. It is important to do this when redirecting empty-path routes. Otherwise, because an empty path is a prefix of any URL, the router would apply the redirect even when navigating to the redirect destination, creating an endless loop
     redirectTo: 'decks-tab', // absolute if the URL begins with a slash (/)
-    canActivate: [AppGuard],
   },
   // TODO currently wildcard doesn't work (always resets to deck-card), fix navigation to work properly
   // {

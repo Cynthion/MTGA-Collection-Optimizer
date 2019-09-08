@@ -8,7 +8,7 @@ import { ElectronService } from './providers/electron.service';
 import { PlatformServiceProvider } from './providers/platform-service-provider';
 import { makeInternalApiUrl } from './util/http';
 import { OpenAboutDialogAction } from './about';
-import { OpenSettingsDialogAction } from './settings';
+import { OpenSettingsAction } from './settings';
 import { AppState, RootState } from './app.state';
 import { LoadDataAction } from './layout/layout.actions';
 
@@ -56,8 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.unsubscribeFromServerSentEvents();
   }
 
-  openSettingsDialog(): void {
-    this.actionsSubject.next(new OpenSettingsDialogAction());
+  openSettings(): void {
+    this.actionsSubject.next(new OpenSettingsAction());
   }
 
   openAboutDialog(): void {

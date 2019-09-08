@@ -26,7 +26,6 @@ import { PreloadBridge } from './providers/preload.bridge';
 import { BrowserStorageService } from './providers/browser-storage.service';
 
 import { AppComponent } from './app.component';
-import { AppGuard } from './app.guard';
 import {
   reducers,
   metaReducers,
@@ -91,7 +90,6 @@ const featureModules = [
     ...featureModules,
   ],
   providers: [
-    AppGuard,
     ElectronService,
     PlatformServiceProvider,
     PreloadBridge,

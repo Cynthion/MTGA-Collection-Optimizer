@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { RootState } from '../app.state';
 import { SettingsState, SettingsDto } from './settings.state';
-import { CloseSettingsDialogAction, StoreSettingsAction } from './settings.actions';
+import { CloseSettingsAction } from './settings.actions';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -20,11 +20,15 @@ export class SettingsDialogComponent implements OnDestroy {
 
   constructor(
     private store: Store<RootState>,
-    private actionsSubject: ActionsSubject) {
+    private actionsSubject: ActionsSubject,
+    private changeDetector: ChangeDetectorRef) {
 
     this.state$ = this.store.pipe(select(s => s.app.settings));
 
-    this.settingsSubscription = this.state$.subscribe(s => this.settings = s);
+    this.settingsSubscription = this.state$.subscribe(s => {
+      this.settings = s;
+      this.changeDetector.markForCheck();
+    });
   }
 
   ngOnDestroy(): void {
@@ -39,7 +43,7 @@ export class SettingsDialogComponent implements OnDestroy {
 
   closeDialog(): void {
     console.log(this.settings);
-    this.actionsSubject.next(new CloseSettingsDialogAction());
-    this.actionsSubject.next(new StoreSettingsAction(this.settings));
+    this.actionsSubject.next(new CloseSettingsAction());
+    // this.actionsSubject.next(new StoreSettingsAction(this.settings));
   }
 }

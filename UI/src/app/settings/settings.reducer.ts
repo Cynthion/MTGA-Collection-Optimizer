@@ -19,8 +19,8 @@ export function settingsReducer(
       };
     }
 
-    case SettingsActionTypes.Initialized:
-    case SettingsActionTypes.Apply: {
+    case SettingsActionTypes.Initialize: {
+    // case SettingsActionTypes.Apply: {
       return {
         ...state,
         ...action.dto,

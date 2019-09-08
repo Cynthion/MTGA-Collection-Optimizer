@@ -13,7 +13,7 @@ import { PlatformServiceProvider } from '../providers/platform-service-provider'
 import { StorageService } from '../providers/storage.service';
 
 import { SettingsDto, SettingsStorageKey } from './settings.state';
-import { SettingsActionTypes, CloseSettingsDialogAction, LoadBackendSettingsAction, InitializeSettingsAction, OpenSettingsAction, OpenSettingsDialogAction } from './settings.actions';
+import { SettingsActionTypes, CloseSettingsDialogAction, LoadBackendSettingsAction, InitializeSettingsAction, OpenSettingsAction, OpenSettingsDialogAction, StoreBackendSettingsAction, CloseSettingsAction } from './settings.actions';
 import { SettingsDialogComponent } from './settings.dialog';
 
 @Injectable()
@@ -29,6 +29,18 @@ export class SettingsDialogEffects {
       flatMap(_ => [
         new LoadBackendSettingsAction(),
         new OpenSettingsDialogAction(),
+      ])
+    );
+
+  @Effect()
+  closeSettings$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(SettingsActionTypes.Close),
+      map(a => a as CloseSettingsAction),
+      flatMap(a => [
+        new StoreBackendSettingsAction(a.dto),
+        new CloseSettingsDialogAction(),
+        new LoadDataAction(),
       ])
     );
 
@@ -79,6 +91,22 @@ export class SettingsDialogEffects {
             ]
           )
         )),
+    );
+
+  @Effect()
+  storeBackendSettings$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(SettingsActionTypes.StoreBackendSettings),
+      map(a => a as StoreBackendSettingsAction),
+      flatMap(a =>
+        surroundWithLoadingActions(
+          internalApiPost(
+            this.http,
+            'settings',
+            a.dto,
+            _ => [],
+          ))
+      )
     );
 
   // @Effect()

@@ -10,6 +10,7 @@ export enum SettingsActionTypes {
   // Load = '[Settings] Load',
   // Store = '[Settings] Store',
   LoadBackendSettings = '[Settings] Load Backend Settings',
+  StoreBackendSettings = '[Settings] Store Backend Settings',
   Initialize = '[Settings] Initialize',
   // Apply = '[Settings] Apply',
 }
@@ -20,6 +21,10 @@ export class OpenSettingsAction implements Action {
 
 export class CloseSettingsAction implements Action {
   readonly type = SettingsActionTypes.Close;
+
+  constructor(
+    public dto: SettingsDto,
+  ) { }
 }
 
 export class OpenSettingsDialogAction implements Action {
@@ -47,6 +52,14 @@ export class LoadBackendSettingsAction implements Action {
   readonly type = SettingsActionTypes.LoadBackendSettings;
 }
 
+export class StoreBackendSettingsAction implements Action {
+  readonly type = SettingsActionTypes.StoreBackendSettings;
+
+  constructor(
+    public dto: SettingsDto,
+  ) { }
+}
+
 export class InitializeSettingsAction implements Action {
   readonly type = SettingsActionTypes.Initialize;
 
@@ -71,6 +84,7 @@ export type SettingsActions =
   // | LoadSettingsAction
   // | StoreSettingsAction
   | LoadBackendSettingsAction
+  | StoreBackendSettingsAction
   | InitializeSettingsAction
   // | ApplySettingsAction
   ;

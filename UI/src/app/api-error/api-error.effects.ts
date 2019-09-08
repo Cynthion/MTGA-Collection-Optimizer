@@ -7,7 +7,7 @@ import { concatMap, flatMap, map, tap, filter } from 'rxjs/operators';
 
 import { OpenApiErrorSnackbarAction, ApiErrorActionTypes, CloseApiErrorSnackbarAction } from './api-error.actions';
 import { ApiErrorComponent } from './api-error.component';
-import { OpenSettingsDialogAction } from '../settings/settings.actions';
+import { OpenSettingsAction } from '../settings/settings.actions';
 import { LoadDataAction } from '../layout/layout.actions';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class ApiErrorEffects {
     tap(_ => this.snackBar.dismiss()),
     map(a => {
       if (a.apiErrorCode === 0 || a.apiErrorCode === 1) {
-        return new OpenSettingsDialogAction();
+        return new OpenSettingsAction();
       }
       if (a.apiErrorCode === 2) {
         return new LoadDataAction();

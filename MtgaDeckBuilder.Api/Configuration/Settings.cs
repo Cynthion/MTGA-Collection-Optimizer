@@ -38,7 +38,7 @@ namespace MtgaDeckBuilder.Api.Configuration
         public string GameDataPath
         {
             get => _gameDataPath;
-            set => _outputLogPath = value;
+            set => _gameDataPath = value;
         }
 
         public void AssertOutputLogPathValid()

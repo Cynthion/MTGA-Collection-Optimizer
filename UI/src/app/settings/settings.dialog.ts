@@ -42,8 +42,6 @@ export class SettingsDialogComponent implements OnDestroy {
   }
 
   closeDialog(): void {
-    console.log(this.settings);
-    this.actionsSubject.next(new CloseSettingsAction());
-    // this.actionsSubject.next(new StoreSettingsAction(this.settings));
+    this.actionsSubject.next(new CloseSettingsAction(this.settings));
   }
 }

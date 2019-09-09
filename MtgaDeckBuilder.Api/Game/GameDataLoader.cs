@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
-using Game.Model;
 using MtgaDeckBuilder.Api.Configuration;
+using MtgaDeckBuilder.Api.Game.Model;
 using NLog;
 
 namespace MtgaDeckBuilder.Api.Game

@@ -5,6 +5,7 @@
     /// </summary>
     public enum Rarity
     {
+        Unknown = -1,
         Type = 0,
         Land = 1,
         Common = 2,
@@ -30,6 +31,7 @@
     /// </summary>
     public enum CardType
     {
+        Unknown = -1,
         Artifact = 1,
         Creature = 2,
         Enchantment = 3,

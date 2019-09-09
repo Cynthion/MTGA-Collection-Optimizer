@@ -1,5 +1,4 @@
-﻿
-using Game.Model;
+﻿using MtgaDeckBuilder.Api.Game.Model;
 using System.Collections.Generic;
 using System.Linq;
 

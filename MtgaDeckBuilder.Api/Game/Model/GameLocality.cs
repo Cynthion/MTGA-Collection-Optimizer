@@ -1,4 +1,4 @@
-﻿namespace Game.Model
+﻿namespace MtgaDeckBuilder.Api.Game.Model
 {
     using System.Globalization;
     using Newtonsoft.Json;

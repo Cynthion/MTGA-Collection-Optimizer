@@ -38,6 +38,9 @@ namespace MtgaDeckBuilder.Api.Layout
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks();
 
+            // TODO do game data integration
+            _gameDataIntegrator.AssertGameDataInitialized();
+
             var dto = new LayoutDto
             {
                 Inventory = inventory,

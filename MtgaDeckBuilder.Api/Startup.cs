@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.Configuration;
+using MtgaDeckBuilder.Api.Controllers;
 using MtgaDeckBuilder.Api.Extensions;
 using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
-using MtgaDeckBuilder.Api.Model;
 using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 

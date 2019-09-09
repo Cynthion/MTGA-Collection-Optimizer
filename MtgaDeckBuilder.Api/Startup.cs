@@ -8,6 +8,7 @@ using MtgaDeckBuilder.Api.Extensions;
 using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
+using MtgaDeckBuilder.Api.Model;
 using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -59,6 +60,7 @@ namespace MtgaDeckBuilder.Api
             {
                 return new GameData(provider.GetService<IGameDataLoader>());
             });
+            services.AddSingleton<IGameDataIntegrator, GameDataIntegrator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

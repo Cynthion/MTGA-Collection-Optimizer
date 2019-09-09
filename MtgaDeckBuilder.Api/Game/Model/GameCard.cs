@@ -79,8 +79,8 @@
         /// <summary>
         /// Enum.CardType.Id
         /// </summary>
-        [JsonProperty("supertypes")]
-        public long[] Supertypes { get; set; }
+        //[JsonProperty("supertypes")]
+        //public long[] Supertypes { get; set; }
 
         /// <summary>
         /// Loc.Keys.Id of Enum.CardType
@@ -124,8 +124,8 @@
         /// <summary>
         /// Card.GrpId
         /// </summary>
-        [JsonProperty("linkedTokens")]
-        public long[] LinkedTokens { get; set; }
+        //[JsonProperty("linkedTokens")]
+        //public long[] LinkedTokens { get; set; }
 
         //[JsonProperty("knownSupportedStyles")]
         //public KnownSupportedStyle[] KnownSupportedStyles { get; set; }

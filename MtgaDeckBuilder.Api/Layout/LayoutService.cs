@@ -40,6 +40,7 @@ namespace MtgaDeckBuilder.Api.Layout
 
             // TODO do game data integration
             _gameDataIntegrator.AssertGameDataInitialized();
+            var gameCards = playerCards.Select(pc => _gameDataIntegrator.GetGameCard(pc.Key)).ToArray();
 
             var dto = new LayoutDto
             {

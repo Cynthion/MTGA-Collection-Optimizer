@@ -45,16 +45,4 @@
         Tribal = 11,
         Vanguard = 12,
     }
-
-    /// <summary>
-    /// Enum.SuperType.Id
-    /// </summary>
-    public enum SuperType
-    {
-        Basic = 1,
-        Legendary = 2,
-        Ongoing = 3,
-        Snow = 4,
-        World = 5,
-    }
 }

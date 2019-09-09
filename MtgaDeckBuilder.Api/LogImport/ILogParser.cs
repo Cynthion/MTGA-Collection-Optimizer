@@ -7,6 +7,9 @@ namespace MtgaDeckBuilder.Api.LogImport
     {
         bool IsDetailedLogDisabled();
 
+        /// <summary>
+        /// Key: MtgaId, Value: OwnedCount
+        /// </summary>
         IDictionary<long, short> ParsePlayerCards();
 
         IEnumerable<PlayerDeck> ParsePlayerDecks();

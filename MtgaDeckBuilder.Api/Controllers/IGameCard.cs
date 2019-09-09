@@ -1,4 +1,5 @@
 ﻿using MtgaDeckBuilder.Api.Model;
+using System.Collections.Generic;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
@@ -6,27 +7,30 @@ namespace MtgaDeckBuilder.Api.Controllers
     {
         long MtgaId { get; set; }
 
+
         string Name { get; set; }
-
-        string Set { get; set; }
-
-        Rarity Rarity { get; set; }
-
-        Color[] Colors { get; set; }
-
-        CardType CardTypes { get; set; }
-
-        SuperType[] Supertypes { get; set; }
-
-        string[] Subtypes { get; set; }
-
-        string[] Abilities { get; set; }
-
-        string[] HiddenAbilities { get; set; }
 
         string CardTypeText { get; set; }
 
         string SubtypeText { get; set; }
+
+        string Set { get; set; }
+
+        long Power { get; set; }
+
+        long Toughness { get; set; }
+
+        Rarity Rarity { get; set; }
+
+        IEnumerable<Color> Colors { get; set; }
+
+        IEnumerable<CardType> CardTypes { get; set; }
+        
+        IEnumerable<string> Subtypes { get; set; }
+
+        IEnumerable<string> Abilities { get; set; }
+
+        IEnumerable<string> HiddenAbilities { get; set; }
     }
 
     public class GameCard : IGameCard
@@ -35,24 +39,26 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         public string Name { get; set; }
 
-        public string Set { get; set; }
-
-        public Rarity Rarity { get; set; }
-
-        public Color[] Colors { get; set; }
-
-        public CardType CardTypes { get; set; }
-
-        public SuperType[] Supertypes { get; set; }
-
-        public string[] Subtypes { get; set; }
-
-        public string[] Abilities { get; set; }
-
-        public string[] HiddenAbilities { get; set; }
-
         public string CardTypeText { get; set; }
 
         public string SubtypeText { get; set; }
+
+        public string Set { get; set; }
+
+        public long Power { get; set; }
+
+        public long Toughness { get; set; }
+
+        public Rarity Rarity { get; set; }
+
+        public IEnumerable<Color> Colors { get; set; }
+
+        public IEnumerable<CardType> CardTypes { get; set; }
+
+        public IEnumerable<string> Subtypes { get; set; }
+
+        public IEnumerable<string> Abilities { get; set; }
+
+        public IEnumerable<string> HiddenAbilities { get; set; }
     }
 }

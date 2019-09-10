@@ -5,8 +5,7 @@ namespace MtgaDeckBuilder.Api.Game
 {
     public interface IGameCard
     {
-        long MtgaId { get; set; }
-
+        long GrpId { get; set; }
 
         string Name { get; set; }
 
@@ -35,7 +34,7 @@ namespace MtgaDeckBuilder.Api.Game
 
     public class GameCard : IGameCard
     {
-        public long MtgaId { get; set; }
+        public long GrpId { get; set; }
 
         public string Name { get; set; }
 

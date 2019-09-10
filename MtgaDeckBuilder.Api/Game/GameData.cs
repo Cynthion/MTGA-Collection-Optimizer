@@ -21,13 +21,13 @@ namespace MtgaDeckBuilder.Api.Game
         private IDictionary<long, GameDataCard> _cards;
 
         // Key: Enum name, Value: (Key: Enum Id, Value: Locality Id)
-        public IDictionary<string, Dictionary<long, long>> _enums;
+        private IDictionary<string, Dictionary<long, long>> _enums;
 
         // Key: Ability Id, Value: Locality Id
-        public IDictionary<long, long> _abilities;
+        private IDictionary<long, long> _abilities;
 
         // Key: Locality Id, Value: Text
-        public IDictionary<long, string> _localities;
+        private IDictionary<long, string> _localities;
 
         public GameData(IGameDataLoader gameDataLoader)
         {
@@ -63,14 +63,14 @@ namespace MtgaDeckBuilder.Api.Game
             }
         }
 
-        public IGameCard GetGameCard(long mtgaId)
+        public IGameCard GetGameCard(long grpId)
         {
-            if (_gameCardCache.TryGetValue(mtgaId, out IGameCard gameCard))
+            if (_gameCardCache.TryGetValue(grpId, out IGameCard gameCard))
             {
                 return gameCard;
             }
 
-            if (!_cards.TryGetValue(mtgaId, out GameDataCard gameDataCard))
+            if (!_cards.TryGetValue(grpId, out GameDataCard gameDataCard))
             {
                 return UnknownGameCard;
             }
@@ -81,7 +81,7 @@ namespace MtgaDeckBuilder.Api.Game
 
             gameCard = new GameCard
             {
-                MtgaId = mtgaId,
+                GrpId = grpId,
                 Name = name,
                 CardTypeText = cardTypeText,
                 SubtypeText = subtypeText,
@@ -105,14 +105,14 @@ namespace MtgaDeckBuilder.Api.Game
                 HiddenAbilities = gameDataCard.HiddenAbilities.Select(ha => _localities[ha.TextId])
             };
 
-            _gameCardCache.Add(gameCard.MtgaId, gameCard);
+            _gameCardCache.Add(gameCard.GrpId, gameCard);
 
             return gameCard;
         }
 
         private static readonly GameCard UnknownGameCard = new GameCard
         {
-            MtgaId = -1,
+            GrpId = -1,
             Name = "Unknown Game Card",
             Rarity = Rarity.Unknown,
             Set = "Unknown Set",

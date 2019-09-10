@@ -37,8 +37,11 @@
 - [X] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 
 ## Game Data Import
-- [ ] make file locations configurable via settings
+- [ ] business logic should not be done in reducers -> move to backend
 - [ ] make model loading async
+- [ ] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
+- [X] make file locations configurable via settings
+- [X] load model data from game: G:\MTGArenaLive\MTGA_Data\Downloads\Data
 
 ## Images
 - [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)
@@ -82,13 +85,6 @@
 
 # Optimization / Refactoring
 - [ ] improve ngrx/rxjs stuff (.subscription bodys not dispatching actions, etc.)
-- [ ] find NuGet package for MTGA Card information, instead of npm package
-- [ ] OR load model data from game: G:\MTGArenaLive\MTGA_Data\Downloads\Data
-  - [ ] Card data: data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON
-  - [ ] Abilities: data_abilities_ --> JSON
-  - etc.
-- [ ] business logic should not be done in reducers -> move to backend
-- [ ] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
 - [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
 - [ ] parse log file async
 - [ ] parse log file from end of file

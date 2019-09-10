@@ -1,10 +1,10 @@
-﻿namespace MtgaDeckBuilder.Api.Game.Model
+﻿namespace MtgaDeckBuilder.Api.Game.Data
 {
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public partial class GameAbility
+    public partial class GameDataAbility
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -58,9 +58,9 @@
         //public long[] ReferencedKeywordTypes { get; set; }
     }
 
-    public partial class GameAbility
+    public partial class GameDataAbility
     {
-        public static GameAbility[] FromJson(string json) => JsonConvert.DeserializeObject<GameAbility[]>(json, GameAbilityConverter.Settings);
+        public static GameDataAbility[] FromJson(string json) => JsonConvert.DeserializeObject<GameDataAbility[]>(json, GameAbilityConverter.Settings);
     }
 
     internal static class GameAbilityConverter

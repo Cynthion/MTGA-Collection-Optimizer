@@ -1,7 +1,7 @@
 ﻿using MtgaDeckBuilder.Api.Model;
 using System.Collections.Generic;
 
-namespace MtgaDeckBuilder.Api.Controllers
+namespace MtgaDeckBuilder.Api.Game
 {
     public interface IGameCard
     {

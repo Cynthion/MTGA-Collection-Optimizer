@@ -1,10 +1,10 @@
-﻿namespace MtgaDeckBuilder.Api.Game.Model
+﻿namespace MtgaDeckBuilder.Api.Game.Data
 {
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public partial class GameCard
+    public partial class GameDataCard
     {
         [JsonProperty("grpid")]
         public long Grpid { get; set; }
@@ -146,9 +146,9 @@
 
     //public enum Set { Akh, Ana, ArenaSup, Avr, Bfz, C13, Chk, Cmd, Dar, Dis, Dst, Eld, Emn, G18, Grn, Gtc, M11, M19, M20, Me2, Me4, Mi, Nph, Ps, Rav, Rix, Rna, Roe, Rtr, Scg, The10E, The5Dn, The9Ed, War, Xln, Zen };
 
-    public partial class GameCard
+    public partial class GameDataCard
     {
-        public static GameCard[] FromJson(string json) => JsonConvert.DeserializeObject<GameCard[]>(json, GameCardConverter.Settings);
+        public static GameDataCard[] FromJson(string json) => JsonConvert.DeserializeObject<GameDataCard[]>(json, GameCardConverter.Settings);
     }
 
     internal static class GameCardConverter

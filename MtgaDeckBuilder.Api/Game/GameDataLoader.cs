@@ -1,20 +1,20 @@
 ﻿using System.IO;
 using System.Linq;
 using MtgaDeckBuilder.Api.Configuration;
-using MtgaDeckBuilder.Api.Game.Model;
+using MtgaDeckBuilder.Api.Game.Data;
 using NLog;
 
 namespace MtgaDeckBuilder.Api.Game
 {
     public interface IGameDataLoader
     {
-        GameCard[] LoadGameCards();
+        GameDataCard[] LoadGameDataCards();
 
-        GameEnum[] LoadGameEnums();
+        GameDataEnum[] LoadGameDataEnums();
 
-        GameAbility[] LoadGameAbilities();
+        GameDataAbility[] LoadGameDataAbilities();
 
-        GameLocality[] LoadGameLocalities();
+        GameDataLocality[] LoadGameDataLocalities();
     }
 
     public class GameDataLoader : IGameDataLoader
@@ -30,43 +30,43 @@ namespace MtgaDeckBuilder.Api.Game
             _fileLocations = fileLocations;
         }
 
-        public GameCard[] LoadGameCards()
+        public GameDataCard[] LoadGameDataCards()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.CardsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameCard.FromJson(json);
+                return GameDataCard.FromJson(json);
             }
         }
 
-        public GameEnum[] LoadGameEnums()
+        public GameDataEnum[] LoadGameDataEnums()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.EnumsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameEnum.FromJson(json);
+                return GameDataEnum.FromJson(json);
             }
         }
 
-        public GameAbility[] LoadGameAbilities()
+        public GameDataAbility[] LoadGameDataAbilities()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.AbilitiesDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameAbility.FromJson(json);
+                return GameDataAbility.FromJson(json);
             }
         }
 
-        public GameLocality[] LoadGameLocalities()
+        public GameDataLocality[] LoadGameDataLocalities()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.LocalityDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameLocality.FromJson(json);
+                return GameDataLocality.FromJson(json);
             }
         }
 

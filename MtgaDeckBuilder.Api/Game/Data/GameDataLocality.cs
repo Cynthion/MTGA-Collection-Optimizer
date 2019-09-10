@@ -1,33 +1,36 @@
-﻿namespace MtgaDeckBuilder.Api.Game.Model
+﻿namespace MtgaDeckBuilder.Api.Game.Data
 {
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public partial class GameEnum
+    public partial class GameDataLocality
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("langkey")]
+        public string Langkey { get; set; }
 
-        [JsonProperty("values")]
-        public Value[] Values { get; set; }
+        [JsonProperty("isoCode")]
+        public string IsoCode { get; set; }
+
+        [JsonProperty("keys")]
+        public Key[] Keys { get; set; }
     }
 
-    public partial class Value
+    public partial class Key
     {
         [JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("text")]
-        public long Text { get; set; }
+        public string Text { get; set; }
     }
 
-    public partial class GameEnum
+    public partial class GameDataLocality
     {
-        public static GameEnum[] FromJson(string json) => JsonConvert.DeserializeObject<GameEnum[]>(json, GameEnumConverter.Settings);
+        public static GameDataLocality[] FromJson(string json) => JsonConvert.DeserializeObject<GameDataLocality[]>(json, GameLocalityConverter.Settings);
     }
 
-    internal static class GameEnumConverter
+    internal static class GameLocalityConverter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {

@@ -1,5 +1,6 @@
 ﻿using MtgaDeckBuilder.Api.Controllers;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
+using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.Model;
 using System.Collections.Generic;
@@ -17,12 +18,12 @@ namespace MtgaDeckBuilder.Api.Layout
     public class LayoutService : ILayoutService
     {
         private readonly ILogParser _logParser;
-        private readonly IGameDataIntegrator _gameDataIntegrator;
+        private readonly IGameData _gameData;
 
-        public LayoutService(ILogParser logParser, IGameDataIntegrator gameDataIntegrator)
+        public LayoutService(ILogParser logParser, IGameData gameData)
         {
             _logParser = logParser;
-            _gameDataIntegrator = gameDataIntegrator;
+            _gameData = gameData;
         }
 
         public bool IsDetailedLogDisabled()
@@ -39,8 +40,8 @@ namespace MtgaDeckBuilder.Api.Layout
             var playerDecks = ParsePlayerDecks();
 
             // TODO do game data integration
-            _gameDataIntegrator.AssertGameDataInitialized();
-            var gameCards = playerCards.Select(pc => _gameDataIntegrator.GetGameCard(pc.Key)).ToArray();
+            _gameData.AssertInitialized();
+            var gameCards = playerCards.Select(pc => _gameData.GetGameCard(pc.Key)).ToArray();
 
             var dto = new LayoutDto
             {

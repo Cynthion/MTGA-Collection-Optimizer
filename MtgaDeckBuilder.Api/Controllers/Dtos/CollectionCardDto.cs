@@ -1,4 +1,6 @@
-﻿namespace MtgaDeckBuilder.Api.Controllers.Dtos
+﻿using MtgaDeckBuilder.Api.Game;
+
+namespace MtgaDeckBuilder.Api.Controllers.Dtos
 {
     public interface ICollectionCard : IGameCard, IPlayerCard, IDeckCard
     {

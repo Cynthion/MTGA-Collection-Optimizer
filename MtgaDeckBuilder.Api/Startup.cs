@@ -60,7 +60,6 @@ namespace MtgaDeckBuilder.Api
             {
                 return new GameData(provider.GetService<IGameDataLoader>());
             });
-            services.AddSingleton<IGameDataIntegrator, GameDataIntegrator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

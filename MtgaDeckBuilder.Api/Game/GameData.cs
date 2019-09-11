@@ -32,6 +32,7 @@ namespace MtgaDeckBuilder.Api.Game
         public GameData(IGameDataLoader gameDataLoader)
         {
             _gameDataLoader = gameDataLoader;
+            _gameCardCache = new Dictionary<long, IGameCard>();
         }
 
         public void AssertInitialized()

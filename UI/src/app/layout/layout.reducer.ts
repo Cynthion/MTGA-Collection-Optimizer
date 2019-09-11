@@ -63,7 +63,6 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
 
         // if collection has card, take max missingCount
         const existingCollectionCard = collectionCards.find(cc => cc.mtgaId === deckCardCc.mtgaId);
-
         const missingCount = existingCollectionCard !== undefined
           ? _.max([existingCollectionCard.missingCount, missingCountForDeck])
           : missingCountForDeck;

@@ -1,8 +1,8 @@
-﻿using MtgaDeckBuilder.Api.Controllers;
-using MtgaDeckBuilder.Api.Controllers.Dtos;
+﻿using MtgaDeckBuilder.Api.Controllers.Dtos;
 using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.Api.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,41 +32,20 @@ namespace MtgaDeckBuilder.Api.Layout
         }
 
         public LayoutDto LoadLayout()
-        { 
+        {
             // TODO parse log async
             // TODO optimize parsing: start from end of file
             var inventory = ParseInventory();
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks();
-
-            // TODO do game data integration
-            _gameData.AssertInitialized();
-            var gameCards = playerCards.Select(pc => _gameData.GetGameCard(pc.Key)).ToArray();
+            var collectionCards = CalculateCollectionCards(playerCards, playerDecks);
+            var decks = CalculateDecks(playerDecks);
 
             var dto = new LayoutDto
             {
                 Inventory = inventory,
-                PlayerCards = playerCards
-                    .Select(c => new PlayerCardDto
-                    {
-                        MtgaId = c.Key,
-                        OwnedCount = c.Value,
-                    })
-                    .ToArray(),
-                PlayerDecks = playerDecks
-                    .Select(d => new PlayerDeckDto
-                    {
-                        Id = d.Id,
-                        Name = d.Name,
-                        Cards = d.Cards.Select(c => new DeckCardDto
-                        {
-                            MtgaId = c.Key,
-                            RequiredCount = c.Value
-                        }).ToArray()
-                    })
-                    .Where(d => !d.Name.Contains("?=?"))
-                    .OrderBy(d => d.Name)
-                    .ToArray()
+                CollectionCards = collectionCards,
+                Decks = decks,
             };
 
             return dto;
@@ -119,6 +98,89 @@ namespace MtgaDeckBuilder.Api.Layout
             });
 
             return playerDecksConsolidated;
+        }
+
+        private IEnumerable<CollectionCardDto> CalculateCollectionCards(IDictionary<long, short> playerCards, IEnumerable<PlayerDeck> playerDecks)
+        {
+            var collectionCards = new List<CollectionCardDto>();
+
+            var playerCardCcs = playerCards.Select(pc => new CollectionCardDto
+            {
+                MtgaId = pc.Key,
+                OwnedCount = pc.Value,
+                RequiredCount = 0,
+                MissingCount = 0,
+                WildcardWorthiness = 0,
+            });
+
+            var deckCardCcs = playerDecks.SelectMany(pd => pd.Cards).Select(dc => new CollectionCardDto
+            {
+                MtgaId = dc.Key,
+                OwnedCount = 0,
+                RequiredCount = dc.Value,
+                MissingCount = 0,
+                WildcardWorthiness = 0,
+            });
+
+            collectionCards.AddRange(playerCardCcs);
+
+            foreach (var deckCardCc in deckCardCcs)
+            {
+                // if player has card, take ownedCount
+                var existingPlayerCard = playerCardCcs.SingleOrDefault(pc => pc.MtgaId == deckCardCc.MtgaId);
+                var ownedCount = existingPlayerCard != null
+                    ? existingPlayerCard.OwnedCount
+                    : deckCardCc.OwnedCount;
+                var missingCountForDeck = (short)Math.Max(deckCardCc.RequiredCount - ownedCount, 0);
+
+                // if collection has card, take max missingCount
+                var existingCollectionCard = collectionCards.SingleOrDefault(cc => cc.MtgaId == deckCardCc.MtgaId);
+                var missingCount = existingCollectionCard != null
+                    ? Math.Max(existingCollectionCard.MissingCount, missingCountForDeck)
+                    : missingCountForDeck;
+
+                // add/update card
+                if (existingCollectionCard == null)
+                {
+                    deckCardCc.OwnedCount = ownedCount;
+                    deckCardCc.MissingCount = missingCount;
+                    collectionCards.Add(deckCardCc);
+                }
+                else
+                {
+                    existingCollectionCard.OwnedCount = ownedCount;
+                    existingCollectionCard.MissingCount = missingCount;
+                }
+            }
+
+            // TODO calculate wildcardworthiness
+
+            // game data integration
+            _gameData.AssertInitialized();
+            collectionCards
+                .Select(cc => cc.Data = _gameData.GetGameCard(cc.MtgaId))
+                .OrderByDescending(data => data.Rarity)
+                .ThenBy(data => data.Name)
+                .ToArray();
+
+            return collectionCards;
+        }
+
+        private static IEnumerable<PlayerDeckDto> CalculateDecks(IEnumerable<PlayerDeck> playerDecks)
+        {
+            return playerDecks
+                        .Select(d => new PlayerDeckDto
+                        {
+                            Id = d.Id,
+                            Name = d.Name,
+                            Cards = d.Cards.Select(c => new DeckCardDto
+                            {
+                                MtgaId = c.Key,
+                                RequiredCount = c.Value
+                            }).ToArray()
+                        })
+                        .Where(d => !d.Name.Contains("?=?"))
+                        .OrderBy(d => d.Name);
         }
     }
 }

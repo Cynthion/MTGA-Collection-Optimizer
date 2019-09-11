@@ -7,8 +7,8 @@ namespace MtgaDeckBuilder.Api.Layout
     {
         public InventoryDto Inventory { get; set; }
 
-        public IList<PlayerCardDto> PlayerCards { get; set; }
+        public IEnumerable<CollectionCardDto> CollectionCards { get; set; }
 
-        public IList<PlayerDeckDto> PlayerDecks { get; set; }
+        public IEnumerable<PlayerDeckDto> Decks { get; set; }
     }
 }

@@ -8,15 +8,17 @@ namespace MtgaDeckBuilder.Api.Controllers.Dtos
         IGameCard Data { get; set; }
         short MissingCount { get; set; }
         int WildcardWorthiness { get; set; }
+        IDictionary<long, short> RequiredForDeck { get; set; }
     }
 
     public class CollectionCardDto : ICollectionCard
     {
         public long MtgaId { get; set; }
-        public IGameCard Data { get; set; }
         public short OwnedCount { get; set; }
         public short RequiredCount { get; set; }
         public short MissingCount { get; set; }
         public int WildcardWorthiness { get; set; }
+        public IDictionary<long, short> RequiredForDeck { get; set; }
+        public IGameCard Data { get; set; }
     }
 }

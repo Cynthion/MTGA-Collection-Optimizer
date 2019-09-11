@@ -26,76 +26,76 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
       };
     }
 
-    case LayoutActionTypes.CalculateCollectionCards: {
-      let collectionCards: CollectionCardState[] = [];
+    // case LayoutActionTypes.CalculateCollectionCards: {
+    //   let collectionCards: CollectionCardState[] = [];
 
-      // create CollectionCards from PlayerCards
-      const playerCardCcs: CollectionCardState[] = state.playerCards.map(pc => {
-        return {
-          ...pc,
-          requiredCount: 0, // from DeckCard
-          missingCount: 0, // from CollectionCard
-          wildcardWorthinessFactor: 0, // from CollectionCard
-        };
-      });
+    //   // create CollectionCards from PlayerCards
+    //   const playerCardCcs: CollectionCardState[] = state.playerCards.map(pc => {
+    //     return {
+    //       ...pc,
+    //       requiredCount: 0, // from DeckCard
+    //       missingCount: 0, // from CollectionCard
+    //       wildcardWorthinessFactor: 0, // from CollectionCard
+    //     };
+    //   });
 
-      // create DeckCards from DeckCards
-      const deckCards: DeckCardState[] = state.playerDecks.reduce((dc, pd) => [...dc, ...pd.cards], []);
-      const deckCardCcs: CollectionCardState[] = deckCards.map(dc => {
-        return {
-          ...dc,
-          ownedCount: 0, // from PlayerCard
-          missingCount: 0, // from CollectionCard
-          wildcardWorthinessFactor: 0, // from CollectionCard
-        };
-      });
+    //   // create DeckCards from DeckCards
+    //   const deckCards: DeckCardState[] = state.playerDecks.reduce((dc, pd) => [...dc, ...pd.cards], []);
+    //   const deckCardCcs: CollectionCardState[] = deckCards.map(dc => {
+    //     return {
+    //       ...dc,
+    //       ownedCount: 0, // from PlayerCard
+    //       missingCount: 0, // from CollectionCard
+    //       wildcardWorthinessFactor: 0, // from CollectionCard
+    //     };
+    //   });
 
-      // consolidate: starting with PlayerCards, merge DeckCards
-      collectionCards.push(...playerCardCcs);
+    //   // consolidate: starting with PlayerCards, merge DeckCards
+    //   collectionCards.push(...playerCardCcs);
 
-      for (const deckCardCc of deckCardCcs) {
-        // if player has card, take ownedCount
-        const existingPlayerCard = playerCardCcs.find(pc => pc.mtgaId === deckCardCc.mtgaId);
-        const ownedCount = existingPlayerCard !== undefined
-          ? existingPlayerCard.ownedCount
-          : deckCardCc.ownedCount;
-        const missingCountForDeck = _.max([deckCardCc.requiredCount - ownedCount, 0]);
+    //   for (const deckCardCc of deckCardCcs) {
+    //     // if player has card, take ownedCount
+    //     const existingPlayerCard = playerCardCcs.find(pc => pc.mtgaId === deckCardCc.mtgaId);
+    //     const ownedCount = existingPlayerCard !== undefined
+    //       ? existingPlayerCard.ownedCount
+    //       : deckCardCc.ownedCount;
+    //     const missingCountForDeck = _.max([deckCardCc.requiredCount - ownedCount, 0]);
 
-        // if collection has card, take max missingCount
-        const existingCollectionCard = collectionCards.find(cc => cc.mtgaId === deckCardCc.mtgaId);
-        const missingCount = existingCollectionCard !== undefined
-          ? _.max([existingCollectionCard.missingCount, missingCountForDeck])
-          : missingCountForDeck;
+    //     // if collection has card, take max missingCount
+    //     const existingCollectionCard = collectionCards.find(cc => cc.mtgaId === deckCardCc.mtgaId);
+    //     const missingCount = existingCollectionCard !== undefined
+    //       ? _.max([existingCollectionCard.missingCount, missingCountForDeck])
+    //       : missingCountForDeck;
 
-        // add/update card
-        if (existingCollectionCard === undefined) {
-          deckCardCc.ownedCount = ownedCount;
-          deckCardCc.missingCount = missingCount;
-          collectionCards.push(deckCardCc);
-        } else {
-          existingCollectionCard.ownedCount = ownedCount;
-          existingCollectionCard.missingCount = missingCount;
-        }
-      }
+    //     // add/update card
+    //     if (existingCollectionCard === undefined) {
+    //       deckCardCc.ownedCount = ownedCount;
+    //       deckCardCc.missingCount = missingCount;
+    //       collectionCards.push(deckCardCc);
+    //     } else {
+    //       existingCollectionCard.ownedCount = ownedCount;
+    //       existingCollectionCard.missingCount = missingCount;
+    //     }
+    //   }
 
-      // calculate wildcardWorthinessFactor
-      collectionCards.forEach(cc => {
-        cc.wildcardWorthinessFactor = calcWildcardWorthinessFactor(cc, state.playerDecks);
-      });
+    //   // calculate wildcardWorthinessFactor
+    //   collectionCards.forEach(cc => {
+    //     cc.wildcardWorthinessFactor = calcWildcardWorthinessFactor(cc, state.playerDecks);
+    //   });
 
-      // sort
-      collectionCards = _.orderBy(collectionCards, ['rarity', 'name'], ['desc', 'asc']);
+    //   // sort
+    //   collectionCards = _.orderBy(collectionCards, ['rarity', 'name'], ['desc', 'asc']);
 
-      const collectionCardsOwnedCountTotal = _.sumBy(collectionCards, 'ownedCount');
-      const collectionCardsRequiredCountTotal = _.sumBy(collectionCards, 'requiredCount');
+    //   const collectionCardsOwnedCountTotal = _.sumBy(collectionCards, 'ownedCount');
+    //   const collectionCardsRequiredCountTotal = _.sumBy(collectionCards, 'requiredCount');
 
-      return {
-        ...state,
-        collectionCards,
-        collectionCardsOwnedCountTotal,
-        collectionCardsRequiredCountTotal,
-      };
-    }
+    //   return {
+    //     ...state,
+    //     collectionCards,
+    //     collectionCardsOwnedCountTotal,
+    //     collectionCardsRequiredCountTotal,
+    //   };
+    // }
 
     case LayoutActionTypes.CalculateDeckCompleteness: {
       const playerDecks = [...state.playerDecks];

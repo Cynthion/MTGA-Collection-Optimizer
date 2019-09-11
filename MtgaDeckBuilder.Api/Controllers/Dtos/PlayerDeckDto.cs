@@ -9,5 +9,11 @@ namespace MtgaDeckBuilder.Api.Controllers.Dtos
         public string Name { get; set; }
 
         public IList<DeckCardDto> Cards { get; set; }
+
+        public int TotalOwnedDeckCards { get; set; }
+
+        public int TotalDeckCards { get; set; }
+
+        public int Completeness { get; set; }
     }
 }

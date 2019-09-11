@@ -39,13 +39,15 @@ namespace MtgaDeckBuilder.Api.Layout
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks();
             var collectionCards = CalculateCollectionCards(playerCards, playerDecks);
-            var decks = CalculateDecks(playerDecks);
+            var decks = CalculateDecks(playerDecks, collectionCards);
 
             var dto = new LayoutDto
             {
                 Inventory = inventory,
                 CollectionCards = collectionCards,
                 Decks = decks,
+                CollectionCardsOwnedCountTotal = collectionCards.Sum(cc => cc.OwnedCount),
+                CollectionCardsRequiredCountTotal = collectionCards.Sum(cc => cc.RequiredCount),
             };
 
             return dto;
@@ -166,9 +168,9 @@ namespace MtgaDeckBuilder.Api.Layout
             return collectionCards;
         }
 
-        private static IEnumerable<PlayerDeckDto> CalculateDecks(IEnumerable<PlayerDeck> playerDecks)
+        private static IEnumerable<PlayerDeckDto> CalculateDecks(IEnumerable<PlayerDeck> playerDecks, IEnumerable<CollectionCardDto> collectionCards)
         {
-            return playerDecks
+            var decks = playerDecks
                         .Select(d => new PlayerDeckDto
                         {
                             Id = d.Id,
@@ -181,6 +183,25 @@ namespace MtgaDeckBuilder.Api.Layout
                         })
                         .Where(d => !d.Name.Contains("?=?"))
                         .OrderBy(d => d.Name);
+
+            foreach (var deck in decks)
+            {
+                var totalOwnedDeckCards = 0;
+                foreach (var deckCard in deck.Cards)
+                {
+                    var collectionCard = collectionCards.Single(cc => cc.MtgaId == deckCard.MtgaId);
+                    var deckCardOwnedCount = collectionCard.OwnedCount > deckCard.RequiredCount
+                        ? deckCard.RequiredCount
+                        : collectionCard.OwnedCount;
+                    totalOwnedDeckCards += deckCardOwnedCount;
+                }
+
+                deck.TotalDeckCards = deck.Cards.Sum(dc => dc.RequiredCount);
+                deck.TotalOwnedDeckCards = totalOwnedDeckCards;
+                deck.Completeness = deck.TotalOwnedDeckCards / deck.TotalDeckCards;
+            }
+
+            return decks;
         }
     }
 }

@@ -115,43 +115,56 @@ namespace MtgaDeckBuilder.Api.Layout
                 WildcardWorthiness = 0,
             });
 
-            var deckCardCcs = playerDecks.SelectMany(pd => pd.Cards).Select(dc => new CollectionCardDto
-            {
-                MtgaId = dc.Key,
-                OwnedCount = 0,
-                RequiredCount = dc.Value,
-                MissingCount = 0,
-                WildcardWorthiness = 0,
-            });
-
             collectionCards.AddRange(playerCardCcs);
 
-            foreach (var deckCardCc in deckCardCcs)
+            foreach (var deck in playerDecks)
             {
-                // if player has card, take ownedCount
-                var existingPlayerCard = playerCardCcs.SingleOrDefault(pc => pc.MtgaId == deckCardCc.MtgaId);
-                var ownedCount = existingPlayerCard != null
-                    ? existingPlayerCard.OwnedCount
-                    : deckCardCc.OwnedCount;
-                var missingCountForDeck = (short)Math.Max(deckCardCc.RequiredCount - ownedCount, 0);
-
-                // if collection has card, take max missingCount
-                var existingCollectionCard = collectionCards.SingleOrDefault(cc => cc.MtgaId == deckCardCc.MtgaId);
-                var missingCount = existingCollectionCard != null
-                    ? Math.Max(existingCollectionCard.MissingCount, missingCountForDeck)
-                    : missingCountForDeck;
-
-                // add/update card
-                if (existingCollectionCard == null)
+                var deckCardCcs = deck.Cards.Select(dc => new CollectionCardDto
                 {
-                    deckCardCc.OwnedCount = ownedCount;
-                    deckCardCc.MissingCount = missingCount;
-                    collectionCards.Add(deckCardCc);
-                }
-                else
+                    MtgaId = dc.Key,
+                    OwnedCount = 0,
+                    RequiredCount = dc.Value,
+                    MissingCount = 0,
+                    WildcardWorthiness = 0,
+                });
+
+                foreach (var deckCardCc in deckCardCcs)
                 {
-                    existingCollectionCard.OwnedCount = ownedCount;
-                    existingCollectionCard.MissingCount = missingCount;
+                    // if player has card, take ownedCount
+                    var existingPlayerCard = playerCardCcs.SingleOrDefault(pc => pc.MtgaId == deckCardCc.MtgaId);
+                    var ownedCount = existingPlayerCard != null
+                        ? existingPlayerCard.OwnedCount
+                        : deckCardCc.OwnedCount;
+                    var missingCountForDeck = (short)Math.Max(deckCardCc.RequiredCount - ownedCount, 0);
+
+                    // if collection has card, take max missingCount
+                    var existingCollectionCard = collectionCards.SingleOrDefault(cc => cc.MtgaId == deckCardCc.MtgaId);
+                    var missingCount = existingCollectionCard != null
+                        ? Math.Max(existingCollectionCard.MissingCount, missingCountForDeck)
+                        : missingCountForDeck;
+
+                    // add/update card
+                    if (existingCollectionCard == null)
+                    {
+                        deckCardCc.OwnedCount = ownedCount;
+                        deckCardCc.MissingCount = missingCount;
+                        if (deckCardCc.RequiredForDeck == null)
+                        {
+                            deckCardCc.RequiredForDeck = new Dictionary<string, short>();
+                        }
+                        deckCardCc.RequiredForDeck.Add(deck.Id, deckCardCc.RequiredCount);
+                        collectionCards.Add(deckCardCc);
+                    }
+                    else
+                    {
+                        existingCollectionCard.OwnedCount = ownedCount;
+                        existingCollectionCard.MissingCount = missingCount;
+                        if (deckCardCc.RequiredForDeck == null)
+                        {
+                            deckCardCc.RequiredForDeck = new Dictionary<string, short>();
+                        }
+                        deckCardCc.RequiredForDeck.Add(deck.Id, deckCardCc.RequiredCount);
+                    }
                 }
             }
 
@@ -187,6 +200,7 @@ namespace MtgaDeckBuilder.Api.Layout
             foreach (var deck in decks)
             {
                 var totalOwnedDeckCards = 0;
+                var deckCollectionCards = new List<CollectionCardDto>();
                 foreach (var deckCard in deck.Cards)
                 {
                     var collectionCard = collectionCards.Single(cc => cc.MtgaId == deckCard.MtgaId);
@@ -194,11 +208,15 @@ namespace MtgaDeckBuilder.Api.Layout
                         ? deckCard.RequiredCount
                         : collectionCard.OwnedCount;
                     totalOwnedDeckCards += deckCardOwnedCount;
+
+                    deckCollectionCards.Add(collectionCard);
                 }
 
                 deck.TotalDeckCards = deck.Cards.Sum(dc => dc.RequiredCount);
                 deck.TotalOwnedDeckCards = totalOwnedDeckCards;
                 deck.Completeness = deck.TotalOwnedDeckCards / deck.TotalDeckCards;
+
+                deck.Worth = Calculations.CalculateDeckWorth(deck, deckCollectionCards);
             }
 
             return decks;

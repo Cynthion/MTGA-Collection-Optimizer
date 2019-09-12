@@ -97,29 +97,29 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
     //   };
     // }
 
-    case LayoutActionTypes.CalculateDeckCompleteness: {
-      const playerDecks = [...state.playerDecks];
+    // case LayoutActionTypes.CalculateDeckCompleteness: {
+    //   const playerDecks = [...state.playerDecks];
 
-      for (const playerDeck of playerDecks) {
-        let totalOwnedDeckCards = 0;
-        for (const deckCard of playerDeck.cards) {
-          const collectionCard = state.collectionCards.find(cc => cc.mtgaId === deckCard.mtgaId);
-          const deckCardOwnedCount = collectionCard.ownedCount > deckCard.requiredCount
-            ? deckCard.requiredCount
-            : collectionCard.ownedCount;
-          totalOwnedDeckCards += deckCardOwnedCount;
-        }
+    //   for (const playerDeck of playerDecks) {
+    //     let totalOwnedDeckCards = 0;
+    //     for (const deckCard of playerDeck.cards) {
+    //       const collectionCard = state.collectionCards.find(cc => cc.mtgaId === deckCard.mtgaId);
+    //       const deckCardOwnedCount = collectionCard.ownedCount > deckCard.requiredCount
+    //         ? deckCard.requiredCount
+    //         : collectionCard.ownedCount;
+    //       totalOwnedDeckCards += deckCardOwnedCount;
+    //     }
 
-        playerDeck.totalDeckCards = playerDeck.cards.map(dc => dc.requiredCount).reduce((a, b) => a + b);
-        playerDeck.totalOwnedDeckCards = totalOwnedDeckCards;
-        playerDeck.completeness = playerDeck.totalOwnedDeckCards / playerDeck.totalDeckCards;
-      }
+    //     playerDeck.totalDeckCards = playerDeck.cards.map(dc => dc.requiredCount).reduce((a, b) => a + b);
+    //     playerDeck.totalOwnedDeckCards = totalOwnedDeckCards;
+    //     playerDeck.completeness = playerDeck.totalOwnedDeckCards / playerDeck.totalDeckCards;
+    //   }
 
-      return {
-        ...state,
-        playerDecks,
-      };
-    }
+    //   return {
+    //     ...state,
+    //     playerDecks,
+    //   };
+    // }
 
     default: {
       return state;

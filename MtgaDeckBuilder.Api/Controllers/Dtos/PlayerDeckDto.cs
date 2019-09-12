@@ -14,7 +14,7 @@ namespace MtgaDeckBuilder.Api.Controllers.Dtos
 
         public int TotalDeckCards { get; set; }
 
-        public int Completeness { get; set; }
+        public float Completeness { get; set; }
 
         public float Worth { get; set; }
     }

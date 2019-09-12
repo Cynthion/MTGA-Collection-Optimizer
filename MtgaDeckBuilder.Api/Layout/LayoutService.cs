@@ -41,6 +41,10 @@ namespace MtgaDeckBuilder.Api.Layout
             var collectionCards = CalculateCollectionCards(playerCards, playerDecks);
             var decks = CalculateDecks(playerDecks, collectionCards);
 
+            collectionCards
+                .Select(cc => cc.WildcardWorthiness = Calculations.CalculateWildcardWorthiness(cc, decks))
+                .ToArray();
+
             var dto = new LayoutDto
             {
                 Inventory = inventory,
@@ -168,8 +172,6 @@ namespace MtgaDeckBuilder.Api.Layout
                 }
             }
 
-            // TODO calculate wildcardworthiness
-
             // game data integration
             _gameData.AssertInitialized();
             collectionCards
@@ -214,7 +216,7 @@ namespace MtgaDeckBuilder.Api.Layout
 
                 deck.TotalDeckCards = deck.Cards.Sum(dc => dc.RequiredCount);
                 deck.TotalOwnedDeckCards = totalOwnedDeckCards;
-                deck.Completeness = deck.TotalOwnedDeckCards / deck.TotalDeckCards;
+                deck.Completeness = (float)deck.TotalOwnedDeckCards / deck.TotalDeckCards;
 
                 deck.Worth = Calculations.CalculateDeckWorth(deck, deckCollectionCards);
             }

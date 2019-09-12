@@ -7,7 +7,7 @@ namespace MtgaDeckBuilder.Api.Controllers.Dtos
     {
         IGameCard Data { get; set; }
         short MissingCount { get; set; }
-        int WildcardWorthiness { get; set; }
+        float WildcardWorthiness { get; set; }
         IDictionary<string, short> RequiredForDeck { get; set; }
     }
 
@@ -17,7 +17,7 @@ namespace MtgaDeckBuilder.Api.Controllers.Dtos
         public short OwnedCount { get; set; }
         public short RequiredCount { get; set; }
         public short MissingCount { get; set; }
-        public int WildcardWorthiness { get; set; }
+        public float WildcardWorthiness { get; set; }
         public IDictionary<string, short> RequiredForDeck { get; set; }
         public IGameCard Data { get; set; }
     }

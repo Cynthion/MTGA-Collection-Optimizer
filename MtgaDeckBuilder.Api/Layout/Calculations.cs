@@ -9,12 +9,12 @@ namespace MtgaDeckBuilder.Api.Layout
 {
     public class Calculations
     {
-        private static readonly float WcCommonDropRate = 1 / 3;         // 0.33
-        private static readonly float WcUncommonDropRate = 1 / 5;       // 0.20
-        private static readonly float WcRareDropRate = 1 / 10;          // 0.10, not representing real drop rate
-        private static readonly float WcMythicRareDropRate = 1 / 24;    // 0.04
+        private static readonly float WcCommonDropRate = 1f / 3;         // 0.33
+        private static readonly float WcUncommonDropRate = 1f / 5;       // 0.20
+        private static readonly float WcRareDropRate = 1f / 10;          // 0.10, not representing real drop rate
+        private static readonly float WcMythicRareDropRate = 1f / 24;    // 0.04
 
-        public static int CalculateWildcardWorthiness(CollectionCardDto collectionCardDto, IEnumerable<PlayerDeckDto> playerDeckDtos)
+        public static float CalculateWildcardWorthiness(CollectionCardDto collectionCardDto, IEnumerable<PlayerDeckDto> playerDeckDtos)
         {
             // get decks containing the card
             var containingDecks = playerDeckDtos
@@ -22,7 +22,7 @@ namespace MtgaDeckBuilder.Api.Layout
                 .ToArray();
 
             // get decks that miss that card
-            var wildcardWorhiness = 0;
+            var wildcardWorhiness = 0f;
 
             for (var i = 0; i < containingDecks.Length; i++)
             {
@@ -45,15 +45,17 @@ namespace MtgaDeckBuilder.Api.Layout
         public static float CalculateDeckWorth(PlayerDeckDto playerDeckDto, IEnumerable<CollectionCardDto> collectionCards)
         {
             var nrOfCards = playerDeckDto.Cards.Count();
-            var deckWorth = 0f;
+            var totalWorth = 0f;
 
             foreach (var deckCard in playerDeckDto.Cards)
             {
                 var collectionCard = collectionCards.Single(cc => cc.MtgaId == deckCard.MtgaId);
                 var dropRate = GetRarityDropRate(collectionCard.Data.Rarity);
 
-                deckWorth += (deckCard.RequiredCount * dropRate);
+                totalWorth += (deckCard.RequiredCount * dropRate);
             }
+
+            var deckWorth = nrOfCards - totalWorth;
 
             return deckWorth;
         }

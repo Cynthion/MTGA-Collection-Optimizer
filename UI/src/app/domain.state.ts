@@ -1,73 +1,97 @@
 export enum Rarity {
   Unknown = -1,
-  'Basic Land' = 0,
-  Basic = 0,
-  Common = 1,
-  Uncommon = 2,
-  Rare = 3,
-  'Mythic Rare' = 4,
+  Type = 0,
+  Land = 1,
+  Common = 2,
+  Uncommon = 3,
+  Rare = 4,
+  MythicRare = 5,
 }
 
-export interface CardDto {
-  mtgaId: number;
+export enum Color {
+  White = 1,
+  Blue = 2,
+  Black = 3,
+  Red = 4,
+  Green = 5,
 }
 
-export interface CardState extends CardDto {
-  name: string;
-  rarity: Rarity;
-  setCode: string;
+export enum CardType {
+  Unknown = -1,
+  Artifact = 1,
+  Creature = 2,
+  Enchantment = 3,
+  Instant = 4,
+  Land = 5,
+  Phenomenon = 6,
+  Plane = 7,
+  Planeswalker = 8,
+  Scheme = 9,
+  Sorcery = 10,
+  Tribal = 11,
+  Vanguard = 12,
 }
 
-export interface PlayerCardDto extends CardDto {
-  ownedCount: number;
-}
+// export interface CardDto {
+//   mtgaId: number;
+// }
 
-export interface PlayerCardState extends PlayerCardDto, CardState {
+// export interface CardState extends CardDto {
+//   name: string;
+//   rarity: Rarity;
+//   setCode: string;
+// }
 
-}
+// export interface PlayerCardDto extends CardDto {
+//   ownedCount: number;
+// }
 
-export interface DeckCardDto extends CardDto {
-  requiredCount: number;
-}
+// export interface PlayerCardState extends PlayerCardDto, CardState {
 
-export interface DeckCardState extends DeckCardDto, CardState {
+// }
 
-}
+// export interface DeckCardDto extends CardDto {
+//   requiredCount: number;
+// }
 
-export interface PlayerDeckDto {
-  id: string;
-  name: string;
-  cards: DeckCardDto[];
-}
+// export interface DeckCardState extends DeckCardDto, CardState {
 
-export interface PlayerDeckState extends PlayerDeckDto {
-  cards: DeckCardState[];
-  totalOwnedDeckCards: number;
-  totalDeckCards: number;
-  completeness: number;
-}
+// }
 
-export const initialPlayerCardState: PlayerCardState = {
-  mtgaId: 0,
-  name: '',
-  rarity: Rarity.Unknown,
-  setCode: '',
-  ownedCount: 0,
-};
+// export interface PlayerDeckDto {
+//   id: string;
+//   name: string;
+//   cards: DeckCardDto[];
+// }
 
-export const initialDeckCardState: DeckCardState = {
-  mtgaId: 0,
-  name: '',
-  rarity: Rarity.Unknown,
-  setCode: '',
-  requiredCount: 0,
-};
+// export interface PlayerDeckState extends PlayerDeckDto {
+//   cards: DeckCardState[];
+//   totalOwnedDeckCards: number;
+//   totalDeckCards: number;
+//   completeness: number;
+// }
 
-export const initialPlayerDeckState: PlayerDeckState = {
-  id: '',
-  name: '',
-  cards: [initialDeckCardState],
-  totalOwnedDeckCards: 0,
-  totalDeckCards: 0,
-  completeness: 0,
-};
+// export const initialPlayerCardState: PlayerCardState = {
+//   mtgaId: 0,
+//   name: '',
+//   rarity: Rarity.Unknown,
+//   setCode: '',
+//   ownedCount: 0,
+// };
+
+// export const initialDeckCardState: DeckCardState = {
+//   mtgaId: 0,
+//   name: '',
+//   rarity: Rarity.Unknown,
+//   setCode: '',
+//   requiredCount: 0,
+// };
+
+// export const initialPlayerDeckState: PlayerDeckState = {
+//   id: '',
+//   name: '',
+//   cards: [initialDeckCardState],
+//   totalOwnedDeckCards: 0,
+//   totalDeckCards: 0,
+//   completeness: 0,
+// };

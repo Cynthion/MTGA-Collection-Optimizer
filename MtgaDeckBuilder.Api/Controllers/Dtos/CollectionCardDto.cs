@@ -5,10 +5,10 @@ namespace MtgaDeckBuilder.Api.Controllers.Dtos
 {
     public interface ICollectionCard : IPlayerCard, IDeckCard
     {
-        IGameCard Data { get; set; }
         short MissingCount { get; set; }
         float WildcardWorthiness { get; set; }
         IDictionary<string, short> RequiredForDeck { get; set; }
+        IGameCard Data { get; set; }
     }
 
     public class CollectionCardDto : ICollectionCard

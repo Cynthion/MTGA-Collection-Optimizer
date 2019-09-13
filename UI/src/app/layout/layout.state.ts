@@ -1,5 +1,5 @@
 import { RootState as ParentState } from '../app.state';
-import { PlayerCardState, PlayerDeckState, PlayerCardDto, PlayerDeckDto, initialPlayerCardState, initialPlayerDeckState, DeckCardState } from '../domain.state';
+import { Rarity, CardType, Color } from '../domain.state';
 
 import { initialInventoryState, InventoryState, InventoryDto } from './inventory';
 import { TabsState, initialTabsState } from './tabs/tabs.state';
@@ -10,32 +10,78 @@ export interface State extends ParentState {
   layout: LayoutState;
 }
 
-export interface CollectionCardState extends PlayerCardState, DeckCardState {
+export interface GameCard {
+  grpId: number;
+  name: string;
+  cardTypeText: string;
+  subtypeText: string;
+  set: string;
+  power: number;
+  toughness: number;
+  rarity: Rarity;
+  colors: Color[];
+  cardTypes: CardType[];
+  subtypes: string[];
+  abilities: string[];
+  hiddenAbilities: string[];
+}
+
+export interface CollectionCardDto {
+  mtgaId: number;
+  ownedCount: number;
+  requiredCount: number;
   missingCount: number;
-  wildcardWorthinessFactor: number;
+  wildcardWorthiness: number;
+  requiredForDeck: { [key: string]: number; };
+  data: GameCard;
+}
+
+export interface CollectionCardState extends CollectionCardDto {
+
+}
+
+export interface DeckCardDto {
+  mtgaId: number;
+  requiredCount: number;
+}
+
+export interface DeckCardState extends DeckCardDto {
+
+}
+
+export interface PlayerDeckDto {
+  id: string;
+  name: string;
+  cards: DeckCardDto[];
+  totalOwnedDeckCards: number;
+  totalDeckCards: number;
+  completeness: number;
+  worth: number;
+}
+
+export interface PlayerDeckState extends PlayerDeckDto {
+  cards: DeckCardState[];
 }
 
 export interface LayoutDto {
   inventory: InventoryDto;
-  playerCards: PlayerCardDto[];
-  playerDecks: PlayerDeckDto[];
+  collectionCards: CollectionCardDto[];
+  decks: PlayerDeckDto[];
+  collectionCardsOwnedCountTotal: number;
+  collectionCardsRequiredCountTotal: number;
 }
 
 export interface LayoutState extends LayoutDto {
   inventory: InventoryState;
-  playerCards: PlayerCardState[];
-  playerDecks: PlayerDeckState[];
   collectionCards: CollectionCardState[];
-  collectionCardsOwnedCountTotal: number;
-  collectionCardsRequiredCountTotal: number;
-  tabs: TabsState;
+  decks: PlayerDeckState[];
+  tabs: TabsState; // TODO should this be here with the backend stuff?
 }
 
 export const initialLayoutState: LayoutState = {
   inventory: initialInventoryState,
-  playerCards: [initialPlayerCardState],
-  playerDecks: [initialPlayerDeckState],
   collectionCards: [],
+  decks: [],
   collectionCardsOwnedCountTotal: 0,
   collectionCardsRequiredCountTotal: 0,
   tabs: initialTabsState,

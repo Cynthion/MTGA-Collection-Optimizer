@@ -4,8 +4,8 @@ import { LayoutDto } from './layout.state';
 export enum LayoutActionTypes {
   LoadData = '[Layout] Load Data',
   Initialize = '[Layout] Initialize',
-  CalculateCollectionCards = '[Layout] Calculate Collection Cards',
-  CalculateDeckCompleteness = '[Layout] Calculate Deck Completeness',
+  // CalculateCollectionCards = '[Layout] Calculate Collection Cards',
+  // CalculateDeckCompleteness = '[Layout] Calculate Deck Completeness',
 }
 
 export class LoadDataAction implements Action {
@@ -20,17 +20,17 @@ export class InitializeLayoutAction implements Action {
   ) { }
 }
 
-export class CalculateCollectionCardsAction implements Action {
-  readonly type = LayoutActionTypes.CalculateCollectionCards;
-}
+// export class CalculateCollectionCardsAction implements Action {
+//   readonly type = LayoutActionTypes.CalculateCollectionCards;
+// }
 
-export class CalculateDeckCompletenessAction implements Action {
-  readonly type = LayoutActionTypes.CalculateDeckCompleteness;
-}
+// export class CalculateDeckCompletenessAction implements Action {
+//   readonly type = LayoutActionTypes.CalculateDeckCompleteness;
+// }
 
 export type LayoutActions =
   | LoadDataAction
   | InitializeLayoutAction
-  | CalculateCollectionCardsAction
-  | CalculateDeckCompletenessAction
+  // | CalculateCollectionCardsAction
+  // | CalculateDeckCompletenessAction
   ;

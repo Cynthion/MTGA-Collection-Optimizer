@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 
-import { DeckCardState } from '../domain.state';
-import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../domain.actions';
-import { playerCardsReducer, playerDeckReducer } from '../domain.reducers';
+// import { DeckCardState } from '../domain.state';
+// import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../domain.actions';
+// import { playerCardsReducer, playerDeckReducer } from '../domain.reducers';
 
 import { inventoryReducer, InitializeInventoryAction } from './inventory';
 import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';
@@ -20,8 +20,6 @@ export function layoutReducer(state: LayoutState = initialLayoutState, action: L
         ...state,
         ...action.dto,
         inventory: inventoryReducer(state.inventory, new InitializeInventoryAction(action.dto.inventory)),
-        playerCards: action.dto.playerCards.map((dto, idx) => playerCardsReducer(state.playerCards[idx], new InitializePlayerCardsAction(dto))),
-        playerDecks: action.dto.playerDecks.map((dto, idx) => playerDeckReducer(state.playerDecks[idx], new InitializePlayerDeckAction(dto))),
       };
     }
 

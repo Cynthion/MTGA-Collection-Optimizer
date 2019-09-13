@@ -6,10 +6,10 @@ import { withLatestFrom } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
 
-import { PlayerDeckState, Rarity } from '../../../domain.state';
-import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
+import { Rarity } from '../../../domain.state';
+import { getRarityClass } from '../../../domain.utils';
 import { percentageToHsl } from '../../../util/colors';
-import { CollectionCardState } from '../../layout.state';
+import { CollectionCardState, PlayerDeckState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
 import { SortDeckColumnsAction } from './decks-tab.actions';
@@ -26,7 +26,7 @@ export class DecksTabComponent implements OnInit, OnDestroy {
 
   state$: Observable<DecksTabState>;
 
-  stickyColumn: keyof CollectionCardState = 'name';
+  stickyColumn: string = 'name';
   stickyColumnSubHeader = 'sticky-subheader';
   flexColumns: (keyof CollectionCardState)[] = ['setCode', 'ownedCount', 'missingCount'];
   flexColumnsSubHeaders = ['flex-subheader', 'flex-subheader', 'flex-subheader'];
@@ -166,15 +166,15 @@ export class DecksTabComponent implements OnInit, OnDestroy {
     return getRarityClass(rarity);
   }
 
-  getOwnedOfRequired(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {
-    if (!_.includes(playerDeck.cards.map(c => c.mtgaId), collectionCard.mtgaId)) {
-      return '';
-    }
+  // getOwnedOfRequired(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {
+  //   if (!_.includes(playerDeck.cards.map(c => c.mtgaId), collectionCard.mtgaId)) {
+  //     return '';
+  //   }
 
-    const deckCard = playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
+  //   const deckCard = playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
 
-    return getOwnedOfRequired(collectionCard.ownedCount, deckCard.requiredCount);
-  }
+  //   return getOwnedOfRequired(collectionCard.ownedCount, deckCard.requiredCount);
+  // }
 
   getProgressColor(deck: PlayerDeckState): string {
     const redHue = 0;

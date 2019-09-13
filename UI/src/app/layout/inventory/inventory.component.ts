@@ -30,15 +30,15 @@ export class InventoryComponent implements OnDestroy {
     this.collectionCardsSubscription = this.store.pipe(select(s => s.layout.collectionCards))
       .subscribe(ccs => {
         this.actionsSubject.next(new UnknownCardsUpdatedAction(
-          ccs.filter(cc => cc.rarity === -1).length
+          ccs.filter(cc => cc.data.rarity === Rarity.Unknown).length
         )
       );
 
       this.actionsSubject.next(new WildcardRequirementsUpdatedAction({
-        wildcardUncommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Uncommon), cc => cc.missingCount),
-        wildcardCommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Common), cc => cc.missingCount),
-        wildcarRareRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity.Rare), cc => cc.missingCount),
-        wildcardMythicRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.rarity === Rarity['Mythic Rare']), cc => cc.missingCount),
+        wildcardUncommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.data.rarity === Rarity.Uncommon), cc => cc.missingCount),
+        wildcardCommonRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.data.rarity === Rarity.Common), cc => cc.missingCount),
+        wildcarRareRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.data.rarity === Rarity.Rare), cc => cc.missingCount),
+        wildcardMythicRequired: _.sumBy(ccs.filter(cc => cc.missingCount > 0 && cc.data.rarity === Rarity['Mythic Rare']), cc => cc.missingCount),
       }));
     });
   }

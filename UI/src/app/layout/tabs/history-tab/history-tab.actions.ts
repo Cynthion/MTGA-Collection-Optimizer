@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { PlayerDeckState, PlayerCardDto } from '../../../domain.state';
+// import { PlayerDeckState, PlayerCardDto } from '../../../domain.state';
 import { CollectionCardState } from '../../layout.state';
 
 export enum HistoryTabActionTypes {
@@ -9,22 +9,22 @@ export enum HistoryTabActionTypes {
   UpdateTimestampPrettyPrint = '[History Tab] Update Timestamp Pretty Print',
 }
 
-export class CalculateHistoryDeltasAction implements Action {
-  readonly type = HistoryTabActionTypes.CalculateHistoryDeltas;
+// export class CalculateHistoryDeltasAction implements Action {
+//   readonly type = HistoryTabActionTypes.CalculateHistoryDeltas;
 
-  constructor(
-    public newPlayerCards: PlayerCardDto[]
-  ) { }
-}
+//   constructor(
+//     public newPlayerCards: PlayerCardDto[]
+//   ) { }
+// }
 
-export class UpdateHistoryCardsAction implements Action {
-  readonly type = HistoryTabActionTypes.UpdateHistoryCards;
+// export class UpdateHistoryCardsAction implements Action {
+//   readonly type = HistoryTabActionTypes.UpdateHistoryCards;
 
-  constructor(
-    public collectionCards: CollectionCardState[],
-    public playerDecks: PlayerDeckState[],
-  ) { }
-}
+//   constructor(
+//     public collectionCards: CollectionCardState[],
+//     public playerDecks: PlayerDeckState[],
+//   ) { }
+// }
 
 export class UpdateTimestampPrettyPrintAction implements Action {
   readonly type = HistoryTabActionTypes.UpdateTimestampPrettyPrint;
@@ -35,7 +35,7 @@ export class UpdateTimestampPrettyPrintAction implements Action {
 }
 
 export type HistoryTabActions =
-  | CalculateHistoryDeltasAction
-  | UpdateHistoryCardsAction
+  // | CalculateHistoryDeltasAction
+  // | UpdateHistoryCardsAction
   | UpdateTimestampPrettyPrintAction
   ;

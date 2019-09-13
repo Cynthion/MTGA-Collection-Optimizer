@@ -49,7 +49,7 @@
           <ul>
             <li *ngFor="let deckRequirement of historyCard.deckRequirements"
             [ngClass]="{'deckRequirementComplete': deckRequirement.isComplete}">
-              ({{ getOwnedOfRequired(deckRequirement) }}) {{ deckRequirement.deckName }}
+              (-) {{ deckRequirement.deckName }}
             </li>
           </ul>
         </td>

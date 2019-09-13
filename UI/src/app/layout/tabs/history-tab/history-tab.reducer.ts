@@ -5,74 +5,74 @@ import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions'
 
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
   switch (action.type) {
-    case HistoryTabActionTypes.CalculateHistoryDeltas: {
-      let historyDeltas = [...state.historyDeltas];
-      const existingCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
-        mtgaId: pc.mtgaId,
-        count: pc.ownedCount,
-      }));
+    // case HistoryTabActionTypes.CalculateHistoryDeltas: {
+    //   let historyDeltas = [...state.historyDeltas];
+    //   const existingCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
+    //     mtgaId: pc.mtgaId,
+    //     count: pc.ownedCount,
+    //   }));
 
-      // don't add history deltas for initial load
-      if (state.existingCardRecords.length !== 0) {
-        const newCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
-          mtgaId: pc.mtgaId,
-          count: pc.ownedCount,
-        }));
+    //   // don't add history deltas for initial load
+    //   if (state.existingCardRecords.length !== 0) {
+    //     const newCardRecords: CardRecord[] = action.newPlayerCards.map(pc => ({
+    //       mtgaId: pc.mtgaId,
+    //       count: pc.ownedCount,
+    //     }));
 
-        const deltaCardRecords: CardRecord[] = _.differenceWith(newCardRecords, state.existingCardRecords, _.isEqual);
-        const timeStamp = new Date();
+    //     const deltaCardRecords: CardRecord[] = _.differenceWith(newCardRecords, state.existingCardRecords, _.isEqual);
+    //     const timeStamp = new Date();
 
-        for (const deltaRecord of deltaCardRecords) {
-          historyDeltas.push({
-            mtgaId: deltaRecord.mtgaId,
-            timeStamp,
-          });
-        }
-      }
+    //     for (const deltaRecord of deltaCardRecords) {
+    //       historyDeltas.push({
+    //         mtgaId: deltaRecord.mtgaId,
+    //         timeStamp,
+    //       });
+    //     }
+    //   }
 
-      historyDeltas = _.orderBy(historyDeltas, ['timeStamp', 'name'], ['desc', 'asc']);
+    //   historyDeltas = _.orderBy(historyDeltas, ['timeStamp', 'name'], ['desc', 'asc']);
 
-      return {
-        ...state,
-        existingCardRecords,
-        historyDeltas: historyDeltas,
-      };
-    }
+    //   return {
+    //     ...state,
+    //     existingCardRecords,
+    //     historyDeltas: historyDeltas,
+    //   };
+    // }
 
-    case HistoryTabActionTypes.UpdateHistoryCards: {
-      const historyCards: HistoryCardState[] = [];
+    // case HistoryTabActionTypes.UpdateHistoryCards: {
+    //   const historyCards: HistoryCardState[] = [];
 
-      for (const historyDelta of state.historyDeltas) {
-        const collectionCard = action.collectionCards.find(cc => cc.mtgaId === historyDelta.mtgaId);
+    //   for (const historyDelta of state.historyDeltas) {
+    //     const collectionCard = action.collectionCards.find(cc => cc.mtgaId === historyDelta.mtgaId);
 
-        const requiringDecks = action.playerDecks.filter(pd => _.includes(pd.cards.map(c => c.mtgaId), historyDelta.mtgaId));
-        const deckRequirements: DeckRequirement[] = [];
-        for (const requiringDeck of requiringDecks) {
-          const requiredCount = requiringDeck.cards.find(dc => dc.mtgaId === historyDelta.mtgaId).requiredCount;
-          const ownedCount = collectionCard.ownedCount;
-          const isComplete = ownedCount >= requiredCount;
+    //     const requiringDecks = action.playerDecks.filter(pd => _.includes(pd.cards.map(c => c.mtgaId), historyDelta.mtgaId));
+    //     const deckRequirements: DeckRequirement[] = [];
+    //     for (const requiringDeck of requiringDecks) {
+    //       const requiredCount = requiringDeck.cards.find(dc => dc.mtgaId === historyDelta.mtgaId).requiredCount;
+    //       const ownedCount = collectionCard.ownedCount;
+    //       const isComplete = ownedCount >= requiredCount;
 
-          deckRequirements.push({
-            deckName: requiringDeck.name,
-            requiredCount,
-            ownedCount,
-            isComplete,
-          });
-        }
+    //       deckRequirements.push({
+    //         deckName: requiringDeck.name,
+    //         requiredCount,
+    //         ownedCount,
+    //         isComplete,
+    //       });
+    //     }
 
-        historyCards.push({
-          ...collectionCard,
-          timeStamp: historyDelta.timeStamp,
-          timeStampPrettyPrint: '',
-          deckRequirements,
-        });
-      }
+    //     historyCards.push({
+    //       ...collectionCard,
+    //       timeStamp: historyDelta.timeStamp,
+    //       timeStampPrettyPrint: '',
+    //       deckRequirements,
+    //     });
+    //   }
 
-      return {
-        ...state,
-        historyCards,
-      };
-    }
+    //   return {
+    //     ...state,
+    //     historyCards,
+    //   };
+    // }
 
     case HistoryTabActionTypes.UpdateTimestampPrettyPrint: {
       for (const historyCard of state.historyCards) {

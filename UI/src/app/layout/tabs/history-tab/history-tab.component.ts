@@ -5,10 +5,10 @@ import { withLatestFrom } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
-import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
+import { getRarityClass } from '../../../domain.utils';
 
 import { HistoryTabState, State, HistoryCardState, DeckRequirement } from './history-tab.state';
-import { UpdateHistoryCardsAction, UpdateTimestampPrettyPrintAction } from './history-tab.actions';
+import { UpdateTimestampPrettyPrintAction } from './history-tab.actions';
 
 @Component({
   selector: 'app-history-tab',
@@ -50,7 +50,7 @@ export class HistoryTabComponent implements OnDestroy {
         withLatestFrom(this.store.select(s => s.layout)),
       )
       .subscribe(([, layout]) => {
-        this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
+        // this.actionsSubject.next(new UpdateHistoryCardsAction(layout.collectionCards, layout.playerDecks));
         this.actionsSubject.next(new UpdateTimestampPrettyPrintAction(new Date()));
         this.changeDetector.markForCheck();
       });
@@ -70,9 +70,9 @@ export class HistoryTabComponent implements OnDestroy {
     return getRarityClass(rarity);
   }
 
-  getOwnedOfRequired(deckRequirement: DeckRequirement): string {
-    return getOwnedOfRequired(deckRequirement.ownedCount, deckRequirement.requiredCount);
-  }
+  // getOwnedOfRequired(deckRequirement: DeckRequirement): string {
+  //   return getOwnedOfRequired(deckRequirement.ownedCount, deckRequirement.requiredCount);
+  // }
 
   trackTableItem(index: number, item: HistoryCardState) {
     return !!item ? item.mtgaId + item.timeStamp.toString() : 0;

@@ -172,6 +172,7 @@ namespace MtgaDeckBuilder.Api.Layout
                 }
             }
 
+            // TODO fix
             // game data integration
             _gameData.AssertInitialized();
             collectionCards

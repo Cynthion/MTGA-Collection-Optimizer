@@ -197,7 +197,8 @@ namespace MtgaDeckBuilder.Api.Layout
                             }).ToArray()
                         })
                         .Where(d => !d.Name.Contains("?=?"))
-                        .OrderBy(d => d.Name);
+                        .OrderBy(d => d.Name)
+                        .ToArray();
 
             foreach (var deck in decks)
             {

@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import { DeckCardState } from '../domain.state';
 import { InitializePlayerCardsAction, InitializePlayerDeckAction } from '../domain.actions';
 import { playerCardsReducer, playerDeckReducer } from '../domain.reducers';
-import { calcWildcardWorthinessFactor } from '../util/calculations';
 
 import { inventoryReducer, InitializeInventoryAction } from './inventory';
 import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';

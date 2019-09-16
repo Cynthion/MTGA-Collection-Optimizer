@@ -49,7 +49,7 @@ namespace MtgaDeckBuilder.Api.Layout
             {
                 Inventory = inventory,
                 CollectionCards = collectionCards,
-                PlayerDecks = decks,
+                Decks = decks,
                 CollectionCardsOwnedCountTotal = collectionCards.Sum(cc => cc.OwnedCount),
                 CollectionCardsRequiredCountTotal = collectionCards.Sum(cc => cc.RequiredCount),
             };

@@ -52,9 +52,9 @@
           {{ collectionCard[flexColumn] }} </td>
       </ng-container>
   
-      <ng-container [matColumnDef]="playerDeck.name" *ngFor="let playerDeck of playerDecks; trackBy: trackPlayerDeck">
+      <ng-container [matColumnDef]="deck.name" *ngFor="let deck of (decks$ | async); trackBy: trackDeck">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <div>{{ playerDeck.name }}</div>
+          <div>{{ deck.name }}</div>
         </th>
         <td mat-cell *matCellDef="let collectionCard">
           -
@@ -69,11 +69,11 @@
         <th mat-header-cell *matHeaderCellDef></th>
       </ng-container>
   
-      <ng-container matColumnDef="{{getDeckSubheaderName(playerDeck)}}" *ngFor="let playerDeck of playerDecks">
+      <ng-container matColumnDef="{{getDeckSubheaderName(deck)}}" *ngFor="let deck of (decks$ | async)">
         <th mat-header-cell *matHeaderCellDef>
           <div class="deck-progress">
-            <div [ngStyle]="{'background-color': getProgressColor(playerDeck)}">
-              {{ playerDeck.totalOwnedDeckCards}} / {{ playerDeck.totalDeckCards}}
+            <div [ngStyle]="{'background-color': getProgressColor(deck)}">
+              {{ deck.totalOwnedDeckCards}} / {{ deck.totalDeckCards}}
             </div>
           </div>
         </th>

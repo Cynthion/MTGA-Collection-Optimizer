@@ -36,9 +36,8 @@ export class DecksTabComponent implements OnInit, OnDestroy {
   displayedColumns: string[];
   displayedColumnsSubHeaders: string[];
 
-  // TODO make dataSource an observable
   dataSource$: Observable<MatTableDataSource<CollectionCardState>>;
-  playerDecks: PlayerDeckState[];
+  decks$: Observable<PlayerDeckState[]>;
   filterValue: string;
 
   sortColumnSubscription: Subscription;
@@ -50,8 +49,16 @@ export class DecksTabComponent implements OnInit, OnDestroy {
   ) {
     this.state$ = this.store.pipe(select(s => s.decksTab));
 
-    this.sortColumnSubscription = this.store.select(s => s.decksTab.sortDeckColumnOrder)
-      .subscribe(columnOrder => this.arrangeDeckColumns(columnOrder));
+    this.sortColumnSubscription = this.store.pipe(
+      select(s => s.layout.decks),
+    ).subscribe(decks => {
+      console.log('sort column subscription'); // TODO remove
+      this.deckColumns = decks.map(d => d.name);
+      this.deckColumnsSubHeaders = decks.map(d => `${d.name}-subheader`);
+
+      this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
+      this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
+    });
 
     this.dataSource$ = this.store.pipe(
       select(s => s.layout.collectionCards),
@@ -60,18 +67,18 @@ export class DecksTabComponent implements OnInit, OnDestroy {
         dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
           let value: any = data[sortHeaderId];
 
-          // if sortHeaderId is not a data property, then its a deck name
-          if (value === undefined) {
-            const deckToBeSorted = this.playerDecks.find(d => d.name === sortHeaderId);
-            // only sort if deckToBeSorted still exists (might be deleted)
-            if (deckToBeSorted !== undefined) {
-              const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
-              const card: CollectionCardState = data as CollectionCardState;
-              value = _.includes(deckCardIds, card.mtgaId)
-                ? card.data.rarity
-                : Rarity.Unknown;
-            }
-          }
+          // // if sortHeaderId is not a data property, then its a deck name
+          // if (value === undefined) {
+          //   const deckToBeSorted = this.playerDecks.find(d => d.name === sortHeaderId);
+          //   // only sort if deckToBeSorted still exists (might be deleted)
+          //   if (deckToBeSorted !== undefined) {
+          //     const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
+          //     const card: CollectionCardState = data as CollectionCardState;
+          //     value = _.includes(deckCardIds, card.mtgaId)
+          //       ? card.data.rarity
+          //       : Rarity.Unknown;
+          //   }
+          // }
 
           return isNumber(value) ? Number(value) : value;
         };
@@ -79,6 +86,8 @@ export class DecksTabComponent implements OnInit, OnDestroy {
         return dataSource;
       }),
     );
+
+    this.decks$ = this.store.pipe(select(s => s.layout.decks));
 
     // const layoutState$ = this.store.select(s => s.layout)
     //   .pipe(
@@ -128,21 +137,9 @@ export class DecksTabComponent implements OnInit, OnDestroy {
   }
 
   arrangeDeckColumns(columnOrder: SortDeckColumnOrder): void {
-    if (columnOrder === SortDeckColumnOrder.Alphabetical) {
-      this.playerDecks = _.orderBy(this.playerDecks, ['name'], ['asc']);
-    }
-    if (columnOrder === SortDeckColumnOrder.Completeness) {
-      this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['desc']);
-    }
-    if (columnOrder === SortDeckColumnOrder.Incompleteness) {
-      this.playerDecks = _.orderBy(this.playerDecks, ['completeness'], ['asc']);
-    }
 
-    this.deckColumns = this.playerDecks.map(d => d.name);
-    this.deckColumnsSubHeaders = this.playerDecks.map(d => `${d.name}-subheader`);
 
-    this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
-    this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
+
   }
 
   applyFilter(): void {
@@ -211,7 +208,7 @@ export class DecksTabComponent implements OnInit, OnDestroy {
     return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
   }
 
-  trackPlayerDeck(index: number, item: PlayerDeckState) {
+  trackDeck(index: number, item: PlayerDeckState) {
     return item.id;
   }
 }

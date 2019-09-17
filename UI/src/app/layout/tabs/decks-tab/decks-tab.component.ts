@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,10 +9,10 @@ import * as _ from 'lodash';
 import { Rarity } from '../../../domain.state';
 import { getRarityClass } from '../../../domain.utils';
 import { percentageToHsl } from '../../../util/colors';
-import { CollectionCardState, PlayerDeckState } from '../../layout.state';
+import { CollectionCardState, PlayerDeckState, CollectionCardDto } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
-import { SortDeckColumnsAction, FilterCollectionCardsAction, ClearFilterAction } from './decks-tab.actions';
+import { SortDeckColumnsAction, FilterCollectionCardsAction, ClearFilterAction, FilterValueChangedAction } from './decks-tab.actions';
 
 @Component({
   selector: 'app-decks-tab',
@@ -48,13 +48,13 @@ export class DecksTabComponent implements OnDestroy {
   constructor(
     private store: Store<State>,
     private actionsSubject: ActionsSubject,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.state$ = this.store.pipe(select(s => s.decksTab));
 
     this.sortColumnSubscription = this.store.pipe(
       select(s => s.layout.decks),
     ).subscribe(decks => {
-      console.log('new columns');
       this.deckColumns = decks.map(d => d.name);
       this.deckColumnsSubHeaders = decks.map(d => `${d.name}-subheader`);
 
@@ -87,22 +87,26 @@ export class DecksTabComponent implements OnDestroy {
 
         dataSource.paginator = this.paginator;
         dataSource.sort = this.sort;
+        dataSource.filterPredicate = (data: CollectionCardDto, filter: string): boolean => {
+          return data.data.name.trim().toLowerCase().includes(filter);
+        };
 
         return dataSource;
       }),
     );
 
-    this.filterSubscription = this.store.pipe(
-      select(s => s.decksTab.filterValue),
+    this.filterSubscription = this.state$.pipe(
+      select(s => s.filterValue),
       withLatestFrom(this.dataSource$),
-    ).subscribe(([f, d]) => {
-      console.log('filtering:', f);
-      d.filter = f;
+    ).subscribe(([f, ds]) => {
+      ds.filter = f;
       this.filterValue = f;
 
-      if (d.paginator !== undefined) {
-        d.paginator.firstPage();
+      if (ds.paginator !== undefined) {
+        ds.paginator.firstPage();
       }
+
+      this.changeDetector.markForCheck();
     });
 
     this.decks$ = this.store.pipe(select(s => s.layout.decks));
@@ -116,7 +120,7 @@ export class DecksTabComponent implements OnDestroy {
 
   applyFilter(filterValue: string): void {
     if (!!filterValue) {
-      this.actionsSubject.next(new FilterCollectionCardsAction(filterValue.trim().toLowerCase()));
+      this.actionsSubject.next(new FilterValueChangedAction(filterValue.trim().toLowerCase()));
     } else {
       this.clearFilter();
     }

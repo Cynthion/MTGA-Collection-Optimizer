@@ -18,6 +18,7 @@ import { DecksTabRoutingModule } from './decks-tab-routing.module';
 import { DECKS_TAB_MODULE_FEATURE_NAME } from './decks-tab.state';
 import { decksTabReducer } from './decks-tab.reducer';
 import { DecksTabComponent } from './decks-tab.component';
+import { DecksTabEffects } from './decks-tab.effects';
 
 const matModules = [
   MatAutocompleteModule,
@@ -34,7 +35,7 @@ const components = [
 ];
 
 const effects = [
-
+  DecksTabEffects,
 ];
 
 @NgModule({

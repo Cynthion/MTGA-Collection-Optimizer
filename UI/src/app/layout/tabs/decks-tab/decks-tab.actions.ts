@@ -5,7 +5,7 @@ import { SortDeckColumnOrder } from './decks-tab.state';
 export enum DecksTabActionTypes {
   SortDeckColumns = '[Decks Tab] Sort Deck Columns',
   FilterValueChanged = '[Decks Tab] Filter Value Changed',
-  FilterCollectionCards = '[Decks Tab] Filter Collection Cards',
+  Filter = '[Decks Tab] Filter',
   ClearFilter = '[Decks Tab] Clear Filter',
 }
 
@@ -25,8 +25,8 @@ export class FilterValueChangedAction implements Action {
   ) { }
 }
 
-export class FilterCollectionCardsAction implements Action {
-  readonly type = DecksTabActionTypes.FilterCollectionCards;
+export class FilterAction implements Action {
+  readonly type = DecksTabActionTypes.Filter;
 
   constructor(
     public filterValue: string,
@@ -39,6 +39,6 @@ export class ClearFilterAction implements Action {
 
 export type DecksTabActions =
   | SortDeckColumnsAction
-  | FilterCollectionCardsAction
+  | FilterAction
   | ClearFilterAction
   ;

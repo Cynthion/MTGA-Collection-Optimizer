@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { withLatestFrom, map } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
 
@@ -12,7 +12,7 @@ import { percentageToHsl } from '../../../util/colors';
 import { CollectionCardState, PlayerDeckState, CollectionCardDto } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
-import { SortDeckColumnsAction, FilterCollectionCardsAction, ClearFilterAction, FilterValueChangedAction } from './decks-tab.actions';
+import { SortDeckColumnsAction, ClearFilterAction, FilterValueChangedAction } from './decks-tab.actions';
 
 @Component({
   selector: 'app-decks-tab',
@@ -42,13 +42,10 @@ export class DecksTabComponent implements OnDestroy {
   decks$: Observable<PlayerDeckState[]>;
 
   sortColumnSubscription: Subscription;
-  filterSubscription: Subscription;
-  dataSourceSubscription: Subscription;
 
   constructor(
     private store: Store<State>,
     private actionsSubject: ActionsSubject,
-    private changeDetector: ChangeDetectorRef,
   ) {
     this.state$ = this.store.pipe(select(s => s.decksTab));
 
@@ -62,10 +59,14 @@ export class DecksTabComponent implements OnDestroy {
       this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
     });
 
-    this.dataSource$ = this.store.pipe(
-      select(s => s.layout.collectionCards),
-      map(ccs => {
-        const dataSource = new MatTableDataSource(ccs);
+    const dataSourceChanged$ = combineLatest(
+      this.store.select(s => s.layout.collectionCards),
+      this.store.select(s => s.decksTab.filterValue)
+    );
+
+    this.dataSource$ = dataSourceChanged$.pipe(
+      map(([collectionCards, filterValue]) => {
+        const dataSource = new MatTableDataSource(collectionCards);
         dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
           const value: any = data[sortHeaderId];
 
@@ -90,32 +91,18 @@ export class DecksTabComponent implements OnDestroy {
         dataSource.filterPredicate = (data: CollectionCardDto, filter: string): boolean => {
           return data.data.name.trim().toLowerCase().includes(filter);
         };
+        dataSource.filter = filterValue;
+        this.filterValue = filterValue;
 
         return dataSource;
       }),
     );
-
-    this.filterSubscription = this.state$.pipe(
-      select(s => s.filterValue),
-      withLatestFrom(this.dataSource$),
-    ).subscribe(([f, ds]) => {
-      ds.filter = f;
-      this.filterValue = f;
-
-      if (ds.paginator !== undefined) {
-        ds.paginator.firstPage();
-      }
-
-      this.changeDetector.markForCheck();
-    });
 
     this.decks$ = this.store.pipe(select(s => s.layout.decks));
   }
 
   ngOnDestroy() {
     this.sortColumnSubscription.unsubscribe();
-    this.filterSubscription.unsubscribe();
-    this.dataSourceSubscription.unsubscribe();
   }
 
   applyFilter(filterValue: string): void {

@@ -10,7 +10,7 @@ export function decksTabReducer(state: DecksTabState = initialDecksTabState, act
       };
     }
 
-    case DecksTabActionTypes.FilterCollectionCards: {
+    case DecksTabActionTypes.Filter: {
       return {
         ...state,
         filterValue: action.filterValue,

@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators';
 
-import { DecksTabActionTypes, FilterValueChangedAction, FilterCollectionCardsAction } from './decks-tab.actions';
+import { DecksTabActionTypes, FilterValueChangedAction, FilterAction } from './decks-tab.actions';
 
 @Injectable()
 export class DecksTabEffects {
@@ -17,7 +17,7 @@ export class DecksTabEffects {
       map(a => a as FilterValueChangedAction),
       debounceTime(500),
       switchMap(a => [
-        new FilterCollectionCardsAction(a.filterValue),
+        new FilterAction(a.filterValue),
       ]),
     );
 

@@ -14,8 +14,10 @@ export interface State extends ParentState {
 
 export interface DecksTabState {
   sortDeckColumnOrder: SortDeckColumnOrder;
+  filterValue: string;
 }
 
 export const initialDecksTabState: DecksTabState = {
   sortDeckColumnOrder: SortDeckColumnOrder.Incompleteness,
+  filterValue: '',
 };

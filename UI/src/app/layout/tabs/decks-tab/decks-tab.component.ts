@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { percentageToHsl } from '../../../util/colors';
 import { CollectionCardState, PlayerDeckState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
-import { SortDeckColumnsAction } from './decks-tab.actions';
+import { SortDeckColumnsAction, FilterCollectionCardsAction, ClearFilterAction } from './decks-tab.actions';
 
 @Component({
   selector: 'app-decks-tab',
@@ -20,7 +20,7 @@ import { SortDeckColumnsAction } from './decks-tab.actions';
   styleUrls: ['./decks-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DecksTabComponent implements OnInit, OnDestroy {
+export class DecksTabComponent implements OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -36,11 +36,13 @@ export class DecksTabComponent implements OnInit, OnDestroy {
   displayedColumns: string[];
   displayedColumnsSubHeaders: string[];
 
-  dataSource$: Observable<MatTableDataSource<CollectionCardState>>;
-  decks$: Observable<PlayerDeckState[]>;
   filterValue: string;
 
+  dataSource$: Observable<MatTableDataSource<CollectionCardState>>;
+  decks$: Observable<PlayerDeckState[]>;
+
   sortColumnSubscription: Subscription;
+  filterSubscription: Subscription;
   dataSourceSubscription: Subscription;
 
   constructor(
@@ -52,7 +54,7 @@ export class DecksTabComponent implements OnInit, OnDestroy {
     this.sortColumnSubscription = this.store.pipe(
       select(s => s.layout.decks),
     ).subscribe(decks => {
-      console.log('sort column subscription'); // TODO remove
+      console.log('new columns');
       this.deckColumns = decks.map(d => d.name);
       this.deckColumnsSubHeaders = decks.map(d => `${d.name}-subheader`);
 
@@ -65,7 +67,7 @@ export class DecksTabComponent implements OnInit, OnDestroy {
       map(ccs => {
         const dataSource = new MatTableDataSource(ccs);
         dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-          let value: any = data[sortHeaderId];
+          const value: any = data[sortHeaderId];
 
           // // if sortHeaderId is not a data property, then its a deck name
           // if (value === undefined) {
@@ -83,80 +85,45 @@ export class DecksTabComponent implements OnInit, OnDestroy {
           return isNumber(value) ? Number(value) : value;
         };
 
+        dataSource.paginator = this.paginator;
+        dataSource.sort = this.sort;
+
         return dataSource;
       }),
     );
 
+    this.filterSubscription = this.store.pipe(
+      select(s => s.decksTab.filterValue),
+      withLatestFrom(this.dataSource$),
+    ).subscribe(([f, d]) => {
+      console.log('filtering:', f);
+      d.filter = f;
+      this.filterValue = f;
+
+      if (d.paginator !== undefined) {
+        d.paginator.firstPage();
+      }
+    });
+
     this.decks$ = this.store.pipe(select(s => s.layout.decks));
-
-    // const layoutState$ = this.store.select(s => s.layout)
-    //   .pipe(
-    //     withLatestFrom(this.state$)
-    //   );
-    // this.dataSourceSubscription = layoutState$.subscribe(([layoutState, decksTabState]) => {
-    //   this.dataSource = new MatTableDataSource(layoutState.collectionCards);
-    //   this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-    //     let value: any = data[sortHeaderId];
-
-    //     // if sortHeaderId is not a data property, then its a deck name
-    //     if (value === undefined) {
-    //       const deckToBeSorted = this.playerDecks.find(d => d.name === sortHeaderId);
-    //       // only sort if deckToBeSorted still exists (might be deleted)
-    //       if (deckToBeSorted !== undefined) {
-    //         const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
-    //         const card: CollectionCardState = data as CollectionCardState;
-    //         value = _.includes(deckCardIds, card.mtgaId)
-    //           ? card.rarity
-    //           : Rarity.Unknown;
-    //       }
-    //     }
-
-    //     return isNumber(value) ? Number(value) : value;
-    //   };
-
-    // this.playerDecks = layoutState.playerDecks;
-
-    // this.arrangeDeckColumns(decksTabState.sortDeckColumnOrder);
-
-    this.initializePage();
-  }
-
-  ngOnInit() {
-    this.initializePage();
   }
 
   ngOnDestroy() {
     this.sortColumnSubscription.unsubscribe();
+    this.filterSubscription.unsubscribe();
     this.dataSourceSubscription.unsubscribe();
   }
 
-  initializePage() {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-    this.applyFilter();
-  }
-
-  arrangeDeckColumns(columnOrder: SortDeckColumnOrder): void {
-
-
-
-  }
-
-  applyFilter(): void {
-    if (!!this.filterValue) {
-      // this.dataSource.filter = this.filterValue.trim().toLowerCase();
-
-      // if (this.dataSource.paginator) {
-      //   this.dataSource.paginator.firstPage();
-      // }
+  applyFilter(filterValue: string): void {
+    if (!!filterValue) {
+      this.actionsSubject.next(new FilterCollectionCardsAction(filterValue.trim().toLowerCase()));
     } else {
       this.clearFilter();
     }
   }
 
   clearFilter(): void {
-    this.filterValue = '';
-    // this.dataSource.filter = '';
+    this.actionsSubject.next(new ClearFilterAction());
   }
 
   onColumnSortValueChange(change: MatButtonToggleChange): void {

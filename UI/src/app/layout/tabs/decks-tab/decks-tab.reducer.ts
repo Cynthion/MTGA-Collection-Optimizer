@@ -10,6 +10,20 @@ export function decksTabReducer(state: DecksTabState = initialDecksTabState, act
       };
     }
 
+    case DecksTabActionTypes.FilterCollectionCards: {
+      return {
+        ...state,
+        filterValue: action.filterValue,
+      };
+    }
+
+    case DecksTabActionTypes.ClearFilter: {
+      return {
+        ...state,
+        filterValue: '',
+      };
+    }
+
     default: {
       return state;
     }

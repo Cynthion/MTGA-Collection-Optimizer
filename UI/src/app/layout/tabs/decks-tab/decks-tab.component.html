@@ -3,8 +3,8 @@
     <div class="column-search">
       <div class="search">
         <mat-form-field>
-          <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Search">
-          <button matSuffix mat-button color="primary" *ngIf="filterValue" (click)="clearFilter()">
+          <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+          <button matSuffix mat-button color="primary" *ngIf="(state$ | async).filterValue" (click)="clearFilter()">
             Clear
           </button>
         </mat-form-field>

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewChild, OnDestroy, ChangeDetecto
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
 
@@ -48,6 +48,7 @@ export class DecksTabComponent implements OnDestroy {
     private actionsSubject: ActionsSubject,
   ) {
     this.state$ = this.store.pipe(select(s => s.decksTab));
+    this.decks$ = this.store.pipe(select(s => s.layout.decks));
 
     this.sortColumnSubscription = this.store.pipe(
       select(s => s.layout.decks),
@@ -65,29 +66,31 @@ export class DecksTabComponent implements OnDestroy {
     );
 
     this.dataSource$ = dataSourceChanged$.pipe(
-      map(([collectionCards, filterValue]) => {
+      withLatestFrom(this.decks$),
+      map(([[collectionCards, filterValue], decks]) => {
         const dataSource = new MatTableDataSource(collectionCards);
-        dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-          const value: any = data[sortHeaderId];
+        dataSource.paginator = this.paginator;
+        dataSource.sort = this.sort;
 
-          // // if sortHeaderId is not a data property, then its a deck name
-          // if (value === undefined) {
-          //   const deckToBeSorted = this.playerDecks.find(d => d.name === sortHeaderId);
-          //   // only sort if deckToBeSorted still exists (might be deleted)
-          //   if (deckToBeSorted !== undefined) {
-          //     const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
-          //     const card: CollectionCardState = data as CollectionCardState;
-          //     value = _.includes(deckCardIds, card.mtgaId)
-          //       ? card.data.rarity
-          //       : Rarity.Unknown;
-          //   }
-          // }
+        dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+          let value: any = data[sortHeaderId];
+
+          // if sortHeaderId is not a data property, then its a deck name
+          if (value === undefined) {
+            const deckToBeSorted = decks.find(d => d.name === sortHeaderId);
+            // only sort if deckToBeSorted still exists (might be deleted)
+            if (deckToBeSorted !== undefined) {
+              const deckCardIds = deckToBeSorted.cards.map(c => c.mtgaId);
+              const card: CollectionCardState = data as CollectionCardState;
+              value = _.includes(deckCardIds, card.mtgaId)
+                ? card.data.rarity
+                : Rarity.Unknown;
+            }
+          }
 
           return isNumber(value) ? Number(value) : value;
         };
 
-        dataSource.paginator = this.paginator;
-        dataSource.sort = this.sort;
         dataSource.filterPredicate = (data: CollectionCardDto, filter: string): boolean => {
           return data.data.name.trim().toLowerCase().includes(filter);
         };
@@ -98,7 +101,6 @@ export class DecksTabComponent implements OnDestroy {
       }),
     );
 
-    this.decks$ = this.store.pipe(select(s => s.layout.decks));
   }
 
   ngOnDestroy() {
@@ -139,8 +141,8 @@ export class DecksTabComponent implements OnDestroy {
     return 'n/a';
   }
 
-  getDeckSubheaderName(playerDeck: PlayerDeckState): string {
-    return `${playerDeck.name}-subheader`;
+  getDeckSubheaderName(deck: PlayerDeckState): string {
+    return `${deck.name}-subheader`;
   }
 
   getRarityColorClass(rarity: Rarity): string {

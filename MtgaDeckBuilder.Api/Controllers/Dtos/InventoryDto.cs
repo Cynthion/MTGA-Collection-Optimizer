@@ -17,5 +17,7 @@
         public int Gems { get; set; }
 
         public float VaultProgress { get; set; }
+
+        public WildcardRequirementsDto WildcardRequirements { get; set; }
     }
 }

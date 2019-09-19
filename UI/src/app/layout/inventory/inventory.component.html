@@ -2,9 +2,6 @@
 
   <div class="left-container">
     <div class="name">{{ (state$ | async).playerName }}</div>
-    <div class="unknown-cards" *ngIf="(state$ | async).nrOfUnknownCards > 0">
-      <div class="unknown-cards-text">{{ (state$ | async).nrOfUnknownCards }} unknown cards found. Update of card database required.</div>
-    </div>
   </div>
 
   <div class="right-container">
@@ -12,14 +9,14 @@
       <img src="assets/img/wcMythic.png">
       <div class="count-container">
         <div class="count">{{ (state$ | async).wildcardMythic }}</div>
-        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcardMythicRequired }}</div>
+        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcardMythicRareRequired }}</div>
       </div>
     </div>
     <div class="wc-container">
       <img src="assets/img/wcRare.png">
       <div class="count-container">
         <div class="count">{{ (state$ | async).wildcardRare }}</div>
-        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcarRareRequired }}</div>
+        <div class="required">/ {{ (state$ |async).wildcardRequirements.wildcardRareRequired }}</div>
       </div>
     </div>
     <div class="wc-container">

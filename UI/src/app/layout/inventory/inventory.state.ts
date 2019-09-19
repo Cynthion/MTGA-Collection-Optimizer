@@ -4,11 +4,14 @@ export interface State extends ParentState {
   inventory: InventoryState;
 }
 
-export interface WildcardRequirementsState {
+export interface WildcardRequirementsDto {
   wildcardCommonRequired: number;
   wildcardUncommonRequired: number;
-  wildcarRareRequired: number;
-  wildcardMythicRequired: number;
+  wildcardRareRequired: number;
+  wildcardMythicRareRequired: number;
+}
+
+export interface WildcardRequirementsState extends WildcardRequirementsDto {
 }
 
 export interface InventoryDto {
@@ -20,11 +23,11 @@ export interface InventoryDto {
   gold: number;
   gems: number;
   vaultProgress: number;
+  wildcardRequirements: WildcardRequirementsDto;
 }
 
 export interface InventoryState extends InventoryDto {
   wildcardRequirements: WildcardRequirementsState;
-  nrOfUnknownCards: number;
 }
 
 export const initialInventoryState: InventoryState = {
@@ -39,8 +42,7 @@ export const initialInventoryState: InventoryState = {
   wildcardRequirements: {
     wildcardCommonRequired: 0,
     wildcardUncommonRequired: 0,
-    wildcarRareRequired: 0,
-    wildcardMythicRequired: 0,
+    wildcardRareRequired: 0,
+    wildcardMythicRareRequired: 0,
   },
-  nrOfUnknownCards: 0,
 };

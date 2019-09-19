@@ -35,11 +35,13 @@ namespace MtgaDeckBuilder.Api.Layout
         {
             // TODO parse log async
             // TODO optimize parsing: start from end of file
-            var inventory = ParseInventory();
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks();
             var collectionCards = CalculateCollectionCards(playerCards, playerDecks);
             var decks = CalculateDecks(playerDecks, collectionCards);
+
+            var inventory = ParseInventory();
+            inventory.WildcardRequirements = CalculateWildcardRequirements(collectionCards);
 
             collectionCards
                 .Select(cc => cc.WildcardWorthiness = Calculations.CalculateWildcardWorthiness(cc, decks))
@@ -225,6 +227,17 @@ namespace MtgaDeckBuilder.Api.Layout
             }
 
             return decks;
+        }
+
+        private static WildcardRequirementsDto CalculateWildcardRequirements(IEnumerable<CollectionCardDto> collectionCards)
+        {
+            return new WildcardRequirementsDto
+            {
+                WildcardUncommonRequired = collectionCards.Count(cc => cc.MissingCount > 0 && cc.Data.Rarity == Rarity.Uncommon),
+                WildcardCommonRequired = collectionCards.Count(cc => cc.MissingCount > 0 && cc.Data.Rarity == Rarity.Common),
+                WildcardRareRequired = collectionCards.Count(cc => cc.MissingCount > 0 && cc.Data.Rarity == Rarity.Rare),
+                WildcardMythicRareRequired = collectionCards.Count(cc => cc.MissingCount > 0 && cc.Data.Rarity == Rarity.MythicRare),
+            };
         }
     }
 }

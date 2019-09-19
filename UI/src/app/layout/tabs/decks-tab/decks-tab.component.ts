@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from '@angular/material';
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { isNumber } from 'util';
 import * as _ from 'lodash';
@@ -20,28 +20,16 @@ import { SortDeckColumnsAction, ClearFilterAction, FilterValueChangedAction } fr
   styleUrls: ['./decks-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DecksTabComponent implements OnDestroy {
+export class DecksTabComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   state$: Observable<DecksTabState>;
-
-  stickyColumn = 'name';
-  stickyColumnSubHeader = 'sticky-subheader';
-  flexColumns: string[] = ['set', 'ownedCount', 'missingCount'];
-  flexColumnsSubHeaders = ['flex-subheader', 'flex-subheader', 'flex-subheader'];
-  deckColumns: string[] = [];
-  deckColumnsSubHeaders: string[] = [];
-
-  displayedColumns: string[];
-  displayedColumnsSubHeaders: string[];
-
-  filterValue: string;
-
   dataSource$: Observable<MatTableDataSource<CollectionCardState>>;
   decks$: Observable<PlayerDeckState[]>;
+  columns$: Observable<{[key: string]: string[]}>;
 
-  sortColumnSubscription: Subscription;
+  filterValue: string;
 
   constructor(
     private store: Store<State>,
@@ -50,15 +38,49 @@ export class DecksTabComponent implements OnDestroy {
     this.state$ = this.store.pipe(select(s => s.decksTab));
     this.decks$ = this.store.pipe(select(s => s.layout.decks));
 
-    this.sortColumnSubscription = this.store.pipe(
-      select(s => s.layout.decks),
-    ).subscribe(decks => {
-      this.deckColumns = decks.map(d => d.name);
-      this.deckColumnsSubHeaders = decks.map(d => `${d.name}-subheader`);
+    const columnsChanged$ = combineLatest(
+      this.store.select(s => s.layout.decks),
+      this.store.select(s => s.decksTab.sortDeckColumnOrder),
+    );
 
-      this.displayedColumns = [this.stickyColumn.toString()].concat(this.flexColumns).concat(this.deckColumns);
-      this.displayedColumnsSubHeaders = [this.stickyColumnSubHeader.toString()].concat(this.flexColumnsSubHeaders).concat(this.deckColumnsSubHeaders);
-    });
+    this.columns$ = columnsChanged$.pipe(
+      map(([decks, sortOrder]) => {
+        const stickyColumns = ['name'];
+        const stickyColumnsSubheaders = stickyColumns.map(sc => 'sticky-subheader');
+
+        const flexColumns = ['set', 'ownedCount', 'missingCount'];
+        const flexColumnsSubheaders = flexColumns.map(fc => 'flex-subheader');
+
+        switch (sortOrder) {
+          case SortDeckColumnOrder.Alphabetical: {
+            decks = _.orderBy(decks, ['name'], ['asc']);
+            break;
+          }
+          case SortDeckColumnOrder.Completeness: {
+            decks = _.orderBy(decks, ['completeness'], ['desc']);
+            break;
+          }
+          case SortDeckColumnOrder.Incompleteness: {
+            decks = _.orderBy(decks, ['completeness'], ['asc']);
+          }
+        }
+
+        const deckColumns = decks.map(d => d.name);
+        const deckColumnsSubheaders = decks.map(d => this.getDeckSubheaderName(d));
+
+        const displayedColumns = stickyColumns.concat(flexColumns).concat(deckColumns);
+        const displayedColumnsSubheaders = stickyColumnsSubheaders.concat(flexColumnsSubheaders).concat(deckColumnsSubheaders);
+
+        const columns: {[key: string]: string[]} = {
+          stickyColumns,
+          flexColumns,
+          displayedColumns,
+          displayedColumnsSubheaders,
+        };
+
+        return columns;
+      }),
+    );
 
     const dataSourceChanged$ = combineLatest(
       this.store.select(s => s.layout.collectionCards),
@@ -100,11 +122,6 @@ export class DecksTabComponent implements OnDestroy {
         return dataSource;
       }),
     );
-
-  }
-
-  ngOnDestroy() {
-    this.sortColumnSubscription.unsubscribe();
   }
 
   applyFilter(filterValue: string): void {

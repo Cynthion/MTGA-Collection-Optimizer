@@ -95,9 +95,13 @@ export class DecksTabComponent {
         dataSource.sort = this.sort;
 
         dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+          // try sorting on collectionCard level
           let value: any = data[sortHeaderId];
-          console.log(data);
-          console.log(sortHeaderId);
+
+          // try sorting on collectionCard.data level
+          if (value === undefined) {
+            value = (data as CollectionCardState).data[sortHeaderId];
+          }
 
           // if sortHeaderId is not a data property, then its a deck name
           if (value === undefined) {

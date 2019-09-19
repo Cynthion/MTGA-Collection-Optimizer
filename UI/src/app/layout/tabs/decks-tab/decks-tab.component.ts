@@ -96,6 +96,8 @@ export class DecksTabComponent {
 
         dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
           let value: any = data[sortHeaderId];
+          console.log(data);
+          console.log(sortHeaderId);
 
           // if sortHeaderId is not a data property, then its a deck name
           if (value === undefined) {
@@ -154,6 +156,16 @@ export class DecksTabComponent {
       case 'set': return 'Set';
       case 'ownedCount': return 'Owned';
       case 'missingCount': return 'Missing';
+    }
+    return 'n/a';
+  }
+
+  getColumnData(columnName: string, collectionCard: CollectionCardState): string | number {
+    switch (columnName) {
+      case 'name': return collectionCard.data.name;
+      case 'set': return collectionCard.data.set;
+      case 'ownedCount': return collectionCard.ownedCount;
+      case 'missingCount': return collectionCard.missingCount;
     }
     return 'n/a';
   }

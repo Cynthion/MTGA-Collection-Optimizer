@@ -172,14 +172,15 @@ namespace MtgaDeckBuilder.Api.Layout
                 }
             }
 
-            // TODO fix
             // game data integration
             _gameData.AssertInitialized();
-            collectionCards
-                .Select(cc => cc.Data = _gameData.GetGameCard(cc.MtgaId))
-                .OrderByDescending(data => data.Rarity)
-                .ThenBy(data => data.Name)
-                .ToArray();
+            collectionCards.ForEach(cc => cc.Data = _gameData.GetGameCard(cc.MtgaId));
+
+            // sorting
+            collectionCards = collectionCards
+                .OrderByDescending(cc => cc.Data.Rarity)
+                .ThenBy(cc => cc.Data.Name)
+                .ToList();
 
             return collectionCards;
         }

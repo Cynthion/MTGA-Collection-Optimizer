@@ -12,9 +12,9 @@ export function getRarityClass(rarity: Rarity): string {
   }
 }
 
-// export function getOwnedOfRequired(ownedCount: number, requiredCount: number): string {
-//   const count = ownedCount > requiredCount
-//     ? requiredCount
-//     : ownedCount;
-//   return `${count} / ${requiredCount}`;
-// }
+export function getOwnedOfRequired(ownedCount: number, requiredCount: number): string {
+  const count = ownedCount > requiredCount
+    ? requiredCount
+    : ownedCount;
+  return `${count} / ${requiredCount}`;
+}

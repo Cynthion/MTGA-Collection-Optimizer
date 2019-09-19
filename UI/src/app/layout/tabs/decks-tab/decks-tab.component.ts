@@ -7,7 +7,7 @@ import { isNumber } from 'util';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
-import { getRarityClass } from '../../../domain.utils';
+import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
 import { percentageToHsl } from '../../../util/colors';
 import { CollectionCardState, PlayerDeckState, CollectionCardDto } from '../../layout.state';
 
@@ -166,15 +166,15 @@ export class DecksTabComponent {
     return getRarityClass(rarity);
   }
 
-  // getOwnedOfRequired(collectionCard: CollectionCardState, playerDeck: PlayerDeckState): string {
-  //   if (!_.includes(playerDeck.cards.map(c => c.mtgaId), collectionCard.mtgaId)) {
-  //     return '';
-  //   }
+  getOwnedOfRequired(collectionCard: CollectionCardState, deck: PlayerDeckState): string {
+    const deckCard = deck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
 
-  //   const deckCard = playerDeck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
+    if (deckCard !== undefined) {
+      return getOwnedOfRequired(collectionCard.ownedCount, deckCard.requiredCount);
+    }
 
-  //   return getOwnedOfRequired(collectionCard.ownedCount, deckCard.requiredCount);
-  // }
+    return '';
+  }
 
   getProgressColor(deck: PlayerDeckState): string {
     const redHue = 0;

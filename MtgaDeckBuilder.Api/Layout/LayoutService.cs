@@ -19,11 +19,13 @@ namespace MtgaDeckBuilder.Api.Layout
     {
         private readonly ILogParser _logParser;
         private readonly IGameData _gameData;
+        private readonly History _history;
 
         public LayoutService(ILogParser logParser, IGameData gameData)
         {
             _logParser = logParser;
             _gameData = gameData;
+            _history = new History();
         }
 
         public bool IsDetailedLogDisabled()
@@ -37,15 +39,15 @@ namespace MtgaDeckBuilder.Api.Layout
             // TODO optimize parsing: start from end of file
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks();
-            var collectionCards = CalculateCollectionCards(playerCards, playerDecks);
+            var collectionCards = CalculateCollectionCards(playerCards, playerDecks).ToList();
             var decks = CalculateDecks(playerDecks, collectionCards);
 
+            collectionCards.ForEach(cc => cc.WildcardWorthiness = Calculations.CalculateWildcardWorthiness(cc, decks));
+            
             var inventory = ParseInventory();
             inventory.WildcardRequirements = CalculateWildcardRequirements(collectionCards);
 
-            collectionCards
-                .Select(cc => cc.WildcardWorthiness = Calculations.CalculateWildcardWorthiness(cc, decks))
-                .ToArray();
+            var historyCards = _history.CalculateHistoryCards(collectionCards);
 
             var dto = new LayoutDto
             {
@@ -54,6 +56,7 @@ namespace MtgaDeckBuilder.Api.Layout
                 Decks = decks,
                 CollectionCardsOwnedCountTotal = collectionCards.Sum(cc => cc.OwnedCount),
                 CollectionCardsRequiredCountTotal = collectionCards.Sum(cc => cc.RequiredCount),
+                HistoryCards = historyCards,
             };
 
             return dto;

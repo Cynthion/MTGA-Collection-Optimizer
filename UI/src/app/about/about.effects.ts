@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { flatMap, tap, debounceTime, filter } from 'rxjs/operators';
+import { flatMap, debounceTime, filter } from 'rxjs/operators';
 
 import { AboutActionTypes } from './about.actions';
 import { AboutDialogComponent } from './about.dialog';
@@ -36,7 +36,7 @@ export class AboutDialogEffects {
     .pipe(
       ofType(AboutActionTypes.Close),
       flatMap(_ => {
-        const obs = this.aboutDialogRef.beforeClose();
+        const obs = this.aboutDialogRef.beforeClosed();
         this.aboutDialogRef.close();
         return obs;
       }),

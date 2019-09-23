@@ -11,10 +11,6 @@ namespace MtgaDeckBuilder.Api.Layout
 
         public IEnumerable<PlayerDeckDto> Decks { get; set; }
 
-        public int CollectionCardsOwnedCountTotal { get; set; }
-
-        public int CollectionCardsRequiredCountTotal { get; set; }
-
         public IEnumerable<HistoryCardDto> HistoryCards { get; set; }
     }
 }

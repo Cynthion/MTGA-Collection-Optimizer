@@ -68,8 +68,6 @@ export interface LayoutDto {
   inventory: InventoryDto;
   collectionCards: CollectionCardDto[];
   decks: PlayerDeckDto[];
-  collectionCardsOwnedCountTotal: number;
-  collectionCardsRequiredCountTotal: number;
   historyCards: HistoryCardDto[];
 }
 
@@ -85,8 +83,6 @@ export const initialLayoutState: LayoutState = {
   inventory: initialInventoryState,
   collectionCards: [],
   decks: [],
-  collectionCardsOwnedCountTotal: 0,
-  collectionCardsRequiredCountTotal: 0,
   tabs: initialTabsState,
   historyCards: [],
 };

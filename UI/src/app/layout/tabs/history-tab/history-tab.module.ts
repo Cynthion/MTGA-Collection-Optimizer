@@ -18,6 +18,7 @@ import { HistoryTabRoutingModule } from './history-tab-routing.module';
 import { HISTORY_TAB_MODULE_FEATURE_NAME } from './history-tab.state';
 import { historyTabReducer } from './history-tab.reducer';
 import { HistoryTabComponent } from './history-tab.component';
+import { HistoryTabEffects } from './history-tab.effects';
 
 const matModules = [
   MatAutocompleteModule,
@@ -35,7 +36,7 @@ const components = [
 ];
 
 const effects = [
-
+  HistoryTabEffects,
 ];
 
 @NgModule({

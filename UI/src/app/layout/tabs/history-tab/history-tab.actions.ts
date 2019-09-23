@@ -1,17 +1,33 @@
 import { Action } from '@ngrx/store';
 
 export enum HistoryTabActionTypes {
-  UpdateTimestampPrettyPrint = '[History Tab] Update Timestamp Pretty Print',
+  FilterValueChanged = '[History Tab] Filter Value Changed',
+  Filter = '[History Tab] Filter',
+  ClearFilter = '[History Tab] Clear Filter',
 }
 
-export class UpdateTimestampPrettyPrintAction implements Action {
-  readonly type = HistoryTabActionTypes.UpdateTimestampPrettyPrint;
+export class FilterValueChangedAction implements Action {
+  readonly type = HistoryTabActionTypes.FilterValueChanged;
 
   constructor(
-    public date: Date,
+    public filterValue: string,
   ) { }
 }
 
+export class FilterAction implements Action {
+  readonly type = HistoryTabActionTypes.Filter;
+
+  constructor(
+    public filterValue: string,
+  ) { }
+}
+
+export class ClearFilterAction implements Action {
+  readonly type = HistoryTabActionTypes.ClearFilter;
+}
+
 export type HistoryTabActions =
-  | UpdateTimestampPrettyPrintAction
+  | FilterValueChangedAction
+  | FilterAction
+  | ClearFilterAction
   ;

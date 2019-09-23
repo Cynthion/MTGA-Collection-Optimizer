@@ -119,7 +119,7 @@ export class DecksTabComponent {
           return isNumber(value) ? Number(value) : value;
         };
 
-        dataSource.filterPredicate = (data: CollectionCardDto, filter: string): boolean => {
+        dataSource.filterPredicate = (data: CollectionCardState, filter: string): boolean => {
           return data.data.name.trim().toLowerCase().includes(filter);
         };
         dataSource.filter = filterValue;

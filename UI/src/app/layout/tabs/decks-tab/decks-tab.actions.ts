@@ -39,6 +39,7 @@ export class ClearFilterAction implements Action {
 
 export type DecksTabActions =
   | SortDeckColumnsAction
+  | FilterValueChangedAction
   | FilterAction
   | ClearFilterAction
   ;

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { inventoryReducer, InitializeInventoryAction } from './inventory';
-import { initialLayoutState, LayoutState, CollectionCardState } from './layout.state';
+import { initialLayoutState, LayoutState, } from './layout.state';
 import { LayoutActions, LayoutActionTypes } from './layout.actions';
 import { callNestedReducers } from '../util/ngrx';
 

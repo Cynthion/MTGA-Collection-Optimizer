@@ -1,10 +1,24 @@
 import * as _ from 'lodash';
 
 import { HistoryTabState, initialHistoryTabState } from './history-tab.state';
-import { HistoryTabActions } from './history-tab.actions';
+import { HistoryTabActions, HistoryTabActionTypes } from './history-tab.actions';
 
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
   switch (action.type) {
+    case HistoryTabActionTypes.Filter: {
+      return {
+        ...state,
+        filterValue: action.filterValue,
+      };
+    }
+
+    case HistoryTabActionTypes.ClearFilter: {
+      return {
+        ...state,
+        filterValue: '',
+      };
+    }
+
     default: {
       return state;
     }

@@ -34,7 +34,7 @@ namespace MtgaDeckBuilder.Api.Layout
             }
 
             var deltaCardCollection = newCardCollection.Except(_existingCardCollection);
-            var timeStamp = DateTime.Now.ToLongTimeString();
+            var timeStamp = DateTime.UtcNow.ToLongTimeString();
 
             foreach (var deltaCard in deltaCardCollection)
             {

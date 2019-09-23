@@ -48,14 +48,20 @@ namespace MtgaDeckBuilder.Api.Layout
             inventory.WildcardRequirements = CalculateWildcardRequirements(collectionCards);
 
             var historyCards = _history.CalculateHistoryCards(collectionCards);
+            // TODO remove
+            historyCards = collectionCards
+                .Where(cc => cc.Data.Name.Contains("Arc"))
+                .Select(cc => new HistoryCardDto
+                {
+                    CollectionCard = cc,
+                    TimeStamp = DateTime.UtcNow.ToLongTimeString(),
+                });
 
             var dto = new LayoutDto
             {
                 Inventory = inventory,
                 CollectionCards = collectionCards,
                 Decks = decks,
-                CollectionCardsOwnedCountTotal = collectionCards.Sum(cc => cc.OwnedCount),
-                CollectionCardsRequiredCountTotal = collectionCards.Sum(cc => cc.RequiredCount),
                 HistoryCards = historyCards,
             };
 

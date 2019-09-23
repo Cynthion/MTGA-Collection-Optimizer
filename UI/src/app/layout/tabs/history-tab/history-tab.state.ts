@@ -1,5 +1,5 @@
 import { State as ParentState } from '../tabs.state';
-import { CollectionCardState, CollectionCardDto } from '../../layout.state';
+import { CollectionCardDto, CollectionCardState } from '../../layout.state';
 
 export const HISTORY_TAB_MODULE_FEATURE_NAME: keyof State = 'historyTab';
 
@@ -13,13 +13,13 @@ export interface HistoryCardDto {
 }
 
 export interface HistoryCardState extends HistoryCardDto {
-
+  collectionCard: CollectionCardState;
 }
 
 export interface HistoryTabState {
-  historyCards: HistoryCardState[];
+  filterValue: string;
 }
 
 export const initialHistoryTabState: HistoryTabState = {
-  historyCards: [],
+  filterValue: '',
 };

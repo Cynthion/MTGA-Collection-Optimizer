@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { Observable, merge } from 'rxjs';
-import { withLatestFrom } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
 import { getRarityClass } from '../../../domain.utils';
 
 import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
-import { UpdateTimestampPrettyPrintAction } from './history-tab.actions';
+import { FilterValueChangedAction, ClearFilterAction } from './history-tab.actions';
+import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-history-tab',
@@ -17,11 +18,14 @@ import { UpdateTimestampPrettyPrintAction } from './history-tab.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryTabComponent {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   state$: Observable<HistoryTabState>;
+  dataSource$: Observable<MatTableDataSource<HistoryCardState>>;
 
   displayedColumns: string[] = ['name', 'setCode', 'ownedCount', 'missingCount', 'requiringDeckNames', 'timeStamp'];
-  dataSource$: Observable<HistoryCardState[]>;
-
+  filterValue: string;
   soundEffect: any;
 
   constructor(
@@ -29,7 +33,6 @@ export class HistoryTabComponent {
     private actionsSubject: ActionsSubject,
   ) {
     this.state$ = this.store.pipe(select(s => s.historyTab));
-    this.dataSource$ = this.store.pipe(select(s => s.historyTab.historyCards));
 
     // TODO make side effect
     // this.soundEffect = new Audio();
@@ -37,11 +40,38 @@ export class HistoryTabComponent {
     // this.soundEffect.load();
     // this.soundEffect.play();
 
-    const historyRelevantDataChanged$ = merge(
-      this.store.select(s => s.layout.collectionCardsOwnedCountTotal),
-      this.store.select(s => s.layout.collectionCardsRequiredCountTotal),
+    const dataSourceChanged$ = combineLatest(
+      this.store.select(s => s.layout.historyCards),
+      this.store.select(s => s.historyTab.filterValue),
     );
 
+    this.dataSource$ = dataSourceChanged$.pipe(
+      map(([historyCards, filterValue]) => {
+        const dataSource = new MatTableDataSource(historyCards);
+        dataSource.paginator = this.paginator;
+        dataSource.sort = this.sort;
+
+        dataSource.filterPredicate = (data: HistoryCardState, filter: string): boolean => {
+          return data.collectionCard.data.name.trim().toLowerCase().includes(filter);
+        };
+        dataSource.filter = filterValue;
+        this.filterValue = filterValue;
+
+        return dataSource;
+      }),
+    );
+  }
+
+  applyFilter(filterValue: string): void {
+    if (!!filterValue) {
+      this.actionsSubject.next(new FilterValueChangedAction(filterValue.trim().toLowerCase()));
+    } else {
+      this.clearFilter();
+    }
+  }
+
+  clearFilter(): void {
+    this.actionsSubject.next(new ClearFilterAction());
   }
 
   getRarityColorClass(rarity: Rarity): string {

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, interval } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
@@ -31,6 +31,7 @@ export class HistoryTabComponent {
   constructor(
     private store: Store<State>,
     private actionsSubject: ActionsSubject,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.state$ = this.store.pipe(select(s => s.historyTab));
 
@@ -60,6 +61,11 @@ export class HistoryTabComponent {
         return dataSource;
       }),
     );
+
+    // const intervalSubscription = interval(2000).subscribe(i => {
+    //   this.changeDetector.markForCheck();
+    //   console.log(i);
+    // });
   }
 
   applyFilter(filterValue: string): void {

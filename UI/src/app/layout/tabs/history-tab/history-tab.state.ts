@@ -8,7 +8,7 @@ export interface State extends ParentState {
 }
 
 export interface HistoryCardDto {
-  timeStamp: string;
+  timeStamp: number;
   collectionCard: CollectionCardDto;
 }
 

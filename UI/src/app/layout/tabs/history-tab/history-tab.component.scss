@@ -5,6 +5,23 @@
   display: flex;
   flex-direction: column;
   
+  .table-menu {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: $theme-accent-color-a100;
+
+    .column-search {
+      flex: 1 1 auto;
+      .search {
+        >mat-form-field {
+          width: 50%;
+        }
+      }
+    }
+  }
+  
   .table-container {
     flex: 1 1 auto; // takes rest of vertical space
     overflow: auto; // if overflow is clipped, a scroll-bar should be added to see the rest of the content

@@ -54,7 +54,8 @@ namespace MtgaDeckBuilder.Api.Layout
                 .Select(cc => new HistoryCardDto
                 {
                     CollectionCard = cc,
-                    TimeStamp = DateTime.UtcNow.ToLongTimeString(),
+                    TimeStamp = DateTime.UtcNow
+               .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
                 });
 
             var dto = new LayoutDto

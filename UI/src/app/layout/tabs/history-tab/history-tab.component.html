@@ -75,7 +75,7 @@
           <div>Time</div>
         </th>
         <td mat-cell *matCellDef="let historyCard">
-          -
+          {{ historyCard.timeStamp | timeAgo }}
         </td>
       </ng-container>
 

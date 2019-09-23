@@ -7,7 +7,7 @@ namespace MtgaDeckBuilder.Api.Layout
 {
     public class HistoryCardDto
     {
-        public string TimeStamp { get; set; }
+        public double TimeStamp { get; set; }
 
         public CollectionCardDto CollectionCard { get; set; }
     }
@@ -34,7 +34,7 @@ namespace MtgaDeckBuilder.Api.Layout
             }
 
             var deltaCardCollection = newCardCollection.Except(_existingCardCollection);
-            var timeStamp = DateTime.UtcNow.ToLongTimeString();
+            var timeStamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds; ;
 
             foreach (var deltaCard in deltaCardCollection)
             {

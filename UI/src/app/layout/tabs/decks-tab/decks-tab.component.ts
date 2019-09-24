@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { Rarity } from '../../../domain.state';
 import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
 import { percentageToHsl } from '../../../util/colors';
-import { CollectionCardState, PlayerDeckState, CollectionCardDto } from '../../layout.state';
+import { CollectionCardState, PlayerDeckState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
 import { SortDeckColumnsAction, ClearFilterAction, FilterValueChangedAction } from './decks-tab.actions';
@@ -182,13 +182,14 @@ export class DecksTabComponent {
     return getRarityClass(rarity);
   }
 
-  getOwnedOfRequired(collectionCard: CollectionCardState, deck: PlayerDeckState): string {
-    const deckCard = deck.cards.find(c => c.mtgaId === collectionCard.mtgaId);
+  getOwnedOfRequired(collectionCard: CollectionCardState, deckId: string): string {
+    if (collectionCard.deckRequirements) {
+      const deckRequirement = collectionCard.deckRequirements.find(dr => dr.deckId === deckId);
 
-    if (deckCard !== undefined) {
-      return getOwnedOfRequired(collectionCard.ownedCount, deckCard.requiredCount);
+      if (deckRequirement !== undefined) {
+        return getOwnedOfRequired(deckRequirement.ownedCount, deckRequirement.requiredCount);
+      }
     }
-
     return '';
   }
 

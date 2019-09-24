@@ -177,6 +177,7 @@ namespace MtgaDeckBuilder.Api.Layout
                     }
                     collectionCard.DeckRequirements.Add(new DeckRequirementDto
                     {
+                        DeckId = deck.Id,
                         DeckName = deck.Name,
                         OwnedCount = ownedCount,
                         RequiredCount = deckCardCc.RequiredCount,

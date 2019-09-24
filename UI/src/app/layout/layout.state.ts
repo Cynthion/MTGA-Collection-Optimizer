@@ -28,6 +28,7 @@ export interface GameCard {
 }
 
 export interface DeckRequirementDto {
+  deckId: string;
   deckName: string;
   ownedCount: number;
   requiredCount: number;

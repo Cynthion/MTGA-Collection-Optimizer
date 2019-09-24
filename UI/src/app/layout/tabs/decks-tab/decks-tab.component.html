@@ -57,7 +57,7 @@
           <div>{{ deck.name }}</div>
         </th>
         <td mat-cell *matCellDef="let collectionCard">
-          {{ getOwnedOfRequired(collectionCard, deck) }}
+          {{ getOwnedOfRequired(collectionCard, deck.id) }}
         </td>
       </ng-container>
   

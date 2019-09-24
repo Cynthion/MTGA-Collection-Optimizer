@@ -57,6 +57,12 @@
       }
     }
   }
+
+  .paginator {
+    flex: 0 1 auto;
+    padding-top: $default-padding;
+    -webkit-user-select: none;
+  }
 }
 
 // Scrollbar Style Overrides

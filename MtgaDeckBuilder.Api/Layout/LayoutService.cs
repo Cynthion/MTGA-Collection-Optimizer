@@ -38,7 +38,9 @@ namespace MtgaDeckBuilder.Api.Layout
             // TODO parse log async
             // TODO optimize parsing: start from end of file
             var playerCards = _logParser.ParsePlayerCards();
-            var playerDecks = ParsePlayerDecks();
+            var playerDecks = ParsePlayerDecks()
+                .Where(d => !d.Name.Contains("?=?"));
+
             var collectionCards = CalculateCollectionCards(playerCards, playerDecks).ToList();
             var decks = CalculateDecks(playerDecks, collectionCards);
 
@@ -160,24 +162,20 @@ namespace MtgaDeckBuilder.Api.Layout
                         : missingCountForDeck;
 
                     // add/update card
+                    var collectionCard = existingCollectionCard ?? deckCardCc;
+
                     if (existingCollectionCard == null)
                     {
-                        deckCardCc.OwnedCount = ownedCount;
-                        deckCardCc.MissingCount = missingCount;
-                        collectionCards.Add(deckCardCc);
-                    }
-                    else
-                    {
-                        existingCollectionCard.OwnedCount = ownedCount;
-                        existingCollectionCard.MissingCount = missingCount;
+                        collectionCards.Add(collectionCard);
                     }
 
-                    // add deck requirements
-                    if (deckCardCc.DeckRequirements == null)
+                    collectionCard.OwnedCount = ownedCount;
+                    collectionCard.MissingCount = missingCount;
+                    if (collectionCard.DeckRequirements == null)
                     {
-                        deckCardCc.DeckRequirements = new List<DeckRequirementDto>();
+                        collectionCard.DeckRequirements = new List<DeckRequirementDto>();
                     }
-                    deckCardCc.DeckRequirements.Add(new DeckRequirementDto
+                    collectionCard.DeckRequirements.Add(new DeckRequirementDto
                     {
                         DeckName = deck.Name,
                         OwnedCount = ownedCount,
@@ -212,7 +210,6 @@ namespace MtgaDeckBuilder.Api.Layout
                                 RequiredCount = c.Value
                             }).ToArray()
                         })
-                        .Where(d => !d.Name.Contains("?=?"))
                         .OrderBy(d => d.Name)
                         .ToArray();
 

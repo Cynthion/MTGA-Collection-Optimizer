@@ -63,7 +63,7 @@
           <ul>
             <li *ngFor="let deckRequirement of historyCard.collectionCard.deckRequirements"
             [ngClass]="{'deckRequirementComplete': deckRequirement.ownedCount >= deckRequirement.requiredCount}">
-              {{ deckRequirement.deckName }} ({{ deckRequirement.ownedCount }} / {{ deckRequirement.requiredCount }})
+              {{ deckRequirement.deckName }} ({{ getOwnedOfRequired(deckRequirement.ownedCount, deckRequirement.requiredCount) }})
             </li>
           </ul>
         </td>

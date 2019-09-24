@@ -63,6 +63,9 @@
 - [ ] change ports for production
 - [ ] add License
 - [ ] update maximegris/angular-electron version (Angular 8)
+- [ ] update to .NET Core 3.0
+  - [ ] make use of new JSON API with Span<T>
+  - [ ] use IL linker to throw away unnecessary framework code
 - [ ] handle connection refused with separate api error code
 - [X] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)

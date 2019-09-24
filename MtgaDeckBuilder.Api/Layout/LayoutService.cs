@@ -50,7 +50,7 @@ namespace MtgaDeckBuilder.Api.Layout
             var historyCards = _history.CalculateHistoryCards(collectionCards);
             // TODO remove
             historyCards = collectionCards
-                .Where(cc => cc.Data.Name.Contains("Arc"))
+                .Where(cc => cc.Data.Name.ToLowerInvariant().Contains("arc"))
                 .Select(cc => new HistoryCardDto
                 {
                     CollectionCard = cc,
@@ -164,23 +164,25 @@ namespace MtgaDeckBuilder.Api.Layout
                     {
                         deckCardCc.OwnedCount = ownedCount;
                         deckCardCc.MissingCount = missingCount;
-                        if (deckCardCc.RequiredForDeck == null)
-                        {
-                            deckCardCc.RequiredForDeck = new Dictionary<string, short>();
-                        }
-                        deckCardCc.RequiredForDeck.Add(deck.Id, deckCardCc.RequiredCount);
                         collectionCards.Add(deckCardCc);
                     }
                     else
                     {
                         existingCollectionCard.OwnedCount = ownedCount;
                         existingCollectionCard.MissingCount = missingCount;
-                        if (deckCardCc.RequiredForDeck == null)
-                        {
-                            deckCardCc.RequiredForDeck = new Dictionary<string, short>();
-                        }
-                        deckCardCc.RequiredForDeck.Add(deck.Id, deckCardCc.RequiredCount);
                     }
+
+                    // add deck requirements
+                    if (deckCardCc.DeckRequirements == null)
+                    {
+                        deckCardCc.DeckRequirements = new List<DeckRequirementDto>();
+                    }
+                    deckCardCc.DeckRequirements.Add(new DeckRequirementDto
+                    {
+                        DeckName = deck.Name,
+                        OwnedCount = ownedCount,
+                        RequiredCount = deckCardCc.RequiredCount,
+                    });
                 }
             }
 

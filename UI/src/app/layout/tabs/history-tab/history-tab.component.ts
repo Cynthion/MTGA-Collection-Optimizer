@@ -4,7 +4,7 @@ import { Observable, combineLatest, interval } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
-import { getRarityClass } from '../../../domain.utils';
+import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
 
 import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
 import { FilterValueChangedAction, ClearFilterAction } from './history-tab.actions';
@@ -82,5 +82,9 @@ export class HistoryTabComponent {
 
   getRarityColorClass(rarity: Rarity): string {
     return getRarityClass(rarity);
+  }
+
+  getOwnedOfRequired(ownedCount: number, requiredCount: number): string {
+    return getOwnedOfRequired(ownedCount, requiredCount);
   }
 }

@@ -27,18 +27,28 @@ export interface GameCard {
   hiddenAbilities: string[];
 }
 
+export interface DeckRequirementDto {
+  deckName: string;
+  ownedCount: number;
+  requiredCount: number;
+}
+
+export interface DeckRequirementState extends DeckRequirementDto {
+
+}
+
 export interface CollectionCardDto {
   mtgaId: number;
   ownedCount: number;
   requiredCount: number;
   missingCount: number;
   wildcardWorthiness: number;
-  requiredForDeck: { [key: string]: number; };
+  deckRequirements: DeckRequirementDto[];
   data: GameCard;
 }
 
 export interface CollectionCardState extends CollectionCardDto {
-
+  deckRequirements: DeckRequirementState[];
 }
 
 export interface DeckCardDto {

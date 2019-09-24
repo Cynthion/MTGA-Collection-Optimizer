@@ -2,7 +2,7 @@
 
 Cross-platform Magic The Gathering Arena collection and deck tracker.
 
-![alt text](https://github.com/Cynthion/MTGA-Collection-Optimizer/blob/master/Screenshots/beta2.PNG)
+![alt text](https://github.com/Cynthion/MTGA-Collection-Optimizer/blob/master/Screenshots/decks-tab.png)
 
 ![alt text](https://github.com/Cynthion/MTGA-Collection-Optimizer/blob/master/Screenshots/beta-history-tab.png)
 

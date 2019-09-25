@@ -2,7 +2,7 @@ import { RootState as ParentState } from '../app.state';
 import { Rarity, CardType, Color } from '../domain.state';
 
 import { initialInventoryState, InventoryState, InventoryDto } from './inventory';
-import { TabsState, initialTabsState } from './tabs/tabs.state';
+import { TabsState, initialTabsState, TabsDto } from './tabs/tabs.state';
 import { HistoryCardDto, HistoryCardState } from './tabs/history-tab/history-tab.state';
 
 export const LAYOUT_FEATURE_NAME: keyof State = 'layout';
@@ -77,23 +77,21 @@ export interface PlayerDeckState extends PlayerDeckDto {
 
 export interface LayoutDto {
   inventory: InventoryDto;
+  tabs: TabsDto;
   collectionCards: CollectionCardDto[];
   decks: PlayerDeckDto[];
-  historyCards: HistoryCardDto[];
 }
 
 export interface LayoutState extends LayoutDto {
   inventory: InventoryState;
+  tabs: TabsState;
   collectionCards: CollectionCardState[];
   decks: PlayerDeckState[];
-  tabs: TabsState; // TODO should this be here with the backend stuff?
-  historyCards: HistoryCardState[];
 }
 
 export const initialLayoutState: LayoutState = {
   inventory: initialInventoryState,
+  tabs: initialTabsState,
   collectionCards: [],
   decks: [],
-  tabs: initialTabsState,
-  historyCards: [],
 };

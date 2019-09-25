@@ -63,9 +63,15 @@ namespace MtgaDeckBuilder.Api.Layout
             var dto = new LayoutDto
             {
                 Inventory = inventory,
+                Tabs = new TabsDto
+                {
+                    HistoryTab = new HistoryTabDto
+                    {
+                        HistoryCards = historyCards,
+                    },
+                },
                 CollectionCards = collectionCards,
                 Decks = decks,
-                HistoryCards = historyCards,
             };
 
             return dto;

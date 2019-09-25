@@ -45,6 +45,7 @@ export type HistoryTabActions =
 
 export enum HistoryCardActionTypes {
   Initialize = '[History Card] Initialize',
+  UpdateTimeAgo = '[History Card] Update Time Ago',
 }
 
 export class InitializeHistoryCardAction implements Action {
@@ -55,6 +56,15 @@ export class InitializeHistoryCardAction implements Action {
   ) { }
 }
 
+export class UpdateTimeAgoAction implements Action {
+  readonly type = HistoryCardActionTypes.UpdateTimeAgo;
+
+  constructor(
+    public timeStamp: number,
+  ) { }
+}
+
 export type HistoryCardActions =
   | InitializeHistoryCardAction
+  | UpdateTimeAgoAction
   ;

@@ -10,7 +10,6 @@ import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
 import { FilterValueChangedAction, ClearFilterAction } from './history-tab.actions';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { map } from 'rxjs/operators';
-import { historyCardReducer } from './history-tab.reducer';
 
 @Component({
   selector: 'app-history-tab',

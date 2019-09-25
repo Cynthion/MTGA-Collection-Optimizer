@@ -3,6 +3,7 @@ import { CollectionCardDto, CollectionCardState } from '../../layout.state';
 
 export const HISTORY_TAB_MODULE_FEATURE_NAME: keyof State = 'historyTab';
 
+// TODO fix this, as it's not working anymore
 export interface State extends ParentState {
   historyTab: HistoryTabState;
 }

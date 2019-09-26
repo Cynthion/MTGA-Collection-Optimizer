@@ -25,11 +25,13 @@ export interface HistoryTabDto {
 export interface HistoryTabState extends HistoryTabDto {
   historyCards: HistoryCardState[];
   filterValue: string;
+  isBadgeVisible: boolean;
 }
 
 export const initialHistoryTabState: HistoryTabState = {
   historyCards: [],
   filterValue: '',
+  isBadgeVisible: true,
 };
 
 export const initialHistoryCardState: HistoryCardState = {

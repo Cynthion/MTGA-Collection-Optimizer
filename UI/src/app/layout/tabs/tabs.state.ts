@@ -16,8 +16,3 @@ export interface TabsState {
 export const initialTabsState: TabsState = {
   historyTab: initialHistoryTabState,
 };
-
-export interface NavLink {
-  label: string;
-  path: string;
-}

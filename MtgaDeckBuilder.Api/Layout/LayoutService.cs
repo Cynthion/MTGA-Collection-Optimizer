@@ -50,15 +50,6 @@ namespace MtgaDeckBuilder.Api.Layout
             inventory.WildcardRequirements = CalculateWildcardRequirements(collectionCards);
 
             var historyCards = _history.CalculateHistoryCards(collectionCards);
-            // TODO remove
-            historyCards = collectionCards
-                .Where(cc => cc.Data.Name.ToLowerInvariant().Contains("arc"))
-                .Select(cc => new HistoryCardDto
-                {
-                    CollectionCard = cc,
-                    TimeStamp = DateTime.UtcNow
-               .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
-                });
 
             var dto = new LayoutDto
             {

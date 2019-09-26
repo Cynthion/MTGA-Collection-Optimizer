@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { Observable, combineLatest, interval } from 'rxjs';
+import { Observable, combineLatest, interval, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
 import { getRarityClass, getOwnedOfRequired } from '../../../domain.utils';
 
 import { HistoryTabState, State, HistoryCardState } from './history-tab.state';
-import { FilterValueChangedAction, ClearFilterAction } from './history-tab.actions';
+import { FilterValueChangedAction, ClearFilterAction, UpdateTimeAgoAction } from './history-tab.actions';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { map } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./history-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryTabComponent {
+export class HistoryTabComponent implements OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -27,6 +27,8 @@ export class HistoryTabComponent {
   displayedColumns: string[] = ['name', 'setCode', 'ownedCount', 'missingCount', 'requiringDeckNames', 'timeStamp'];
   filterValue: string;
   soundEffect: any;
+
+  intervalSubscription: Subscription;
 
   constructor(
     private store: Store<State>,
@@ -58,16 +60,18 @@ export class HistoryTabComponent {
         dataSource.filter = filterValue;
         this.filterValue = filterValue;
 
-        console.log(historyCards);
-
         return dataSource;
       }),
     );
 
-    // const intervalSubscription = interval(2000).subscribe(i => {
-    //   this.changeDetector.markForCheck();
-    //   console.log(i);
-    // });
+    this.intervalSubscription = interval(15000).subscribe(i => {
+      this.actionsSubject.next(new UpdateTimeAgoAction(Date.now()));
+      this.changeDetector.markForCheck();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.intervalSubscription.unsubscribe();
   }
 
   applyFilter(filterValue: string): void {

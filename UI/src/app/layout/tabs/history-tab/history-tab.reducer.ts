@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 
 import { HistoryTabState, initialHistoryTabState, HistoryCardState, initialHistoryCardState } from './history-tab.state';
 import { HistoryTabActions, HistoryTabActionTypes, HistoryCardActions, HistoryCardActionTypes, InitializeHistoryCardAction } from './history-tab.actions';
+import { callNestedReducers, createArrayReducer } from '../../../util/ngrx';
 
 export function historyCardReducer(state: HistoryCardState = initialHistoryCardState, action: HistoryCardActions): HistoryCardState {
   switch (action.type) {
@@ -12,6 +13,13 @@ export function historyCardReducer(state: HistoryCardState = initialHistoryCardS
       };
     }
 
+    case HistoryCardActionTypes.UpdateTimeAgo: {
+      return {
+        ...state,
+        timeAgo: getTimeAgoPrint(state.timeStamp, action.timeStamp),
+      };
+    }
+
     default: {
       return state;
     }
@@ -19,17 +27,17 @@ export function historyCardReducer(state: HistoryCardState = initialHistoryCardS
 }
 
 export function historyTabReducer(state: HistoryTabState = initialHistoryTabState, action: HistoryTabActions): HistoryTabState {
+  state = callNestedReducers(state, action, {
+    historyCards: createArrayReducer(historyCardReducer),
+  });
+
   switch (action.type) {
     case HistoryTabActionTypes.Initialize: {
-      const newState = {
+      return {
         ...state,
         ...action.dto,
         historyCards: action.dto.historyCards.map((dto, idx) => historyCardReducer(state.historyCards[idx], new InitializeHistoryCardAction(dto))),
       };
-
-      console.log(newState);
-
-      return newState;
     }
 
     case HistoryTabActionTypes.Filter: {
@@ -50,18 +58,22 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
       return state;
     }
   }
+}
 
-  // function getTimestampPrettyPrint(oldDate: Date, newDate: Date): string {
-  //   const diff = Math.abs(oldDate.getTime() - newDate.getTime());
-  //   const seconds = Math.floor(diff / 1000);
-  //   const minutes = Math.floor(seconds / 60);
+function getTimeAgoPrint(oldDate: number, newDate: number): string {
+  const diff = Math.abs(oldDate - newDate);
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
 
-  //   if (seconds < 60) {
-  //     return `${seconds} ${seconds < 2 ? 'second' : 'seconds'} ago`;
-  //   }
-  //   if (minutes < 60) {
-  //     return `${minutes} ${minutes < 2 ? 'minute' : 'minutes'} ago`;
-  //   }
-  //   return oldDate.toLocaleString();
-  // }
+  if (seconds < 60) {
+    return `${seconds} ${seconds < 2 ? 'second' : 'seconds'} ago`;
+  }
+  if (minutes < 60) {
+    return `${minutes} ${minutes < 2 ? 'minute' : 'minutes'} ago`;
+  }
+  if (hours < 60) {
+    return `${hours} ${hours < 2 ? 'hour' : 'hours'} ago`;
+  }
+  return oldDate.toLocaleString();
 }

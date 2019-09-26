@@ -9,12 +9,13 @@ export interface State extends ParentState {
 }
 
 export interface HistoryCardDto {
-  timeStamp: number;
   collectionCard: CollectionCardDto;
+  timeStamp: number;
 }
 
 export interface HistoryCardState extends HistoryCardDto {
   collectionCard: CollectionCardState;
+  timeAgo: string;
 }
 
 export interface HistoryTabDto {
@@ -32,7 +33,8 @@ export const initialHistoryTabState: HistoryTabState = {
 };
 
 export const initialHistoryCardState: HistoryCardState = {
-  timeStamp: 0,
   collectionCard: undefined,
+  timeStamp: 0,
+  timeAgo: '',
 };
 

@@ -8,7 +8,6 @@ import { concatMap, flatMap, map, tap, filter } from 'rxjs/operators';
 import { OpenApiErrorSnackbarAction, ApiErrorActionTypes, CloseApiErrorSnackbarAction } from './api-error.actions';
 import { ApiErrorComponent } from './api-error.component';
 import { OpenSettingsAction } from '../settings/settings.actions';
-import { LoadDataAction } from '../layout/layout.actions';
 
 @Injectable()
 export class ApiErrorEffects {

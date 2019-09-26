@@ -2,12 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { OpenSettingsDialogAction } from '../settings/settings.actions';
-import { LoadDataAction } from '../layout/layout.actions';
-
 import { ApiErrorState } from './api-error.state';
 import { RootState } from '../app.state';
-import { takeLast, map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { CloseApiErrorSnackbarAction } from './api-error.actions';
 
 @Component({

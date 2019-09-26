@@ -34,11 +34,16 @@ namespace MtgaDeckBuilder.Api.Layout
             }
 
             var deltaCardCollection = newCardCollection.Except(_existingCardCollection);
-            var timeStamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds; ;
+            var timeStamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
 
             foreach (var deltaCard in deltaCardCollection)
             {
                 _existingCardCollection.Add(deltaCard);
+                if (!_existingCardCollection.TryAdd(deltaCard.Key, deltaCard.Value))
+                {
+                    _existingCardCollection[deltaCard.Key] = deltaCard.Value;
+                }
+
                 _historyCards.Add(new HistoryCardDto
                 {
                     TimeStamp = timeStamp,

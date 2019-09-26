@@ -10,6 +10,7 @@ export function historyCardReducer(state: HistoryCardState = initialHistoryCardS
       return {
         ...state,
         ...action.dto,
+        timeAgo: getTimeAgoPrint(action.dto.timeStamp, Date.now()),
       };
     }
 

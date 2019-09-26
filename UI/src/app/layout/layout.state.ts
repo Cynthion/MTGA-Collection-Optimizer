@@ -3,7 +3,6 @@ import { Rarity, CardType, Color } from '../domain.state';
 
 import { initialInventoryState, InventoryState, InventoryDto } from './inventory';
 import { TabsState, initialTabsState, TabsDto } from './tabs/tabs.state';
-import { HistoryCardDto, HistoryCardState } from './tabs/history-tab/history-tab.state';
 
 export const LAYOUT_FEATURE_NAME: keyof State = 'layout';
 

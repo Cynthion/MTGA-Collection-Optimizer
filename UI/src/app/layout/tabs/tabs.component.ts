@@ -16,6 +16,7 @@ export class TabsComponent {
   constructor(
     private store: Store<State>,
   ) {
-    this.state$ = this.store.pipe(select(s => s.tabs));
+    this.state$ = this.store.pipe(select(s => s.layout.tabs));
+    this.state$.subscribe(s => console.log(s.historyTab.isBadgeVisible));
   }
 }

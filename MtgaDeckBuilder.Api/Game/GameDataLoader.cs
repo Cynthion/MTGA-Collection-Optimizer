@@ -73,7 +73,7 @@ namespace MtgaDeckBuilder.Api.Game
         private string FindModelPath(string prefix)
         {
             _settings.AssertGameDataPathValid();
-            var matchingFile = Directory.GetFiles(_settings.GameDataPath, $"{prefix}*").Single();
+            var matchingFile = Directory.GetFiles(_settings.GameDataPath, $"{prefix}*.mtga").Single();
             Logger.Info($"Found {matchingFile} game model file.");
             return matchingFile;
         }

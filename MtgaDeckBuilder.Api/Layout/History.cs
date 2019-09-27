@@ -38,7 +38,6 @@ namespace MtgaDeckBuilder.Api.Layout
 
             foreach (var deltaCard in deltaCardCollection)
             {
-                _existingCardCollection.Add(deltaCard);
                 if (!_existingCardCollection.TryAdd(deltaCard.Key, deltaCard.Value))
                 {
                     _existingCardCollection[deltaCard.Key] = deltaCard.Value;

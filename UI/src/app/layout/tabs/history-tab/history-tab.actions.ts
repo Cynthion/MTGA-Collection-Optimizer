@@ -6,6 +6,7 @@ export enum HistoryTabActionTypes {
   FilterValueChanged = '[History Tab] Filter Value Changed',
   Filter = '[History Tab] Filter',
   ClearFilter = '[History Tab] Clear Filter',
+  ResetBadgeCount = '[History Tab] Reset Badge Count',
 }
 
 export class InitializeHistoryTabAction implements Action {
@@ -36,11 +37,16 @@ export class ClearFilterAction implements Action {
   readonly type = HistoryTabActionTypes.ClearFilter;
 }
 
+export class ResetBadgeCountAction implements Action {
+  readonly type = HistoryTabActionTypes.ResetBadgeCount;
+}
+
 export type HistoryTabActions =
   | InitializeHistoryTabAction
   | FilterValueChangedAction
   | FilterAction
   | ClearFilterAction
+  | ResetBadgeCountAction
   ;
 
 export enum HistoryCardActionTypes {

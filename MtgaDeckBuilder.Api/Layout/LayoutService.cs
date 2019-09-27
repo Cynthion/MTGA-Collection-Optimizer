@@ -49,17 +49,14 @@ namespace MtgaDeckBuilder.Api.Layout
             var inventory = ParseInventory();
             inventory.WildcardRequirements = CalculateWildcardRequirements(collectionCards);
 
-            var historyCards = _history.CalculateHistoryCards(collectionCards);
+            var historyTab = _history.CalculateHistoryTabDto(collectionCards);
 
             var dto = new LayoutDto
             {
                 Inventory = inventory,
                 Tabs = new TabsDto
                 {
-                    HistoryTab = new HistoryTabDto
-                    {
-                        HistoryCards = historyCards,
-                    },
+                    HistoryTab = historyTab,
                 },
                 CollectionCards = collectionCards,
                 Decks = decks,

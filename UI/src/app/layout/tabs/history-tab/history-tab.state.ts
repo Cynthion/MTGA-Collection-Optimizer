@@ -20,18 +20,22 @@ export interface HistoryCardState extends HistoryCardDto {
 
 export interface HistoryTabDto {
   historyCards: HistoryCardDto[];
+  newBadgeCount: number;
 }
 
 export interface HistoryTabState extends HistoryTabDto {
   historyCards: HistoryCardState[];
   filterValue: string;
   isBadgeVisible: boolean;
+  badgeCount: number;
 }
 
 export const initialHistoryTabState: HistoryTabState = {
   historyCards: [],
   filterValue: '',
   isBadgeVisible: true,
+  badgeCount: 0,
+  newBadgeCount: 0,
 };
 
 export const initialHistoryCardState: HistoryCardState = {

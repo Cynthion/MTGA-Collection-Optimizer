@@ -22,7 +22,7 @@ namespace MtgaDeckBuilder.Api.Layout
             _historyCards = new List<HistoryCardDto>();
         }
 
-        public IEnumerable<HistoryCardDto> CalculateHistoryCards(IEnumerable<CollectionCardDto> newCollectionCards)
+        public HistoryTabDto CalculateHistoryTabDto(IEnumerable<CollectionCardDto> newCollectionCards)
         {
             var newCardCollection = newCollectionCards.ToDictionary(cc => cc.MtgaId, cc => cc.OwnedCount);
 
@@ -30,10 +30,14 @@ namespace MtgaDeckBuilder.Api.Layout
             if (_existingCardCollection == null)
             {
                 _existingCardCollection = newCardCollection;
-                return Enumerable.Empty<HistoryCardDto>();
+                return new HistoryTabDto
+                {
+                    HistoryCards = Enumerable.Empty<HistoryCardDto>(),
+                    NewBadgeCount = 0,
+                };
             }
 
-            var deltaCardCollection = newCardCollection.Except(_existingCardCollection);
+            var deltaCardCollection = newCardCollection.Except(_existingCardCollection).ToList();
             var timeStamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
 
             foreach (var deltaCard in deltaCardCollection)
@@ -50,11 +54,17 @@ namespace MtgaDeckBuilder.Api.Layout
                 });
             }
 
-            return _historyCards
+            var historyCards = _historyCards
                 .OrderByDescending(cc => cc.TimeStamp)
                 .ThenByDescending(cc => cc.CollectionCard.Data.Rarity)
                 .ThenByDescending(cc => cc.CollectionCard.Data.Name)
                 .ToArray();
+
+            return new HistoryTabDto
+            {
+                HistoryCards = historyCards,
+                NewBadgeCount = deltaCardCollection.Count(),
+            };
         }
     }
 }

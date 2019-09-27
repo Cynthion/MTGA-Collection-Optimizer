@@ -22,5 +22,7 @@ namespace MtgaDeckBuilder.Api.Layout
     public class HistoryTabDto
     {
         public IEnumerable<HistoryCardDto> HistoryCards { get; set; }
+
+        public int NewBadgeCount { get; set; }
     }
 }

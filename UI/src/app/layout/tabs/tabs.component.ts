@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 
 import { TabsState, State } from './tabs.state';
 import { Observable } from 'rxjs';
+import { ResetBadgeCountAction } from './history-tab/history-tab.actions';
 
 @Component({
   selector: 'app-tabs',
@@ -15,8 +16,12 @@ export class TabsComponent {
 
   constructor(
     private store: Store<State>,
+    private actionsSubject: ActionsSubject,
   ) {
     this.state$ = this.store.pipe(select(s => s.layout.tabs));
-    this.state$.subscribe(s => console.log(s.historyTab.isBadgeVisible));
+  }
+
+  navigateToHistoryTab(): void {
+    this.actionsSubject.next(new ResetBadgeCountAction());
   }
 }

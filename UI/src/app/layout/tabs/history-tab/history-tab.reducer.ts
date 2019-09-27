@@ -34,10 +34,13 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
 
   switch (action.type) {
     case HistoryTabActionTypes.Initialize: {
+      const badgeCount = state.badgeCount + action.dto.newBadgeCount;
       return {
         ...state,
         ...action.dto,
         historyCards: action.dto.historyCards.map((dto, idx) => historyCardReducer(state.historyCards[idx], new InitializeHistoryCardAction(dto))),
+        badgeCount,
+        isBadgeVisible: badgeCount > 0,
       };
     }
 
@@ -52,6 +55,14 @@ export function historyTabReducer(state: HistoryTabState = initialHistoryTabStat
       return {
         ...state,
         filterValue: '',
+      };
+    }
+
+    case HistoryTabActionTypes.ResetBadgeCount: {
+      return {
+        ...state,
+        badgeCount: 0,
+        isBadgeVisible: false,
       };
     }
 

@@ -15,8 +15,9 @@
         <span>DECKS</span>
       </a>
 
-      <a mat-tab-link [routerLink]="['/history-tab']" routerLinkActive #rla2="routerLinkActive" [active]="rla2.isActive">
-        <span matBadge="?" matBadgeOverlap="false" matBadgeHidden="{{!(state$ | async).historyTab.isBadgeVisible}}">HISTORY</span>
+      <a mat-tab-link [routerLink]="['/history-tab']" routerLinkActive #rla2="routerLinkActive" [active]="rla2.isActive"
+        (click)="navigateToHistoryTab()">
+        <span matBadge="{{(state$ | async).historyTab.badgeCount}}" matBadgeOverlap="false" matBadgeHidden="{{!(state$ | async).historyTab.isBadgeVisible}}">HISTORY</span>
       </a>
     </nav>
   </div>

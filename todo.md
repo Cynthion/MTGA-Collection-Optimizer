@@ -44,6 +44,7 @@
 - [X] load model data from game: G:\MTGArenaLive\MTGA_Data\Downloads\Data
 
 ## Images
+- [ ] enable logging
 - [ ] use images (G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle --> https://www.slightlymagic.net/forum/viewtopic.php?f=65&t=22102 --> https://github.com/DerPopo/UABE)
 - via G:\MTGArenaLive\MTGA_Data\Downloads\Data\data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON
 - lookup grpId (=mtgaId), take artId --> prefix of cardart file in G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle

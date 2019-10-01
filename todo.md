@@ -2,13 +2,13 @@
 
 ## MVP
 - [ ] add UI validation for settings dialog
-- [ ] make history-tab sortable and searchable
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection, as an effect
 - [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
 - [ ] show deck worth and make columns sortable by it
 - [ ] show message on empty tables/filter data
+- [X] make history-tab sortable and searchable
 - [X] load default settings from backend
 - [X] parse newly created decks (<== Deck.CreateDeckV3)
 - [X] parse newly updated decks (<== Deck.UpdateDeckV3)
@@ -37,9 +37,9 @@
 - [X] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 
 ## Game Data Import
-- [ ] business logic should not be done in reducers -> move to backend
 - [ ] make model loading async
-- [ ] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
+- [X] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
+- [X] business logic should not be done in reducers -> move to backend
 - [X] make file locations configurable via settings
 - [X] load model data from game: G:\MTGArenaLive\MTGA_Data\Downloads\Data
 
@@ -51,7 +51,7 @@
 
 ## Bugs
 - [ ] fix error if log is empty (e.g., after patch/before first game start, before game is installed)
-- [ ] fix active tab (visual representation)
+- [X] fix active tab (visual representation)
 - [X] fix lazy loading of tabs
 - [X] fix ownedCount of basic lands --> infinite number of copies provided by MTGA
 - [X] fix deck sorting
@@ -87,10 +87,10 @@
 - [ ] collection progresses
 
 # Optimization / Refactoring
-- [ ] improve ngrx/rxjs stuff (.subscription bodys not dispatching actions, etc.)
 - [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
 - [ ] parse log file async
-- [ ] parse log file from end of file
+- [ ] parse log file from end of file -> maybe not working for deck create/update/delete
 - [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development
 - [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/
+- [X] improve ngrx/rxjs stuff (.subscription bodys not dispatching actions, etc.)
 - [X] remove file storage and set loader

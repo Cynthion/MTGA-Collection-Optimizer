@@ -171,7 +171,7 @@ namespace MtgaDeckBuilder.ImageLoader
 
             if (header.m_Version >= 5)
             {
-                //var userInformation = reader.ReadStringToNull();
+                var userInformation = reader.ReadStringToNull();
             }
         }
 
@@ -211,19 +211,18 @@ namespace MtgaDeckBuilder.ImageLoader
 
             if (m_EnableTypeTree)
             {
-                // TODO required?
-                throw new NotImplementedException("required?");
-                //var typeTree = new List<TypeTreeNode>();
-                //if (header.m_Version >= 12 || header.m_Version == 10)
-                //{
-                //    ReadTypeTree5(typeTree);
-                //}
-                //else
-                //{
-                //    ReadTypeTree(typeTree);
-                //}
+                var typeTree = new List<TypeTreeNode>();
+                if (header.m_Version >= 12 || header.m_Version == 10)
+                {
+                    ReadTypeTree5(typeTree);
+                }
+                else
+                {
+                    //ReadTypeTree(typeTree);
+                    throw new NotImplementedException();
+                }
 
-                //type.m_Nodes = typeTree;
+                type.m_Nodes = typeTree;
             }
 
             return type;
@@ -259,59 +258,59 @@ namespace MtgaDeckBuilder.ImageLoader
         //    }
         //}
 
-        //private void ReadTypeTree5(List<TypeTreeNode> typeTree)
-        //{
-        //    int numberOfNodes = reader.ReadInt32();
-        //    int stringBufferSize = reader.ReadInt32();
+        private void ReadTypeTree5(List<TypeTreeNode> typeTree)
+        {
+            int numberOfNodes = reader.ReadInt32();
+            int stringBufferSize = reader.ReadInt32();
 
-        //    var nodeSize = 24;
-        //    if (header.m_Version > 17)
-        //    {
-        //        nodeSize = 32;
-        //    }
-        //    reader.Position += numberOfNodes * nodeSize;
-        //    using (var stringBufferReader = new BinaryReader(new MemoryStream(reader.ReadBytes(stringBufferSize))))
-        //    {
-        //        reader.Position -= numberOfNodes * nodeSize + stringBufferSize;
-        //        for (int i = 0; i < numberOfNodes; i++)
-        //        {
-        //            var typeTreeNode = new TypeTreeNode();
-        //            typeTree.Add(typeTreeNode);
-        //            typeTreeNode.m_Version = reader.ReadUInt16();
-        //            typeTreeNode.m_Level = reader.ReadByte();
-        //            typeTreeNode.m_IsArray = reader.ReadBoolean() ? 1 : 0;
-        //            typeTreeNode.m_TypeStrOffset = reader.ReadUInt32();
-        //            typeTreeNode.m_NameStrOffset = reader.ReadUInt32();
-        //            typeTreeNode.m_ByteSize = reader.ReadInt32();
-        //            typeTreeNode.m_Index = reader.ReadInt32();
-        //            typeTreeNode.m_MetaFlag = reader.ReadInt32();
+            var nodeSize = 24;
+            if (header.m_Version > 17)
+            {
+                nodeSize = 32;
+            }
+            reader.Position += numberOfNodes * nodeSize;
+            using (var stringBufferReader = new BinaryReader(new MemoryStream(reader.ReadBytes(stringBufferSize))))
+            {
+                reader.Position -= numberOfNodes * nodeSize + stringBufferSize;
+                for (int i = 0; i < numberOfNodes; i++)
+                {
+                    var typeTreeNode = new TypeTreeNode();
+                    typeTree.Add(typeTreeNode);
+                    typeTreeNode.m_Version = reader.ReadUInt16();
+                    typeTreeNode.m_Level = reader.ReadByte();
+                    typeTreeNode.m_IsArray = reader.ReadBoolean() ? 1 : 0;
+                    typeTreeNode.m_TypeStrOffset = reader.ReadUInt32();
+                    typeTreeNode.m_NameStrOffset = reader.ReadUInt32();
+                    typeTreeNode.m_ByteSize = reader.ReadInt32();
+                    typeTreeNode.m_Index = reader.ReadInt32();
+                    typeTreeNode.m_MetaFlag = reader.ReadInt32();
 
-        //            if (header.m_Version > 17)
-        //            {
-        //                reader.Position += 8;
-        //            }
+                    if (header.m_Version > 17)
+                    {
+                        reader.Position += 8;
+                    }
 
-        //            typeTreeNode.m_Type = ReadString(stringBufferReader, typeTreeNode.m_TypeStrOffset);
-        //            typeTreeNode.m_Name = ReadString(stringBufferReader, typeTreeNode.m_NameStrOffset);
-        //        }
-        //        reader.Position += stringBufferSize;
-        //    }
+                    typeTreeNode.m_Type = ReadString(stringBufferReader, typeTreeNode.m_TypeStrOffset);
+                    typeTreeNode.m_Name = ReadString(stringBufferReader, typeTreeNode.m_NameStrOffset);
+                }
+                reader.Position += stringBufferSize;
+            }
 
-        //    string ReadString(BinaryReader stringBufferReader, uint value)
-        //    {
-        //        var isOffset = (value & 0x80000000) == 0;
-        //        if (isOffset)
-        //        {
-        //            stringBufferReader.BaseStream.Position = value;
-        //            return stringBufferReader.ReadStringToNull();
-        //        }
-        //        var offset = value & 0x7FFFFFFF;
-        //        if (CommonString.StringBuffer.TryGetValue(offset, out var str))
-        //        {
-        //            return str;
-        //        }
-        //        return offset.ToString();
-        //    }
-        //}
+            string ReadString(BinaryReader stringBufferReader, uint value)
+            {
+                var isOffset = (value & 0x80000000) == 0;
+                if (isOffset)
+                {
+                    stringBufferReader.BaseStream.Position = value;
+                    return stringBufferReader.ReadStringToNull();
+                }
+                var offset = value & 0x7FFFFFFF;
+                if (CommonString.StringBuffer.TryGetValue(offset, out var str))
+                {
+                    return str;
+                }
+                return offset.ToString();
+            }
+        }
     }
 }

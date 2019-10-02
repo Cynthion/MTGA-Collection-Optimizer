@@ -35,22 +35,23 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        protected bool HasStructMember(string name)
-        {
-            return serializedType?.m_Nodes != null && serializedType.m_Nodes.Any(x => x.m_Name == name);
-        }
+        // TODO needed?
+        //protected bool HasStructMember(string name)
+        //{
+        //    return serializedType?.m_Nodes != null && serializedType.m_Nodes.Any(x => x.m_Name == name);
+        //}
 
-        public string Dump()
-        {
-            reader.Reset();
-            if (serializedType?.m_Nodes != null)
-            {
-                var sb = new StringBuilder();
-                TypeTreeHelper.ReadTypeString(sb, serializedType.m_Nodes, reader);
-                return sb.ToString();
-            }
-            return null;
-        }
+        //public string Dump()
+        //{
+        //    reader.Reset();
+        //    if (serializedType?.m_Nodes != null)
+        //    {
+        //        var sb = new StringBuilder();
+        //        TypeTreeHelper.ReadTypeString(sb, serializedType.m_Nodes, reader);
+        //        return sb.ToString();
+        //    }
+        //    return null;
+        //}
 
         public byte[] GetRawData()
         {

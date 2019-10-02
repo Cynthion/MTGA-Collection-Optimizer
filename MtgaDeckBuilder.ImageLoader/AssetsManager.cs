@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
@@ -16,6 +15,9 @@ namespace MtgaDeckBuilder.ImageLoader
     {
         public List<SerializedFile> assetsFileList = new List<SerializedFile>();
         private HashSet<string> assetsFileListHash = new HashSet<string>();
+
+        // TODO not filled, required?
+        internal Dictionary<string, int> assetsFileIndexCache = new Dictionary<string, int>();
 
         public static List<AssetItem> exportableAssets = new List<AssetItem>();
 
@@ -128,7 +130,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 }
                 finally
                 {
-                    resourceFileReaders.Add(upperFileName, reader);
+                    //resourceFileReaders.Add(upperFileName, reader);
                 }
             }
         }
@@ -140,12 +142,13 @@ namespace MtgaDeckBuilder.ImageLoader
                 throw new ArgumentException("No asset file was loaded.");
             }
 
-            BuildAssetList(tempDic, displayAll.Checked, displayOriginalName.Checked, out productName);
+            BuildAssetList();
         }
 
-        private void BuildAssetList(Dictionary<Object, AssetItem> tempDic, bool displayOriginalName, out string productName)
+        private void BuildAssetList()
         {
-            productName = string.Empty;
+            var tempDic = new Dictionary<Object, AssetItem>();
+            //var productName = string.Empty;
             var assetsNameHash = new HashSet<string>();
 
             int j = 0;
@@ -245,32 +248,63 @@ namespace MtgaDeckBuilder.ImageLoader
                         tempExportableAssets.Add(assetItem);
                     }
                 }
-                if (displayOriginalName && ab != null)
-                {
-                    foreach (var item in tempExportableAssets)
-                    {
-                        var originalPath = ab.m_Container.FirstOrDefault(y => y.Value.asset.m_PathID == item.Asset.m_PathID).Key;
-                        if (!string.IsNullOrEmpty(originalPath))
-                        {
-                            var extension = Path.GetExtension(originalPath);
-                            if (!string.IsNullOrEmpty(extension) && item.Type == ClassIDType.TextAsset)
-                            {
-                                item.Extension = extension;
-                            }
+                //if (displayOriginalName && ab != null)
+                //{
+                //    foreach (var item in tempExportableAssets)
+                //    {
+                //        var originalPath = ab.m_Container.FirstOrDefault(y => y.Value.asset.m_PathID == item.Asset.m_PathID).Key;
+                //        if (!string.IsNullOrEmpty(originalPath))
+                //        {
+                //            var extension = Path.GetExtension(originalPath);
+                //            if (!string.IsNullOrEmpty(extension) && item.Type == ClassIDType.TextAsset)
+                //            {
+                //                item.Extension = extension;
+                //            }
 
-                            //item.Text = Path.GetDirectoryName(originalPath) + "\\" + Path.GetFileNameWithoutExtension(originalPath);
-                            //if (!assetsNameHash.Add((item.TypeString + item.Text).ToUpper()))
-                            //{
-                            //    item.Text += item.UniqueID;
-                            //}
-                        }
-                    }
-                }
+                //            //item.Text = Path.GetDirectoryName(originalPath) + "\\" + Path.GetFileNameWithoutExtension(originalPath);
+                //            //if (!assetsNameHash.Add((item.TypeString + item.Text).ToUpper()))
+                //            //{
+                //            //    item.Text += item.UniqueID;
+                //            //}
+                //        }
+                //    }
+                //}
                 exportableAssets.AddRange(tempExportableAssets);
                 tempExportableAssets.Clear();
             }
 
             assetsNameHash.Clear();
+        }
+
+        // AssetStudioGUIForm.cs
+        public void ExportAssets(string savePath, int type = 2, ExportType exportType = ExportType.Convert)
+        {
+            if (exportableAssets.Count > 0)
+            {
+                //var saveFolderDialog1 = new OpenFolderDialog();
+                //if (saveFolderDialog1.ShowDialog(this) == DialogResult.OK)
+                //{
+                List<AssetItem> toExportAssets = null;
+                switch (type)
+                {
+                    //case 1: //All Assets
+                    //    toExportAssets = exportableAssets;
+                    //    break;
+                    case 2: //Selected Assets
+                        // TODO check if this is correct
+                        toExportAssets = exportableAssets; //GetSelectedAssets();
+                        break;
+                        //case 3: //Filtered Assets
+                        //    toExportAssets = visibleAssets;
+                        //    break;
+                }
+                Exporter.ExportAssets(savePath, toExportAssets, exportType);
+                //}
+            }
+            else
+            {
+                throw new ArgumentException("No exportable assets loaded");
+            }
         }
     }
 }

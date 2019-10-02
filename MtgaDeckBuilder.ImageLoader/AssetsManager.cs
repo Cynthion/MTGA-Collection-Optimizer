@@ -16,10 +16,11 @@ namespace MtgaDeckBuilder.ImageLoader
         public List<SerializedFile> assetsFileList = new List<SerializedFile>();
         private HashSet<string> assetsFileListHash = new HashSet<string>();
 
+        internal Dictionary<string, EndianBinaryReader> resourceFileReaders = new Dictionary<string, EndianBinaryReader>();
+        public static List<AssetItem> exportableAssets = new List<AssetItem>();
+        
         // TODO not filled, required?
         internal Dictionary<string, int> assetsFileIndexCache = new Dictionary<string, int>();
-
-        public static List<AssetItem> exportableAssets = new List<AssetItem>();
 
         public void LoadFile(string fullName)
         {
@@ -130,23 +131,18 @@ namespace MtgaDeckBuilder.ImageLoader
                 }
                 finally
                 {
-                    //resourceFileReaders.Add(upperFileName, reader);
+                    resourceFileReaders.Add(upperFileName, reader);
                 }
             }
         }
 
-        public void BuildAssetStructures()
+        public void BuildAssetList()
         {
             if (assetsFileList.Count == 0)
             {
                 throw new ArgumentException("No asset file was loaded.");
             }
 
-            BuildAssetList();
-        }
-
-        private void BuildAssetList()
-        {
             var tempDic = new Dictionary<Object, AssetItem>();
             //var productName = string.Empty;
             var assetsNameHash = new HashSet<string>();

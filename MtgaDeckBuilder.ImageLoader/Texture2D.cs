@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
@@ -17,7 +15,7 @@ namespace MtgaDeckBuilder.ImageLoader
             path = reader.ReadAlignedString();
         }
     }
-     
+    
     public class GLTextureSettings
     {
         public int m_FilterMode;

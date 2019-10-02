@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using MtgaDeckBuilder.ImageLoader;
 
 namespace MtgaDeckBuilder.Api
 {
@@ -6,12 +7,16 @@ namespace MtgaDeckBuilder.Api
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseStartup<Startup>()
-                .Build();
+            // TODO undo
+            //var host = new WebHostBuilder()
+            //    .UseKestrel()
+            //    .UseStartup<Startup>()
+            //    .Build();
 
-            host.Run();
+            //host.Run();
+
+            var imageLoaderDemo = new ImageLoaderDemo();
+            imageLoaderDemo.Demo();
         }
     }
 }

@@ -174,7 +174,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 //        format = ImageFormat.Jpeg;
                 //        break;
                 //}
-                var exportFullName = exportPathName + item.Text + ".png"; //+ ext.ToLower();
+                var exportFullName = exportPathName + /*item.Text +*/ ".png"; //+ ext.ToLower();
                 if (ExportFileExists(exportFullName))
                     return false;
                 bitmap.Save(exportFullName, format);
@@ -189,6 +189,16 @@ namespace MtgaDeckBuilder.ImageLoader
             //    File.WriteAllBytes(exportFullName, converter.ConvertToContainer());
             //    return true;
             //}
+        }
+
+        private static bool ExportFileExists(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                return true;
+            }
+            Directory.CreateDirectory(Path.GetDirectoryName(filename));
+            return false;
         }
     }
 }

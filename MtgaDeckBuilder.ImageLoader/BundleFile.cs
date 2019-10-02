@@ -132,17 +132,17 @@ namespace MtgaDeckBuilder.ImageLoader
                     //    blocksInfoStream = SevenZipHelper.StreamDecompress(new MemoryStream(blocksInfoBytes));
                     //    break;
                     //}
+                    throw new NotImplementedException("The loaded asset has a file compression that is not enabled to be handled.");
                 case 2://LZ4
                 case 3://LZ4HC
                     {
-                        throw new NotImplementedException("The loaded asset has a file compression other than none (e.g., LZMA, LZ4, LZ4HC) that is not enabled to be handled.");
-                        //byte[] uncompressedBytes = new byte[uncompressedSize];
-                        //using (var decoder = new Lz4DecoderStream(new MemoryStream(blocksInfoBytes)))
-                        //{
-                        //    decoder.Read(uncompressedBytes, 0, uncompressedSize);
-                        //}
-                        //blocksInfoStream = new MemoryStream(uncompressedBytes);
-                        //break;
+                        byte[] uncompressedBytes = new byte[uncompressedSize];
+                        using (var decoder = new Lz4DecoderStream(new MemoryStream(blocksInfoBytes)))
+                        {
+                            decoder.Read(uncompressedBytes, 0, uncompressedSize);
+                        }
+                        blocksInfoStream = new MemoryStream(uncompressedBytes);
+                        break;
                     }
                     //case 4:LZHAM?
 

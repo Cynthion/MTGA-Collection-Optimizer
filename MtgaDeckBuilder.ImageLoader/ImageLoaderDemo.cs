@@ -6,9 +6,13 @@
         {
             //var assetPath = @"C:\Program Files (x86)\Wizards of the Coast\MTGA\MTGA_Data\Downloads\AssetBundle\001837_cardart_93b131b498b4c6ca8fcd92bd49edb08a.mtga";
             var assetPath = @"G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle\001837_cardart_93b131b498b4c6ca8fcd92bd49edb08a.mtga";
+            var exportPath = @"D:\Desktop\mtga-exports";
+
             var assetsManager = new AssetsManager();
             assetsManager.LoadFiles(new[] { assetPath });
             assetsManager.BuildAssetList();
+
+            assetsManager.ExportAssets(exportPath);
         }
     }
 }

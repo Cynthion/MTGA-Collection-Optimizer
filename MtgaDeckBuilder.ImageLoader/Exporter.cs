@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Threading;
 
 namespace MtgaDeckBuilder.ImageLoader
@@ -20,8 +19,8 @@ namespace MtgaDeckBuilder.ImageLoader
         // Studio.cs
         public static void ExportAssets(string savePath, List<AssetItem> toExportAssets, ExportType exportType)
         {
-            ThreadPool.QueueUserWorkItem(state =>
-            {
+            //ThreadPool.QueueUserWorkItem(state =>
+            //{
                 Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
                 int toExportCount = toExportAssets.Count;
@@ -148,7 +147,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 // TODO enable logging
                 //var statusText = exportedCount == 0 ? "Nothing exported." : $"Finished exporting {exportedCount} assets.";
                 //StatusStripUpdate(statusText);
-            });
+            //});
         }
 
         public static bool ExportTexture2D(AssetItem item, string exportPathName)

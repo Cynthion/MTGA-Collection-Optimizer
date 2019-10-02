@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
@@ -617,8 +619,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 case TextureFormat.EAC_R_SIGNED:
                 case TextureFormat.EAC_RG:
                 case TextureFormat.EAC_RG_SIGNED:
-                    //bitmap = TextureConverter();
-                    throw new NotImplementedException();
+                    bitmap = TextureConverter();
                     break;
                 case TextureFormat.BC4:
                 case TextureFormat.BC5:
@@ -674,6 +675,71 @@ namespace MtgaDeckBuilder.ImageLoader
                 }
             }
         }
+
+        private Bitmap TextureConverter()
+        {
+            var imageBuff = new byte[m_Width * m_Height * 4];
+            var gch = GCHandle.Alloc(imageBuff, GCHandleType.Pinned);
+            var imagePtr = gch.AddrOfPinnedObject();
+            var fixAlpha = glBaseInternalFormat == KTXHeader.GL_RED || glBaseInternalFormat == KTXHeader.GL_RG;
+            if (!NativeMethods.Ponvert(image_data, image_data_size, m_Width, m_Height, (int)q_format, fixAlpha, imagePtr))
+            {
+                gch.Free();
+                return null;
+            }
+            var bitmap = new Bitmap(m_Width, m_Height, m_Width * 4, PixelFormat.Format32bppArgb, imagePtr);
+            gch.Free();
+            return bitmap;
+        }
+
+        internal static class NativeMethods
+        {
+            [DllImport("TextureConverterWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool Ponvert(byte[] data, int dataSize, int width, int height, int type, bool fixAlpha, IntPtr image);
+        }
+    }
+
+    public static class KTXHeader
+    {
+        public static byte[] IDENTIFIER = { 0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A };
+        public static byte[] ENDIANESS_LE = { 1, 2, 3, 4 };
+
+        // constants for glInternalFormat
+        public static int GL_ETC1_RGB8_OES = 0x8D64;
+
+        public static int GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG = 0x8C00;
+        public static int GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG = 0x8C01;
+        public static int GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG = 0x8C02;
+        public static int GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG = 0x8C03;
+
+        public static int GL_ATC_RGB_AMD = 0x8C92;
+        public static int GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD = 0x87EE;
+
+        public static int GL_COMPRESSED_RGB8_ETC2 = 0x9274;
+        public static int GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 = 0x9276;
+        public static int GL_COMPRESSED_RGBA8_ETC2_EAC = 0x9278;
+        public static int GL_COMPRESSED_R11_EAC = 0x9270;
+        public static int GL_COMPRESSED_SIGNED_R11_EAC = 0x9271;
+        public static int GL_COMPRESSED_RG11_EAC = 0x9272;
+        public static int GL_COMPRESSED_SIGNED_RG11_EAC = 0x9273;
+
+        public static int GL_COMPRESSED_RED_RGTC1 = 0x8DBB;
+        public static int GL_COMPRESSED_RG_RGTC2 = 0x8DBD;
+        public static int GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT = 0x8E8F;
+        public static int GL_COMPRESSED_RGBA_BPTC_UNORM = 0x8E8C;
+
+        public static int GL_R16F = 0x822D;
+        public static int GL_RG16F = 0x822F;
+        public static int GL_RGBA16F = 0x881A;
+        public static int GL_R32F = 0x822E;
+        public static int GL_RG32F = 0x8230;
+        public static int GL_RGBA32F = 0x8814;
+
+        // constants for glBaseInternalFormat
+        public static int GL_RED = 0x1903;
+        public static int GL_RGB = 0x1907;
+        public static int GL_RGBA = 0x1908;
+        public static int GL_RG = 0x8227;
     }
 
     public enum QFORMAT

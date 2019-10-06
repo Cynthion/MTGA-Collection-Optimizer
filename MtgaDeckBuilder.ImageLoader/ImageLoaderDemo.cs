@@ -10,7 +10,7 @@
             var exportPath = @"D:\Desktop\mtga-exports";
 
             var assetsManager = new AssetsManager();
-            assetsManager.LoadFiles(new[] { assetPath });
+            assetsManager.LoadFile(assetPath);
             assetsManager.BuildAssetList();
 
             assetsManager.ExportAssets(exportPath);

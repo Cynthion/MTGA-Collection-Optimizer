@@ -25,26 +25,15 @@ namespace MtgaDeckBuilder.ImageLoader
 
         public static List<AssetItem> exportableAssets = new List<AssetItem>();
         
-        public void LoadFiles(params string[] files)
+        public void LoadFile(string file)
         {
-            //var path = Path.GetDirectoryName(files[0]);
-            //MergeSplitAssets(path);
-            //var toReadFile = ProcessingSplitFiles(files.ToList());
-            Load(files);
-        }
-
-        private void Load(string[] files)
-        {
-            foreach (var file in files)
-            {
-                importFiles.Add(file);
-                importFilesHash.Add(Path.GetFileName(file).ToUpper());
-            }
+            importFiles.Add(file);
+            importFilesHash.Add(Path.GetFileName(file).ToUpper());
 
             //use a for loop because list size can change
             for (var i = 0; i < importFiles.Count; i++)
             {
-                LoadFile(importFiles[i]);
+                Load(importFiles[i]);
             }
 
             importFiles.Clear();
@@ -55,19 +44,13 @@ namespace MtgaDeckBuilder.ImageLoader
             //ProcessAssets();
         }
 
-        private void LoadFile(string fullName)
+        private void Load(string fullName)
         {
             switch (CheckFileType(fullName, out var reader))
             {
-                //case FileType.AssetsFile:
-                //    LoadAssetsFile(fullName, reader);
-                //    break;
                 case FileType.BundleFile:
                     LoadBundleFile(fullName, reader);
                     break;
-                //case FileType.WebFile:
-                //    LoadWebFile(fullName, reader);
-                //    break;
             }
         }
 
@@ -114,9 +97,6 @@ namespace MtgaDeckBuilder.ImageLoader
 
         private void LoadBundleFile(string fullName, EndianBinaryReader reader, string parentPath = null)
         {
-            var fileName = Path.GetFileName(fullName);
-            // TODO enable logging
-            //Logger.Info("Loading " + fileName);
             try
             {
                 var bundleFile = new BundleFile(reader, fullName);
@@ -126,15 +106,6 @@ namespace MtgaDeckBuilder.ImageLoader
                     var dummyPath = Path.GetDirectoryName(fullName) + "\\" + file.fileName;
                     LoadAssetsFromMemory(dummyPath, new EndianBinaryReader(file.stream), parentPath ?? fullName, bundleFile.versionEngine);
                 }
-            }
-            catch
-            {
-                /*var str = $"Unable to load bundle file {fileName}";
-                if (parentPath != null)
-                {
-                    str += $" from {Path.GetFileName(parentPath)}";
-                }
-                Logger.Error(str);*/
             }
             finally
             {
@@ -176,87 +147,9 @@ namespace MtgaDeckBuilder.ImageLoader
                     var objectReader = new ObjectReader(assetsFile.reader, assetsFile, objectInfo);
                     switch (objectReader.type)
                     {
-                        //case ClassIDType.Animation:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Animation(objectReader));
-                        //    break;
-                        //case ClassIDType.AnimationClip:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new AnimationClip(objectReader));
-                        //    break;
-                        //case ClassIDType.Animator:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Animator(objectReader));
-                        //    break;
-                        //case ClassIDType.AnimatorController:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new AnimatorController(objectReader));
-                        //    break;
-                        //case ClassIDType.AnimatorOverrideController:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new AnimatorOverrideController(objectReader));
-                        //    break;
-                        //case ClassIDType.AssetBundle:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new AssetBundle(objectReader));
-                        //    break;
-                        //case ClassIDType.AudioClip:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new AudioClip(objectReader));
-                        //    break;
-                        //case ClassIDType.Avatar:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Avatar(objectReader));
-                        //    break;
-                        //case ClassIDType.Font:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Font(objectReader));
-                        //    break;
-                        //case ClassIDType.GameObject:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new GameObject(objectReader));
-                        //    break;
-                        //case ClassIDType.Material:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Material(objectReader));
-                        //    break;
-                        //case ClassIDType.Mesh:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Mesh(objectReader));
-                        //    break;
-                        //case ClassIDType.MeshFilter:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new MeshFilter(objectReader));
-                        //    break;
-                        //case ClassIDType.MeshRenderer:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new MeshRenderer(objectReader));
-                        //    break;
-                        //case ClassIDType.MonoBehaviour:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new MonoBehaviour(objectReader));
-                        //    break;
-                        //case ClassIDType.MonoScript:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new MonoScript(objectReader));
-                        //    break;
-                        //case ClassIDType.MovieTexture:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new MovieTexture(objectReader));
-                        //    break;
-                        //case ClassIDType.PlayerSettings:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new PlayerSettings(objectReader));
-                        //    break;
-                        //case ClassIDType.RectTransform:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new RectTransform(objectReader));
-                        //    break;
-                        //case ClassIDType.Shader:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Shader(objectReader));
-                        //    break;
-                        //case ClassIDType.SkinnedMeshRenderer:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new SkinnedMeshRenderer(objectReader));
-                        //    break;
-                        //case ClassIDType.Sprite:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Sprite(objectReader));
-                        //    break;
-                        //case ClassIDType.SpriteAtlas:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new SpriteAtlas(objectReader));
-                        //    break;
-                        //case ClassIDType.TextAsset:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new TextAsset(objectReader));
-                        //    break;
                         case ClassIDType.Texture2D:
                             assetsFile.Objects.Add(objectInfo.m_PathID, new Texture2D(objectReader));
                             break;
-                        //case ClassIDType.Transform:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new Transform(objectReader));
-                        //    break;
-                        //case ClassIDType.VideoClip:
-                        //    assetsFile.Objects.Add(objectInfo.m_PathID, new VideoClip(objectReader));
-                        //    break;
                         default:
                             assetsFile.Objects.Add(objectInfo.m_PathID, new Object(objectReader));
                             break;
@@ -289,9 +182,6 @@ namespace MtgaDeckBuilder.ImageLoader
                     var exportable = false;
                     switch (asset)
                     {
-                        //case GameObject m_GameObject:
-                        //    assetItem.Text = m_GameObject.m_Name;
-                        //    break;
                         case Texture2D m_Texture2D:
                             if (!string.IsNullOrEmpty(m_Texture2D.m_StreamData?.path))
                                 assetItem.FullSize = asset.byteSize + m_Texture2D.m_StreamData.size;

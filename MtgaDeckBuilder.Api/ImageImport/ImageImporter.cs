@@ -32,7 +32,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
 
             // TODO use interface and dependency injection
             var assetsManager = new AssetsManager();
-            assetsManager.LoadFiles(new[] { cardArtAssetFilePath });
+            assetsManager.LoadFile(cardArtAssetFilePath);
             assetsManager.BuildAssetList();
             assetsManager.ExportAssets(_settings.ImageImportPath);
         }

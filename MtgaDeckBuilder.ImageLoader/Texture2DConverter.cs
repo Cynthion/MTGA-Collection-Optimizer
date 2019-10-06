@@ -585,11 +585,11 @@ namespace MtgaDeckBuilder.ImageLoader
                 case TextureFormat.R8:
                     //bitmap = BGRA32ToBitmap();
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 case TextureFormat.RGB565:
                     //bitmap = RGB565ToBitmap();
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 case TextureFormat.YUY2:
                 case TextureFormat.PVRTC_RGB2:
                 case TextureFormat.PVRTC_RGBA2:
@@ -603,7 +603,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 case TextureFormat.ETC_RGBA8_3DS:
                     //bitmap = PVRToBitmap(ConvertToPVR());
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 case TextureFormat.DXT1:
                 case TextureFormat.DXT5:
                 case TextureFormat.RHalf:
@@ -627,19 +627,19 @@ namespace MtgaDeckBuilder.ImageLoader
                 case TextureFormat.BC7:
                     //bitmap = TexgenPackDecode();
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 case TextureFormat.DXT1Crunched:
                 case TextureFormat.DXT5Crunched:
                     //DecompressCRN();
                     //bitmap = TextureConverter();
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 case TextureFormat.ETC_RGB4Crunched:
                 case TextureFormat.ETC2_RGBA8Crunched:
                     //DecompressCRN();
                     //bitmap = PVRToBitmap(ConvertToPVR());
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 case TextureFormat.ASTC_RGB_4x4:
                 case TextureFormat.ASTC_RGB_5x5:
                 case TextureFormat.ASTC_RGB_6x6:
@@ -654,7 +654,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 case TextureFormat.ASTC_RGBA_12x12:
                     //bitmap = DecodeASTC();
                     throw new NotImplementedException();
-                    break;
+                    //break;
                 default:
                     return null;
             }

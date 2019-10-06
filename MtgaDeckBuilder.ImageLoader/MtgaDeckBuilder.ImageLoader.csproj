@@ -2,10 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="TextureConverter.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TextureConverterWrapper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

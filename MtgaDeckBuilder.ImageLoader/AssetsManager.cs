@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -54,30 +55,8 @@ namespace MtgaDeckBuilder.ImageLoader
             reader.Position = 0;
             switch (signature)
             {
-                //case "UnityWeb":
-                //case "UnityRaw":
-                //case "\xFA\xFA\xFA\xFA\xFA\xFA\xFA\xFA":
                 case "UnityFS":
                     return FileType.BundleFile;
-                //case "UnityWebData1.0":
-                //    return FileType.WebFile;
-                //default:
-                //    {
-                //        var magic = reader.ReadBytes(2);
-                //        reader.Position = 0;
-                //        if (WebFile.gzipMagic.SequenceEqual(magic))
-                //        {
-                //            return FileType.WebFile;
-                //        }
-                //        reader.Position = 0x20;
-                //        magic = reader.ReadBytes(6);
-                //        reader.Position = 0;
-                //        if (WebFile.brotliMagic.SequenceEqual(magic))
-                //        {
-                //            return FileType.WebFile;
-                //        }
-                //        return FileType.AssetsFile;
-                //    }
                 default:
                     throw new NotImplementedException("The loaded asset has a file type other than UnityFS that is not enabled to be handled.");
             }
@@ -126,7 +105,6 @@ namespace MtgaDeckBuilder.ImageLoader
 
         private void ReadAssets()
         {
-            var progressCount = assetsFileList.Sum(x => x.m_Objects.Count);
             foreach (var assetsFile in assetsFileList)
             {
                 assetsFile.Objects = new Dictionary<long, Object>(assetsFile.m_Objects.Count);
@@ -154,8 +132,6 @@ namespace MtgaDeckBuilder.ImageLoader
             }
 
             var tempDic = new Dictionary<Object, AssetItem>();
-            //var productName = string.Empty;
-            var assetsNameHash = new HashSet<string>();
 
             int j = 0;
             foreach (var assetsFile in assetsFileList)
@@ -187,34 +163,13 @@ namespace MtgaDeckBuilder.ImageLoader
                 exportableAssets.AddRange(tempExportableAssets);
                 tempExportableAssets.Clear();
             }
-
-            assetsNameHash.Clear();
         }
 
-        // AssetStudioGUIForm.cs
-        public void ExportAssets(string savePath, int type = 2, ExportType exportType = ExportType.Convert)
+        public Bitmap ExportAssetsToBitmap()
         {
             if (exportableAssets.Count > 0)
             {
-                //var saveFolderDialog1 = new OpenFolderDialog();
-                //if (saveFolderDialog1.ShowDialog(this) == DialogResult.OK)
-                //{
-                List<AssetItem> toExportAssets = null;
-                switch (type)
-                {
-                    //case 1: //All Assets
-                    //    toExportAssets = exportableAssets;
-                    //    break;
-                    case 2: //Selected Assets
-                        // TODO check if this is correct
-                        toExportAssets = exportableAssets; //GetSelectedAssets();
-                        break;
-                        //case 3: //Filtered Assets
-                        //    toExportAssets = visibleAssets;
-                        //    break;
-                }
-                Exporter.ExportAssets(savePath, toExportAssets, exportType);
-                //}
+                return Exporter.ExportAssetsToBitmap(exportableAssets);
             }
             else
             {

@@ -52,7 +52,7 @@ namespace MtgaDeckBuilder.ImageLoader
         //private int glTypeSize = 1;
         //private int glFormat = 0;
         //private int glInternalFormat;
-        private int glBaseInternalFormat;
+        //private int glBaseInternalFormat;
         //public int pixelWidth; m_Width
         //public int pixelHeight; m_Height
         //private int pixelDepth = 0;
@@ -146,8 +146,8 @@ namespace MtgaDeckBuilder.ImageLoader
             var imageBuff = new byte[m_Width * m_Height * 4];
             var gch = GCHandle.Alloc(imageBuff, GCHandleType.Pinned);
             var imagePtr = gch.AddrOfPinnedObject();
-            var fixAlpha = glBaseInternalFormat == KTXHeader.GL_RED || glBaseInternalFormat == KTXHeader.GL_RG;
-            if (!NativeMethods.Ponvert(image_data, image_data_size, m_Width, m_Height, (int)q_format, fixAlpha, imagePtr))
+            //var fixAlpha = glBaseInternalFormat == KTXHeader.GL_RED || glBaseInternalFormat == KTXHeader.GL_RG;
+            if (!NativeMethods.Ponvert(image_data, image_data_size, m_Width, m_Height, (int)q_format, false, imagePtr))
             {
                 gch.Free();
                 return null;

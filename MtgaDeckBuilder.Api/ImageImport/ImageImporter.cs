@@ -1,6 +1,7 @@
 ﻿using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.ImageLoader;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
@@ -34,7 +35,13 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var assetsManager = new AssetsManager();
             assetsManager.LoadFile(cardArtAssetFilePath);
             assetsManager.BuildAssetList();
-            assetsManager.ExportAssets(_settings.ImageImportPath);
+
+            var bitmap = assetsManager.ExportAssetsToBitmap();
+
+            var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
+            bitmap.Save(imageImportPath, ImageFormat.Png);
+            bitmap.Dispose();
+
         }
     }
 }

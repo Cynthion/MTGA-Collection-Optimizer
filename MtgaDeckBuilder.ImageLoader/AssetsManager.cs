@@ -62,7 +62,7 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        private void LoadBundleFile(string fullName, EndianBinaryReader reader, string parentPath = null)
+        private void LoadBundleFile(string fullName, EndianBinaryReader reader)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 {
                     // TODO required? rather directly use byte stream to export to png
                     var dummyPath = Path.GetDirectoryName(fullName) + "\\" + file.fileName;
-                    LoadAssetsFromMemory(dummyPath, new EndianBinaryReader(file.stream), parentPath ?? fullName, bundleFile.versionEngine);
+                    LoadAssetsFromMemory(dummyPath, new EndianBinaryReader(file.stream), fullName);
                 }
             }
             finally
@@ -80,7 +80,7 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        private void LoadAssetsFromMemory(string fullName, EndianBinaryReader reader, string originalPath, string unityVersion = null)
+        private void LoadAssetsFromMemory(string fullName, EndianBinaryReader reader, string originalPath)
         {
             var upperFileName = Path.GetFileName(fullName).ToUpper();
             if (!assetsFileListHash.Contains(upperFileName))
@@ -94,7 +94,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 }
                 catch
                 {
-                    //Logger.Error($"Unable to load assets file {fileName} from {Path.GetFileName(originalPath)}");
+                    // catch block required
                 }
                 finally
                 {

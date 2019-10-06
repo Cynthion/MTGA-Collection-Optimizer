@@ -34,14 +34,26 @@ namespace MtgaDeckBuilder.Api.ImageImport
             // TODO use interface and dependency injection
             var assetsManager = new AssetsManager();
             assetsManager.LoadFile(cardArtAssetFilePath);
-            assetsManager.BuildAssetList();
+            var assetList = assetsManager.BuildAssetList().ToList();
 
-            var bitmap = assetsManager.ExportAssetsToBitmap();
+            var bitmap = Exporter.ExportAssetsToBitmap(assetList);
+            bitmap = ResizeBitmap(bitmap, 512, 376);
 
             var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
             bitmap.Save(imageImportPath, ImageFormat.Png);
             bitmap.Dispose();
 
+        }
+
+        private Bitmap ResizeBitmap(Bitmap original, int width, int height)
+        {
+            Bitmap result = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                g.DrawImage(original, 0, 0, width, height);
+            }
+
+            return result;
         }
     }
 }

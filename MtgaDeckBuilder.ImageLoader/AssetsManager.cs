@@ -19,16 +19,10 @@ namespace MtgaDeckBuilder.ImageLoader
         public List<SerializedFile> assetsFileList = new List<SerializedFile>();
         internal Dictionary<string, int> assetsFileIndexCache = new Dictionary<string, int>(); // TODO not filled, required?
         internal Dictionary<string, EndianBinaryReader> resourceFileReaders = new Dictionary<string, EndianBinaryReader>();
-
-        private HashSet<string> assetsFileListHash = new HashSet<string>();
-
-        public static List<AssetItem> exportableAssets = new List<AssetItem>();
-        
+                
         public void LoadFile(string file)
         {
             Load(file);
-
-            assetsFileListHash.Clear();
 
             ReadAssets();
         }
@@ -69,7 +63,6 @@ namespace MtgaDeckBuilder.ImageLoader
                 var bundleFile = new BundleFile(reader, fullName);
                 foreach (var file in bundleFile.fileList)
                 {
-                    // TODO required? rather directly use byte stream to export to png
                     var dummyPath = Path.GetDirectoryName(fullName) + "\\" + file.fileName;
                     LoadAssetsFromMemory(dummyPath, new EndianBinaryReader(file.stream), fullName);
                 }
@@ -83,23 +76,20 @@ namespace MtgaDeckBuilder.ImageLoader
         private void LoadAssetsFromMemory(string fullName, EndianBinaryReader reader, string originalPath)
         {
             var upperFileName = Path.GetFileName(fullName).ToUpper();
-            if (!assetsFileListHash.Contains(upperFileName))
+
+            try
             {
-                try
-                {
-                    var assetsFile = new SerializedFile(this, fullName, reader);
-                    assetsFile.originalPath = originalPath;
-                    assetsFileList.Add(assetsFile);
-                    assetsFileListHash.Add(assetsFile.upperFileName);
-                }
-                catch
-                {
-                    // catch block required
-                }
-                finally
-                {
-                    resourceFileReaders.Add(upperFileName, reader);
-                }
+                var assetsFile = new SerializedFile(this, fullName, reader);
+                assetsFile.originalPath = originalPath;
+                assetsFileList.Add(assetsFile);
+            }
+            catch
+            {
+                // catch block required
+            }
+            finally
+            {
+                resourceFileReaders.Add(upperFileName, reader);
             }
         }
 
@@ -124,19 +114,20 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        public void BuildAssetList()
+        public IEnumerable<AssetItem> BuildAssetList()
         {
             if (assetsFileList.Count == 0)
             {
                 throw new ArgumentException("No asset file was loaded.");
             }
 
-            var tempDic = new Dictionary<Object, AssetItem>();
+            var tempDic = new Dictionary<Object, AssetItem>(); // TODO remove?
+
+            var assetList = new List<AssetItem>();
 
             int j = 0;
             foreach (var assetsFile in assetsFileList)
             {
-                var tempExportableAssets = new List<AssetItem>();
                 //AssetBundle ab = null;
                 foreach (var asset in assetsFile.Objects.Values)
                 {
@@ -156,25 +147,13 @@ namespace MtgaDeckBuilder.ImageLoader
 
                     if (exportable)
                     {
-                        tempExportableAssets.Add(assetItem);
+                        assetList.Add(assetItem);
                     }
                 }
 
-                exportableAssets.AddRange(tempExportableAssets);
-                tempExportableAssets.Clear();
             }
-        }
 
-        public Bitmap ExportAssetsToBitmap()
-        {
-            if (exportableAssets.Count > 0)
-            {
-                return Exporter.ExportAssetsToBitmap(exportableAssets);
-            }
-            else
-            {
-                throw new ArgumentException("No exportable assets loaded");
-            }
+            return assetList;
         }
     }
 }

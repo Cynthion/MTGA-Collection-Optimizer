@@ -16,7 +16,19 @@ namespace MtgaDeckBuilder.Api.ImageImport
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _imageImporter.ImportImageForCard(410110);
+            var artIds = new[]
+            {
+                410110,
+                405019,
+                405050,
+                406463,
+                406464,
+            };
+
+            foreach (var artId in artIds)
+            {
+                _imageImporter.ImportImageForCard(artId);
+            }
 
             return Task.CompletedTask;
         }

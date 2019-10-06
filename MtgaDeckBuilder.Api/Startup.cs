@@ -61,9 +61,9 @@ namespace MtgaDeckBuilder.Api
                 return new GameData(provider.GetService<IGameDataLoader>());
             });
 
-            // TODO execute both!
-            //services.AddSingleton<IHostedService, LogWatcher>();
-            services.AddSingleton<IHostedService, ExecuteImageImporter>();
+            // TODO run both in parallel!
+            //services.AddHostedService<LogWatcher>();
+            services.AddHostedService<ExecuteImageImporter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

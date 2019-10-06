@@ -19,29 +19,17 @@ namespace MtgaDeckBuilder.ImageLoader
         internal Dictionary<string, int> assetsFileIndexCache = new Dictionary<string, int>(); // TODO not filled, required?
         internal Dictionary<string, EndianBinaryReader> resourceFileReaders = new Dictionary<string, EndianBinaryReader>();
 
-        private List<string> importFiles = new List<string>();
-        private HashSet<string> importFilesHash = new HashSet<string>();
         private HashSet<string> assetsFileListHash = new HashSet<string>();
 
         public static List<AssetItem> exportableAssets = new List<AssetItem>();
         
         public void LoadFile(string file)
         {
-            importFiles.Add(file);
-            importFilesHash.Add(Path.GetFileName(file).ToUpper());
+            Load(file);
 
-            //use a for loop because list size can change
-            for (var i = 0; i < importFiles.Count; i++)
-            {
-                Load(importFiles[i]);
-            }
-
-            importFiles.Clear();
-            importFilesHash.Clear();
             assetsFileListHash.Clear();
 
             ReadAssets();
-            //ProcessAssets();
         }
 
         private void Load(string fullName)

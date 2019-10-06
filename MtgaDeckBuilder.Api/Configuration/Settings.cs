@@ -11,6 +11,8 @@ namespace MtgaDeckBuilder.Api.Configuration
 
         string GameDataPath { get; set; }
 
+        string ImageImportPath { get; set; }
+
         void AssertOutputLogPathValid();
 
         void AssertGameDataPathValid();
@@ -24,6 +26,7 @@ namespace MtgaDeckBuilder.Api.Configuration
         private int _logPollInterval = 5;
         private string _outputLogPath = $@"C:\Users\{UserNamePlaceholder}\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt";
         private string _gameDataPath = $@"C:\Program Files (x86)\Wizards Of The Coast\MTGA\MTGA_Data\Downloads\Data";
+        private string _imageImportPath = Path.Combine(Environment.CurrentDirectory, "ImageImports");
 
         public int LogPollInterval
         {
@@ -41,6 +44,12 @@ namespace MtgaDeckBuilder.Api.Configuration
         {
             get => _gameDataPath;
             set => _gameDataPath = value;
+        }
+
+        public string ImageImportPath
+        {
+            get => _imageImportPath;
+            set => _imageImportPath = value;
         }
 
         public void AssertOutputLogPathValid()

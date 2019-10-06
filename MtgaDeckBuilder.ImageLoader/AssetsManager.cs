@@ -298,102 +298,14 @@ namespace MtgaDeckBuilder.ImageLoader
                             //assetItem.Text = m_Texture2D.m_Name;
                             exportable = true;
                             break;
-                        //case AudioClip m_AudioClip:
-                        //    if (!string.IsNullOrEmpty(m_AudioClip.m_Source))
-                        //        assetItem.FullSize = asset.byteSize + m_AudioClip.m_Size;
-                        //    assetItem.Text = m_AudioClip.m_Name;
-                        //    exportable = true;
-                        //    break;
-                        //case VideoClip m_VideoClip:
-                        //    if (!string.IsNullOrEmpty(m_VideoClip.m_OriginalPath))
-                        //        assetItem.FullSize = asset.byteSize + (long)m_VideoClip.m_Size;
-                        //    assetItem.Text = m_VideoClip.m_Name;
-                        //    exportable = true;
-                        //    break;
-                        //case Shader m_Shader:
-                        //    assetItem.Text = m_Shader.m_ParsedForm?.m_Name ?? m_Shader.m_Name;
-                        //    exportable = true;
-                        //    break;
-                        //case Mesh _:
-                        //case TextAsset _:
-                        //case AnimationClip _:
-                        //case Font _:
-                        //case MovieTexture _:
-                        //case Sprite _:
-                        //    assetItem.Text = ((NamedObject)asset).m_Name;
-                        //    exportable = true;
-                        //    break;
-                        //case Animator m_Animator:
-                        //    if (m_Animator.m_GameObject.TryGet(out var gameObject))
-                        //    {
-                        //        assetItem.Text = gameObject.m_Name;
-                        //    }
-                        //    exportable = true;
-                        //    break;
-                        //case MonoBehaviour m_MonoBehaviour:
-                        //    if (m_MonoBehaviour.m_Name == "" && m_MonoBehaviour.m_Script.TryGet(out var m_Script))
-                        //    {
-                        //        assetItem.Text = m_Script.m_ClassName;
-                        //    }
-                        //    else
-                        //    {
-                        //        assetItem.Text = m_MonoBehaviour.m_Name;
-                        //    }
-                        //    exportable = true;
-                        //    break;
-                        //case PlayerSettings m_PlayerSettings:
-                        //    productName = m_PlayerSettings.productName;
-                        //    break;
-                        //case AssetBundle m_AssetBundle:
-                        //    ab = m_AssetBundle;
-                        //    assetItem.Text = ab.m_Name;
-                        //    break;
-                        //case NamedObject m_NamedObject:
-                        //    assetItem.Text = m_NamedObject.m_Name;
-                        //    break;
                     }
-                    //if (assetItem.Text == "")
-                    //{
-                    //    assetItem.Text = assetItem.TypeString + assetItem.UniqueID;
-                    //}
-                    //assetItem.SubItems.AddRange(new[] { assetItem.TypeString, assetItem.FullSize.ToString() });
-                    ////处理同名文件
-                    //if (!assetsNameHash.Add((assetItem.TypeString + assetItem.Text).ToUpper()))
-                    //{
-                    //    assetItem.Text += assetItem.UniqueID;
-                    //}
-                    ////处理非法文件名
-                    //assetItem.Text = FixFileName(assetItem.Text);
-                    //if (displayAll)
-                    //{
-                    //    exportable = true;
-                    //}
+
                     if (exportable)
                     {
                         tempExportableAssets.Add(assetItem);
                     }
                 }
-                //if (displayOriginalName && ab != null)
-                //{
-                //    foreach (var item in tempExportableAssets)
-                //    {
-                //        var originalPath = ab.m_Container.FirstOrDefault(y => y.Value.asset.m_PathID == item.Asset.m_PathID).Key;
-                //        if (!string.IsNullOrEmpty(originalPath))
-                //        {
-                //            var extension = Path.GetExtension(originalPath);
-                //            if (!string.IsNullOrEmpty(extension) && item.Type == ClassIDType.TextAsset)
-                //            {
-                //                item.Extension = extension;
-                //            }
 
-                //            //item.Text = Path.GetDirectoryName(originalPath) + "\\" + Path.GetFileNameWithoutExtension(originalPath);
-                //            //if (!assetsNameHash.Add((item.TypeString + item.Text).ToUpper()))
-                //            //{
-                //            //    item.Text += item.UniqueID;
-                //            //}
-                //        }
-                //    }
-                //}
                 exportableAssets.AddRange(tempExportableAssets);
                 tempExportableAssets.Clear();
             }

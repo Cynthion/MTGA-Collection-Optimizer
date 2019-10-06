@@ -7,6 +7,8 @@ namespace MtgaDeckBuilder.Api.Game
     {
         long GrpId { get; set; }
 
+        long ArtId { get; set; }
+
         string Name { get; set; }
 
         string CardTypeText { get; set; }
@@ -35,6 +37,8 @@ namespace MtgaDeckBuilder.Api.Game
     public class GameCard : IGameCard
     {
         public long GrpId { get; set; }
+
+        public long ArtId { get; set; }
 
         public string Name { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿namespace MtgaDeckBuilder.ImageLoader
 {
+    // TODO remove
     public class ImageLoaderDemo
     {
         public void Demo()

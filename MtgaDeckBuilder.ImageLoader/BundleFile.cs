@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
@@ -32,57 +31,6 @@ namespace MtgaDeckBuilder.ImageLoader
             var signature = bundleReader.ReadStringToNull();
             switch (signature)
             {
-                //case "UnityWeb":
-                //case "UnityRaw":
-                //case "\xFA\xFA\xFA\xFA\xFA\xFA\xFA\xFA":
-                //    {
-                //        var format = bundleReader.ReadInt32();
-                //        versionPlayer = bundleReader.ReadStringToNull();
-                //        versionEngine = bundleReader.ReadStringToNull();
-                //        if (format < 6)
-                //        {
-                //            int bundleSize = bundleReader.ReadInt32();
-                //        }
-                //        else if (format == 6)
-                //        {
-                //            ReadFormat6(bundleReader, true);
-                //            return;
-                //        }
-                //        short dummy2 = bundleReader.ReadInt16();
-                //        int offset = bundleReader.ReadInt16();
-                //        int dummy3 = bundleReader.ReadInt32();
-                //        int lzmaChunks = bundleReader.ReadInt32();
-
-                //        int lzmaSize = 0;
-                //        long streamSize = 0;
-
-                //        for (int i = 0; i < lzmaChunks; i++)
-                //        {
-                //            lzmaSize = bundleReader.ReadInt32();
-                //            streamSize = bundleReader.ReadInt32();
-                //        }
-
-                //        bundleReader.Position = offset;
-                //        switch (signature)
-                //        {
-                //            case "\xFA\xFA\xFA\xFA\xFA\xFA\xFA\xFA": //.bytes
-                //            case "UnityWeb":
-                //                {
-                //                    var lzmaBuffer = bundleReader.ReadBytes(lzmaSize);
-                //                    using (var lzmaStream = new EndianBinaryReader(SevenZipHelper.StreamDecompress(new MemoryStream(lzmaBuffer))))
-                //                    {
-                //                        GetAssetsFiles(lzmaStream, 0);
-                //                    }
-                //                    break;
-                //                }
-                //            case "UnityRaw":
-                //                {
-                //                    GetAssetsFiles(bundleReader, offset);
-                //                    break;
-                //                }
-                //        }
-                //        break;
-                //    }
                 case "UnityFS":
                     {
                         var format = bundleReader.ReadInt32();
@@ -128,10 +76,6 @@ namespace MtgaDeckBuilder.ImageLoader
                         break;
                     }
                 case 1://LZMA
-                    //{
-                    //    blocksInfoStream = SevenZipHelper.StreamDecompress(new MemoryStream(blocksInfoBytes));
-                    //    break;
-                    //}
                     throw new NotImplementedException("The loaded asset has a file compression that is not enabled to be handled.");
                 case 2://LZ4
                 case 3://LZ4HC
@@ -144,8 +88,6 @@ namespace MtgaDeckBuilder.ImageLoader
                         blocksInfoStream = new MemoryStream(uncompressedBytes);
                         break;
                     }
-                    //case 4:LZHAM?
-
             }
             using (var blocksInfoReader = new EndianBinaryReader(blocksInfoStream))
             {
@@ -165,8 +107,6 @@ namespace MtgaDeckBuilder.ImageLoader
                 var uncompressedSizeSum = blockInfos.Sum(x => x.uncompressedSize);
                 if (uncompressedSizeSum > int.MaxValue)
                 {
-                    /*var memoryMappedFile = MemoryMappedFile.CreateNew(Path.GetFileName(path), uncompressedSizeSum);
-                    assetsDataStream = memoryMappedFile.CreateViewStream();*/
                     dataStream = new FileStream(path + ".temp", FileMode.Create, FileAccess.ReadWrite, FileShare.None, 4096, FileOptions.DeleteOnClose);
                 }
                 else
@@ -183,26 +123,16 @@ namespace MtgaDeckBuilder.ImageLoader
                                 break;
                             }
                         case 1://LZMA
-                            //{
-                            //    SevenZipHelper.StreamDecompress(bundleReader.BaseStream, dataStream, blockInfo.compressedSize, blockInfo.uncompressedSize);
-                            //    break;
-                            //}
                         case 2://LZ4
                         case 3://LZ4HC
-                            {
-                                throw new NotImplementedException("The loaded asset has a file compression other than none (e.g., LZMA, LZ4, LZ4HC) that is not enabled to be handled.");
-                                //byte[] uncompressedBytes = new byte[uncompressedSize];
-                                //var lz4Stream = new Lz4DecoderStream(bundleReader.BaseStream, blockInfo.compressedSize);
-                                //lz4Stream.CopyTo(dataStream, blockInfo.uncompressedSize);
-                                //break;
-                            }
-                            //case 4:LZHAM?
+                            throw new NotImplementedException("The loaded asset has a file compression other than none (e.g., LZMA, LZ4, LZ4HC) that is not enabled to be handled.");
                     }
                 }
                 dataStream.Position = 0;
                 using (dataStream)
                 {
                     var entryinfo_count = blocksInfoReader.ReadInt32();
+                    //entryinfo_count = 1; // TODO ignore .resS files
                     for (int i = 0; i < entryinfo_count; i++)
                     {
                         var file = new StreamFile();
@@ -212,8 +142,6 @@ namespace MtgaDeckBuilder.ImageLoader
                         file.fileName = Path.GetFileName(blocksInfoReader.ReadStringToNull());
                         if (entryinfo_size > int.MaxValue)
                         {
-                            /*var memoryMappedFile = MemoryMappedFile.CreateNew(file.fileName, entryinfo_size);
-                            file.stream = memoryMappedFile.CreateViewStream();*/
                             var extractPath = path + "_unpacked\\";
                             Directory.CreateDirectory(extractPath);
                             file.stream = File.Create(extractPath + file.fileName);

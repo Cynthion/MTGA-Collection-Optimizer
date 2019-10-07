@@ -9,6 +9,7 @@ using MtgaDeckBuilder.Api.Game;
 using MtgaDeckBuilder.Api.ImageImport;
 using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
+using MtgaDeckBuilder.ImageLoader;
 using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -55,6 +56,7 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<ILogParser, LogParser>();
 
             services.AddSingleton<IGameDataLoader, GameDataLoader>();
+            services.AddSingleton<IAssetsManager, AssetsManager>();
             services.AddSingleton<IImageImporter, ImageImporter>();
             services.AddSingleton<IGameData>(provider =>
             {

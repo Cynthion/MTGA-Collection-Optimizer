@@ -15,11 +15,14 @@ namespace MtgaDeckBuilder.Api.ImageImport
     public class ImageImporter : IImageImporter
     {
         private readonly ISettings _settings;
+        private readonly IAssetsManager _assetsManager;
+
         private readonly string _assetBundlePath;
 
-        public ImageImporter(ISettings settings)
+        public ImageImporter(ISettings settings, IAssetsManager assetsManager)
         {
             _settings = settings;
+            _assetsManager = assetsManager;
 
             //_settings.GameDataPath = @"G:\MTGArenaLive\MTGA_Data";
             _settings.GameDataPath = @"C:\Program Files (x86)\Wizards of the Coast\MTGA\MTGA_Data";
@@ -32,10 +35,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var cardArtAssetPrefix = $"{artId}_cardart_";
             var cardArtAssetFilePath = Directory.GetFiles(_assetBundlePath, $"{cardArtAssetPrefix}*.mtga").Single();
 
-            // TODO use interface and dependency injection
-            var assetsManager = new AssetsManager();
-            assetsManager.LoadFile(cardArtAssetFilePath);
-            var assetList = assetsManager.BuildAssetList().ToList();
+            _assetsManager.LoadFile(cardArtAssetFilePath);
+            var assetList = _assetsManager.BuildAssetList().ToList();
 
             var bitmap = Exporter.ExportAssetsToBitmap(assetList);
             bitmap = ResizeBitmap(bitmap, 512, 376);
@@ -44,7 +45,6 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
             bitmap.Save(imageImportPath, ImageFormat.Png);
             bitmap.Dispose();
-
         }
 
         private Bitmap ResizeBitmap(Bitmap original, int width, int height)

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
     public enum FileType
     {
-        AssetsFile,
         BundleFile,
-        WebFile
     }
 
-    public class AssetsManager
+    public interface IAssetsManager
+    {
+        void LoadFile(string file);
+
+        IEnumerable<AssetItem> BuildAssetList();
+    }
+
+    public class AssetsManager : IAssetsManager
     {
 
         public List<SerializedFile> assetsFileList = new List<SerializedFile>();
@@ -22,19 +25,14 @@ namespace MtgaDeckBuilder.ImageLoader
                 
         public void LoadFile(string file)
         {
-            Load(file);
-
-            ReadAssets();
-        }
-
-        private void Load(string fullName)
-        {
-            switch (CheckFileType(fullName, out var reader))
+            switch (CheckFileType(file, out var reader))
             {
                 case FileType.BundleFile:
-                    LoadBundleFile(fullName, reader);
+                    LoadBundleFile(file, reader);
                     break;
             }
+
+            ReadAssets();
         }
 
         private static FileType CheckFileType(string fileName, out EndianBinaryReader reader)

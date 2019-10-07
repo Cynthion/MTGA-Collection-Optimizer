@@ -30,26 +30,27 @@ namespace MtgaDeckBuilder.ImageLoader
 
             if (m_FileID > 0 && m_FileID - 1 < assetsFile.m_Externals.Count)
             {
-                var assetsManager = assetsFile.assetsManager;
-                var assetsFileList = assetsManager.assetsFileList;
-                var assetsFileIndexCache = assetsManager.assetsFileIndexCache;
+                throw new NotImplementedException();
+                //var assetsManager = assetsFile.assetsManager;
+                //var assetsFileList = assetsManager.assetsFileList;
+                //var assetsFileIndexCache = assetsManager.assetsFileIndexCache;
 
-                if (index == -2)
-                {
-                    var m_External = assetsFile.m_Externals[m_FileID - 1];
-                    var name = m_External.fileName.ToUpper();
-                    if (!assetsFileIndexCache.TryGetValue(name, out index))
-                    {
-                        index = assetsFileList.FindIndex(x => x.upperFileName == name);
-                        assetsFileIndexCache.Add(name, index);
-                    }
-                }
+                //if (index == -2)
+                //{
+                //    var m_External = assetsFile.m_Externals[m_FileID - 1];
+                //    var name = m_External.fileName.ToUpper();
+                //    if (!assetsFileIndexCache.TryGetValue(name, out index))
+                //    {
+                //        index = assetsFileList.FindIndex(x => x.upperFileName == name);
+                //        assetsFileIndexCache.Add(name, index);
+                //    }
+                //}
 
-                if (index >= 0)
-                {
-                    result = assetsFileList[index];
-                    return true;
-                }
+                //if (index >= 0)
+                //{
+                //    result = assetsFileList[index];
+                //    return true;
+                //}
             }
 
             return false;
@@ -93,39 +94,40 @@ namespace MtgaDeckBuilder.ImageLoader
 
         public void Set(T m_Object)
         {
-            var name = m_Object.assetsFile.upperFileName;
-            if (string.Equals(assetsFile.upperFileName, name, StringComparison.Ordinal))
-            {
-                m_FileID = 0;
-            }
-            else
-            {
-                m_FileID = assetsFile.m_Externals.FindIndex(x => string.Equals(x.fileName, name, StringComparison.OrdinalIgnoreCase));
-                if (m_FileID == -1)
-                {
-                    assetsFile.m_Externals.Add(new FileIdentifier
-                    {
-                        fileName = m_Object.assetsFile.fileName
-                    });
-                    m_FileID = assetsFile.m_Externals.Count;
-                }
-                else
-                {
-                    m_FileID += 1;
-                }
-            }
+            throw new NotImplementedException();
+            //var name = m_Object.assetsFile.upperFileName;
+            //if (string.Equals(assetsFile.upperFileName, name, StringComparison.Ordinal))
+            //{
+            //    m_FileID = 0;
+            //}
+            //else
+            //{
+            //    m_FileID = assetsFile.m_Externals.FindIndex(x => string.Equals(x.fileName, name, StringComparison.OrdinalIgnoreCase));
+            //    if (m_FileID == -1)
+            //    {
+            //        assetsFile.m_Externals.Add(new FileIdentifier
+            //        {
+            //            fileName = m_Object.assetsFile.fileName
+            //        });
+            //        m_FileID = assetsFile.m_Externals.Count;
+            //    }
+            //    else
+            //    {
+            //        m_FileID += 1;
+            //    }
+            //}
 
-            var assetsManager = assetsFile.assetsManager;
-            var assetsFileList = assetsManager.assetsFileList;
-            var assetsFileIndexCache = assetsManager.assetsFileIndexCache;
+            //var assetsManager = assetsFile.assetsManager;
+            //var assetsFileList = assetsManager.assetsFileList;
+            //var assetsFileIndexCache = assetsManager.assetsFileIndexCache;
 
-            if (!assetsFileIndexCache.TryGetValue(name, out index))
-            {
-                index = assetsFileList.FindIndex(x => x.upperFileName == name);
-                assetsFileIndexCache.Add(name, index);
-            }
+            //if (!assetsFileIndexCache.TryGetValue(name, out index))
+            //{
+            //    index = assetsFileList.FindIndex(x => x.upperFileName == name);
+            //    assetsFileIndexCache.Add(name, index);
+            //}
 
-            m_PathID = m_Object.m_PathID;
+            //m_PathID = m_Object.m_PathID;
         }
 
         public bool IsNull => m_PathID == 0 || m_FileID < 0;

@@ -11,28 +11,29 @@ namespace MtgaDeckBuilder.ImageLoader
 
     public interface IAssetsManager
     {
-        void LoadFile(string file);
+        IList<SerializedFile> LoadSerializedFiles(string file);
 
-        IEnumerable<AssetItem> BuildAssetList();
+        IEnumerable<AssetItem> BuildAssetList(IEnumerable<SerializedFile> assetsFiles);
     }
 
     public class AssetsManager : IAssetsManager
     {
-
-        public List<SerializedFile> assetsFileList = new List<SerializedFile>();
         internal Dictionary<string, int> assetsFileIndexCache = new Dictionary<string, int>(); // TODO not filled, required?
         internal Dictionary<string, EndianBinaryReader> resourceFileReaders = new Dictionary<string, EndianBinaryReader>();
                 
-        public void LoadFile(string file)
+        public IList<SerializedFile> LoadSerializedFiles(string file)
         {
+            var serializedFiles = new List<SerializedFile>();
             switch (CheckFileType(file, out var reader))
             {
                 case FileType.BundleFile:
-                    LoadBundleFile(file, reader);
+                    serializedFiles.AddRange(LoadSerializedBundleFiles(file, reader));
                     break;
             }
 
-            ReadAssets();
+            ReadAssets(serializedFiles);
+
+            return serializedFiles;
         }
 
         private static FileType CheckFileType(string fileName, out EndianBinaryReader reader)
@@ -54,36 +55,44 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        private void LoadBundleFile(string fullName, EndianBinaryReader reader)
+        private IList<SerializedFile> LoadSerializedBundleFiles(string fullName, EndianBinaryReader reader)
         {
+            var serializedFiles = new List<SerializedFile>();
             try
             {
                 var bundleFile = new BundleFile(reader, fullName);
                 foreach (var file in bundleFile.fileList)
                 {
                     var dummyPath = Path.GetDirectoryName(fullName) + "\\" + file.fileName;
-                    LoadAssetsFromMemory(dummyPath, new EndianBinaryReader(file.stream), fullName);
+                    var serializedFile = LoadSerializedFileFromMemory(dummyPath, new EndianBinaryReader(file.stream), fullName);
+
+                    if (serializedFile != null)
+                    {
+                        serializedFiles.Add(serializedFile);
+                    }
                 }
             }
             finally
             {
                 reader.Dispose();
             }
+
+            return serializedFiles;
         }
 
-        private void LoadAssetsFromMemory(string fullName, EndianBinaryReader reader, string originalPath)
+        private SerializedFile LoadSerializedFileFromMemory(string fullName, EndianBinaryReader reader, string originalPath)
         {
             var upperFileName = Path.GetFileName(fullName).ToUpper();
-
             try
             {
                 var assetsFile = new SerializedFile(this, fullName, reader);
                 assetsFile.originalPath = originalPath;
-                assetsFileList.Add(assetsFile);
+                return assetsFile;
             }
             catch
             {
                 // catch block required
+                return null;
             }
             finally
             {
@@ -91,9 +100,9 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        private void ReadAssets()
+        private void ReadAssets(IEnumerable<SerializedFile> assetFiles)
         {
-            foreach (var assetsFile in assetsFileList)
+            foreach (var assetsFile in assetFiles)
             {
                 assetsFile.Objects = new Dictionary<long, Object>(assetsFile.m_Objects.Count);
                 foreach (var objectInfo in assetsFile.m_Objects)
@@ -112,19 +121,14 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        public IEnumerable<AssetItem> BuildAssetList()
+        public IEnumerable<AssetItem> BuildAssetList(IEnumerable<SerializedFile> assetsFiles)
         {
-            if (assetsFileList.Count == 0)
-            {
-                throw new ArgumentException("No asset file was loaded.");
-            }
-
             var tempDic = new Dictionary<Object, AssetItem>(); // TODO remove?
 
             var assetList = new List<AssetItem>();
 
             int j = 0;
-            foreach (var assetsFile in assetsFileList)
+            foreach (var assetsFile in assetsFiles)
             {
                 //AssetBundle ab = null;
                 foreach (var asset in assetsFile.Objects.Values)

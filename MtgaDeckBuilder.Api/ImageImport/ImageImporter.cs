@@ -35,8 +35,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var cardArtAssetPrefix = $"{artId}_cardart_";
             var cardArtAssetFilePath = Directory.GetFiles(_assetBundlePath, $"{cardArtAssetPrefix}*.mtga").Single();
 
-            _assetsManager.LoadFile(cardArtAssetFilePath);
-            var assetList = _assetsManager.BuildAssetList().ToList();
+            var serializedFiles = _assetsManager.LoadSerializedFiles(cardArtAssetFilePath);
+            var assetList = _assetsManager.BuildAssetList(serializedFiles).ToList();
 
             var bitmap = Exporter.ExportAssetsToBitmap(assetList);
             bitmap = ResizeBitmap(bitmap, 512, 376);

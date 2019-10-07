@@ -4,67 +4,41 @@ using System.IO;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
-    public enum FileType
-    {
-        BundleFile,
-    }
-
     public interface IAssetsManager
     {
-        IList<SerializedFile> LoadSerializedFiles(string file);
+        IList<SerializedFile> LoadSerializedFiles(string filePath);
 
         IEnumerable<AssetItem> BuildAssetList(IEnumerable<SerializedFile> assetsFiles);
     }
 
     public class AssetsManager : IAssetsManager
     {
-        internal Dictionary<string, int> assetsFileIndexCache = new Dictionary<string, int>(); // TODO not filled, required?
         internal Dictionary<string, EndianBinaryReader> resourceFileReaders = new Dictionary<string, EndianBinaryReader>();
                 
-        public IList<SerializedFile> LoadSerializedFiles(string file)
+        public IList<SerializedFile> LoadSerializedFiles(string filePath)
         {
+            var reader = new EndianBinaryReader(File.OpenRead(filePath));
+            reader.ReadStringToNull(20); // signature: UnityFS
+            reader.Position = 0;
+
             var serializedFiles = new List<SerializedFile>();
-            switch (CheckFileType(file, out var reader))
-            {
-                case FileType.BundleFile:
-                    serializedFiles.AddRange(LoadSerializedBundleFiles(file, reader));
-                    break;
-            }
+            serializedFiles.AddRange(LoadSerializedBundleFiles(filePath, reader));
 
             ReadAssets(serializedFiles);
 
             return serializedFiles;
         }
 
-        private static FileType CheckFileType(string fileName, out EndianBinaryReader reader)
-        {
-            reader = new EndianBinaryReader(File.OpenRead(fileName));
-            return CheckFileType(reader);
-        }
-
-        private static FileType CheckFileType(EndianBinaryReader reader)
-        {
-            var signature = reader.ReadStringToNull(20);
-            reader.Position = 0;
-            switch (signature)
-            {
-                case "UnityFS":
-                    return FileType.BundleFile;
-                default:
-                    throw new NotImplementedException("The loaded asset has a file type other than UnityFS that is not enabled to be handled.");
-            }
-        }
-
-        private IList<SerializedFile> LoadSerializedBundleFiles(string fullName, EndianBinaryReader reader)
+        private IList<SerializedFile> LoadSerializedBundleFiles(string fileName, EndianBinaryReader reader)
         {
             var serializedFiles = new List<SerializedFile>();
             try
             {
-                var bundleFile = new BundleFile(reader, fullName);
+                var bundleFile = new BundleFile(reader, fileName);
                 foreach (var file in bundleFile.fileList)
                 {
-                    var dummyPath = Path.GetDirectoryName(fullName) + "\\" + file.fileName;
-                    var serializedFile = LoadSerializedFileFromMemory(dummyPath, new EndianBinaryReader(file.stream), fullName);
+                    var dummyPath = Path.GetDirectoryName(fileName) + "\\" + file.fileName;
+                    var serializedFile = LoadSerializedFileFromMemory(dummyPath, new EndianBinaryReader(file.stream), fileName);
 
                     if (serializedFile != null)
                     {

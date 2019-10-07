@@ -43,17 +43,9 @@ namespace MtgaDeckBuilder.ImageLoader
             header.m_Version = reader.ReadUInt32();
             header.m_DataOffset = reader.ReadUInt32();
 
-            if (header.m_Version >= 9)
-            {
-                header.m_Endianess = reader.ReadByte();
-                header.m_Reserved = reader.ReadBytes(3);
-                m_FileEndianess = (EndianType)header.m_Endianess;
-            }
-            else
-            {
-                reader.Position = header.m_FileSize - header.m_MetadataSize;
-                m_FileEndianess = (EndianType)reader.ReadByte();
-            }
+            header.m_Endianess = reader.ReadByte();
+            header.m_Reserved = reader.ReadBytes(3);
+            m_FileEndianess = (EndianType)header.m_Endianess;
 
             //ReadMetadata
             if (m_FileEndianess == EndianType.LittleEndian)
@@ -86,46 +78,24 @@ namespace MtgaDeckBuilder.ImageLoader
                 m_Types.Add(ReadSerializedType());
             }
 
-            if (header.m_Version >= 7 && header.m_Version < 14)
-            {
-                var bigIDEnabled = reader.ReadInt32();
-            }
-
             //ReadObjects
             int objectCount = reader.ReadInt32();
             m_Objects = new List<ObjectInfo>(objectCount);
             for (int i = 0; i < objectCount; i++)
             {
                 var objectInfo = new ObjectInfo();
-                if (header.m_Version < 14)
-                {
-                    objectInfo.m_PathID = reader.ReadInt32();
-                }
-                else
-                {
-                    reader.AlignStream();
-                    objectInfo.m_PathID = reader.ReadInt64();
-                }
+                reader.AlignStream();
+
+                objectInfo.m_PathID = reader.ReadInt64();
                 objectInfo.byteStart = reader.ReadUInt32();
                 objectInfo.byteStart += header.m_DataOffset;
                 objectInfo.byteSize = reader.ReadUInt32();
                 objectInfo.typeID = reader.ReadInt32();
-                if (header.m_Version < 16)
-                {
-                    objectInfo.classID = reader.ReadUInt16();
-                    objectInfo.serializedType = m_Types.Find(x => x.classID == objectInfo.typeID);
-                    var isDestroyed = reader.ReadUInt16();
-                }
-                else
-                {
-                    var type = m_Types[objectInfo.typeID];
-                    objectInfo.serializedType = type;
-                    objectInfo.classID = type.classID;
-                }
-                if (header.m_Version == 15 || header.m_Version == 16)
-                {
-                    var stripped = reader.ReadByte();
-                }
+
+                var type = m_Types[objectInfo.typeID];
+                objectInfo.serializedType = type;
+                objectInfo.classID = type.classID;
+
                 m_Objects.Add(objectInfo);
             }
 

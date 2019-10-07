@@ -21,7 +21,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
         {
             _settings = settings;
 
-            _settings.GameDataPath = @"G:\MTGArenaLive\MTGA_Data";
+            //_settings.GameDataPath = @"G:\MTGArenaLive\MTGA_Data";
+            _settings.GameDataPath = @"C:\Program Files (x86)\Wizards of the Coast\MTGA\MTGA_Data";
             _settings.AssertGameDataPathValid();
             _assetBundlePath = Path.Combine(settings.GameDataPath, "Downloads\\AssetBundle");
         }
@@ -39,6 +40,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var bitmap = Exporter.ExportAssetsToBitmap(assetList);
             bitmap = ResizeBitmap(bitmap, 512, 376);
 
+            AssertImageImportsDirectoryExists(_settings.ImageImportPath);
             var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
             bitmap.Save(imageImportPath, ImageFormat.Png);
             bitmap.Dispose();
@@ -54,6 +56,14 @@ namespace MtgaDeckBuilder.Api.ImageImport
             }
 
             return result;
+        }
+
+        private static void AssertImageImportsDirectoryExists(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
     }
 }

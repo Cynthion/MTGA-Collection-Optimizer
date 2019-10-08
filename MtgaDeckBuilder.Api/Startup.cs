@@ -58,10 +58,8 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IGameDataLoader, GameDataLoader>();
             services.AddSingleton<IAssetsManager, AssetsManager>();
             services.AddSingleton<IImageImporter, ImageImporter>();
-            services.AddSingleton<IGameData>(provider =>
-            {
-                return new GameData(provider.GetService<IGameDataLoader>());
-            });
+            services.AddSingleton<IGameDataRepository, GameDataRepository>();
+            services.AddSingleton<IImageDataRepository, ImageDataRepository>();
 
             // TODO run both in parallel!
             //services.AddHostedService<LogWatcher>();

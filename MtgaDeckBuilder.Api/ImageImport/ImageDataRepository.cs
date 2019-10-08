@@ -4,12 +4,11 @@ using System.Text;
 
 namespace MtgaDeckBuilder.Api.ImageImport
 {
-    public interface IImageData
+    public interface IImageDataRepository
     {
-
     }
 
-    public class ImageData
+    public class ImageDataRepository : IImageDataRepository
     {
     }
 }

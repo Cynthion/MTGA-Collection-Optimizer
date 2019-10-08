@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace MtgaDeckBuilder.Api.Game
 {
-    public interface IGameData
+    public interface IGameDataRepository
     {
         void AssertInitialized();
 
         IGameCard GetGameCard(long mtgaId);
     }
 
-    public class GameData : IGameData
+    public class GameDataRepository : IGameDataRepository
     {
         private readonly IGameDataLoader _gameDataLoader;
         private readonly IDictionary<long, IGameCard> _gameCardCache;
@@ -29,7 +29,7 @@ namespace MtgaDeckBuilder.Api.Game
         // Key: Locality Id, Value: Text
         private IDictionary<long, string> _localities;
 
-        public GameData(IGameDataLoader gameDataLoader)
+        public GameDataRepository(IGameDataLoader gameDataLoader)
         {
             _gameDataLoader = gameDataLoader;
             _gameCardCache = new Dictionary<long, IGameCard>();

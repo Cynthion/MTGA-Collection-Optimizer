@@ -19,13 +19,18 @@ namespace MtgaDeckBuilder.Api.Layout
     public class LayoutService : ILayoutService
     {
         private readonly ILogParser _logParser;
-        private readonly IGameData _gameData;
+        private readonly IGameDataRepository _gameDataRepository;
+        private readonly IImageDataRepository _imageDataRepository;
         private readonly History _history;
 
-        public LayoutService(ILogParser logParser, IGameData gameData)
+        public LayoutService(
+            ILogParser logParser, 
+            IGameDataRepository gameDataRepository, 
+            IImageDataRepository imageDataRepository)
         {
             _logParser = logParser;
-            _gameData = gameData;
+            _gameDataRepository = gameDataRepository;
+            _imageDataRepository = imageDataRepository;
             _history = new History();
         }
 
@@ -181,8 +186,8 @@ namespace MtgaDeckBuilder.Api.Layout
             }
 
             // game data integration
-            _gameData.AssertInitialized();
-            collectionCards.ForEach(cc => cc.Data = _gameData.GetGameCard(cc.MtgaId));
+            _gameDataRepository.AssertInitialized();
+            collectionCards.ForEach(cc => cc.Data = _gameDataRepository.GetGameCard(cc.MtgaId));
 
             // sorting
             collectionCards = collectionCards

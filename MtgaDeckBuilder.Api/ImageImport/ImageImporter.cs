@@ -1,5 +1,6 @@
 ﻿using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.ImageLoader;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,6 +20,14 @@ namespace MtgaDeckBuilder.Api.ImageImport
         private readonly ISettings _settings;
         private readonly IAssetsManager _assetsManager;
 
+        private static readonly IEnumerable<string> _expansionSymbolTexture2DNamePatterns = new List<string>
+        {
+            "ExpansionSymbol_*_Common",
+            "ExpansionSymbol_*_Mythic",
+            "ExpansionSymbol_*_Rare",
+            "ExpansionSymbol_*_Uncommon",
+        };
+
         private readonly string _assetBundlePath;
 
         public ImageImporter(ISettings settings, IAssetsManager assetsManager)
@@ -34,16 +43,26 @@ namespace MtgaDeckBuilder.Api.ImageImport
 
         public void ImportImagesForSetSymbols(string setCode)
         {
+            var expansionSymbolTexture2DNames = _expansionSymbolTexture2DNamePatterns.Select(p => p.Replace("*", setCode.ToUpper())).ToList();
+
             var setCodeAssetPrefix = $"{setCode}_mdnassetlibrarypayloads_general_";
             var setCodeAssetFilePath = Directory.GetFiles(_assetBundlePath, $"{setCodeAssetPrefix}*.mtga").Single();
 
             var serializedFiles = _assetsManager.LoadSerializedFiles(setCodeAssetFilePath);
-            var assetList = _assetsManager.BuildAssetList(serializedFiles).ToList();
+            var assetList = _assetsManager.BuildTexture2DAssetList(serializedFiles).ToList();
 
-            // ExpansionSymbol_RNA_Common
-            // ExpansionSymbol_RNA_Mythic
-            // ExpansionSymbol_RNA_Rare
-            // ExpansionSymbol_RNA_Uncommon
+            var expansionSymbolAssets = assetList.Where(a => expansionSymbolTexture2DNames.Contains((a.Asset as NamedObject).m_Name));
+
+            foreach (var texture2dAsset in expansionSymbolAssets)
+            {
+                using (var bitmap = Exporter.ExportTextture2DAssetToBitmap(texture2dAsset))
+                {
+                    AssertImageImportsDirectoryExists(_settings.ImageImportPath);
+                    var imageImportPath = $"{_settings.ImageImportPath}\\{(texture2dAsset.Asset as NamedObject).m_Name}.png";
+                    bitmap.Save(imageImportPath, ImageFormat.Png);
+                }
+            }
+
         }
 
         public void ImportImageForCard(long artId)
@@ -52,15 +71,16 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var cardArtAssetFilePath = Directory.GetFiles(_assetBundlePath, $"{cardArtAssetPrefix}*.mtga").Single();
 
             var serializedFiles = _assetsManager.LoadSerializedFiles(cardArtAssetFilePath);
-            var assetList = _assetsManager.BuildAssetList(serializedFiles).ToList();
+            var assetList = _assetsManager.BuildTexture2DAssetList(serializedFiles);
 
-            var bitmap = Exporter.ExportAssetsToBitmap(assetList);
-            bitmap = ResizeBitmap(bitmap, 512, 376);
+            var cardArtAsset = assetList.First();
 
-            AssertImageImportsDirectoryExists(_settings.ImageImportPath);
-            var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
-            bitmap.Save(imageImportPath, ImageFormat.Png);
-            bitmap.Dispose();
+            using (var bitmap = ResizeBitmap(Exporter.ExportTextture2DAssetToBitmap(cardArtAsset), 512, 376))
+            {
+                AssertImageImportsDirectoryExists(_settings.ImageImportPath);
+                var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
+                bitmap.Save(imageImportPath, ImageFormat.Png);
+            }
         }
 
         private Bitmap ResizeBitmap(Bitmap original, int width, int height)

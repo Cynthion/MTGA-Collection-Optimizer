@@ -22,14 +22,14 @@ namespace MtgaDeckBuilder.ImageLoader
         //public int dwWidth; m_Width
         private int dwPitchOrLinearSize;
         private int dwMipMapCount = 0x1;
-        //private int dwSize = 0x20;
-        //private int dwFlags2;
-        //private int dwFourCC;
-        //private int dwRGBBitCount;
-        //private int dwRBitMask;
-        //private int dwGBitMask;
-        //private int dwBBitMask;
-        //private int dwABitMask;
+        private int dwSize = 0x20;
+        private int dwFlags2;
+        private int dwFourCC;
+        private int dwRGBBitCount;
+        private int dwRBitMask;
+        private int dwGBitMask;
+        private int dwBBitMask;
+        private int dwABitMask;
         //private int dwCaps = 0x1000;
         //private int dwCaps2 = 0x0;
         //DDS End
@@ -100,8 +100,21 @@ namespace MtgaDeckBuilder.ImageLoader
 
             switch (m_TextureFormat)
             {
-                case TextureFormat.DXT1: //test pass
-                case TextureFormat.DXT1Crunched: //test pass
+                case TextureFormat.RGBA32: //test pass
+                    {
+                        var BGRA32 = new byte[image_data_size];
+                        for (var i = 0; i < image_data_size; i += 4)
+                        {
+                            BGRA32[i] = image_data[i + 2];
+                            BGRA32[i + 1] = image_data[i + 1];
+                            BGRA32[i + 2] = image_data[i + 0];
+                            BGRA32[i + 3] = image_data[i + 3];
+                        }
+                        SetBGRA32Info(BGRA32);
+                        break;
+                    }
+                case TextureFormat.DXT1:
+                case TextureFormat.DXT1Crunched:
                     {
                         if (mMipMap)
                         {
@@ -130,6 +143,9 @@ namespace MtgaDeckBuilder.ImageLoader
             Bitmap bitmap;
             switch (m_TextureFormat)
             {
+                case TextureFormat.RGBA32:
+                    bitmap = BGRA32ToBitmap();
+                    break;
                 case TextureFormat.DXT1:
                     bitmap = TextureConverter();
                     break;
@@ -138,6 +154,27 @@ namespace MtgaDeckBuilder.ImageLoader
             }
             if (bitmap != null && flip)
                 bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            return bitmap;
+        }
+
+        private void SetBGRA32Info(byte[] BGRA32)
+        {
+            image_data = BGRA32;
+            image_data_size = BGRA32.Length;
+            dwFlags2 = 0x41;
+            dwRGBBitCount = 0x20;
+            dwRBitMask = 0xFF0000;
+            dwGBitMask = 0xFF00;
+            dwBBitMask = 0xFF;
+            dwABitMask = -16777216;
+        }
+
+        private Bitmap BGRA32ToBitmap()
+        {
+            var hObject = GCHandle.Alloc(image_data, GCHandleType.Pinned);
+            var pObject = hObject.AddrOfPinnedObject();
+            var bitmap = new Bitmap(m_Width, m_Height, m_Width * 4, PixelFormat.Format32bppArgb, pObject);
+            hObject.Free();
             return bitmap;
         }
 

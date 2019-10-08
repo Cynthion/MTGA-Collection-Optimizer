@@ -27,10 +27,10 @@ namespace MtgaDeckBuilder.Api.ImageImport
 
             foreach (var artId in artIds)
             {
-                _imageImporter.ImportImageForCard(artId);
+                //_imageImporter.ImportImageForCard(artId);
             }
 
-            //_imageImporter.ImportImagesForSetSymbols("rna");
+            _imageImporter.ImportImagesForSetSymbols("rna");
 
             return Task.CompletedTask;
         }

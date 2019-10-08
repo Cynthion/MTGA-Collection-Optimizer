@@ -1,43 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace MtgaDeckBuilder.ImageLoader
 {
-    public enum ExportType
-    {
-        Convert,
-        //Raw,
-        //Dump
-    }
-
     public class Exporter
     {
         // Studio.cs
-        public static Bitmap ExportAssetsToBitmap(List<AssetItem> toExportAssets)
+        public static Bitmap ExportTextture2DAssetToBitmap(AssetItem texture2dAsset)
         {
             //ThreadPool.QueueUserWorkItem(state =>
             //{
                 //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            foreach (var asset in toExportAssets)
-            {
                 try
                 {
-                    switch (asset.Type)
+                    switch (texture2dAsset.Type)
                     {
                         case ClassIDType.Texture2D:
-                            return ConvertTexture2DToBitmap(asset);
+                            return ConvertTexture2DToBitmap(texture2dAsset);
                         default:
                             throw new NotImplementedException("The provided asset type is ther than Texture2D and not supported.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Export {asset.Type}:{asset} error\r\n{ex.Message}\r\n{ex.StackTrace}");
+                    throw new Exception($"Export {texture2dAsset.Type}:{texture2dAsset} error\r\n{ex.Message}\r\n{ex.StackTrace}");
                 }
-            }
-
-            throw new ArgumentException("No assets to export.");
             //});
         }
 

@@ -7,7 +7,7 @@ namespace MtgaDeckBuilder.ImageLoader
     {
         IList<SerializedFile> LoadSerializedFiles(string filePath);
 
-        IEnumerable<AssetItem> BuildAssetList(IEnumerable<SerializedFile> assetsFiles);
+        IEnumerable<AssetItem> BuildTexture2DAssetList(IEnumerable<SerializedFile> assetsFiles);
     }
 
     public class AssetsManager : IAssetsManager
@@ -94,7 +94,7 @@ namespace MtgaDeckBuilder.ImageLoader
             }
         }
 
-        public IEnumerable<AssetItem> BuildAssetList(IEnumerable<SerializedFile> assetsFiles)
+        public IEnumerable<AssetItem> BuildTexture2DAssetList(IEnumerable<SerializedFile> assetsFiles)
         {
             var assetList = new List<AssetItem>();
 

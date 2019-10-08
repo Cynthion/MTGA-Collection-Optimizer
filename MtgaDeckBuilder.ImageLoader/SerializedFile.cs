@@ -198,36 +198,6 @@ namespace MtgaDeckBuilder.ImageLoader
             return type;
         }
 
-        //private void ReadTypeTree(List<TypeTreeNode> typeTree, int level = 0)
-        //{
-        //    var typeTreeNode = new TypeTreeNode();
-        //    typeTree.Add(typeTreeNode);
-        //    typeTreeNode.m_Level = level;
-        //    typeTreeNode.m_Type = reader.ReadStringToNull();
-        //    typeTreeNode.m_Name = reader.ReadStringToNull();
-        //    typeTreeNode.m_ByteSize = reader.ReadInt32();
-        //    if (header.m_Version == 2)
-        //    {
-        //        var variableCount = reader.ReadInt32();
-        //    }
-        //    if (header.m_Version != 3)
-        //    {
-        //        typeTreeNode.m_Index = reader.ReadInt32();
-        //    }
-        //    typeTreeNode.m_IsArray = reader.ReadInt32();
-        //    typeTreeNode.m_Version = reader.ReadInt32();
-        //    if (header.m_Version != 3)
-        //    {
-        //        typeTreeNode.m_MetaFlag = reader.ReadInt32();
-        //    }
-
-        //    int childrenCount = reader.ReadInt32();
-        //    for (int i = 0; i < childrenCount; i++)
-        //    {
-        //        ReadTypeTree(typeTree, level + 1);
-        //    }
-        //}
-
         private void ReadTypeTree5(List<TypeTreeNode> typeTree)
         {
             int numberOfNodes = reader.ReadInt32();

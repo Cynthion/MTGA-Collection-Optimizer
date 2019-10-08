@@ -30,6 +30,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
                 _imageImporter.ImportImageForCard(artId);
             }
 
+            //_imageImporter.ImportImagesForSetSymbols("rna");
+
             return Task.CompletedTask;
         }
 

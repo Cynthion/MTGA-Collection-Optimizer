@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace MtgaDeckBuilder.ImageLoader
@@ -97,36 +96,22 @@ namespace MtgaDeckBuilder.ImageLoader
 
         public IEnumerable<AssetItem> BuildAssetList(IEnumerable<SerializedFile> assetsFiles)
         {
-            var tempDic = new Dictionary<Object, AssetItem>(); // TODO remove?
-
             var assetList = new List<AssetItem>();
 
-            int j = 0;
             foreach (var assetsFile in assetsFiles)
             {
-                //AssetBundle ab = null;
                 foreach (var asset in assetsFile.Objects.Values)
                 {
                     var assetItem = new AssetItem(asset);
-                    tempDic.Add(asset, assetItem);
-                    assetItem.UniqueID = " #" + j;
-                    var exportable = false;
-                    switch (asset)
+                    switch (asset.type)
                     {
-                        case Texture2D m_Texture2D:
-                            if (!string.IsNullOrEmpty(m_Texture2D.m_StreamData?.path))
-                                assetItem.FullSize = asset.byteSize + m_Texture2D.m_StreamData.size;
-                            //assetItem.Text = m_Texture2D.m_Name;
-                            exportable = true;
+                        case ClassIDType.Texture2D:
+                            assetList.Add(assetItem);
                             break;
-                    }
-
-                    if (exportable)
-                    {
-                        assetList.Add(assetItem);
+                        default:
+                            continue;
                     }
                 }
-
             }
 
             return assetList;

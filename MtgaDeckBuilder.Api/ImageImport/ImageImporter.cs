@@ -9,6 +9,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
 {
     public interface IImageImporter
     {
+        void ImportImagesForSetSymbols(string setCode);
+
         void ImportImageForCard(long artId);
     }
 
@@ -28,6 +30,20 @@ namespace MtgaDeckBuilder.Api.ImageImport
             _settings.GameDataPath = @"C:\Program Files (x86)\Wizards of the Coast\MTGA\MTGA_Data";
             _settings.AssertGameDataPathValid();
             _assetBundlePath = Path.Combine(settings.GameDataPath, "Downloads\\AssetBundle");
+        }
+
+        public void ImportImagesForSetSymbols(string setCode)
+        {
+            var setCodeAssetPrefix = $"{setCode}_mdnassetlibrarypayloads_general_";
+            var setCodeAssetFilePath = Directory.GetFiles(_assetBundlePath, $"{setCodeAssetPrefix}*.mtga").Single();
+
+            var serializedFiles = _assetsManager.LoadSerializedFiles(setCodeAssetFilePath);
+            var assetList = _assetsManager.BuildAssetList(serializedFiles).ToList();
+
+            // ExpansionSymbol_RNA_Common
+            // ExpansionSymbol_RNA_Mythic
+            // ExpansionSymbol_RNA_Rare
+            // ExpansionSymbol_RNA_Uncommon
         }
 
         public void ImportImageForCard(long artId)

@@ -15,10 +15,10 @@ namespace MtgaDeckBuilder.Api.Controllers
         }
 
         // GET api/image/set-symbol/rna/2
-        [HttpGet("set-symbol")]
-        public ActionResult GetSetSymbol(string setCode, Rarity rarity)
+        [HttpGet("set-symbol/{setCode}/{rarity}")]
+        public ActionResult GetSetSymbol(string setCode, int rarity)
         {
-            var bytes = _imageDataRepository.GetSetSymbolImageData(setCode, rarity);
+            var bytes = _imageDataRepository.GetSetSymbolImageData(setCode, (Rarity)rarity);
             return File(bytes, "image/png");
         }
     }

@@ -6,7 +6,7 @@ namespace MtgaDeckBuilder.ImageLoader
     public class Exporter
     {
         // Studio.cs
-        public static Bitmap ExportTextture2DAssetToBitmap(AssetItem texture2dAsset)
+        public static Bitmap ExportTexture2DAssetToBitmap(AssetItem texture2dAsset)
         {
             //ThreadPool.QueueUserWorkItem(state =>
             //{

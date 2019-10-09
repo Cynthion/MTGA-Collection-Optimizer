@@ -25,7 +25,7 @@ namespace MtgaDeckBuilder.Api.Configuration
         // default backend values
         private int _logPollInterval = 5;
         private string _outputLogPath = $@"C:\Users\{UserNamePlaceholder}\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt";
-        private string _gameDataPath = $@"C:\Program Files (x86)\Wizards Of The Coast\MTGA\MTGA_Data\Downloads\Data";
+        private string _gameDataPath = $@"C:\Program Files (x86)\Wizards Of The Coast\MTGA\MTGA_Data\Downloads";
         private string _imageImportPath = Path.Combine(Environment.CurrentDirectory, "ImageImports");
 
         public int LogPollInterval

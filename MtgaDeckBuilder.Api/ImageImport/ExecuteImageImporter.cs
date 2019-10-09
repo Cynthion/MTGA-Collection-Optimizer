@@ -7,11 +7,11 @@ namespace MtgaDeckBuilder.Api.ImageImport
     // TODO remove this class that was only intended for testing
     public class ExecuteImageImporter : IHostedService
     {
-        private readonly IImageImporter _imageImporter;
+        private readonly IImageDataRepository _imageDataRepository;
 
-        public ExecuteImageImporter(IImageImporter imageImporter)
+        public ExecuteImageImporter(IImageDataRepository imageDataRepository)
         {
-            _imageImporter = imageImporter;
+            _imageDataRepository = imageDataRepository;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
                 //_imageImporter.ImportImageForCard(artId);
             }
 
-            _imageImporter.ImportImagesForSetSymbols("rna");
+            _imageDataRepository.GetSetSymbolImageData("rna", Model.Rarity.Common);
 
             return Task.CompletedTask;
         }

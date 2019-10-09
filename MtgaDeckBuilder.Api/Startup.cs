@@ -61,9 +61,7 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IImageDataRepository, ImageDataRepository>();
             services.AddSingleton<IAssetsManager, AssetsManager>();
 
-            // TODO run both in parallel!
-            //services.AddHostedService<LogWatcher>();
-            services.AddHostedService<ExecuteImageImporter>();
+            services.AddHostedService<LogWatcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

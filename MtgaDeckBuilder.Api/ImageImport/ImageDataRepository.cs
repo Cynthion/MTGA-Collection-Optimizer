@@ -16,6 +16,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
     public class ImageDataRepository : IImageDataRepository
     {
         private static readonly string _setSpecificAssetBundleNameSuffix = "_mdnassetlibrarypayloads_general_";
+        private static readonly string _arenaSpecificAssetBundleNameSuffix = "_mdnassetlibrarypayloads_npe_";
 
         private static readonly IDictionary<Rarity, string> _expansionSymbolTexture2DNamePatterns = new Dictionary<Rarity, string>()
         {
@@ -37,6 +38,10 @@ namespace MtgaDeckBuilder.Api.ImageImport
         public byte[] GetSetSymbolImageData(string setCode, Rarity rarity)
         {
             var assetName = _expansionSymbolTexture2DNamePatterns[rarity].Replace("*", setCode.ToUpper());
+            if (setCode.Equals("ana", System.StringComparison.OrdinalIgnoreCase))
+            {
+                assetName = _expansionSymbolTexture2DNamePatterns[rarity].Replace("*", "ARENA");
+            }
             var assetPath = $"{_settings.ImageImportPath}\\{assetName}.png";
 
             // if not, import it from asset bundle
@@ -57,6 +62,12 @@ namespace MtgaDeckBuilder.Api.ImageImport
         {
             var assetBundleNamePrefix = $"{setCode.ToLower()}{_setSpecificAssetBundleNameSuffix}";
             var assetNames = _expansionSymbolTexture2DNamePatterns.Values.Select(s => s.Replace("*", setCode.ToUpper()));
+
+            if (setCode.Equals("ana", System.StringComparison.OrdinalIgnoreCase))
+            {
+                assetBundleNamePrefix = $"{setCode.ToLower()}{_arenaSpecificAssetBundleNameSuffix}";
+                assetNames = _expansionSymbolTexture2DNamePatterns.Values.Select(s => s.Replace("*", "ARENA"));
+            }
 
             var bundleImages = _imageDataLoader.LoadImagesFromAssetBundle(assetBundleNamePrefix, assetNames);
 

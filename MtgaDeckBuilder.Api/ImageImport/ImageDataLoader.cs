@@ -9,7 +9,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
 {
     public interface IImageDataLoader
     {
-        IDictionary<string, Bitmap> LoadImagesFromAssetBundle(string assetBundleName, IEnumerable<string> texture2DAssetNames);
+        IDictionary<string, Bitmap> LoadImagesFromAssetBundle(string assetBundleName, IEnumerable<string> textureAssetNames);
     }
 
     public class ImageDataLoader : IImageDataLoader
@@ -23,21 +23,21 @@ namespace MtgaDeckBuilder.Api.ImageImport
             _assetsManager = assetsManager;
         }
 
-        public IDictionary<string, Bitmap> LoadImagesFromAssetBundle(string assetBundleNamePrefix, IEnumerable<string> texture2DAssetNames)
+        public IDictionary<string, Bitmap> LoadImagesFromAssetBundle(string assetBundleNamePrefix, IEnumerable<string> textureAssetNames)
         {
             _settings.AssertGameDataPathValid();
             var assetBundlesPath = Path.Combine(_settings.GameDataPath, "AssetBundle");
             var assetBundlePath = Directory.GetFiles(assetBundlesPath, $"{assetBundleNamePrefix}*.mtga").Single();
 
             var assets = _assetsManager.LoadSerializedFiles(assetBundlePath);
-            var texture2DAssets = _assetsManager.BuildTexture2DAssetList(assets);
+            var textureAssets = _assetsManager.BuildTextureAssetList(assets);
 
             var result = new Dictionary<string, Bitmap>();
-            foreach (var texture2DAssetName in texture2DAssetNames)
+            foreach (var textureAssetName in textureAssetNames)
             {
-                var texture2DAsset = texture2DAssets.First(a => texture2DAssetName.StartsWith((a.Asset as NamedObject).m_Name));
+                var texture2DAsset = textureAssets.First(a => textureAssetName.StartsWith((a.Asset as NamedObject).m_Name));
                 var bitmap = Exporter.ExportTextureAssetToBitmap(texture2DAsset);
-                result.Add(texture2DAssetName, bitmap);
+                result.Add(textureAssetName, bitmap);
             }
 
             return result;

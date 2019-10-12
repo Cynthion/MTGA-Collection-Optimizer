@@ -75,6 +75,22 @@
     .deck-progress {
       color: black;
     }
+
+    .set-container {
+      display: flex;
+      align-items: center;
+
+      .set-code-label {
+        margin-right: $default-padding;
+      }
+
+      .set-code-icon {
+
+        .set-icon {
+          height: 25px;
+        }
+      }
+    }
   }
   
   .paginator {

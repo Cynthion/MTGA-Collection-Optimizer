@@ -18,8 +18,13 @@ namespace MtgaDeckBuilder.Api.Controllers
         [HttpGet("set-symbol/{setCode}/{rarity}")]
         public ActionResult GetSetSymbol(string setCode, int rarity)
         {
-            var bytes = _imageDataRepository.GetSetSymbolImageData(setCode, (Rarity)rarity);
-            return File(bytes, "image/png");
+            if (rarity >= 2 && rarity <= 5)
+            {
+                var bytes = _imageDataRepository.GetSetSymbolImageData(setCode, (Rarity)rarity);
+                return File(bytes, "image/png");
+            }
+
+            return Ok();
         }
     }
 }

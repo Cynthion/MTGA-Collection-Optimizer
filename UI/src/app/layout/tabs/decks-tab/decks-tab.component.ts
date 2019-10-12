@@ -45,12 +45,6 @@ export class DecksTabComponent {
 
     this.columns$ = columnsChanged$.pipe(
       map(([decks, sortOrder]) => {
-        const stickyColumns = ['name'];
-        const stickyColumnsSubheaders = stickyColumns.map(sc => 'sticky-subheader');
-
-        const flexColumns = ['set', 'ownedCount', 'missingCount'];
-        const flexColumnsSubheaders = flexColumns.map(fc => 'flex-subheader');
-
         switch (sortOrder) {
           case SortDeckColumnOrder.Alphabetical: {
             decks = _.orderBy(decks, ['name'], ['asc']);
@@ -65,11 +59,17 @@ export class DecksTabComponent {
           }
         }
 
+        const stickyColumns = ['name'];
+        const stickyColumnsSubheaders = stickyColumns.map(sc => 'sticky-subheader');
+
+        const flexColumns = ['ownedCount', 'missingCount'];
+        const flexColumnsSubheaders = flexColumns.map(fc => 'flex-subheader');
+
         const deckColumns = decks.map(d => d.name);
         const deckColumnsSubheaders = decks.map(d => this.getDeckSubheaderName(d));
 
-        const displayedColumns = stickyColumns.concat(flexColumns).concat(deckColumns);
-        const displayedColumnsSubheaders = stickyColumnsSubheaders.concat(flexColumnsSubheaders).concat(deckColumnsSubheaders);
+        const displayedColumns = stickyColumns.concat(flexColumns).concat('setCode').concat(deckColumns);
+        const displayedColumnsSubheaders = stickyColumnsSubheaders.concat(flexColumnsSubheaders).concat('flex-subheader').concat(deckColumnsSubheaders);
 
         const columns: {[key: string]: string[]} = {
           stickyColumns,
@@ -157,7 +157,7 @@ export class DecksTabComponent {
   getColumnName(columnName: string): string {
     switch (columnName) {
       case 'name': return 'Card Name';
-      case 'set': return 'Set';
+      case 'setCode': return 'Set';
       case 'ownedCount': return 'Owned';
       case 'missingCount': return 'Missing';
     }
@@ -167,7 +167,7 @@ export class DecksTabComponent {
   getColumnData(columnName: string, collectionCard: CollectionCardState): string | number {
     switch (columnName) {
       case 'name': return collectionCard.data.name;
-      case 'set': return collectionCard.data.set;
+      // case 'set': return collectionCard.data.set;
       case 'ownedCount': return collectionCard.ownedCount;
       case 'missingCount': return collectionCard.missingCount;
     }

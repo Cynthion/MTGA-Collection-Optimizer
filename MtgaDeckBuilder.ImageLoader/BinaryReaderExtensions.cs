@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Text;
 
 namespace MtgaDeckBuilder.ImageLoader
@@ -49,6 +51,76 @@ namespace MtgaDeckBuilder.ImageLoader
                 count++;
             }
             return Encoding.UTF8.GetString(bytes.ToArray());
+        }
+
+        public static ushort[] ReadUInt16Array(this BinaryReader reader)
+        {
+            return ReadArray(reader.ReadUInt16, reader.ReadInt32());
+        }
+
+        public static int[] ReadInt32Array(this BinaryReader reader, int length)
+        {
+            return ReadArray(reader.ReadInt32, length);
+        }
+
+        public static float[] ReadSingleArray(this BinaryReader reader)
+        {
+            return ReadArray(reader.ReadSingle, reader.ReadInt32());
+        }
+
+        public static float[] ReadSingleArray(this BinaryReader reader, int length)
+        {
+            return ReadArray(reader.ReadSingle, length);
+        }
+
+        public static string[] ReadStringArray(this BinaryReader reader)
+        {
+            return ReadArray(reader.ReadAlignedString, reader.ReadInt32());
+        }
+
+        public static Vector2[] ReadVector2Array(this BinaryReader reader)
+        {
+            return ReadArray(reader.ReadVector2, reader.ReadInt32());
+        }
+
+        public static Vector2 ReadVector2(this BinaryReader reader)
+        {
+            return new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        public static Vector3 ReadVector3(this BinaryReader reader)
+        {
+            return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        public static Vector4 ReadVector4(this BinaryReader reader)
+        {
+            return new Vector4(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        public static System.Drawing.RectangleF ReadRectangleF(this BinaryReader reader)
+        {
+            return new System.Drawing.RectangleF(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        public static Matrix4x4 ReadMatrix(this BinaryReader reader)
+        {
+            return new Matrix4x4(reader.ReadSingleArray(16));
+        }
+
+        public static Matrix4x4[] ReadMatrixArray(this BinaryReader reader)
+        {
+            return ReadArray(reader.ReadMatrix, reader.ReadInt32());
+        }
+
+        private static T[] ReadArray<T>(Func<T> del, int length)
+        {
+            var array = new T[length];
+            for (int i = 0; i < length; i++)
+            {
+                array[i] = del();
+            }
+            return array;
         }
     }
 }

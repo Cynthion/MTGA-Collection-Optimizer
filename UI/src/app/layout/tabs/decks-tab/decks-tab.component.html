@@ -52,6 +52,16 @@
           {{ getColumnData(flexColumn, collectionCard) }} </td>
       </ng-container>
   
+      <ng-container matColumnDef="setCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <div>Set</div>
+        </th>
+        <td mat-cell *matCellDef="let collectionCard">
+          {{ collectionCard.data.set }}
+          <img src="https://localhost:5001/api/image/set-symbol/{{collectionCard.data.set}}/{{collectionCard.data.rarity}}" />
+        </td>
+      </ng-container>
+
       <ng-container [matColumnDef]="deck.name" *ngFor="let deck of (decks$ | async); trackBy: trackDeck">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <div>{{ deck.name }}</div>

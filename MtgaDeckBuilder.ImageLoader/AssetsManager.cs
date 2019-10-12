@@ -106,6 +106,7 @@ namespace MtgaDeckBuilder.ImageLoader
                     switch (asset.type)
                     {
                         case ClassIDType.Texture2D:
+                        case ClassIDType.Sprite:
                             assetList.Add(assetItem);
                             break;
                         default:

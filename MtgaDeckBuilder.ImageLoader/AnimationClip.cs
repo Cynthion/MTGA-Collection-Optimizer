@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using MtgaDeckBuilder.ImageLoader.Math;
 
 namespace MtgaDeckBuilder.ImageLoader
 {

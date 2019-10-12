@@ -55,6 +55,7 @@ namespace MtgaDeckBuilder.ImageLoader
 
         private SerializedFile LoadSerializedFileFromMemory(string fullName, EndianBinaryReader reader, string originalPath)
         {
+            // TODO check if exists in resourceFileReaders first
             var upperFileName = Path.GetFileName(fullName).ToUpper();
             try
             {
@@ -83,6 +84,9 @@ namespace MtgaDeckBuilder.ImageLoader
                     var objectReader = new ObjectReader(assetsFile.reader, assetsFile, objectInfo);
                     switch (objectReader.type)
                     {
+                        case ClassIDType.Sprite:
+                            assetsFile.Objects.Add(objectInfo.m_PathID, new Sprite(objectReader));
+                            break;
                         case ClassIDType.Texture2D:
                             assetsFile.Objects.Add(objectInfo.m_PathID, new Texture2D(objectReader));
                             break;

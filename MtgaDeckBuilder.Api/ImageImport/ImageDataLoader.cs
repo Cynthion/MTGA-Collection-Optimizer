@@ -35,8 +35,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var result = new Dictionary<string, Bitmap>();
             foreach (var texture2DAssetName in texture2DAssetNames)
             {
-                var texture2DAsset = texture2DAssets.First(a => texture2DAssetName.Equals((a.Asset as NamedObject).m_Name));
-                var bitmap = Exporter.ExportTexture2DAssetToBitmap(texture2DAsset);
+                var texture2DAsset = texture2DAssets.First(a => texture2DAssetName.StartsWith((a.Asset as NamedObject).m_Name));
+                var bitmap = Exporter.ExportTextureAssetToBitmap(texture2DAsset);
                 result.Add(texture2DAssetName, bitmap);
             }
 

@@ -51,8 +51,8 @@ namespace MtgaDeckBuilder.ImageLoader
         //private int glType = 0;
         //private int glTypeSize = 1;
         //private int glFormat = 0;
-        //private int glInternalFormat;
-        //private int glBaseInternalFormat;
+        private int glInternalFormat;
+        private int glBaseInternalFormat;
         //public int pixelWidth; m_Width
         //public int pixelHeight; m_Height
         //private int pixelDepth = 0;
@@ -64,7 +64,7 @@ namespace MtgaDeckBuilder.ImageLoader
         //TextureConverter
         private QFORMAT q_format;
         //texgenpack
-        //private texgenpack_texturetype texturetype;
+        private texgenpack_texturetype texturetype;
         //astc
         //private int astcBlockWidth;
         //private int astcBlockHeight;
@@ -87,7 +87,7 @@ namespace MtgaDeckBuilder.ImageLoader
                 if (mMipMap)
                 {
                     dwFlags += 0x20000;
-                    dwMipMapCount = Convert.ToInt32(Math.Log(Math.Max(m_Width, m_Height)) / Math.Log(2));
+                    dwMipMapCount = Convert.ToInt32(System.Math.Log(System.Math.Max(m_Width, m_Height)) / System.Math.Log(2));
                     //dwCaps += 0x400008;
                 }
             }
@@ -131,6 +131,13 @@ namespace MtgaDeckBuilder.ImageLoader
                         q_format = QFORMAT.Q_FORMAT_S3TC_DXT1_RGB;
                         break;
                     }
+                case TextureFormat.BC7: //test pass
+                    {
+                        texturetype = texgenpack_texturetype.BPTC;
+                        glInternalFormat = KTXHeader.GL_COMPRESSED_RGBA_BPTC_UNORM;
+                        glBaseInternalFormat = KTXHeader.GL_RGBA;
+                        break;
+                    }
                 default:
                     throw new NotImplementedException();
             }
@@ -143,11 +150,40 @@ namespace MtgaDeckBuilder.ImageLoader
             Bitmap bitmap;
             switch (m_TextureFormat)
             {
+                case TextureFormat.Alpha8:
+                case TextureFormat.ARGB4444:
+                case TextureFormat.RGB24:
                 case TextureFormat.RGBA32:
+                case TextureFormat.ARGB32:
+                case TextureFormat.R16:
+                case TextureFormat.RGBA4444:
+                case TextureFormat.BGRA32:
+                case TextureFormat.RG16:
+                case TextureFormat.R8:
                     bitmap = BGRA32ToBitmap();
                     break;
                 case TextureFormat.DXT1:
+                case TextureFormat.DXT5:
+                case TextureFormat.RHalf:
+                case TextureFormat.RGHalf:
+                case TextureFormat.RGBAHalf:
+                case TextureFormat.RFloat:
+                case TextureFormat.RGFloat:
+                case TextureFormat.RGBAFloat:
+                case TextureFormat.RGB9e5Float:
+                case TextureFormat.ATC_RGB4:
+                case TextureFormat.ATC_RGBA8:
+                case TextureFormat.EAC_R:
+                case TextureFormat.EAC_R_SIGNED:
+                case TextureFormat.EAC_RG:
+                case TextureFormat.EAC_RG_SIGNED:
                     bitmap = TextureConverter();
+                    break;
+                case TextureFormat.BC4:
+                case TextureFormat.BC5:
+                case TextureFormat.BC6H:
+                case TextureFormat.BC7:
+                    bitmap = TexgenPackDecode();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -194,10 +230,24 @@ namespace MtgaDeckBuilder.ImageLoader
             return bitmap;
         }
 
+        private Bitmap TexgenPackDecode()
+        {
+            var imageBuff = new byte[m_Width * m_Height * 4];
+            var gch = GCHandle.Alloc(imageBuff, GCHandleType.Pinned);
+            var imagePtr = gch.AddrOfPinnedObject();
+            NativeMethods.TexgenPackDecode(image_data, (int)texturetype, m_Width, m_Height, imagePtr);
+            var bitmap = new Bitmap(m_Width, m_Height, m_Width * 4, PixelFormat.Format32bppArgb, imagePtr);
+            gch.Free();
+            return bitmap;
+        }
+
         internal static class NativeMethods
         {
             [DllImport("TextureConverterWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern bool Ponvert(byte[] data, int dataSize, int width, int height, int type, bool fixAlpha, IntPtr image);
+
+            [DllImport("texgenpack.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void TexgenPackDecode(byte[] data, int textureType, int width, int height, IntPtr image);
         }
     }
 
@@ -366,4 +416,12 @@ namespace MtgaDeckBuilder.ImageLoader
         Q_FORMAT_ASTC_8,
         Q_FORMAT_ASTC_16,
     };
+
+    public enum texgenpack_texturetype
+    {
+        RGTC1,
+        RGTC2,
+        BPTC_FLOAT,
+        BPTC
+    }
 }

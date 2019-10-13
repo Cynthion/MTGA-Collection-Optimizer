@@ -1,5 +1,6 @@
 ﻿using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.ImageLoader;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -54,7 +55,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var assets = _assetsManager.LoadSerializedFiles(assetBundlePath);
             var textureAssets = _assetsManager.BuildTextureAssetList(assets);
 
-            var textureAsset = textureAssets.First(a => !(a.Asset as NamedObject).m_Name.EndsWith("util"));
+            var textureAsset = textureAssets.First(a => (a.Asset as NamedObject).m_Name.EndsWith("_aif", StringComparison.OrdinalIgnoreCase));
             var bitmap = Exporter.ExportTextureAssetToBitmap(textureAsset);
             return bitmap;
         }

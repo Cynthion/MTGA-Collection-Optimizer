@@ -49,6 +49,7 @@
 - via G:\MTGArenaLive\MTGA_Data\Downloads\Data\data_cards_f9ac58c15b8b74fe8c6604c1941b65ac --> JSON
 - lookup grpId (=mtgaId), take artId --> prefix of cardart file in G:\MTGArenaLive\MTGA_Data\Downloads\AssetBundle
 - [ ] use deck.deckTileId (= mtgaId format) to show deck image
+- [X] show set icons
 
 ## Bugs
 - [ ] fix error if log is empty (e.g., after patch/before first game start, before game is installed)

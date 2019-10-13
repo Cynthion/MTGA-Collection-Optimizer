@@ -11,6 +11,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
     public interface IImageDataRepository
     {
         byte[] GetSetSymbolImageData(string setCode, Rarity rarity);
+
+        byte[] GetCardArtImageData(string artId);
     }
 
     public class ImageDataRepository : IImageDataRepository
@@ -50,8 +52,23 @@ namespace MtgaDeckBuilder.Api.ImageImport
                 ImportSetSpecificAssets(setCode);
             }
 
-            using (var ms = new MemoryStream())
             using (var bitmap = new Bitmap(assetPath))
+            using (var ms = new MemoryStream())
+            {
+                bitmap.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+        
+        public byte[] GetCardArtImageData(string artId)
+        {
+            var assetPath = $"{_settings.ImageImportPath}\\{artId}.png";
+
+            // if not, import it from asset bundle
+            using (var bitmap = File.Exists(assetPath) 
+                ? new Bitmap(assetPath) 
+                : ImportCardArtAsset(artId))
+            using (var ms = new MemoryStream())
             {
                 bitmap.Save(ms, ImageFormat.Png);
                 return ms.ToArray();
@@ -60,6 +77,7 @@ namespace MtgaDeckBuilder.Api.ImageImport
 
         private void ImportSetSpecificAssets(string setCode)
         {
+            // TODO also load images for booster packs here
             var assetBundleNamePrefix = $"{setCode.ToLower()}{_setSpecificAssetBundleNameSuffix}";
             var assetNames = _expansionSymbolTexture2DNamePatterns.Values.Select(s => s.Replace("*", setCode.ToUpper()));
 
@@ -81,6 +99,19 @@ namespace MtgaDeckBuilder.Api.ImageImport
             }
         }
 
+        private Bitmap ImportCardArtAsset(string artId)
+        {
+            var assetBundleNamePrefix = $"{artId}_cardart_";
+
+            var bitmap = _imageDataLoader.LoadImageFromAssetBundle(assetBundleNamePrefix);
+            bitmap = ResizeBitmap(bitmap, 512, 376);
+
+            AssertDirectoryExists(_settings.ImageImportPath);
+            var path = $"{_settings.ImageImportPath}\\{artId}.png";
+            bitmap.Save(path, ImageFormat.Png);
+            return bitmap;
+        }
+
         private static void AssertDirectoryExists(string path)
         {
             if (!Directory.Exists(path))
@@ -89,33 +120,16 @@ namespace MtgaDeckBuilder.Api.ImageImport
             }
         }
 
-        //public void ImportImageForCard(long artId)
-        //{
-        //    var cardArtAssetPrefix = $"{artId}_cardart_";
-        //    var cardArtAssetFilePath = Directory.GetFiles(_assetBundlePath, $"{cardArtAssetPrefix}*.mtga").Single();
+        private Bitmap ResizeBitmap(Bitmap original, int width, int height)
+        {
+            Bitmap result = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                g.DrawImage(original, 0, 0, width, height);
+            }
+            original.Dispose();
 
-        //    var serializedFiles = _assetsManager.LoadSerializedFiles(cardArtAssetFilePath);
-        //    var assetList = _assetsManager.BuildTexture2DAssetList(serializedFiles);
-
-        //    var cardArtAsset = assetList.First();
-
-        //    using (var bitmap = ResizeBitmap(Exporter.ExportTextture2DAssetToBitmap(cardArtAsset), 512, 376))
-        //    {
-        //        AssertImageImportsDirectoryExists(_settings.ImageImportPath);
-        //        var imageImportPath = $"{_settings.ImageImportPath}\\{artId}.png";
-        //        bitmap.Save(imageImportPath, ImageFormat.Png);
-        //    }
-        //}
-
-        //private Bitmap ResizeBitmap(Bitmap original, int width, int height)
-        //{
-        //    Bitmap result = new Bitmap(width, height);
-        //    using (Graphics g = Graphics.FromImage(result))
-        //    {
-        //        g.DrawImage(original, 0, 0, width, height);
-        //    }
-
-        //    return result;
-        //}
+            return result;
+        }
     }
 }

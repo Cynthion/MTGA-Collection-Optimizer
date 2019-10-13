@@ -10,6 +10,8 @@ namespace MtgaDeckBuilder.Api.ImageImport
     public interface IImageDataLoader
     {
         IDictionary<string, Bitmap> LoadImagesFromAssetBundle(string assetBundleName, IEnumerable<string> textureAssetNames);
+
+        Bitmap LoadImageFromAssetBundle(string assetBundleNamePrefix);
     }
 
     public class ImageDataLoader : IImageDataLoader
@@ -35,12 +37,26 @@ namespace MtgaDeckBuilder.Api.ImageImport
             var result = new Dictionary<string, Bitmap>();
             foreach (var textureAssetName in textureAssetNames)
             {
-                var texture2DAsset = textureAssets.First(a => textureAssetName.StartsWith((a.Asset as NamedObject).m_Name));
-                var bitmap = Exporter.ExportTextureAssetToBitmap(texture2DAsset);
+                var textureAsset = textureAssets.First(a => textureAssetName.StartsWith((a.Asset as NamedObject).m_Name));
+                var bitmap = Exporter.ExportTextureAssetToBitmap(textureAsset);
                 result.Add(textureAssetName, bitmap);
             }
 
             return result;
+        }
+
+        public Bitmap LoadImageFromAssetBundle(string assetBundleNamePrefix)
+        {
+            _settings.AssertGameDataPathValid();
+            var assetBundlesPath = Path.Combine(_settings.GameDataPath, "AssetBundle");
+            var assetBundlePath = Directory.GetFiles(assetBundlesPath, $"{assetBundleNamePrefix}*.mtga").Single();
+
+            var assets = _assetsManager.LoadSerializedFiles(assetBundlePath);
+            var textureAssets = _assetsManager.BuildTextureAssetList(assets);
+
+            var textureAsset = textureAssets.First();
+            var bitmap = Exporter.ExportTextureAssetToBitmap(textureAsset);
+            return bitmap;
         }
     }
 }

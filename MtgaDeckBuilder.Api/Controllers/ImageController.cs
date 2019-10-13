@@ -26,5 +26,13 @@ namespace MtgaDeckBuilder.Api.Controllers
 
             return Ok();
         }
+
+        // GET api/image/cardart/012345
+        [HttpGet("cardart/{artId}")]
+        public ActionResult GetSetSymbol(string artId)
+        {
+            var bytes = _imageDataRepository.GetCardArtImageData(artId);
+            return File(bytes, "image/png");
+        }
     }
 }

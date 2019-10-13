@@ -62,12 +62,13 @@ namespace MtgaDeckBuilder.Api.ImageImport
         
         public byte[] GetCardArtImageData(string artId)
         {
-            var assetPath = $"{_settings.ImageImportPath}\\{artId}.png";
+            var paddedArtId = artId.PadLeft(6, '0');
+            var assetPath = $"{_settings.ImageImportPath}\\{paddedArtId}.png";
 
             // if not, import it from asset bundle
             using (var bitmap = File.Exists(assetPath) 
                 ? new Bitmap(assetPath) 
-                : ImportCardArtAsset(artId))
+                : ImportCardArtAsset(paddedArtId))
             using (var ms = new MemoryStream())
             {
                 bitmap.Save(ms, ImageFormat.Png);

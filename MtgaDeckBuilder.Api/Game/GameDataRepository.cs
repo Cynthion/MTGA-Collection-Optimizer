@@ -83,6 +83,7 @@ namespace MtgaDeckBuilder.Api.Game
             gameCard = new GameCard
             {
                 GrpId = grpId,
+                ArtId = gameDataCard.ArtId,
                 Name = name,
                 CardTypeText = cardTypeText,
                 SubtypeText = subtypeText,

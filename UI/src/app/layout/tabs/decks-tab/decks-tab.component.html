@@ -42,6 +42,7 @@
         </th>
         <td mat-cell *matCellDef="let collectionCard" [ngClass]="getRarityColorClass(collectionCard.data.rarity)">
           {{ getColumnData(stickyColumn, collectionCard) }}
+          <img class="cardart-image" src="https://localhost:5001/api/image/cardart/{{collectionCard.data.artId}}" />
         </td>
       </ng-container>
   

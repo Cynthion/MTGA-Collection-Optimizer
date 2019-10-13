@@ -120,15 +120,33 @@ namespace MtgaDeckBuilder.ImageLoader
                         {
                             dwPitchOrLinearSize = m_Height * m_Width / 2;
                         }
-                        //dwFlags2 = 0x4;
-                        //dwFourCC = 0x31545844;
-                        //dwRGBBitCount = 0x0;
-                        //dwRBitMask = 0x0;
-                        //dwGBitMask = 0x0;
-                        //dwBBitMask = 0x0;
-                        //dwABitMask = 0x0;
+                        dwFlags2 = 0x4;
+                        dwFourCC = 0x31545844;
+                        dwRGBBitCount = 0x0;
+                        dwRBitMask = 0x0;
+                        dwGBitMask = 0x0;
+                        dwBBitMask = 0x0;
+                        dwABitMask = 0x0;
 
                         q_format = QFORMAT.Q_FORMAT_S3TC_DXT1_RGB;
+                        break;
+                    }
+                case TextureFormat.DXT5:
+                case TextureFormat.DXT5Crunched:
+                    {
+                        if (mMipMap)
+                        {
+                            dwPitchOrLinearSize = m_Height * m_Width / 2;
+                        }
+                        dwFlags2 = 0x4;
+                        dwFourCC = 0x35545844;
+                        dwRGBBitCount = 0x0;
+                        dwRBitMask = 0x0;
+                        dwGBitMask = 0x0;
+                        dwBBitMask = 0x0;
+                        dwABitMask = 0x0;
+
+                        q_format = QFORMAT.Q_FORMAT_S3TC_DXT5_RGBA;
                         break;
                     }
                 case TextureFormat.BC7: //test pass

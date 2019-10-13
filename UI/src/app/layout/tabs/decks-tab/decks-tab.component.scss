@@ -81,13 +81,17 @@
       align-items: center;
 
       .set-code-label {
-        margin-right: $default-padding;
+        width: 35px;
       }
-
+      
       .set-code-icon {
+        width: 35px;
+        margin-left: $default-padding;
+        margin-right: $default-padding;
 
         .set-icon {
-          height: 25px;
+          max-width: 30px;
+          max-height: 25px;
         }
       }
     }

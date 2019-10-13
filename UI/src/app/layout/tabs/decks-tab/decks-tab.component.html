@@ -58,10 +58,10 @@
         </th>
         <td mat-cell *matCellDef="let collectionCard">
           <div class="set-container">
-            <div class="set-code-label">{{ collectionCard.data.set }}</div>
             <div class="set-code-icon">
               <img class="set-icon" src="https://localhost:5001/api/image/set-symbol/{{collectionCard.data.set}}/{{collectionCard.data.rarity}}" />
             </div>
+            <div class="set-code-label">{{ collectionCard.data.set }}</div>
           </div>
         </td>
       </ng-container>

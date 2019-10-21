@@ -1,7 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
-html, body {
-  margin: 0;
-  padding: 0;
+// https://material.angular.io/guide/theming
+// https://material.io/design/color/#color-theme-creation
+// https://material.io/tools/color/
+// https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
+// https://medium.freecodecamp.org/how-to-make-a-custom-theme-in-angular-material-d47122a1e361
+@import "./theme.scss";
+@import "./constants.scss";
 
-  height: 100%;
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for Angular Material components.
+@include angular-material-theme($mtga-deck-builder-theme);
+
+// Include theme styles for your custom components.
+
+.full-window {
+  height: 100%; // takes whole vertical space of webpage dynamically
+  margin: 0; // remove default webpage margins
+  // overflow: hidden;
+}
+
+.api-error {
+  font-size: 14px;
+  margin: -16px;
+  background: mat-color(map-get($mtga-deck-builder-theme, warn));
+}
+
+.about-dialog {
+  .mat-dialog-container {
+    padding: 0px;
+  }
 }

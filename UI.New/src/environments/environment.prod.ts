@@ -1,4 +1,5 @@
 export const AppConfig = {
   production: true,
-  environment: 'PROD'
+  environment: 'PROD',
+  apiBaseUrl: 'https://localhost:5001/api/', // TODO use prod url
 };

@@ -18,8 +18,8 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryTabComponent implements OnDestroy {
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   state$: Observable<HistoryTabState>;
   dataSource$: Observable<MatTableDataSource<HistoryCardState>>;
@@ -43,10 +43,10 @@ export class HistoryTabComponent implements OnDestroy {
     // this.soundEffect.load();
     // this.soundEffect.play();
 
-    const dataSourceChanged$ = combineLatest(
+    const dataSourceChanged$ = combineLatest([
       this.store.select(s => s.layout.tabs.historyTab.historyCards),
       this.store.select(s => s.layout.tabs.historyTab.filterValue),
-    );
+    ]);
 
     this.dataSource$ = dataSourceChanged$.pipe(
       map(([historyCards, filterValue]) => {

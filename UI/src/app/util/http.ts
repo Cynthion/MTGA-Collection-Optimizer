@@ -58,7 +58,7 @@ function handleResponse<TResponse = null>(
 ): Observable<Action> {
   return source.pipe(
     mergeMap(project),
-    catchError<Action, Action>(resp => {
+    catchError<Action, ObservableInput<any>>(resp => {
       return [new OpenApiErrorSnackbarAction(resp.error)];
     }),
   );

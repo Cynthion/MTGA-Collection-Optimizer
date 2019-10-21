@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { map, debounceTime, switchMap } from 'rxjs/operators';
+import { map, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
 import { DecksTabActionTypes, FilterValueChangedAction, FilterAction } from './decks-tab.actions';
 

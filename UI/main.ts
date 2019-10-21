@@ -58,7 +58,9 @@ function createWindow() {
   }
 
   // Open the DevTools.
-  win.webContents.openDevTools({ mode: 'bottom' });
+  if (serve) {
+    win.webContents.openDevTools({ mode: 'bottom' });
+  }
 
   // Store window settings.
   win.on('close', function () {
@@ -80,7 +82,6 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
-
 }
 
 try {

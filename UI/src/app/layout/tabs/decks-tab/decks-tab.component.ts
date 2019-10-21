@@ -3,7 +3,6 @@ import { MatPaginator, MatSort, MatTableDataSource, MatButtonToggleChange } from
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { isNumber } from 'util';
 import * as _ from 'lodash';
 
 import { Rarity } from '../../../domain.state';
@@ -21,13 +20,13 @@ import { SortDeckColumnsAction, ClearFilterAction, FilterValueChangedAction } fr
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DecksTabComponent {
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   state$: Observable<DecksTabState>;
   dataSource$: Observable<MatTableDataSource<CollectionCardState>>;
   decks$: Observable<PlayerDeckState[]>;
-  columns$: Observable<{[key: string]: string[]}>;
+  columns$: Observable<{ [key: string]: string[] }>;
 
   filterValue: string;
 
@@ -38,10 +37,10 @@ export class DecksTabComponent {
     this.state$ = this.store.pipe(select(s => s.decksTab));
     this.decks$ = this.store.pipe(select(s => s.layout.decks));
 
-    const columnsChanged$ = combineLatest(
+    const columnsChanged$ = combineLatest([
       this.store.select(s => s.layout.decks),
       this.store.select(s => s.decksTab.sortDeckColumnOrder),
-    );
+    ]);
 
     this.columns$ = columnsChanged$.pipe(
       map(([decks, sortOrder]) => {
@@ -60,10 +59,10 @@ export class DecksTabComponent {
         }
 
         const stickyColumns = ['name'];
-        const stickyColumnsSubheaders = stickyColumns.map(sc => 'sticky-subheader');
+        const stickyColumnsSubheaders = stickyColumns.map(() => 'sticky-subheader');
 
         const flexColumns = ['ownedCount', 'missingCount'];
-        const flexColumnsSubheaders = flexColumns.map(fc => 'flex-subheader');
+        const flexColumnsSubheaders = flexColumns.map(() => 'flex-subheader');
 
         const deckColumns = decks.map(d => d.name);
         const deckColumnsSubheaders = decks.map(d => this.getDeckSubheaderName(d));
@@ -71,7 +70,7 @@ export class DecksTabComponent {
         const displayedColumns = stickyColumns.concat('set').concat(flexColumns).concat(deckColumns);
         const displayedColumnsSubheaders = stickyColumnsSubheaders.concat('flex-subheader').concat(flexColumnsSubheaders).concat(deckColumnsSubheaders);
 
-        const columns: {[key: string]: string[]} = {
+        const columns: { [key: string]: string[] } = {
           stickyColumns,
           flexColumns,
           displayedColumns,
@@ -82,10 +81,10 @@ export class DecksTabComponent {
       }),
     );
 
-    const dataSourceChanged$ = combineLatest(
+    const dataSourceChanged$ = combineLatest([
       this.store.select(s => s.layout.collectionCards),
-      this.store.select(s => s.decksTab.filterValue)
-    );
+      this.store.select(s => s.decksTab.filterValue),
+    ]);
 
     this.dataSource$ = dataSourceChanged$.pipe(
       withLatestFrom(this.decks$),
@@ -116,7 +115,7 @@ export class DecksTabComponent {
             }
           }
 
-          return isNumber(value) ? Number(value) : value;
+          return typeof value === 'number' ? Number(value) : value;
         };
 
         dataSource.filterPredicate = (data: CollectionCardState, filter: string): boolean => {
@@ -131,9 +130,10 @@ export class DecksTabComponent {
   }
 
   applyFilter(filterValue: string): void {
-    if (!!filterValue) {
-      this.actionsSubject.next(new FilterValueChangedAction(filterValue.trim().toLowerCase()));
-    } else {
+    filterValue = filterValue.trim().toLocaleLowerCase();
+    this.actionsSubject.next(new FilterValueChangedAction(filterValue));
+
+    if (!filterValue) {
       this.clearFilter();
     }
   }

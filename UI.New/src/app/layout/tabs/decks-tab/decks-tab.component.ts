@@ -26,7 +26,7 @@ export class DecksTabComponent {
   state$: Observable<DecksTabState>;
   dataSource$: Observable<MatTableDataSource<CollectionCardState>>;
   decks$: Observable<PlayerDeckState[]>;
-  columns$: Observable<{[key: string]: string[]}>;
+  columns$: Observable<{ [key: string]: string[] }>;
 
   filterValue: string;
 
@@ -37,10 +37,10 @@ export class DecksTabComponent {
     this.state$ = this.store.pipe(select(s => s.decksTab));
     this.decks$ = this.store.pipe(select(s => s.layout.decks));
 
-    const columnsChanged$ = combineLatest(
+    const columnsChanged$ = combineLatest([
       this.store.select(s => s.layout.decks),
       this.store.select(s => s.decksTab.sortDeckColumnOrder),
-    );
+    ]);
 
     this.columns$ = columnsChanged$.pipe(
       map(([decks, sortOrder]) => {
@@ -70,7 +70,7 @@ export class DecksTabComponent {
         const displayedColumns = stickyColumns.concat('set').concat(flexColumns).concat(deckColumns);
         const displayedColumnsSubheaders = stickyColumnsSubheaders.concat('flex-subheader').concat(flexColumnsSubheaders).concat(deckColumnsSubheaders);
 
-        const columns: {[key: string]: string[]} = {
+        const columns: { [key: string]: string[] } = {
           stickyColumns,
           flexColumns,
           displayedColumns,
@@ -81,10 +81,10 @@ export class DecksTabComponent {
       }),
     );
 
-    const dataSourceChanged$ = combineLatest(
+    const dataSourceChanged$ = combineLatest([
       this.store.select(s => s.layout.collectionCards),
-      this.store.select(s => s.decksTab.filterValue)
-    );
+      this.store.select(s => s.decksTab.filterValue),
+    ]);
 
     this.dataSource$ = dataSourceChanged$.pipe(
       withLatestFrom(this.decks$),

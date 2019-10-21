@@ -1,0 +1,100 @@
+@import 'src/constants.scss';
+
+.window-container {
+  height: calc(100% - 2px); // // takes whole vertical space of parent container dynamically, minus border to avoid scrollbar
+  display: flex;
+  flex-direction: column;
+  background: $theme-background-color;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  border: solid $default-border $theme-accent-color-a700;
+
+  .app-bar {
+    flex: 0 0 auto; // not allowed to grow or shrink
+    $height: 24px;
+    height: $height;
+    background: $theme-accent-color-a700;
+    -webkit-app-region: drag;
+    display: flex;
+    align-items: center;
+  
+    .title {
+      margin-left: $default-padding;
+      color: $theme-accent-color-a100;
+    }
+    
+    .menu-item {
+      -webkit-app-region: none;
+      -webkit-user-select: none;
+      margin-left: 1px;
+      height: $height;
+      width: $height;
+
+      >img {
+        height: $height;
+      }
+    }
+
+    .menues {
+      margin-left: auto;
+      display: flex;
+
+      .app-menu {
+        display: flex;
+
+        .about {
+          margin-left: 5px;
+        }
+
+        .settings:hover,
+        .about:hover {
+          background: $theme-accent-color;
+        }
+      }
+  
+      .window-menu {
+        display: flex;
+        margin-left: 50px;
+
+        .minimize:hover,
+        .maximize:hover {
+          background: $theme-accent-color;
+        }
+  
+        .close:hover {
+          background: $theme-warn-color;
+        }
+      }
+    }
+  }
+  
+  .progress-bar {
+    flex: 0 0 auto; // not allowed to grow or shrink
+    >mat-progress-bar {
+      height: 2px;
+    }
+  }
+
+  .app-container {
+    flex: 1 1 auto; // takes rest of vertical space, allowed to shrink
+    padding: $default-padding;
+  }
+}
+
+// Angular Material Overrides
+::ng-deep .mat-card-header-text {
+  margin: 0px !important; 
+}
+::ng-deep .mat-sort-header-arrow {
+  color: mat-color($primary);
+}
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: $theme-background-color;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 25px !important;
+}

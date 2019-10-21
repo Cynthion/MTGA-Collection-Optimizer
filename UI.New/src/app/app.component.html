@@ -1,1 +1,38 @@
-<router-outlet></router-outlet>
+<div class="window-container">
+
+  <div class="app-bar">
+    <div class="title">{{ (state$ | async).about.appName }}</div>
+
+    <div class="menues">
+      <div class="app-menu">
+        <div class="menu-item settings" (click)="openSettings()">
+          <img src="assets/img/settings.png">
+        </div>
+        <div class="menu-item about" (click)="openAboutDialog()">
+          <img src="assets/img/about.png">
+        </div>
+      </div>
+
+      <div class="window-menu">
+        <div class="menu-item minimize" (click)="minimizeWindow()">
+          <img src="assets/img/window-minimize.png">
+        </div>
+        <div class="menu-item maximize" (click)="maximizeWindow()">
+          <img *ngIf="!isMaximized" src="assets/img/window-maximize.png">
+          <img *ngIf="isMaximized" src="assets/img/window-restore.png">
+        </div>
+        <div class="menu-item close" (click)="closeWindow()">
+          <img src="assets/img/window-close.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <mat-progress-bar mode="query" *ngIf="(state$ | async).isLoading"></mat-progress-bar>
+  </div>
+
+  <div class="app-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+@import 'src/constants.scss';
+
+.tabs-container {
+  height: 100%; // takes whole vertical space of parent container dynamically
+  display: flex;
+  flex-direction: column;
+
+  .tabs-nav-bar {
+    flex: 0 1 auto; // allowed to shrink only
+    margin-bottom: $default-padding;
+  }
+
+  .tabs-content {
+    flex: 1 1 auto; // takes rest of vertical space
+    // // This property specifies whether to clip content or to add scrollbars 
+    // // when an element's content is too big to fit in a specified area.
+    // // Note: The overflow property only works for block elements with a specified height.
+    overflow: hidden; // overflow is clipped, and the rest of the content will be invisible
+    height: 1px; // overflow only works for blocks with specified height, flex-grow of 1 scales the rest of the element to take the available room
+  }
+}

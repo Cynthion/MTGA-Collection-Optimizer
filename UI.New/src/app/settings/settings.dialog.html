@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Settings</h1>
+<div class="settings" (keydown)="onKeydown($event)">
+  <mat-form-field hintLabel="Interval for updates in seconds">
+    <input 
+      matInput
+      type="number"
+      #input
+      [(ngModel)]="settings.logPollInterval"
+      floatLabel="never"
+      placeholder="Enter update interval">
+  </mat-form-field>
+  <div class="path-instruction">
+    The configurable paths below assume the default installation location on your machine. In case your game is not installed at the default installation location, the paths need to be set.
+  </div>
+  <mat-form-field hintLabel="Default: C:\Users\{Your User}\AppData\LocalLow\Wizards Of The Coast\MTGA\output_log.txt">
+    <input 
+      matInput
+      type="text"
+      #input
+      [(ngModel)]="settings.outputLogPath"
+      floatLabel="never"
+      placeholder="Path to the MTGA output_log.txt file on your machine.">
+    <mat-error>You must provide a valid path to the MTGA output_log.txt file on your machine.</mat-error>
+  </mat-form-field>
+  <mat-form-field hintLabel="Default: C:\Program Files (x86)\Wizards Of The Coast\MTGA\MTGA_Data\Downloads">
+      <input 
+        matInput
+        type="text"
+        #input
+        [(ngModel)]="settings.gameDataPath"
+        floatLabel="never"
+        placeholder="Path to the '\Wizards Of The Coast\MTGA\MTGA_Data\Downloads\Data' folder on your machine.">
+      <mat-error>You must provide a valid path to the '\Wizards Of The Coast\MTGA\MTGA_Data\Downloads\Data' folder on your machine.</mat-error>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button cdkFocusInitial (click)="closeDialog()">Ok</button>
+</div>

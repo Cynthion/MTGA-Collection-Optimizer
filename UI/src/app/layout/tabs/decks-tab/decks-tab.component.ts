@@ -68,7 +68,7 @@ export class DecksTabComponent {
         const deckColumns = decks.map(d => d.name);
         const deckColumnsSubheaders = decks.map(d => this.getDeckSubheaderName(d));
 
-        const displayedColumns = stickyColumns.concat('setCode').concat(flexColumns).concat(deckColumns);
+        const displayedColumns = stickyColumns.concat('set').concat(flexColumns).concat(deckColumns);
         const displayedColumnsSubheaders = stickyColumnsSubheaders.concat('flex-subheader').concat(flexColumnsSubheaders).concat(deckColumnsSubheaders);
 
         const columns: {[key: string]: string[]} = {

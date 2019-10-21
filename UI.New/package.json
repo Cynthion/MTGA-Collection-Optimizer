@@ -1,18 +1,20 @@
 {
-  "name": "angular-electron",
-  "version": "6.2.0",
-  "description": "Angular 8 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "mtga-collection-optimizer",
+  "version": "1.0.0",
+  "description": "Cross-platform Magic The Gathering Arena collection and deck tracker",
+  "homepage": "https://github.com/cynthion/mtga-collection-optimizer",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Cynthion",
+    "email": "cyn.thion@outlook.com"
   },
   "keywords": [
-    "angular",
-    "angular 8",
+    "magic the gathering arena",
+    "mtga",
+    "tracker",
+    "collection",
+    "deck builder",
     "electron",
-    "typescript",
-    "sass"
+    "cross-platform"
   ],
   "main": "main.js",
   "private": true,
@@ -47,9 +49,12 @@
     "@angular/core": "8.2.8",
     "@angular/forms": "8.2.8",
     "@angular/language-service": "8.2.8",
+    "@angular/material": "8.2.3",
     "@angular/platform-browser": "8.2.8",
     "@angular/platform-browser-dynamic": "8.2.8",
     "@angular/router": "8.2.8",
+    "@ngrx/effects": "8.4.0",
+    "@ngrx/store": "8.4.0",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
     "@types/jasmine": "3.3.16",

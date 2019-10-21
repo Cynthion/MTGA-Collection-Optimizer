@@ -11,3 +11,6 @@ bin
 obj
 packages
 .log
+
+Unity/
+ImageImports/

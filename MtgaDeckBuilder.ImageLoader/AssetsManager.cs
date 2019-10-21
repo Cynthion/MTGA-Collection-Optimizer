@@ -13,7 +13,7 @@ namespace MtgaDeckBuilder.ImageLoader
     public class AssetsManager : IAssetsManager
     {
         internal Dictionary<string, EndianBinaryReader> resourceFileReaders = new Dictionary<string, EndianBinaryReader>();
-                
+
         public IList<SerializedFile> LoadSerializedFiles(string filePath)
         {
             var reader = new EndianBinaryReader(File.OpenRead(filePath));

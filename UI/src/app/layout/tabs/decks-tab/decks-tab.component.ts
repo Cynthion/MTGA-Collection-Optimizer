@@ -205,4 +205,8 @@ export class DecksTabComponent {
   trackDeck(index: number, item: PlayerDeckState) {
     return item.id;
   }
+
+  isValidRarity(rarity: Rarity): boolean {
+    return rarity > 1;
+  }
 }

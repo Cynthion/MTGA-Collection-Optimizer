@@ -3,8 +3,9 @@ using MtgaDeckBuilder.Api.Layout;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")] // api/layout
-    public class LayoutController : Controller
+    public class LayoutController : ControllerBase
     {
         private readonly ILayoutService _layoutService;
 

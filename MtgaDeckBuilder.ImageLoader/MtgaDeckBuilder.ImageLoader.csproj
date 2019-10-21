@@ -1,15 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Platforms>x64</Platforms>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
-
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
-
 
   <ItemGroup>
     <None Update="texgenpack.dll">

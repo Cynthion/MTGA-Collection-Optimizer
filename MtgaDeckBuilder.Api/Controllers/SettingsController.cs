@@ -4,10 +4,11 @@ using MtgaDeckBuilder.Api.Controllers.Dtos;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
-    public class SettingsController : Controller
+    public class SettingsController : ControllerBase
     {
-        private ISettings _settings;
+        private readonly ISettings _settings;
 
         public SettingsController(ISettings settings)
         {

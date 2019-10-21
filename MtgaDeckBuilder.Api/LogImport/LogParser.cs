@@ -13,10 +13,10 @@ namespace MtgaDeckBuilder.Api.LogImport
     {
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(LogParser));
 
-        private readonly IConfiguration _configuration;
+        private readonly IMtgaAppConfiguration _configuration;
         private readonly ISettings _settings;
 
-        public LogParser(IConfiguration configuration, ISettings settings)
+        public LogParser(IMtgaAppConfiguration configuration, ISettings settings)
         {
             _configuration = configuration;
             _settings = settings;

@@ -4,8 +4,9 @@ using MtgaDeckBuilder.Api.Model;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")] // api/image
-    public class ImageController : Controller
+    public class ImageController : ControllerBase
     {
         private readonly IImageDataRepository _imageDataRepository;
 

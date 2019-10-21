@@ -1,8 +1,11 @@
 using Lib.AspNetCore.ServerSentEvents;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Extensions;
 using MtgaDeckBuilder.Api.Game;
@@ -11,36 +14,55 @@ using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.ImageLoader;
 using Newtonsoft.Json.Serialization;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MtgaDeckBuilder.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // adds support for controllers and API-related features, but not views or pages
+            services.AddControllers();
+
             // first, add CORS
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", builder =>
+                {
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:4200");
+                });
+            });
 
             // add server-sent events
             services.AddServerSentEvents();
 
             // Add framework services
-            services.AddMvc().AddJsonOptions(options =>
+            services.AddMvc().AddNewtonsoftJson(options =>
             {
                 // return json format with Camel Case
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
+
             services.AddSingleton<IFileLocations>(provider => new FileLocations
             {
-                AbilitiesDataPrefix ="data_abilities_",
-                CardsDataPrefix ="data_cards_",
-                EnumsDataPrefix ="data_enums_",
-                LocalityDataPrefix ="data_loc_",
+                AbilitiesDataPrefix = "data_abilities_",
+                CardsDataPrefix = "data_cards_",
+                EnumsDataPrefix = "data_enums_",
+                LocalityDataPrefix = "data_loc_",
                 MtgaDownloadsDataDirectoryPath = @"G:\MTGArenaLive\MTGA_Data\Downloads\Data",
             });
-            services.AddSingleton<IConfiguration>(provider => new Configuration.Configuration
+            services.AddSingleton<IMtgaAppConfiguration>(provider => new Configuration.MtgaAppConfiguration
             {
                 DetailedLogCommand = "DETAILED LOGS:",
                 PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
@@ -61,36 +83,45 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IImageDataRepository, ImageDataRepository>();
             services.AddSingleton<IAssetsManager, AssetsManager>();
 
-            services.AddHostedService<LogWatcher>();
+            //services.AddHostedService<LogWatcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
+            //else
+            //{
+            //    app.UseHsts();
+            //}
 
+            // use custom global exception handling
             app.ConfigureExceptionHandler();
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            app.UseStaticFiles(); // place before UseRouting
+
+            app.UseRouting();
+
+            // add CORS middleware, place before UseAuthentication, UseAuthorization, and UseEndpoints
+            app.UseCors("default");
+
+            //app.UseAuthorization(); // place after UserRouting and UseCors, but before UseEndpoints
+
             app.UseCookiePolicy();
-   
-            // first, add CORS middleware
-            app.UseCors(builder => builder
-                .WithOrigins("http://localhost:4200")
-                .AllowAnyHeader());
 
             // add SSE middleware
             app.MapServerSentEvents("/api/sse-layout-data");
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
         }
     }
 }

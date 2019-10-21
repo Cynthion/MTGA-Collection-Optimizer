@@ -130,9 +130,10 @@ export class DecksTabComponent {
   }
 
   applyFilter(filterValue: string): void {
-    if (!!filterValue) {
-      this.actionsSubject.next(new FilterValueChangedAction(filterValue.trim().toLowerCase()));
-    } else {
+    filterValue = filterValue.trim().toLocaleLowerCase();
+    this.actionsSubject.next(new FilterValueChangedAction(filterValue));
+
+    if (!filterValue) {
       this.clearFilter();
     }
   }

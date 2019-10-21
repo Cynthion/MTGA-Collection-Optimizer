@@ -18,8 +18,8 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryTabComponent implements OnDestroy {
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   state$: Observable<HistoryTabState>;
   dataSource$: Observable<MatTableDataSource<HistoryCardState>>;

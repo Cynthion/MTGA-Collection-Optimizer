@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-electron": {
+    "mtga-collection-optimizer": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -18,11 +18,7 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico",
-              "src/favicon.png",
-              "src/favicon.icns",
-              "src/favicon.256x256.png",
-              "src/favicon.512x512.png"
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.scss"
@@ -69,21 +65,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-electron:build"
+            "browserTarget": "mtga-collection-optimizer:build"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "angular-electron:build:dev"
+              "browserTarget": "mtga-collection-optimizer:build:dev"
             },
             "production": {
-              "browserTarget": "angular-electron:build:production"
+              "browserTarget": "mtga-collection-optimizer:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-electron:build"
+            "browserTarget": "mtga-collection-optimizer:build"
           }
         },
         "test": {
@@ -99,11 +95,7 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico",
-              "src/favicon.png",
-              "src/favicon.icns",
-              "src/favicon.256x256.png",
-              "src/favicon.512x512.png"
+              "src/favicon.ico"
             ]
           }
         },
@@ -121,7 +113,7 @@
         }
       }
     },
-    "angular-electron-e2e": {
+    "mtga-collection-optimizer-e2e": {
       "root": "e2e",
       "projectType": "application",
       "architect": {
@@ -139,7 +131,7 @@
       }
     }
   },
-  "defaultProject": "angular-electron",
+  "defaultProject": "mtga-collection-optimizer",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

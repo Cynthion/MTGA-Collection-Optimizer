@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MtgaDeckBuilder.Api.Extensions
 {
@@ -16,6 +18,17 @@ namespace MtgaDeckBuilder.Api.Extensions
             });
 
             return result;
+        }
+
+        // TODO make async
+        public static TResult FromJsonStream<TResult>(Stream utf8JsonStream)
+        {
+            var valueTask = JsonSerializer.DeserializeAsync<TResult>(utf8JsonStream, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return valueTask.Result;
         }
     }
 }

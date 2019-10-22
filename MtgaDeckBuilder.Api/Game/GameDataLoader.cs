@@ -36,40 +36,32 @@ namespace MtgaDeckBuilder.Api.Game
         public GameDataCard[] LoadGameDataCards()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.CardsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var streamReader = new StreamReader(fileStream))
             {
-                var json = streamReader.ReadToEnd();
-                return json.FromJson<GameDataCard[]>();
+                return JsonExtensions.FromJsonStream<GameDataCard[]>(fileStream);
             }
         }
 
         public GameDataEnum[] LoadGameDataEnums()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.EnumsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var streamReader = new StreamReader(fileStream))
             {
-                var json = streamReader.ReadToEnd();
-                return json.FromJson<GameDataEnum[]>();
+                return JsonExtensions.FromJsonStream<GameDataEnum[]>(fileStream);
             }
         }
 
         public GameDataAbility[] LoadGameDataAbilities()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.AbilitiesDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var streamReader = new StreamReader(fileStream))
             {
-                var json = streamReader.ReadToEnd();
-                return json.FromJson<GameDataAbility[]>();
+                return JsonExtensions.FromJsonStream<GameDataAbility[]>(fileStream);
             }
         }
 
         public GameDataLocality[] LoadGameDataLocalities()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.LocalityDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var streamReader = new StreamReader(fileStream))
             {
-                var json = streamReader.ReadToEnd();
-                return json.FromJson<GameDataLocality[]>();
+                return JsonExtensions.FromJsonStream<GameDataLocality[]>(fileStream);
             }
         }
 

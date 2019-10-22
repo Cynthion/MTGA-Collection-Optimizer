@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Lib.AspNetCore.ServerSentEvents" Version="4.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="NLog" Version="4.6.7" />
   </ItemGroup>
 

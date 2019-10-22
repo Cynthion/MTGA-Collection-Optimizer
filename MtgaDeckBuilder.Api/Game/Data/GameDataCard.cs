@@ -1,21 +1,17 @@
 ﻿namespace MtgaDeckBuilder.Api.Game.Data
 {
     using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Text.Json;
 
     public partial class GameDataCard
     {
-        [JsonProperty("grpid")]
         public long Grpid { get; set; }
         
         /// <summary>
         /// Loc.Keys.Id
         /// </summary>
-        [JsonProperty("titleId")]
         public long TitleId { get; set; }
 
-        [JsonProperty("artId")]
         public long ArtId { get; set; }
 
         //[JsonProperty("isToken")]
@@ -30,10 +26,8 @@
         //[JsonProperty("artSize")]
         //public long ArtSize { get; set; }
 
-        [JsonProperty("power")]
         public long Power { get; set; }
 
-        [JsonProperty("toughness")]
         public long Toughness { get; set; }
 
         //[JsonProperty("flavorId")]
@@ -48,8 +42,6 @@
         //[JsonProperty("cmc")]
         //public long Cmc { get; set; }
 
-
-        [JsonProperty("rarity")]
         public long Rarity { get; set; }
 
         //[JsonProperty("artistCredit")]
@@ -58,7 +50,6 @@
         //[JsonProperty("set")]
         //public Set Set { get; set; }
 
-        [JsonProperty("set")]
         public string Set { get; set; }
 
         //[JsonProperty("linkedFaceType")]
@@ -67,13 +58,11 @@
         /// <summary>
         /// Enum.CardType.Id
         /// </summary>
-        [JsonProperty("types")]
         public long[] Types { get; set; }
 
         /// <summary>
         /// Enum.CardType.Id
         /// </summary>
-        [JsonProperty("subtypes")]
         public long[] Subtypes { get; set; }
 
         /// <summary>
@@ -85,19 +74,16 @@
         /// <summary>
         /// Loc.Keys.Id of Enum.CardType
         /// </summary>
-        [JsonProperty("cardTypeTextId")]
         public long CardTypeTextId { get; set; }
 
         /// <summary>
         /// Loc.Keys.Id of Enum.CardType
         /// </summary>
-        [JsonProperty("subtypeTextId")]
         public long SubtypeTextId { get; set; }
 
         /// <summary>
         /// Enum.Color.Id
         /// </summary>
-        [JsonProperty("colors")]
         public long[] Colors { get; set; }
 
         //[JsonProperty("frameColors")]
@@ -109,10 +95,8 @@
         //[JsonProperty("colorIdentity")]
         //public long[] ColorIdentity { get; set; }
 
-        [JsonProperty("abilities")]
         public Ability[] Abilities { get; set; }
 
-        [JsonProperty("hiddenAbilities")]
         public Ability[] HiddenAbilities { get; set; }
 
         //[JsonProperty("linkedFaces")]
@@ -133,10 +117,8 @@
 
     public partial class Ability
     {
-        [JsonProperty("abilityId")]
         public long AbilityId { get; set; }
 
-        [JsonProperty("textId")]
         public long TextId { get; set; }
     }
 
@@ -145,27 +127,6 @@
     //public enum KnownSupportedStyle { Da, Sg, Sh };
 
     //public enum Set { Akh, Ana, ArenaSup, Avr, Bfz, C13, Chk, Cmd, Dar, Dis, Dst, Eld, Emn, G18, Grn, Gtc, M11, M19, M20, Me2, Me4, Mi, Nph, Ps, Rav, Rix, Rna, Roe, Rtr, Scg, The10E, The5Dn, The9Ed, War, Xln, Zen };
-
-    public partial class GameDataCard
-    {
-        public static GameDataCard[] FromJson(string json) => JsonConvert.DeserializeObject<GameDataCard[]>(json, GameCardConverter.Settings);
-    }
-
-    internal static class GameCardConverter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                //FrameDetailConverter.Singleton,
-                //KnownSupportedStyleConverter.Singleton,
-                //SetConverter.Singleton,
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
-    }
 
     //internal class FrameDetailConverter : JsonConverter
     //{

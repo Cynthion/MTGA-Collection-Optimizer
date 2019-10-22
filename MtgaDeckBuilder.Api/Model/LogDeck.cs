@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using MtgaDeckBuilder.Api.Model.Converters;
-using Newtonsoft.Json;
 
 namespace MtgaDeckBuilder.Api.Model
 {
-    [JsonConverter(typeof(LogDeckConverter))]
     public class LogDeck
     {
         public string Id { get; set; }
@@ -13,8 +10,6 @@ namespace MtgaDeckBuilder.Api.Model
 
         public string Description { get; set; }
 
-        public IDictionary<long, short> MainDeck { get; set; }
-
-        public IDictionary<long, short> Sideboard { get; set; }
+        public IList<int> MainDeck { get; set; }
     }
 }

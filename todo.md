@@ -65,7 +65,7 @@
 - [X] update maximegris/angular-electron version (Angular 8)
 - [X] update to .NET Core 3.0
   - [ ] use IL linker to throw away unnecessary framework code
-  - [ ] make use of new JSON API with Span<T>
+  - [ ] make use of new JSON API with Span<T>, use UTF-8 version
   - [X] use appsettings.json
 - [ ] handle connection refused with separate api error code
 - [X] check lazy loading (module dependencies, e.g. domain / Rarity)

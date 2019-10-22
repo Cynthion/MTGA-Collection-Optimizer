@@ -1,9 +1,8 @@
 ﻿using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NLog;
 
 namespace MtgaDeckBuilder.Api.Extensions
@@ -38,9 +37,10 @@ namespace MtgaDeckBuilder.Api.Extensions
                             apiErrorDetailsDto.ApiErrorCode = apiException.ApiErrorCode;
                         }
 
-                        var jsonResponse = JsonConvert.SerializeObject(apiErrorDetailsDto, new JsonSerializerSettings
+                        var jsonResponse = JsonSerializer.Serialize(apiErrorDetailsDto, new JsonSerializerOptions
                         {
-                            ContractResolver = new CamelCasePropertyNamesContractResolver()
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                            PropertyNameCaseInsensitive = true,
                         });
 
                         await context.Response.WriteAsync(jsonResponse);

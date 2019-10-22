@@ -13,7 +13,7 @@ using MtgaDeckBuilder.Api.ImageImport;
 using MtgaDeckBuilder.Api.Layout;
 using MtgaDeckBuilder.Api.LogImport;
 using MtgaDeckBuilder.ImageLoader;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 
 namespace MtgaDeckBuilder.Api
 {
@@ -30,7 +30,14 @@ namespace MtgaDeckBuilder.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // adds support for controllers and API-related features, but not views or pages
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    // configure JSON serialization options for model binding
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
 
             // add CORS policy to be used below
             services.AddCors(options =>
@@ -46,13 +53,6 @@ namespace MtgaDeckBuilder.Api
 
             // add server-sent events
             services.AddServerSentEvents();
-
-            // Add framework services
-            services.AddMvc().AddNewtonsoftJson(options =>
-            {
-                // return json format with Camel Case
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            });
 
             services.AddSingleton<ISettings, Settings>();
             services.AddSingleton<ILayoutService, LayoutService>();

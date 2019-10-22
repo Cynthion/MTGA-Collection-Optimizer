@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using MtgaDeckBuilder.Api.Configuration;
+using MtgaDeckBuilder.Api.Extensions;
+using MtgaDeckBuilder.Api.Model;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
-using MtgaDeckBuilder.Api.Configuration;
-using MtgaDeckBuilder.Api.Model;
-using Newtonsoft.Json;
-using NLog;
+using System.Text;
+using System.Text.Json;
 
 namespace MtgaDeckBuilder.Api.LogImport
 {
@@ -136,13 +138,13 @@ namespace MtgaDeckBuilder.Api.LogImport
                 json += outputLine;
             } while (outputLine != null && !outputLine.Equals("]"));
 
-            var logDecks = JsonConvert.DeserializeObject<IEnumerable<LogDeck>>(json);
+            var logDecks = json.FromJson<IEnumerable<LogDeck>>();
 
             var playerDecks = logDecks.Select(d => new PlayerDeck
             {
                 Id = d.Id,
                 Name = d.Name,
-                Cards = d.MainDeck
+                Cards = MapTuplesToDictionary(d.MainDeck),
             });
 
             return playerDecks;
@@ -159,13 +161,13 @@ namespace MtgaDeckBuilder.Api.LogImport
                 json += outputLine;
             } while (outputLine != null && !outputLine.Equals("}"));
 
-            var logDeck = JsonConvert.DeserializeObject<LogDeck>(json);
+            var logDeck = json.FromJson<LogDeck>();
 
             var playerDeck = new PlayerDeck
             {
                 Id = logDeck.Id,
                 Name = logDeck.Name,
-                Cards = logDeck.MainDeck,
+                Cards = MapTuplesToDictionary(logDeck.MainDeck),
             };
             return playerDeck;
         }
@@ -181,7 +183,7 @@ namespace MtgaDeckBuilder.Api.LogImport
                 json += outputLine;
             } while (outputLine != null && !outputLine.Equals("}"));
 
-            var result = JsonConvert.DeserializeObject<TResult>(json);
+            var result = json.FromJson<TResult>();
 
             return result;
         }
@@ -278,6 +280,18 @@ namespace MtgaDeckBuilder.Api.LogImport
 
                 return results;
             }
+        }
+
+        private static IDictionary<long, short> MapTuplesToDictionary(IList<int> tuples)
+        {
+            var dictionary = new Dictionary<long, short>();
+
+            for (var i = 0; i < tuples.Count; i += 2)
+            {
+                dictionary.Add(tuples[i], (short)tuples[i + 1]);
+            }
+
+            return dictionary;
         }
     }
 }

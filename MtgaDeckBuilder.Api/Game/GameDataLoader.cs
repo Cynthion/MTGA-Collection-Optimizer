@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using MtgaDeckBuilder.Api.Configuration;
+using MtgaDeckBuilder.Api.Extensions;
 using MtgaDeckBuilder.Api.Game.Data;
 using NLog;
 
@@ -38,7 +39,7 @@ namespace MtgaDeckBuilder.Api.Game
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameDataCard.FromJson(json);
+                return json.FromJson<GameDataCard[]>();
             }
         }
 
@@ -48,7 +49,7 @@ namespace MtgaDeckBuilder.Api.Game
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameDataEnum.FromJson(json);
+                return json.FromJson<GameDataEnum[]>();
             }
         }
 
@@ -58,7 +59,7 @@ namespace MtgaDeckBuilder.Api.Game
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameDataAbility.FromJson(json);
+                return json.FromJson<GameDataAbility[]>();
             }
         }
 
@@ -68,7 +69,7 @@ namespace MtgaDeckBuilder.Api.Game
             using (var streamReader = new StreamReader(fileStream))
             {
                 var json = streamReader.ReadToEnd();
-                return GameDataLocality.FromJson(json);
+                return json.FromJson<GameDataLocality[]>();
             }
         }
 

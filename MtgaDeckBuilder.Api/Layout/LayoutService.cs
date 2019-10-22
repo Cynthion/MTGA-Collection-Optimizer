@@ -41,8 +41,6 @@ namespace MtgaDeckBuilder.Api.Layout
 
         public LayoutDto LoadLayout()
         {
-            // TODO parse log async
-            // TODO optimize parsing: start from end of file
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks()
                 .Where(d => !d.Name.Contains("?=?"));
@@ -51,7 +49,7 @@ namespace MtgaDeckBuilder.Api.Layout
             var decks = CalculateDecks(playerDecks, collectionCards);
 
             collectionCards.ForEach(cc => cc.WildcardWorthiness = Calculations.CalculateWildcardWorthiness(cc, decks));
-            
+
             var inventory = ParseInventory();
             inventory.WildcardRequirements = CalculateWildcardRequirements(collectionCards);
 

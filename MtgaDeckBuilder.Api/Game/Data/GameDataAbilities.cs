@@ -1,18 +1,16 @@
 ﻿namespace MtgaDeckBuilder.Api.Game.Data
 {
-    using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Text;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
 
     public partial class GameDataAbility
     {
-        [JsonProperty("id")]
         public long Id { get; set; }
 
         /// <summary>
         /// Loc.Id
         /// </summary>
-        [JsonProperty("text")]
         public long Text { get; set; }
 
         //[JsonProperty("baseId")]
@@ -56,23 +54,5 @@
 
         //[JsonProperty("referencedKeywordTypes")]
         //public long[] ReferencedKeywordTypes { get; set; }
-    }
-
-    public partial class GameDataAbility
-    {
-        public static GameDataAbility[] FromJson(string json) => JsonConvert.DeserializeObject<GameDataAbility[]>(json, GameAbilityConverter.Settings);
-    }
-
-    internal static class GameAbilityConverter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
     }
 }

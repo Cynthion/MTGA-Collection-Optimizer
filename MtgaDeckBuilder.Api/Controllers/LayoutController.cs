@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.Layout;
+using System.Threading.Tasks;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
@@ -16,11 +17,11 @@ namespace MtgaDeckBuilder.Api.Controllers
 
         // GET api/layout/load-data
         [HttpGet("load-data")]
-        public ActionResult LoadData()
+        public async Task<ActionResult> LoadData()
         {
             AssertDetailedLogEnabled();
 
-            var dto = _layoutService.LoadLayout();
+            var dto = await _layoutService.LoadLayoutAsync();
             return Ok(dto);
         }
 

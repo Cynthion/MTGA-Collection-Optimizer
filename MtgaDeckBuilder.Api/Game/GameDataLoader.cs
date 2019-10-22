@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Extensions;
@@ -10,13 +11,13 @@ namespace MtgaDeckBuilder.Api.Game
 {
     public interface IGameDataLoader
     {
-        GameDataCard[] LoadGameDataCards();
+        ValueTask<GameDataCard[]> LoadGameDataCardsAsync();
 
-        GameDataEnum[] LoadGameDataEnums();
+        ValueTask<GameDataEnum[]> LoadGameDataEnumsAsync();
 
-        GameDataAbility[] LoadGameDataAbilities();
+        ValueTask<GameDataAbility[]> LoadGameDataAbilitiesAsync();
 
-        GameDataLocality[] LoadGameDataLocalities();
+        ValueTask<GameDataLocality[]> LoadGameDataLocalitiesAsync();
     }
 
     public class GameDataLoader : IGameDataLoader
@@ -33,35 +34,35 @@ namespace MtgaDeckBuilder.Api.Game
             _settings = settings;
         }
 
-        public GameDataCard[] LoadGameDataCards()
+        public async ValueTask<GameDataCard[]> LoadGameDataCardsAsync()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.CardsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                return JsonExtensions.FromJsonStream<GameDataCard[]>(fileStream);
+                return await fileStream.FromJsonStreamAsync<GameDataCard[]>();
             }
         }
 
-        public GameDataEnum[] LoadGameDataEnums()
+        public async ValueTask<GameDataEnum[]> LoadGameDataEnumsAsync()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.EnumsDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                return JsonExtensions.FromJsonStream<GameDataEnum[]>(fileStream);
+                return await fileStream.FromJsonStreamAsync<GameDataEnum[]>();
             }
         }
 
-        public GameDataAbility[] LoadGameDataAbilities()
+        public async ValueTask<GameDataAbility[]> LoadGameDataAbilitiesAsync()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.AbilitiesDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                return JsonExtensions.FromJsonStream<GameDataAbility[]>(fileStream);
+                return await fileStream.FromJsonStreamAsync<GameDataAbility[]>();
             }
         }
 
-        public GameDataLocality[] LoadGameDataLocalities()
+        public async ValueTask<GameDataLocality[]> LoadGameDataLocalitiesAsync()
         {
             using (var fileStream = new FileStream(FindModelPath(_fileLocations.LocalityDataPrefix), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                return JsonExtensions.FromJsonStream<GameDataLocality[]>(fileStream);
+                return await fileStream.FromJsonStreamAsync<GameDataLocality[]>();
             }
         }
 

@@ -6,6 +6,6 @@
 
         public string Message { get; set; }
 
-        public ApiErrorCode ApiErrorCode { get; set; }
+        public ApiErrorCode? ApiErrorCode { get; set; }
     }
 }

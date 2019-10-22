@@ -36,6 +36,10 @@ namespace MtgaDeckBuilder.Api.Extensions
                         {
                             apiErrorDetailsDto.ApiErrorCode = apiException.ApiErrorCode;
                         }
+                        else
+                        {
+                            apiErrorDetailsDto.ApiErrorCode = null;
+                        }
 
                         var jsonResponse = JsonSerializer.Serialize(apiErrorDetailsDto, new JsonSerializerOptions
                         {

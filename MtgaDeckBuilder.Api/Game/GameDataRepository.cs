@@ -2,12 +2,13 @@
 using MtgaDeckBuilder.Api.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MtgaDeckBuilder.Api.Game
 {
     public interface IGameDataRepository
     {
-        void AssertInitialized();
+        Task AssertInitializedAsync();
 
         IGameCard GetGameCard(long mtgaId);
     }
@@ -35,33 +36,12 @@ namespace MtgaDeckBuilder.Api.Game
             _gameCardCache = new Dictionary<long, IGameCard>();
         }
 
-        public void AssertInitialized()
+        public async Task AssertInitializedAsync()
         {
-            if (_cards == null)
-            {
-                var cards = _gameDataLoader.LoadGameDataCards();
-                _cards = cards.ToDictionary(c => c.Grpid, c => c);
-            }
-
-            if (_enums == null)
-            {
-                var enums = _gameDataLoader.LoadGameDataEnums();
-                _enums = enums.ToDictionary(e => e.Name, e => e.Values.ToDictionary(v => v.Id, v => v.Text));
-            }
-
-            if (_abilities == null)
-            {
-                var abilities = _gameDataLoader.LoadGameDataAbilities();
-                _abilities = abilities.ToDictionary(a => a.Id, a => a.Text);
-            }
-
-            if (_localities == null)
-            {
-                var keys = _gameDataLoader.LoadGameDataLocalities()
-                    .Single(l => l.IsoCode == "en-US")
-                    .Keys;
-                _localities = keys.ToDictionary(k => k.Id, k => k.Text);
-            }
+            await AssertCardsLoadedAsync();
+            await AssertEnumsLoadedAsync();
+            await AssertAbilitiesLoadedAsync();
+            await AssertLocalitiesLoadedAsync();
         }
 
         public IGameCard GetGameCard(long grpId)
@@ -120,5 +100,43 @@ namespace MtgaDeckBuilder.Api.Game
             Set = "Unknown Set",
             CardTypes = new[] { CardType.Unknown },
         };
+
+        private async Task AssertCardsLoadedAsync()
+        {
+            if (_cards == null)
+            {
+                var cards = await _gameDataLoader.LoadGameDataCardsAsync();
+                _cards = cards.ToDictionary(c => c.Grpid, c => c);
+            }
+        }
+
+        private async Task AssertEnumsLoadedAsync()
+        {
+            if (_enums == null)
+            {
+                var enums = await _gameDataLoader.LoadGameDataEnumsAsync();
+                _enums = enums.ToDictionary(e => e.Name, e => e.Values.ToDictionary(v => v.Id, v => v.Text));
+            }
+        }
+
+        private async Task AssertAbilitiesLoadedAsync()
+        {
+            if (_abilities == null)
+            {
+                var abilities = await _gameDataLoader.LoadGameDataAbilitiesAsync();
+                _abilities = abilities.ToDictionary(a => a.Id, a => a.Text);
+            }
+        }
+
+        private async Task AssertLocalitiesLoadedAsync()
+        {
+            if (_localities == null)
+            {
+                var keys = (await _gameDataLoader.LoadGameDataLocalitiesAsync())
+                    .Single(l => l.IsoCode == "en-US")
+                    .Keys;
+                _localities = keys.ToDictionary(k => k.Id, k => k.Text);
+            }
+        }
     }
 }

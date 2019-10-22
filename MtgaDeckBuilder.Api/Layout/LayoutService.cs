@@ -6,6 +6,7 @@ using MtgaDeckBuilder.Api.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MtgaDeckBuilder.Api.Layout
 {
@@ -13,7 +14,7 @@ namespace MtgaDeckBuilder.Api.Layout
     {
         bool IsDetailedLogDisabled();
 
-        LayoutDto LoadLayout();
+        Task<LayoutDto> LoadLayoutAsync();
     }
 
     public class LayoutService : ILayoutService
@@ -39,13 +40,13 @@ namespace MtgaDeckBuilder.Api.Layout
             return _logParser.IsDetailedLogDisabled();
         }
 
-        public LayoutDto LoadLayout()
+        public async Task<LayoutDto> LoadLayoutAsync()
         {
             var playerCards = _logParser.ParsePlayerCards();
             var playerDecks = ParsePlayerDecks()
                 .Where(d => !d.Name.Contains("?=?"));
 
-            var collectionCards = CalculateCollectionCards(playerCards, playerDecks).ToList();
+            var collectionCards = await CalculateCollectionCardsAsync(playerCards, playerDecks);
             var decks = CalculateDecks(playerDecks, collectionCards);
 
             collectionCards.ForEach(cc => cc.WildcardWorthiness = Calculations.CalculateWildcardWorthiness(cc, decks));
@@ -118,7 +119,7 @@ namespace MtgaDeckBuilder.Api.Layout
             return playerDecksConsolidated;
         }
 
-        private IEnumerable<CollectionCardDto> CalculateCollectionCards(IDictionary<long, short> playerCards, IEnumerable<PlayerDeck> playerDecks)
+        private async Task<List<CollectionCardDto>> CalculateCollectionCardsAsync(IDictionary<long, short> playerCards, IEnumerable<PlayerDeck> playerDecks)
         {
             var collectionCards = new List<CollectionCardDto>();
 
@@ -184,7 +185,7 @@ namespace MtgaDeckBuilder.Api.Layout
             }
 
             // game data integration
-            _gameDataRepository.AssertInitialized();
+            await _gameDataRepository.AssertInitializedAsync();
             collectionCards.ForEach(cc => cc.Data = _gameDataRepository.GetGameCard(cc.MtgaId));
 
             // sorting

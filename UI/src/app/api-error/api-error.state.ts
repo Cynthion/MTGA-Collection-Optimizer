@@ -1,7 +1,7 @@
 export interface ApiErrorDto {
   statusCode: number;
   message: string;
-  apiErrorCode: number;
+  apiErrorCode?: number;
 }
 
 export interface ApiErrorState extends ApiErrorDto {

@@ -36,7 +36,7 @@
 - [X] Check for DETAILED LOGS: ENABLED (https://mtgarena-support.wizards.com/hc/en-us/articles/360000726823-Creating-Log-Files)
 
 ## Game Data Import
-- [ ] make model loading async
+- [X] make model loading async
 - [X] add 'requiredForDecks' property on CollectionCard? (optimized calc for decks-table and history?)
 - [X] business logic should not be done in reducers -> move to backend
 - [X] make file locations configurable via settings
@@ -65,7 +65,7 @@
 - [X] update maximegris/angular-electron version (Angular 8)
 - [X] update to .NET Core 3.0
   - [ ] use IL linker to throw away unnecessary framework code
-  - [ ] make use of new JSON API with Span<T>, use UTF-8 version
+  - [X] make use of new JSON API with Span<T>, use UTF-8 version
   - [X] use appsettings.json
 - [ ] handle connection refused with separate api error code
 - [X] check lazy loading (module dependencies, e.g. domain / Rarity)

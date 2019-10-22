@@ -20,15 +20,14 @@ namespace MtgaDeckBuilder.Api.Extensions
             return result;
         }
 
-        // TODO make async
-        public static TResult FromJsonStream<TResult>(Stream utf8JsonStream)
+        public static ValueTask<TResult> FromJsonStreamAsync<TResult>(this Stream utf8JsonStream)
         {
             var valueTask = JsonSerializer.DeserializeAsync<TResult>(utf8JsonStream, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return valueTask.Result;
+            return valueTask;
         }
     }
 }

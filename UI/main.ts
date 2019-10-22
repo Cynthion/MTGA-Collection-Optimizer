@@ -96,7 +96,7 @@ try {
         responseHeaders: {
           ...details.responseHeaders,
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-          'Content-Security-Policy': ['default-src \'self\' https://localhost:5001 \'unsafe-inline\' \'unsafe-eval\' ws:']
+          'Content-Security-Policy': ['default-src \'self\' https://localhost:61009 \'unsafe-inline\' \'unsafe-eval\' ws:']
         }
       });
     });

@@ -1,5 +1,5 @@
 export const AppConfig = {
   production: false,
   environment: 'LOCAL',
-  apiBaseUrl: 'https://localhost:5001/api/',
+  apiBaseUrl: 'https://localhost:61009/api/',
 };

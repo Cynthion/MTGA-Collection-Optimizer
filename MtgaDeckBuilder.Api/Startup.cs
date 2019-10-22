@@ -54,25 +54,6 @@ namespace MtgaDeckBuilder.Api
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            services.AddSingleton<IFileLocations>(provider => new FileLocations
-            {
-                AbilitiesDataPrefix = "data_abilities_",
-                CardsDataPrefix = "data_cards_",
-                EnumsDataPrefix = "data_enums_",
-                LocalityDataPrefix = "data_loc_",
-                MtgaDownloadsDataDirectoryPath = @"G:\MTGArenaLive\MTGA_Data\Downloads\Data",
-            });
-            services.AddSingleton<IMtgaAppConfiguration>(provider => new Configuration.MtgaAppConfiguration
-            {
-                DetailedLogCommand = "DETAILED LOGS:",
-                PlayerCardsCommand = "<== PlayerInventory.GetPlayerCardsV3",
-                PlayerDecksCommand = "<== Deck.GetDeckListsV3",
-                PlayerDeckCreateCommand = "<== Deck.CreateDeckV3",
-                PlayerDeckUpdateCommand = "<== Deck.UpdateDeckV3",
-                PlayerDeckDeleteCommand = "==> Deck.DeleteDeck",
-                PlayerInventoryCommand = "<== PlayerInventory.GetPlayerInventory",
-                PlayerNameCommand = "[Accounts - Client] Successfully logged in to account: ",
-            });
             services.AddSingleton<ISettings, Settings>();
             services.AddSingleton<ILayoutService, LayoutService>();
             services.AddSingleton<ILogParser, LogParser>();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Model;
 using Newtonsoft.Json;
@@ -13,42 +14,43 @@ namespace MtgaDeckBuilder.Api.LogImport
     {
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(LogParser));
 
-        private readonly IMtgaAppConfiguration _configuration;
+        private readonly OutputLogCommands _outputLogCommands;
         private readonly ISettings _settings;
 
-        public LogParser(IMtgaAppConfiguration configuration, ISettings settings)
+        public LogParser(IConfiguration configuration, ISettings settings)
         {
-            _configuration = configuration;
+            _outputLogCommands = new OutputLogCommands();
+            configuration.GetSection("OutputLogCommands").Bind(_outputLogCommands);
             _settings = settings;
         }
 
         public bool IsDetailedLogDisabled()
         {
-            var detailedLogLines = FindLinesContainingCommand(_configuration.DetailedLogCommand);
+            var detailedLogLines = FindLinesContainingCommand(_outputLogCommands.DetailedLogCommand);
             return detailedLogLines.Any(l => l.Contains("DISABLED"));
         }
 
         public IDictionary<long, short> ParsePlayerCards()
         {
-            var result = FindOccurrenceInLog(_configuration.PlayerCardsCommand, ParsePlayerCardsOccurrence);
+            var result = FindOccurrenceInLog(_outputLogCommands.PlayerCardsCommand, ParsePlayerCardsOccurrence);
             return result ?? new Dictionary<long, short>(0);
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDecks()
         {
-            var result = FindOccurrenceInLog(_configuration.PlayerDecksCommand, ParsePlayerDecksOccurrence);
+            var result = FindOccurrenceInLog(_outputLogCommands.PlayerDecksCommand, ParsePlayerDecksOccurrence);
             return result ?? Enumerable.Empty<PlayerDeck>();
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDeckCreations()
         {
-            return ParseLogAggregate(_configuration.PlayerDeckCreateCommand, ParsePlayerDeckOccurrence);
+            return ParseLogAggregate(_outputLogCommands.PlayerDeckCreateCommand, ParsePlayerDeckOccurrence);
         }
 
         public IEnumerable<PlayerDeck> ParsePlayerDeckUpdates()
         {
             var results = Enumerable.Empty<PlayerDeck>().ToList();
-            var updates = ParseLogAggregate(_configuration.PlayerDeckUpdateCommand, ParsePlayerDeckOccurrence);
+            var updates = ParseLogAggregate(_outputLogCommands.PlayerDeckUpdateCommand, ParsePlayerDeckOccurrence);
 
             // only take latest of many updates
             updates.Reverse();
@@ -65,20 +67,20 @@ namespace MtgaDeckBuilder.Api.LogImport
 
         public IEnumerable<string> ParsePlayerDeckDeletions()
         {
-            var logJsonRpcs = ParseLogAggregate(_configuration.PlayerDeckDeleteCommand, ParseJson<LogJsonRpc>);
+            var logJsonRpcs = ParseLogAggregate(_outputLogCommands.PlayerDeckDeleteCommand, ParseJson<LogJsonRpc>);
 
             return logJsonRpcs.Where(jr => jr.Method.Equals("Deck.DeleteDeck")).Select(jr => jr.Params.DeckId);
         }
 
         public LogPlayerInventory ParsePlayerInventory()
         {
-            var result = FindOccurrenceInLog(_configuration.PlayerInventoryCommand, ParseJson<LogPlayerInventory>);
+            var result = FindOccurrenceInLog(_outputLogCommands.PlayerInventoryCommand, ParseJson<LogPlayerInventory>);
             return result ?? new LogPlayerInventory();
         }
 
         public string ParsePlayerName()
         {
-            var nameLine = FindLineContainingCommand(_configuration.PlayerNameCommand);
+            var nameLine = FindLineContainingCommand(_outputLogCommands.PlayerNameCommand);
 
             if (nameLine == string.Empty)
             {
@@ -86,7 +88,7 @@ namespace MtgaDeckBuilder.Api.LogImport
             }
 
             var routeIdx = nameLine.IndexOf('#');
-            var nameCmdLength = _configuration.PlayerNameCommand.Length;
+            var nameCmdLength = _outputLogCommands.PlayerNameCommand.Length;
 
             return nameLine.Substring(nameCmdLength, routeIdx - nameCmdLength);
         }

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Game.Data;
 using NLog;
@@ -21,13 +22,14 @@ namespace MtgaDeckBuilder.Api.Game
     {
         private static readonly ILogger Logger = LogManager.GetLogger(nameof(GameDataLoader));
 
+        private readonly FileLocations _fileLocations;
         private readonly ISettings _settings;
-        private readonly IFileLocations _fileLocations;
 
-        public GameDataLoader(ISettings settings, IFileLocations fileLocations)
+        public GameDataLoader(ISettings settings, IConfiguration configuration)
         {
+            _fileLocations = new FileLocations();
+            configuration.GetSection("FileLocations").Bind(_fileLocations);
             _settings = settings;
-            _fileLocations = fileLocations;
         }
 
         public GameDataCard[] LoadGameDataCards()

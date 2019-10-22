@@ -62,11 +62,11 @@
 - [ ] rename application to something better
 - [ ] change ports for production
 - [ ] add License
-- [ ] update maximegris/angular-electron version (Angular 8)
-- [ ] update to .NET Core 3.0
-  - [ ] make use of new JSON API with Span<T>
+- [X] update maximegris/angular-electron version (Angular 8)
+- [X] update to .NET Core 3.0
   - [ ] use IL linker to throw away unnecessary framework code
-  - [ ] use appsettings
+  - [ ] make use of new JSON API with Span<T>
+  - [X] use appsettings.json
 - [ ] handle connection refused with separate api error code
 - [X] check lazy loading (module dependencies, e.g. domain / Rarity)
 - [X] add Fan Content Policy info (https://company.wizards.com/fancontentpolicy)

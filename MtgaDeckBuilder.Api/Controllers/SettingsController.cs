@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MtgaDeckBuilder.Api.Configuration;
 using MtgaDeckBuilder.Api.Controllers.Dtos;
+using MtgaDeckBuilder.Api.LogImport;
 
 namespace MtgaDeckBuilder.Api.Controllers
 {
@@ -9,10 +10,12 @@ namespace MtgaDeckBuilder.Api.Controllers
     public class SettingsController : ControllerBase
     {
         private readonly ISettings _settings;
+        private readonly ILogWatcher _logWatcher;
 
-        public SettingsController(ISettings settings)
+        public SettingsController(ISettings settings, ILogWatcher logWatcher)
         {
             _settings = settings;
+            _logWatcher = logWatcher;
         }
 
         // GET api/settings
@@ -35,6 +38,8 @@ namespace MtgaDeckBuilder.Api.Controllers
             _settings.GameDataPath = string.IsNullOrEmpty(settingsDto.GameDataPath)
                 ? _settings.GameDataPath
                 : settingsDto.GameDataPath;
+
+            _logWatcher.ChangeInterval(_settings.LogPollInterval);
 
             _settings.AssertOutputLogPathValid();
             _settings.AssertGameDataPathValid();

@@ -32,7 +32,7 @@ namespace MtgaDeckBuilder.Api
             // adds support for controllers and API-related features, but not views or pages
             services.AddControllers();
 
-            // first, add CORS
+            // add CORS policy to be used below
             services.AddCors(options =>
             {
                 options.AddPolicy("default", builder =>
@@ -83,7 +83,7 @@ namespace MtgaDeckBuilder.Api
             services.AddSingleton<IImageDataRepository, ImageDataRepository>();
             services.AddSingleton<IAssetsManager, AssetsManager>();
 
-            //services.AddHostedService<LogWatcher>();
+            services.AddSingleton<ILogWatcher, LogWatcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,17 +93,11 @@ namespace MtgaDeckBuilder.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            //else
-            //{
-            //    app.UseHsts();
-            //}
 
             // use custom global exception handling
             app.ConfigureExceptionHandler();
 
             app.UseHttpsRedirection();
-
-            app.UseStaticFiles(); // place before UseRouting
 
             app.UseRouting();
 
@@ -112,8 +106,6 @@ namespace MtgaDeckBuilder.Api
 
             //app.UseAuthorization(); // place after UserRouting and UseCors, but before UseEndpoints
 
-            app.UseCookiePolicy();
-
             // add SSE middleware
             app.MapServerSentEvents("/api/sse-layout-data");
 
@@ -121,7 +113,6 @@ namespace MtgaDeckBuilder.Api
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

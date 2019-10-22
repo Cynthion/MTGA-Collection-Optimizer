@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MtgaDeckBuilder.Api.LogImport;
 
 namespace MtgaDeckBuilder.Api
 {
@@ -15,6 +17,12 @@ namespace MtgaDeckBuilder.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                // configure hosted services here so they run after the app's request processing 
+                // pipeline has been configured (default is before)
+                .ConfigureServices(services =>
+                {
+                    services.AddHostedService<LogWatcher>();
                 });
     }
 }

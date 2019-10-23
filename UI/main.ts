@@ -31,7 +31,7 @@ function createWindow() {
     frame: false,
     icon: 'src/favicon.ico',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true, // default is false
       contextIsolation: false,
       preload: 'preload.js',
       webSecurity: true,

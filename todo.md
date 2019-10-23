@@ -91,7 +91,8 @@
 - [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
 - [ ] parse log file async
 - [ ] parse log file from end of file -> maybe not working for deck create/update/delete
-- [ ] npm command to restore, build and copy backend .exe to Angular dist folder during development
+- [ ] copy backend stuff to Angular dist during development
 - [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/
+- [X] npm command to build and copy backend .exe and .dll's
 - [X] improve ngrx/rxjs stuff (.subscription bodys not dispatching actions, etc.)
 - [X] remove file storage and set loader

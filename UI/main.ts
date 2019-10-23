@@ -101,10 +101,8 @@ try {
       });
     });
 
-    // Start backend with API.
-    startApi();
-
-    // createWindow();
+    // Start the .NET Core backend
+    startBackend();
   });
 
   // Quit when all windows are closed.
@@ -114,6 +112,9 @@ try {
     if (process.platform !== 'darwin') {
       app.quit();
     }
+
+    // Close the .NET Core backend
+    closeBackend();
   });
 
   app.on('activate', () => {
@@ -131,12 +132,12 @@ try {
 
 // .NET Core backend process
 // TODO for production, take .exe from .NET project /dist folder
-const backendExecutablePath = path.join(__dirname, '..\\MtgaDeckBuilder.Api\\bin\\Debug\\netcoreapp2.2\\win10-x64\\MtgaDeckBuilder.Api.exe');
+const backendExecutablePath = path.join(__dirname, 'netcore-backend/MtgaDeckBuilder.Api.exe');
 let backendProcess = null;
 
-function startApi() {
-  const childProcess = require('child_process').spawn;
+function startBackend() {
 
+  const childProcess = require('child_process').spawn;
   backendProcess = childProcess(backendExecutablePath);
 
   // create window after successful backend spawn
@@ -154,10 +155,12 @@ function startApi() {
 
   // if backend process closes, also close frontend (should not happen this way round)
   backendProcess.on('close', (code: any) => {
-    console.log(`API backend process exited with code ${code}.`);
-    if (win !== null) {
-      console.log(`Thus, also closing frontend window.`);
-      win.close();
-    }
+    console.log(`The backend process exited with code ${code}.`);
   });
+}
+
+function closeBackend() {
+  if (backendProcess !== null) {
+    backendProcess.kill('SIGINT');
+  }
 }

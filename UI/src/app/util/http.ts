@@ -59,7 +59,17 @@ function handleResponse<TResponse = null>(
   return source.pipe(
     mergeMap(project),
     catchError<Action, ObservableInput<any>>(resp => {
-      return [new OpenApiErrorSnackbarAction(resp.error)];
+      let error = resp.error;
+
+      if (resp.status === 0 && resp.statusText === 'Unknown Error') {
+        error = {
+          statusCode: 0,
+          message: 'Backend connection failed.',
+          apiErrorCode: 0,
+        };
+      }
+
+      return [new OpenApiErrorSnackbarAction(error)];
     }),
   );
 }

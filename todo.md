@@ -3,10 +3,10 @@
 ## MVP
 - [ ] show where to spend available wildcards
 - [ ] sound bleep upon required card is added to collection, as an effect
-- [ ] connection --> retry
 - [ ] make decks clickable to only show their cards in table / same for cards?
 - [ ] show deck worth and make columns sortable by it
 - [ ] show message on empty tables/filter data
+- [X] special handling of backend connectivity
 - [X] make history-tab sortable and searchable
 - [X] load default settings from backend
 - [X] parse newly created decks (<== Deck.CreateDeckV3)

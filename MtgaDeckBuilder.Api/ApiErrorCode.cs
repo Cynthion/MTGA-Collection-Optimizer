@@ -2,8 +2,9 @@
 {
     public enum ApiErrorCode
     {
-        OutputLogPathInvalid = 0,
-        DetailedLogsDisabled = 1,
-        GameDataPathInvalid = 2,
+        // 0: no backend connectivity
+        OutputLogPathInvalid = 1,
+        DetailedLogsDisabled = 2,
+        GameDataPathInvalid = 3,
     }
 }

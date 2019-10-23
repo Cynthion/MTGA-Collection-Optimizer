@@ -6,9 +6,10 @@ import { ipcRenderer, webFrame, remote } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ElectronService {
-
   ipcRenderer: typeof ipcRenderer;
   webFrame: typeof webFrame;
   remote: typeof remote;
@@ -17,7 +18,7 @@ export class ElectronService {
 
   constructor() {
     // Conditional imports
-    if (this.isElectronApp) {
+    if (this.isElectron) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.webFrame = window.require('electron').webFrame;
       this.remote = window.require('electron').remote;
@@ -27,7 +28,7 @@ export class ElectronService {
     }
   }
 
-  public get isElectronApp(): boolean {
+  get isElectron(): boolean {
     return window && window.process && window.process.type;
     // return !!window.navigator.userAgent.match(/Electron/);
   }

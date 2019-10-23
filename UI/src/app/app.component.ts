@@ -27,16 +27,15 @@ export class AppComponent implements OnInit, OnDestroy {
   private isWindowMaximized: boolean;
 
   constructor(
-    private store: Store<RootState>,
     public electronService: ElectronService,
+    private store: Store<RootState>,
     private platformServiceProvider: PlatformServiceProvider,
     private actionsSubject: ActionsSubject,
   ) {
-    this.state$ = this.store.select(s => s.app);
-
     console.log('AppConfig', AppConfig);
 
-    if (electronService.isElectronApp) {
+    if (electronService.isElectron) {
+      console.log(process.env);
       console.log('Mode: Electron');
       console.log('Electron ipcRenderer', electronService.ipcRenderer);
       console.log('NodeJS childProcess', electronService.childProcess);
@@ -46,6 +45,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.windowService = this.platformServiceProvider.getWindowService();
     this.isWindowMaximized = this.windowService.isWindowMaximized();
+
+    this.state$ = this.store.select(s => s.app);
   }
 
   ngOnInit() {

@@ -31,7 +31,7 @@ function createWindow() {
     frame: false,
     icon: 'src/favicon.ico',
     webPreferences: {
-      nodeIntegration: true, // default is false
+      nodeIntegration: false, // false is possible with angular-electron template
       contextIsolation: false,
       /* Script that will be loaded before other scripts run in the page.
       This script will always have access to node APIs no matter whether

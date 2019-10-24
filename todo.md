@@ -89,7 +89,7 @@
 - [ ] collection progresses
 
 # Optimization / Refactoring
-- [ ] preload decks-tab module (https://angular.io/guide/router#custom-preloading-strategy)
+- [ ] fix CSP security warning when running in Electron
 - [ ] parse log file async
 - [ ] parse log file from end of file -> maybe not working for deck create/update/delete
 - [ ] copy backend stuff to Angular dist during development

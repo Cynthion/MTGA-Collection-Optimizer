@@ -13,8 +13,8 @@ import { BrowserStorageService } from './browser-storage.service';
 export class PlatformServiceProvider {
 
   constructor(
-    private preloadBridge: PreloadBridge,
     private electronService: ElectronService,
+    private preloadBridge: PreloadBridge,
     private browserStorageService: BrowserStorageService,
     ) { }
 

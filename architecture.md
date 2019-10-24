@@ -1,9 +1,11 @@
 # Electron Security & Preload
 The following works for running Electron local (npm run electron:local):
-- preload.js script needs to be part of Angular src/ folder.
-- angular.json needs to be configured to copy the preload.js to the /dist folder (under assets).
+- preload.js and storage.js script need to be part of Angular src/ folder.
+- angular.json needs to be configured to copy the preload.js and storage.js to the /dist folder (under assets).
 - main.ts needs to find the preload.js via 'preload: path.join(__dirname, 'dist/preload.js')'
-- nodeIntegration can be set to false?
+- main.ts needs to find the storage.js via 'const storage = require('./dist/storage');'
+- nodeIntegration can be set to false? // TODO
+- .gitignore needs to specify the two .js scripts to not be ignored
 
 # Modules
 - App Module
@@ -21,6 +23,13 @@ The following works for running Electron local (npm run electron:local):
 |-- Shared Module (?)
 
 # Settings
+## Electron
+- The settings path is determined statically. // TODO
+- The storage.js script needs to be on the same level as preload.js since it is referenced by it.
+- Electron's main.ts calls the storage.js directly by providing the settings path.
+- Angular calls the storage.js via the preload.js bridge. The preload.js script determines the settings path.
+
+## Angular
 - UI initial settings are empty
 - Backend defines default settings
 - Before first data load, user settings are stored on backend

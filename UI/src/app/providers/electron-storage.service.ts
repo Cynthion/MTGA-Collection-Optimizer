@@ -3,7 +3,9 @@ import { StorageService } from './storage.service';
 
 export class ElectronStorageService implements StorageService {
 
-  constructor(private preloadBridge: PreloadBridge) { }
+  constructor(
+    private preloadBridge: PreloadBridge,
+  ) { }
 
   store(key: string, data: any) {
     this.preloadBridge.storeSetting(key, data);

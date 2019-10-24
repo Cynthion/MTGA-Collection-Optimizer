@@ -6,28 +6,29 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-// const storage = require('./dist/storage');
+const storage = require('./dist/storage');
 const windowStateStorageKey = 'windowState';
 
 function createWindow() {
-
   // Load window settings.
-  // let lastWindowState = storage.get(windowStateStorageKey);
+  // TODO use AppData path
+  const settingsPath = 'C:\\Users\\chlu\\AppData\\Roaming\\mtga-collection-optimizer\\MTGA Collection Optimizer Storage.json';
+  let lastWindowState = storage.get(settingsPath, windowStateStorageKey);
 
-  // if (lastWindowState === null) {
-  //   lastWindowState = {
-  //     width: 1280,
-  //     height: 720,
-  //     maximized: false,
-  //   };
-  // }
+  if (lastWindowState === null) {
+    lastWindowState = {
+      width: 1280,
+      height: 720,
+      maximized: false,
+    };
+  }
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0, // lastWindowState.x,
-    y: 0, // lastWindowState.y,
-    width: 800, // lastWindowState.width,
-    height: 500, // lastWindowState.height,
+    x: lastWindowState.x,
+    y: lastWindowState.y,
+    width: lastWindowState.width,
+    height: lastWindowState.height,
     frame: false,
     icon: 'src/favicon.ico',
     webPreferences: {
@@ -45,9 +46,9 @@ function createWindow() {
     }
   });
 
-  // if (lastWindowState.maximized) {
-  //   win.maximize();
-  // }
+  if (lastWindowState.maximized) {
+    win.maximize();
+  }
 
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -70,13 +71,13 @@ function createWindow() {
   win.on('close', function () {
     const bounds = win.getBounds();
 
-    // storage.set(windowStateStorageKey, {
-    //   x: bounds.x,
-    //   y: bounds.y,
-    //   width: bounds.width,
-    //   height: bounds.height,
-    //   maximized: win.isMaximized(),
-    // });
+    storage.set(settingsPath, windowStateStorageKey, {
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      maximized: win.isMaximized(),
+    });
   });
 
   // Emitted when the window is closed.

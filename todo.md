@@ -7,6 +7,7 @@
 - [ ] show deck worth and make columns sortable by it
 - [ ] show message on empty tables/filter data
 - [X] special handling of backend connectivity
+- [ ] re-subscribe SSE after backend returns
 - [X] make history-tab sortable and searchable
 - [X] load default settings from backend
 - [X] parse newly created decks (<== Deck.CreateDeckV3)

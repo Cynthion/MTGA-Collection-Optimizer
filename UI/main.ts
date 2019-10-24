@@ -6,43 +6,48 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-const storage = require('./storage');
+// const storage = require('./dist/storage');
 const windowStateStorageKey = 'windowState';
 
 function createWindow() {
 
   // Load window settings.
-  let lastWindowState = storage.get(windowStateStorageKey);
+  // let lastWindowState = storage.get(windowStateStorageKey);
 
-  if (lastWindowState === null) {
-    lastWindowState = {
-      width: 1280,
-      height: 720,
-      maximized: false,
-    };
-  }
+  // if (lastWindowState === null) {
+  //   lastWindowState = {
+  //     width: 1280,
+  //     height: 720,
+  //     maximized: false,
+  //   };
+  // }
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: lastWindowState.x,
-    y: lastWindowState.y,
-    width: lastWindowState.width,
-    height: lastWindowState.height,
+    x: 0, // lastWindowState.x,
+    y: 0, // lastWindowState.y,
+    width: 800, // lastWindowState.width,
+    height: 500, // lastWindowState.height,
     frame: false,
     icon: 'src/favicon.ico',
     webPreferences: {
       nodeIntegration: true, // default is false
       contextIsolation: false,
-      preload: 'preload.js',
+      /* Script that will be loaded before other scripts run in the page.
+      This script will always have access to node APIs no matter whether
+      node integration is turned on or off. The value should be the absolute
+      file path to the script. When node integration is turned off, the preload
+      script can reintroduce Node global symbols back to the global scope. */
+      preload: path.join(__dirname, 'dist/preload.js'),
       webSecurity: true,
       allowRunningInsecureContent: false,
       experimentalFeatures: false,
     }
   });
 
-  if (lastWindowState.maximized) {
-    win.maximize();
-  }
+  // if (lastWindowState.maximized) {
+  //   win.maximize();
+  // }
 
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -58,21 +63,20 @@ function createWindow() {
   }
 
   // Open the DevTools.
-  if (serve) {
-    win.webContents.openDevTools({ mode: 'bottom' });
-  }
+  // TODO only show dev tools if serve
+  win.webContents.openDevTools({ mode: 'bottom' });
 
   // Store window settings.
   win.on('close', function () {
     const bounds = win.getBounds();
 
-    storage.set(windowStateStorageKey, {
-      x: bounds.x,
-      y: bounds.y,
-      width: bounds.width,
-      height: bounds.height,
-      maximized: win.isMaximized(),
-    });
+    // storage.set(windowStateStorageKey, {
+    //   x: bounds.x,
+    //   y: bounds.y,
+    //   width: bounds.width,
+    //   height: bounds.height,
+    //   maximized: win.isMaximized(),
+    // });
   });
 
   // Emitted when the window is closed.
@@ -85,7 +89,6 @@ function createWindow() {
 }
 
 try {
-
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.

@@ -12,6 +12,7 @@ export interface IMtgaCollectionOptimizerBridge {
 
 @Injectable()
 export class PreloadBridge implements IMtgaCollectionOptimizerBridge {
+  // access the object defined in preload.js on window
   private bridge: any = (window as any).MtgaCollectionOptimizerBridge;
 
   isWindowMaximized() {

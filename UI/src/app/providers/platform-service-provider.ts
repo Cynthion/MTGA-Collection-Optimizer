@@ -19,7 +19,7 @@ export class PlatformServiceProvider {
     ) { }
 
   getWindowService(): WindowService {
-    if (this.electronService.isElectronApp) {
+    if (this.electronService.isElectron) {
       return new ElectronWindowService(this.preloadBridge);
     } else {
       return new BrowserWindowService();
@@ -27,7 +27,7 @@ export class PlatformServiceProvider {
   }
 
   getStorageService(): StorageService {
-    if (this.electronService.isElectronApp) {
+    if (this.electronService.isElectron) {
       return new ElectronStorageService(this.preloadBridge);
     } else {
       return this.browserStorageService;

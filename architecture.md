@@ -1,3 +1,10 @@
+# Electron Security & Preload
+The following works for running Electron local (npm run electron:local):
+- preload.js script needs to be part of Angular src/ folder.
+- angular.json needs to be configured to copy the preload.js to the /dist folder (under assets).
+- main.ts needs to find the preload.js via 'preload: path.join(__dirname, 'dist/preload.js')'
+- nodeIntegration can be set to false?
+
 # Modules
 - App Module
 |-- about

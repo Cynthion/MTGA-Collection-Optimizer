@@ -31,7 +31,10 @@ function createWindow() {
     frame: false,
     icon: 'src/favicon.ico',
     webPreferences: {
-      nodeIntegration: false, // false is possible with angular-electron template
+      /* Node integration must be enabled in order for the app to get access
+      to native functionality. If set to false, the ElectronService will not
+      detect the app to run in 'Electron' mode and will assume 'Web'. */
+      nodeIntegration: true,
       contextIsolation: false,
       /* Script that will be loaded before other scripts run in the page.
       This script will always have access to node APIs no matter whether

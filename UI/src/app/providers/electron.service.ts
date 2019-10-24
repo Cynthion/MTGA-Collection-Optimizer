@@ -31,6 +31,7 @@ export class ElectronService {
   }
 
   get isElectron(): boolean {
+    // this only evaluates to true if 'nodeIntegration' is enabled
     return window && window.process && window.process.type;
   }
 }

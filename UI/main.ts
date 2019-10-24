@@ -11,8 +11,7 @@ const windowStateStorageKey = 'windowState';
 
 function createWindow() {
   // Load window settings.
-  // TODO use AppData path
-  const settingsPath = 'C:\\Users\\chlu\\AppData\\Roaming\\mtga-collection-optimizer\\MTGA Collection Optimizer Storage.json';
+  const settingsPath = path.join(app.getPath('userData'), 'MTGA Collection Optimizer Storage.json');
   let lastWindowState = storage.get(settingsPath, windowStateStorageKey);
 
   if (lastWindowState === null) {
@@ -141,6 +140,7 @@ let backendProcess = null;
 
 function startBackend() {
 
+  // TODO configure backend to run on specified ports
   const childProcess = require('child_process').spawn;
   backendProcess = childProcess(backendExecutablePath);
 

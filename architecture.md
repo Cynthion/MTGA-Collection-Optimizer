@@ -24,7 +24,7 @@ The following works for running Electron local (npm run electron:local):
 
 # Settings
 ## Electron
-- The settings path is determined statically. // TODO
+- The settings path is determined via Electron 'remote' module in preload.js.
 - The storage.js script needs to be on the same level as preload.js since it is referenced by it.
 - Electron's main.ts calls the storage.js directly by providing the settings path.
 - Angular calls the storage.js via the preload.js bridge. The preload.js script determines the settings path.

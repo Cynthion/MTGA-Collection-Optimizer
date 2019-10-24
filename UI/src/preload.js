@@ -16,6 +16,8 @@ that were exposed in the preload script. */
 const remote = require('electron').remote;
 
 const storage = require('./storage');
+const path = require('path');
+const settingsPath = path.join(remote.app.getPath('userData'), 'MTGA Collection Optimizer Storage.json');
 
 init();
 
@@ -65,12 +67,9 @@ function closeWindow() {
 }
 
 function storeSetting(key, data) {
-  // TODO use AppData path
-  const path = "C:\\Users\\chlu\\AppData\\Roaming\\mtga-collection-optimizer\\MTGA Collection Optimizer Storage.json";
-  storage.set(path, key, data);
+  storage.set(settingsPath, key, data);
 }
 
 function loadSetting(key) {
-  const path = "C:\\Users\\chlu\\AppData\\Roaming\\mtga-collection-optimizer\\MTGA Collection Optimizer Storage.json";
-  return storage.get(path, key);
+  return storage.get(settingsPath, key);
 }

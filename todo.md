@@ -63,10 +63,10 @@
 - [ ] rename application to something better
 - [ ] change ports for production
 - [ ] add License
-- [ ] provide backend to electron-builder
+- [ ] provide backend to electron-builder or create a windows installer
 - [X] update maximegris/angular-electron version (Angular 8)
 - [X] update to .NET Core 3.0
-  - [ ] use IL linker to throw away unnecessary framework code
+  - [X] use IL linker to throw away unnecessary framework code -> done with pusblish
   - [X] make use of new JSON API with Span<T>, use UTF-8 version
   - [X] use appsettings.json
 - [X] handle connection refused with separate api error code
@@ -94,7 +94,6 @@
 - [ ] parse log file async
 - [ ] parse log file from end of file -> maybe not working for deck create/update/delete
 - [ ] copy backend stuff to Angular dist during development
-- [ ] minify the bundle with browserify: http://maxgfeller.com/blog/2016/08/30/electron-browserify/
 - [X] npm command to build and copy backend .exe and .dll's
 - [X] improve ngrx/rxjs stuff (.subscription bodys not dispatching actions, etc.)
 - [X] remove file storage and set loader

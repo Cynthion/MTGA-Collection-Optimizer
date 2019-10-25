@@ -20,7 +20,7 @@
   "private": true,
   "scripts": {
     "backend:build:debug": "dotnet build ../MtgaDeckBuilder.Api --configuration Debug -property:OutDir=../UI/netcore-backend;Platform=x64",
-    "backend:build:release": "dotnet build ../MtgaDeckBuilder.Api --configuration Release -property:OutDir=../UI/netcore-backend;Platform=x64",
+    "backend:build:release": "dotnet publish ../MtgaDeckBuilder.Api/MtgaDeckBuilder.Api.csproj -c Release -r win-x64 -o ../UI/netcore-backend",
     "postinstall": "npm run postinstall:electron && electron-builder install-app-deps",
     "postinstall:web": "node postinstall-web",
     "postinstall:electron": "node postinstall",

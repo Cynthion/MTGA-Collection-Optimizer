@@ -1,4 +1,5 @@
 import { app, BrowserWindow, session } from 'electron';
+import { ChildProcess, SpawnOptions } from 'child_process';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -7,10 +8,11 @@ const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
 const storage = require('./dist/storage');
-const windowStateStorageKey = 'windowState';
+const { spawn } = require('child_process');
 
 function createWindow() {
   // Load window settings.
+  const windowStateStorageKey = 'windowState';
   const settingsPath = path.join(app.getPath('userData'), 'MTGA Collection Optimizer Storage.json');
   let lastWindowState = storage.get(settingsPath, windowStateStorageKey);
 
@@ -138,14 +140,18 @@ try {
 
 // .NET Core backend process
 // TODO for production, take .exe from .NET project /dist folder
-const backendExecutablePath = path.join(__dirname, 'netcore-backend/MtgaDeckBuilder.Api.exe');
-let backendProcess = null;
+let backendProcess: ChildProcess = null;
 
 function startBackend() {
-
   // TODO configure backend to run on specified ports
-  const childProcess = require('child_process').spawn;
-  backendProcess = childProcess(backendExecutablePath);
+  const spawnCommand = path.join(__dirname, 'netcore-backend/MtgaDeckBuilder.Api.exe');
+  const spawnArgs = ['-environment', 'dev'];
+  const spawnOptions: SpawnOptions = {
+    cwd: undefined, // inherit current working directory
+    detached: false, // child process cannot run independently of parent
+  };
+
+  backendProcess = spawn(spawnCommand, spawnArgs, spawnOptions);
 
   // create window after successful backend spawn
   backendProcess.stdout.on('data', (data: any) => {
@@ -163,6 +169,10 @@ function startBackend() {
   // if backend process closes, also close frontend (should not happen this way round)
   backendProcess.on('close', (code: any) => {
     console.log(`The backend process exited with code ${code}.`);
+  });
+
+  backendProcess.on('error', (err: any) => {
+    console.error('Failed to start the backend process.');
   });
 }
 

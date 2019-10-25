@@ -147,10 +147,11 @@ let backendProcess: ChildProcess = null;
 
 function startBackend() {
   // TODO configure backend to run on specified ports
-  const spawnCommand = path.join(__dirname, 'netcore-backend/MtgaDeckBuilder.Api.exe');
+  const workingDirectory = path.join(__dirname, 'netcore-backend');
+  const spawnCommand = path.join(workingDirectory, '/MtgaDeckBuilder.Api.exe');
   const spawnArgs = ['-environment', 'dev'];
   const spawnOptions: SpawnOptions = {
-    cwd: undefined, // inherit current working directory
+    cwd: workingDirectory, // specify working directory for child process
     detached: false, // child process cannot run independently of parent
   };
 

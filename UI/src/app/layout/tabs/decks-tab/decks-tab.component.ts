@@ -12,6 +12,7 @@ import { CollectionCardState, PlayerDeckState } from '../../layout.state';
 
 import { DecksTabState, State, SortDeckColumnOrder } from './decks-tab.state';
 import { SortDeckColumnsAction, ClearFilterAction, FilterValueChangedAction } from './decks-tab.actions';
+import { makeInternalApiUrl } from '../../../util/http';
 
 @Component({
   selector: 'app-decks-tab',
@@ -200,6 +201,10 @@ export class DecksTabComponent {
     const hsl = percentageToHsl(deck.completeness, redHue, greenHue, 100, 50);
 
     return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
+  }
+
+  getSetSymbolImageUrl(setCode: string, rarity: Rarity): string {
+    return makeInternalApiUrl(`image/set-symbol/${setCode}/${rarity}`);
   }
 
   trackDeck(index: number, item: PlayerDeckState) {

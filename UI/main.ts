@@ -10,6 +10,9 @@ serve = args.some(val => val === '--serve');
 const storage = require('./dist/storage');
 const { spawn } = require('child_process');
 
+const urlUserInterface = 'http://localhost:4200';
+const urlBackend = 'https://localhost:5001';
+
 function createWindow() {
   // Load window settings.
   const windowStateStorageKey = 'windowState';
@@ -58,7 +61,7 @@ function createWindow() {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
     });
-    win.loadURL('http://localhost:4200');
+    win.loadURL(urlUserInterface);
   } else {
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
@@ -104,7 +107,7 @@ try {
         responseHeaders: {
           ...details.responseHeaders,
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-          'Content-Security-Policy': ['default-src \'self\' https://localhost:61009 \'unsafe-inline\' \'unsafe-eval\' ws:']
+          'Content-Security-Policy': [`'default-src \'self\' ${ urlBackend } \'unsafe-inline\' \'unsafe-eval\' ws:`]
         }
       });
     });

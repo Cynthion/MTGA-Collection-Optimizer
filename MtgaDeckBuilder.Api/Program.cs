@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MtgaDeckBuilder.Api.LogImport;
-using System;
-using System.Linq;
 
 namespace MtgaDeckBuilder.Api
 {
@@ -17,8 +14,7 @@ namespace MtgaDeckBuilder.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            Console.WriteLine(args);
-            var urls = args.Any(a => a.Contains("prod"))
+            var urls = IsProduction(args)
                 ? new string[2] { "http://localhost:61008/", "https://localhost:61009/" }
                 : new string[2] { "http://localhost:5000/", "https://localhost:5001/" };
 
@@ -34,6 +30,19 @@ namespace MtgaDeckBuilder.Api
                 {
                     services.AddHostedService<LogWatcher>();
                 });
+        }
+
+        private static bool IsProduction(string[] args)
+        {
+            for (var i = 0; i < args.Length; i++)
+            {
+                if (args[i].Equals("-env"))
+                {
+                    return args[i + 1].Equals("prod");
+                }
+            }
+
+            return false;
         }
     }
 }

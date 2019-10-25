@@ -10,7 +10,7 @@ serve = args.some(val => val === '--serve');
 const storage = require('./dist/storage');
 const { spawn } = require('child_process');
 
-const urlUserInterface = 'http://localhost:4200';
+const urlUserInterface = 'http://localhost:4200'; // only relevant during development
 const urlBackend = 'https://localhost:5001';
 
 function createWindow() {
@@ -114,6 +114,7 @@ try {
 
     // Start the .NET Core backend
     startBackend();
+    // createWindow(); // use this only to test packaging
   });
 
   // Quit when all windows are closed.
